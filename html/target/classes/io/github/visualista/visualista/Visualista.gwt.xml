@@ -1,0 +1,12 @@
+<module rename-to='visualista'>
+	<inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
+
+	<source path='core'/>
+	<source path='html'/>
+
+	<public path="resources" />
+
+	<entry-point class='io.github.visualista.visualista.html.VisualistaHtml'/>
+	<set-configuration-property name="gdx.assetpath" value="assets" />
+	<set-configuration-property name="gdx.assetoutputpath" value="html/target/webapp" />
+</module>
