@@ -16,3 +16,4 @@ which means that you should run these commands:<br />
 git clone git://github.com/libgdx/libgdx-maven-archetype.git<br />
 cd libgdx-maven-archetype<br />
 mvn install<br />
+4. Import as Existing maven project and deselect ios and android
