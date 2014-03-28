@@ -13,6 +13,7 @@ public class NovelFactoryTest {
 	    Novel novel = NovelFactory.createNovel();
 		assertNotNull(novel);
 		assertEquals(1,novel.getSceneCount());
+		assertNotNull(novel.getSceneById(1));
 	}
 
 }
