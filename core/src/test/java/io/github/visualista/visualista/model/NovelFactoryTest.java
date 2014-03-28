@@ -10,7 +10,9 @@ public class NovelFactoryTest {
 
 	@Test
 	public void testCreateNovel() {
-		assertTrue(NovelFactory.createNovel() instanceof Novel);
+	    Novel novel = NovelFactory.createNovel();
+		assertNotNull(novel);
+		assertEquals(1,novel.getSceneCount());
 	}
 
 }
