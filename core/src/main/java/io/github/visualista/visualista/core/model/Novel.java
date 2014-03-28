@@ -1,17 +1,16 @@
 package io.github.visualista.visualista.core.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Novel {
-    private List<Scene> sceneList;
+    private Map<Integer,Scene> sceneMap;
 
-    public Novel(List<Scene> sceneList) {
-        this.sceneList = sceneList;
+    public Novel(Map<Integer,Scene> sceneMap) {
+        this.sceneMap = sceneMap;
     }
 
     public int getSceneCount() {
-        return sceneList.size();
+        return sceneMap.size();
     }
 
 }
