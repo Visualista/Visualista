@@ -13,4 +13,8 @@ public class Novel {
         return sceneMap.size();
     }
 
+    public Scene getSceneById(Integer i) {
+        return sceneMap.get(i);
+    }
+
 }
