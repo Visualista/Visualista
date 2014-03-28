@@ -1,16 +1,15 @@
 package io.github.visualista.visualista.core.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public enum NovelFactory {
     ;
 
     public static Novel createNovel() {
-        List<Scene> sceneList = new ArrayList<Scene>();
+        Map<Integer,Scene> sceneMap = new HashMap<Integer,Scene>();
         Scene scene = new Scene();
-        sceneList.add(scene);
-        return new Novel(sceneList);
+        sceneMap.put(-1, scene);
+        return new Novel(sceneMap);
     }
 
 }
