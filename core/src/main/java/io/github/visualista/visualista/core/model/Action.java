@@ -1,5 +1,5 @@
 package io.github.visualista.visualista.core.model;
 
-public class Action {
+public interface Action {
 
 }
