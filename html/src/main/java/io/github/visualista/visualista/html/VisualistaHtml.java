@@ -1,6 +1,6 @@
 package io.github.visualista.visualista.html;
 
-import io.github.visualista.visualista.core.Visualista;
+import io.github.visualista.visualista.core.LibgdxSample;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
@@ -9,7 +9,7 @@ import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
 public class VisualistaHtml extends GwtApplication {
 	@Override
 	public ApplicationListener getApplicationListener () {
-		return new Visualista();
+		return new LibgdxSample();
 	}
 	
 	@Override

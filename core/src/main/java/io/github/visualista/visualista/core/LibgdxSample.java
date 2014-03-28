@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 
-public class Visualista implements ApplicationListener {
+public class LibgdxSample implements ApplicationListener {
 	Texture texture;
 	SpriteBatch batch;
 	float elapsed;
