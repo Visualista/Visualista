@@ -8,8 +8,8 @@ public enum NovelFactory {
 
     public static Novel createNovel() {
         Map<Integer, Scene> sceneMap = new HashMap<Integer, Scene>();
-        Scene scene = new Scene();
-        sceneMap.put(id.generateId(), scene);
+        Scene scene = new Scene(id.generateId());
+        sceneMap.put(scene.getId(), scene);
         return new Novel(sceneMap);
     }
 }
