@@ -15,6 +15,12 @@ public class Actor {
 		image = new Image();
 	}
 	
+	public Actor(){
+		this.id = 0;
+		actions = null;
+		image = null;
+	}
+	
 	public int getId(){
 		return id;
 	}
