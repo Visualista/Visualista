@@ -29,7 +29,7 @@ public class Matrix<E> implements IMatrixGet<E>,IMatrixSet<E> {
 	}
 
 	@Override
-	public E get(Point from) {
+	public E getAt(Point from) {
 		return matrix[from.getY()][from.getX()];
 	}
 
