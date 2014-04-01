@@ -32,7 +32,7 @@ public class SceneTest {
     
     @Test
 	public void testGetAndSetName() {
-		Scene scene = new Scene(0, null);
+		Scene scene = new Scene(0, null); //TODO shouldn't be null
 		String testString = "Something, something, dark side";
 		scene.setName(testString);
 		assertEquals(testString, scene.getName());

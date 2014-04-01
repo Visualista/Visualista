@@ -42,7 +42,7 @@ public class NovelTest {
     
     @Test
 	public void testGetAndSetName() {
-    	Novel novel = new Novel(0, null);
+    	Novel novel = new Novel(0, null); //TODO shouldn't be null
 		String testString = "Something, something, evil";
 		novel.setName(testString);
 		assertEquals(testString, novel.getName());
