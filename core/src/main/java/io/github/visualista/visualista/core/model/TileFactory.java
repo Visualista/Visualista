@@ -4,10 +4,7 @@ import io.github.visualista.visualista.util.IObjectCreator;
 
 public class TileFactory implements IObjectCreator<Tile>{
 	
-	private final ActorFactory actorFactory;
-	
-	public TileFactory(ActorFactory actorFactory){
-		this.actorFactory = new ActorFactory();
+	public TileFactory(){
 	}
 	
 	public Tile createTile(){

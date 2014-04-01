@@ -1,7 +1,7 @@
 package io.github.visualista.visualista.util;
 
 public class Matrix<E> implements IMatrixGet<E>,IMatrixSet<E> {
-	E[][] matrix;
+	private final E[][] matrix;
 
 	@SuppressWarnings("unchecked")
 	public Matrix(Dimension size) {
@@ -26,6 +26,16 @@ public class Matrix<E> implements IMatrixGet<E>,IMatrixSet<E> {
 			}
 		}
 		
+	}
+
+	@Override
+	public E get(Point from) {
+		return matrix[from.getY()][from.getX()];
+	}
+
+	@Override
+	public void setAt(Point where, E object) {
+		matrix[where.getY()][where.getX()] = object;
 	}
 
 }
