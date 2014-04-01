@@ -13,7 +13,9 @@ public class ActorFactoryTest {
         ActorFactory actor = new ActorFactory();
         Actor actor1 = actor.createActor();
         Actor actor2 = actor.createActor();
-        assertTrue(actor1.getId() != actor2.getId());
+        assertNotEquals(actor1.getId(), actor2.getId());
+        assertEquals(actor1.getId(),1);
+        assertEquals(actor2.getId(),2);
     }
 
 }
