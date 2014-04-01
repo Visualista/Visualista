@@ -13,15 +13,19 @@ public class TileTest {
         Tile tile = new Tile(new Actor());
         assertNotNull(tile);
     }
-   public void testGetActor() {
-       Tile tile = new Tile(new Actor());
-       assertNotNull(tile.getActor());
-   }
-   public void testSetActor() {
-       Tile tile = new Tile(new Actor());
-       Actor actor = new Actor(5);
-       tile.setActor(actor);
-       assertEquals(tile.getActor().getId(),5);
-   }
+
+    @Test
+    public void testGetActor() {
+        Tile tile = new Tile(new Actor());
+        assertNotNull(tile.getActor());
+    }
+
+    @Test
+    public void testSetActor() {
+        Tile tile = new Tile(new Actor());
+        Actor actor = new Actor(5);
+        tile.setActor(actor);
+        assertEquals(tile.getActor().getId(), 5);
+    }
 
 }
