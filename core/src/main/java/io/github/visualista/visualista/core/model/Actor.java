@@ -24,4 +24,24 @@ public class Actor {
 	public int getId(){
 		return id;
 	}
+	
+	public List<Action> getActions(){
+		return actions;
+	}
+	
+	public void addAction(Action action){
+		actions.add(action);
+	}
+	
+	public void removeAction(Action action){
+		actions.remove(action);
+	}
+	
+	public Image getImage(){
+		return image;
+	}
+	
+	public void setImage(Image image){
+		this.image = image;
+	}
 }
