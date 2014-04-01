@@ -1,20 +1,25 @@
 package io.github.visualista.visualista.core.model;
 
 import io.github.visualista.visualista.util.Dimension;
+import io.github.visualista.visualista.util.Matrix;
 
 public class Grid {
-	private final Dimension gridSize;
+	Matrix<Tile> tiles;
 	
 	public Grid(Dimension gridSize){
-		this.gridSize = gridSize;
+		tiles = new Matrix<Tile>(gridSize);
 	}
 	
 	public Grid(int width, int height){
-		this.gridSize = new Dimension(width,height);
+		this(new Dimension(width,height));
 	}
 	
 	public Dimension getSize() {
-		return gridSize;
+		return tiles.getSize();
+	}
+
+	public Matrix<Tile> getTiles() {
+		return tiles;
 	}
 
 }
