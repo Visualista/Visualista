@@ -4,8 +4,10 @@ import java.util.*;
 
 public class Novel {
     private final Map<Integer,Scene> sceneMap;
+    private final int id;
 
-    public Novel(Map<Integer,Scene> sceneMap) {
+    public Novel(int id, Map<Integer,Scene> sceneMap) {
+    	this.id = id;
         this.sceneMap = sceneMap;
     }
 
