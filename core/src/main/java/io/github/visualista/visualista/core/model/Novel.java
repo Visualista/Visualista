@@ -7,8 +7,17 @@ import java.util.*;
 public class Novel implements Identifiable{
     private final Map<Integer,Scene> sceneMap;
     private final int id;
+    private String name;
 
-    public Novel(int id, Map<Integer,Scene> sceneMap) {
+    public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Novel(int id, Map<Integer,Scene> sceneMap) {
     	this.id = id;
         this.sceneMap = sceneMap;
     }

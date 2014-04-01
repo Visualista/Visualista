@@ -1,8 +1,10 @@
 package io.github.visualista.visualista.model;
 
 import static org.junit.Assert.*;
+import io.github.visualista.visualista.core.model.Actor;
 import io.github.visualista.visualista.core.model.Grid;
 import io.github.visualista.visualista.core.model.Novel;
+import io.github.visualista.visualista.core.model.NovelFactory;
 import io.github.visualista.visualista.core.model.Scene;
 import io.github.visualista.visualista.util.Dimension;
 
@@ -37,5 +39,12 @@ public class NovelTest {
         Novel novel = new Novel(3, sceneMap);
         assertTrue(scene.equals(novel.getSceneById(4)));
     }
-
+    
+    @Test
+	public void testGetAndSetName() {
+    	Novel novel = new Novel(0, null); //TODO shouldn't be null
+		String testString = "Something, something, evil";
+		novel.setName(testString);
+		assertEquals(testString, novel.getName());
+	}
 }

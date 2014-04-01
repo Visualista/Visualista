@@ -40,5 +40,12 @@ public class ActorTest {
 		actor2.removeAction(action);
 		assertEquals(0, actor2.getActions().size());
 	}
-
+	
+	@Test
+	public void testGetAndSetName() {
+		Actor actor = new Actor();
+		String testString = "Something, something, dark side";
+		actor.setName(testString);
+		assertEquals(testString, actor.getName());
+	}
 }

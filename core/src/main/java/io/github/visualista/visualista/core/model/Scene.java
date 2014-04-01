@@ -8,9 +8,19 @@ import java.util.List;
 public class Scene implements Identifiable{
     private final int id;
     private final Grid grid;
-    private final List<Integer> actorsInScene; //Note that actors are referenced by IDs
+    
+    private final List<Integer> actorsInScene;
+    private String name;
 
-    public Scene(int id, Grid grid) {
+    public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Scene(int id, Grid grid) {
         this.id = id;
         this.grid = grid;
         actorsInScene = new ArrayList<Integer>();

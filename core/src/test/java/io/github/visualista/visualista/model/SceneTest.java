@@ -1,6 +1,7 @@
 package io.github.visualista.visualista.model;
 
 import static org.junit.Assert.*;
+import io.github.visualista.visualista.core.model.Actor;
 import io.github.visualista.visualista.core.model.GridFactory;
 import io.github.visualista.visualista.core.model.NovelFactory;
 import io.github.visualista.visualista.core.model.Scene;
@@ -28,5 +29,13 @@ public class SceneTest {
         assertEquals(id,scene.getId());
         assertNotNull(scene.getGrid());
     }
+    
+    @Test
+	public void testGetAndSetName() {
+		Scene scene = new Scene(0, null); //TODO shouldn't be null
+		String testString = "Something, something, dark side";
+		scene.setName(testString);
+		assertEquals(testString, scene.getName());
+	}
 
 }
