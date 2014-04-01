@@ -9,7 +9,8 @@ public class SceneFactory {
     }
 
     public Scene createScene() {
-
-        return new Scene(id.generateId(),gridFactory.createGrid());
+    	Grid grid = gridFactory.createGrid();
+    	
+        return new Scene(id.generateId(),grid);
     }
 }
