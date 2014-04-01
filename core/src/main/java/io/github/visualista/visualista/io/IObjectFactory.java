@@ -2,12 +2,12 @@ package io.github.visualista.visualista.io;
 
 import com.thoughtworks.xstream.XStream;
 
-public abstract class IObjectFactory<E> {
+public class IObjectFactory<E> {
 	
 	private final XStream xstream;
 	
-	public IObjectFactory(XStream xstream1){
-		this.xstream = xstream1;
+	public IObjectFactory(XStream xstream){
+		this.xstream = xstream;
 	}
 	
 	@SuppressWarnings("unchecked")
