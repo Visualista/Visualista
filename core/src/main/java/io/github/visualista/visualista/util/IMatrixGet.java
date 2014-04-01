@@ -4,6 +4,6 @@ public interface IMatrixGet<E> {
 	
 	public Dimension getSize();
 	
-	public E get(Point from);
+	public E getAt(Point from);
 
 }
