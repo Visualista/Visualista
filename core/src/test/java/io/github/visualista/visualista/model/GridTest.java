@@ -2,7 +2,9 @@ package io.github.visualista.visualista.model;
 
 import static org.junit.Assert.*;
 import io.github.visualista.visualista.core.model.Grid;
+import io.github.visualista.visualista.core.model.Tile;
 import io.github.visualista.visualista.util.Dimension;
+import io.github.visualista.visualista.util.Matrix;
 
 import java.util.Random;
 
@@ -16,8 +18,8 @@ public class GridTest {
 	@Before
 	public void setUp() throws Exception {
 		Random rand = new Random();
-		width = rand.nextInt();
-		height = rand.nextInt();
+		width = rand.nextInt(150)+1;
+		height = rand.nextInt(150)+1;
 	}
 
 	@Test
@@ -33,6 +35,13 @@ public class GridTest {
 		Dimension dim = new Dimension(width, height);
 		Grid dimensionGrid = new Grid(dim);
 		assertEquals(dim,dimensionGrid.getSize());
+	}
+	
+	@Test
+	public void testGetTiles(){
+		Grid grid = new Grid(width,height);
+		Matrix<Tile> tiles = grid.getTiles();
+		assertNotNull(tiles);
 	}
 
 }
