@@ -15,9 +15,9 @@ public class NovelFactory {
 
     public Novel createNovel() {
     	int id = idGen.generateId();
-        Map<Integer, Scene> sceneMap = new HashMap<Integer, Scene>();
+    	List<Integer> sceneReferences = new ArrayList<Integer>();
         Scene scene = sceneFactory.createScene();
-        sceneMap.put(scene.getId(), scene);
-        return new Novel(id, sceneMap);
+        sceneReferences.add(scene.getId());
+        return new Novel(id, sceneReferences);
     }
 }
