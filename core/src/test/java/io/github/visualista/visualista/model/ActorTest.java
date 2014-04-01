@@ -34,6 +34,11 @@ public class ActorTest {
 	public void testActions() {
 		Actor actor2 = new Actor(4);
 		Action action = new Action() {
+
+			@Override
+			public int getId() {
+				return 0;
+			}
 		};
 		actor2.addAction(action);
 		assertEquals(1, actor2.getActions().size());
