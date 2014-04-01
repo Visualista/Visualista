@@ -34,15 +34,9 @@ public class DimensionTest {
 		assertEquals(height,dimension.getHeight());
 	}
 	
-	@Test
-	public void testEquals(){
-		Dimension otherDimension = new Dimension(width,height);
-		assertEquals(otherDimension,dimension);
-	}
 	
 	@Test
 	public void equalsContract() {
 	    EqualsVerifier.forClass(Dimension.class).verify();
 	}
-
 }
