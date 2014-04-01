@@ -8,7 +8,16 @@ public class Actor {
 	private Image image;
 	private final List<Action> actions;
 	private final int id;
+	private String name;
 	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public Actor(int id){
 		this.id = id;
 		actions = new ArrayList<Action>();
