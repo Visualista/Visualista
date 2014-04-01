@@ -1,6 +1,6 @@
 package io.github.visualista.visualista.util;
 
-public class Matrix<E> {
+public class Matrix<E> implements IMatrixGet<E>,IMatrixSet<E> {
 	E[][] matrix;
 
 	@SuppressWarnings("unchecked")
@@ -16,6 +16,16 @@ public class Matrix<E> {
 	
 	public Dimension getSize(){
 		return new Dimension(matrix[0].length,matrix.length);
+	}
+
+	@Override
+	public void fillWith(IObjectCreator<E> creator) {
+		for(int i=0;i<matrix.length;++i){
+			for(int j=0;j<matrix[i].length;++j){
+				matrix[i][j] = creator.createObject();
+			}
+		}
+		
 	}
 
 }
