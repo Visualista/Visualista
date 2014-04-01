@@ -26,6 +26,7 @@ public class SceneTest {
         int id = rand.nextInt();
         Scene scene = new Scene(id,gridFactory.createGrid());
         assertEquals(id,scene.getId());
+        assertNotNull(scene.getGrid());
     }
 
 }
