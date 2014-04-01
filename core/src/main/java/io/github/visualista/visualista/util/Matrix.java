@@ -35,7 +35,7 @@ public class Matrix<E> implements IMatrixGet<E>,IMatrixSet<E> {
 
 	@Override
 	public void setAt(Point where, E object) {
-		matrix[where.getY()][where.getY()] = object;
+		matrix[where.getY()][where.getX()] = object;
 	}
 
 }
