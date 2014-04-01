@@ -6,7 +6,11 @@ import java.util.*;
 
 public class Novel implements Identifiable{
     private final Map<Integer,Scene> sceneMap;
-    private final int id;
+    public Map<Integer, Scene> getSceneMap() {
+		return sceneMap;
+	}
+
+	private final int id;
     private String name;
 
     public String getName() {
