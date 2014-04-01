@@ -1,8 +1,10 @@
 package io.github.visualista.visualista.core.model;
 
+import io.github.visualista.visualista.util.Identifiable;
+
 import java.util.*;
 
-public class Novel {
+public class Novel implements Identifiable{
     private final Map<Integer,Scene> sceneMap;
     private final int id;
 
@@ -18,5 +20,10 @@ public class Novel {
     public Scene getSceneById(Integer i) {
         return sceneMap.get(i);
     }
+
+	@Override
+	public int getId() {
+		return id;
+	}
 
 }
