@@ -17,26 +17,31 @@ public class DimensionTest {
 	private int height;
 
 	@Before
-    public void setUp() throws Exception {
+	public void setUp() throws Exception {
 		Random rand = new Random();
 		width = rand.nextInt();
 		height = rand.nextInt();
-		dimension = new Dimension(width,height);
+		dimension = new Dimension(width, height);
 	}
 
 	@Test
 	public void testGetWidth() {
-		assertEquals(width,dimension.getWidth());
+		assertEquals(width, dimension.getWidth());
 	}
 
 	@Test
 	public void testGetHeight() {
-		assertEquals(height,dimension.getHeight());
+		assertEquals(height, dimension.getHeight());
 	}
-	
-	
+
 	@Test
 	public void equalsContract() {
-	    EqualsVerifier.forClass(Dimension.class).verify();
+		EqualsVerifier.forClass(Dimension.class).verify();
+	}
+
+	@Test
+	public void testToString() {
+		assertTrue(dimension.toString().contains("" + width));
+		assertTrue(dimension.toString().contains("" + height));
 	}
 }
