@@ -1,30 +1,63 @@
 package io.github.visualista.visualista.util;
 
+
+
 import io.github.visualista.visualista.io.ObjectFactory;
+import io.github.visualista.visualista.util.Identifiable;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 import com.thoughtworks.xstream.XStream;
 
-public class ReferenceManager<E> {
+//TODO: Make a real class
 
-	private final ObjectFactory<E> objectFactory;
-	
+public class ReferenceManager<E extends Identifiable> {
+
+	private final ObjectFactory<E> objectFactory;	
 	private final XStream xstream;
+	private Map<Integer, E> objectMap;
 	
 	public ReferenceManager(File folder){
 		xstream = new XStream();
 		objectFactory = new ObjectFactory<E>(xstream);
+		objectMap = new HashMap<Integer, E>();
+		
 		if (!folder.isDirectory()){
-			throw new IllegalArgumentException("Not a file");
+			throw new IllegalArgumentException("Not a directory");
 		} else if (!folder.exists()){
 			folder.mkdirs();
 			System.out.println("Creating " + folder.toString());
 		} else {
-			for (final File file : folder.listFiles()){
-				
-			}
+			createObjects(folder);
 		}
 		
+	}
+	
+	private void createObjects(File folder){
+		for (final File file : folder.listFiles()){
+			if(!file.isDirectory()){
+				try {
+					E obj = getObjectFromFile(file);
+					objectMap.put(obj.getId(), obj);
+				} catch (FileNotFoundException fnfe){
+					System.out.println("File not readable!");
+				}
+			}
+			
+		}
+		
+	}
+	
+	private E getObjectFromFile(File file) throws FileNotFoundException{
+		Scanner sc = new Scanner(file);
+		StringBuilder sb = new StringBuilder();
+		while (sc.hasNext()){
+			sb.append(sc.next());
+		}
+		return objectFactory.createObject(sb.toString());
 	}
 }
