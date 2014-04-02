@@ -1,16 +1,21 @@
 package io.github.visualista.visualista.core;
 
+import java.io.File;
+
 import io.github.visualista.visualista.core.model.GridFactory;
 import io.github.visualista.visualista.core.model.Novel;
 import io.github.visualista.visualista.core.model.NovelFactory;
+import io.github.visualista.visualista.core.model.Options;
 import io.github.visualista.visualista.core.model.SceneFactory;
 import io.github.visualista.visualista.core.model.TileFactory;
 import io.github.visualista.visualista.io.XStreamManager;
+import io.github.visualista.visualista.util.ReferenceManager;
 
 public class Visualista {
 
 	private Novel currentNovel;
 	private final XStreamManager xstreamManager;
+	private final Options options = new Options();
 	
 	public Visualista(){
 		xstreamManager = new XStreamManager();
@@ -20,5 +25,6 @@ public class Visualista {
 		NovelFactory novelFactory = new NovelFactory(sceneFactory);
 		
 		currentNovel = novelFactory.createNovel();
+		currentNovel.setReferenceManager(new ReferenceManager<Novel>(new File(options.getNOVEL_FILE_PATH())));
 	}
 }

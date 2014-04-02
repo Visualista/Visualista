@@ -21,8 +21,7 @@ public class ReferenceManager<E extends Identifiable> {
 	private XStream xstream;
 	private Map<Integer, E> objectMap;
 	
-	public ReferenceManager(File folder, XStream xstream){
-		this.xstream = xstream;
+	public ReferenceManager(File folder){
 		objectFactory = new ObjectFactory<E>(xstream);
 		objectMap = new HashMap<Integer, E>();
 		
@@ -50,6 +49,10 @@ public class ReferenceManager<E extends Identifiable> {
 			
 		}
 		
+	}
+	
+	public void setXStream(XStream xstream){
+		this.xstream = xstream;
 	}
 	
 	private E getObjectFromFile(File file) throws FileNotFoundException{
