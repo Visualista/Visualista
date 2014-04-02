@@ -18,10 +18,12 @@ public class NovelFactory {
     public Novel createNovel() {
     	int id = idGen.generateId();
     	Set<Integer> sceneReferences = new HashSet<Integer>();
+    	Set<Integer> actorReferences = new HashSet<Integer>();
         Scene scene = sceneFactory.createScene();
-        Novel novel = new Novel(id, sceneReferences);
-        novel.setReferenceManager(new ReferenceManager<Scene>());
+        Novel novel = new Novel(id, sceneReferences,actorReferences);
+        novel.setSceneReferenceManager(new ReferenceManager<Scene>());
         novel.addScene(scene);
+        novel.setActorReferenceManager(new ReferenceManager<Actor>());
         //TODO Referene manager should be passed in
         return novel;
     }
