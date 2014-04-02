@@ -32,4 +32,12 @@ public class Scene implements Identifiable{
     public Grid getGrid() {
         return grid;
     }
+
+	@Override
+	public String toString() {
+		return "Scene [id=" + id + ", actorsInScene=" + actorsInScene
+				+ ", name=" + name + "]";
+	}
+
+
 }

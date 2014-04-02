@@ -21,7 +21,7 @@ public class NovelFactory {
         Scene scene = sceneFactory.createScene();
         Novel novel = new Novel(id, sceneReferences);
         novel.setReferenceManager(new ReferenceManager<Scene>());
-        novel.addScene(scene.getId(), scene);
+        novel.addScene(scene);
         //TODO Referene manager should be passed in
         return novel;
     }

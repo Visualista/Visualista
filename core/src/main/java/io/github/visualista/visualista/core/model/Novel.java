@@ -38,9 +38,9 @@ public class Novel implements Identifiable{
 		return id;
 	}
 
-	public void addScene(Integer id, Scene scene) {
-		referenceManager.addObject(id,scene);
-		sceneReferences.add(id);
+	public void addScene(Scene scene) {
+		referenceManager.addObject(scene);
+		sceneReferences.add(scene.getId());
 		
 	}
 

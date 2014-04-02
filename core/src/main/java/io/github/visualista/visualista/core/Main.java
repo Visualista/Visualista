@@ -37,7 +37,7 @@ public class Main {
 		int y = sc.nextInt();
 		Grid grid = new Grid(new Dimension(x, y));
 		Scene scene = new Scene(2, grid);
-		novel.addScene(2, scene);
+		novel.addScene(scene);
 		for (Integer key : sceneIdSet) {
 			System.out.println("Dimension of scene in novel "
 					+ novel.getSceneById(key).getGrid().getTiles()

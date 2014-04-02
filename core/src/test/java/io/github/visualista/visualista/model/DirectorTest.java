@@ -24,7 +24,7 @@ public class DirectorTest {
     	Set<Integer> sceneIDs = new HashSet<Integer>();
     	Novel novel = new Novel(3, sceneIDs);
     	novel.setReferenceManager(new ReferenceManager<Scene>());
-    	novel.addScene(4, new Scene(2, new Grid(new Dimension(4, 3))));
+    	novel.addScene(new Scene(4, new Grid(new Dimension(4, 3))));
         
         Director director = new Director(novel);
         assertNotNull(director);

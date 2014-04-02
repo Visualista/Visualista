@@ -28,8 +28,8 @@ public class NovelTest {
 		Set<Integer> sceneIDs = new HashSet<Integer>();
     	novel = new Novel(3, sceneIDs);
     	novel.setReferenceManager(new ReferenceManager<Scene>());
-    	firstScene = new Scene(2, new Grid(new Dimension(4, 3)));
-    	novel.addScene(4, firstScene);
+    	firstScene = new Scene(4, new Grid(new Dimension(4, 3)));
+    	novel.addScene(firstScene);
 	}
 
     @Test
@@ -46,9 +46,9 @@ public class NovelTest {
 
     @Test
     public void testSceneById() {
-    	Scene secondScene = new Scene(2, new Grid(new Dimension(4, 3)));
-    	novel.addScene(7, secondScene);
-    	assertEquals(firstScene,novel.getSceneById(2));
+    	Scene secondScene = new Scene(7, new Grid(new Dimension(4, 3)));
+    	novel.addScene(secondScene);
+    	assertEquals(firstScene,novel.getSceneById(4));
     	assertEquals(secondScene,novel.getSceneById(7));
     	
     }
