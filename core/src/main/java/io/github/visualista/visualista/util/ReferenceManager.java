@@ -1,8 +1,6 @@
 package io.github.visualista.visualista.util;
 
 
-
-import io.github.visualista.visualista.core.model.Scene;
 import io.github.visualista.visualista.io.ObjectFactory;
 import io.github.visualista.visualista.util.Identifiable;
 
@@ -67,6 +65,7 @@ public class ReferenceManager<E extends Identifiable> {
 		while (sc.hasNext()){
 			sb.append(sc.next());
 		}
+		sc.close();
 		return objectFactory.createObject(sb.toString());
 	}
 

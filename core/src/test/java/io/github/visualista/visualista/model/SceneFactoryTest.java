@@ -2,7 +2,6 @@ package io.github.visualista.visualista.model;
 
 import static org.junit.Assert.*;
 import io.github.visualista.visualista.core.model.GridFactory;
-import io.github.visualista.visualista.core.model.NovelFactory;
 import io.github.visualista.visualista.core.model.Scene;
 import io.github.visualista.visualista.core.model.SceneFactory;
 

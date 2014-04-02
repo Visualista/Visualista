@@ -8,12 +8,7 @@ import io.github.visualista.visualista.core.model.Scene;
 import io.github.visualista.visualista.util.Dimension;
 import io.github.visualista.visualista.util.ReferenceManager;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.junit.Test;
 

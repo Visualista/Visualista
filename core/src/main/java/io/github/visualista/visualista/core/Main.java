@@ -43,6 +43,7 @@ public class Main {
 					+ novel.getSceneById(key).getGrid().getTiles()
 							.getSize().toString());
 		}
+		sc.close();
 	}
 
 }

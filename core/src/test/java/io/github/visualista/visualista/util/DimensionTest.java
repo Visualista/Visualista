@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.Random;
 
-import io.github.visualista.visualista.core.model.GridFactory;
 import io.github.visualista.visualista.util.Dimension;
 import nl.jqno.equalsverifier.EqualsVerifier;
 
