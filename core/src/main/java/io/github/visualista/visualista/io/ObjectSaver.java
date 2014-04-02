@@ -28,21 +28,18 @@ public class ObjectSaver<E extends Identifiable> {
 	public void saveCollection(Collection<E> objects){
 		for(E object : objects){
 			File outputFile = new File(folder.getAbsolutePath(),object.getId()+".vis");
-			FileOutputStream fos = null;
+			
 			try {
-				fos= new FileOutputStream(outputFile);
+				FileOutputStream fos= new FileOutputStream(outputFile);
+				try{
 				xstream.toXML(object, fos);
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			finally{
-				try {
-					fos.close();
-				} catch (IOException e) {
-					e.printStackTrace();
 				}
+				finally{
+					fos.close();
+				}
+			}catch(IOException e){
 			}
+			
 
 		}
 	}
