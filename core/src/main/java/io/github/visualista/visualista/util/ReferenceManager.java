@@ -70,8 +70,8 @@ public class ReferenceManager<E extends Identifiable> {
 		return objectFactory.createObject(sb.toString());
 	}
 
-	public void addObject(int id, E scene) {
-		objectMap.put(id, scene);
+	public void addObject(E object) {
+		objectMap.put(object.getId(), object);
 	}
 
 	public E getObject(Integer id) {
