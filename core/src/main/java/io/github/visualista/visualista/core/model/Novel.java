@@ -5,51 +5,77 @@ import io.github.visualista.visualista.util.ReferenceManager;
 
 import java.util.*;
 
-public class Novel implements Identifiable{
-	private ReferenceManager<Scene> referenceManager;
+public class Novel implements Identifiable {
+    private ReferenceManager<Scene> sceneReferenceManager;
+    private ReferenceManager<Actor> actorReferenceManager;
     private final Set<Integer> sceneReferences;
+    private final Set<Integer> actorReferences;
 
-	private final int id;
+    private final int id;
     private String name;
 
     public String getName() {
-		return name;
-	}
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public Novel(int id, Set<Integer> sceneReferences) {
-    	this.id = id;
+    public Novel(int id, Set<Integer> sceneReferences,
+            Set<Integer> actorReferences) {
+        this.id = id;
         this.sceneReferences = sceneReferences;
+        this.actorReferences = actorReferences;
     }
 
     public int getSceneCount() {
         return sceneReferences.size();
     }
 
-    public void setReferenceManager(ReferenceManager<Scene> referenceManager){
-    	this.referenceManager = referenceManager;
+    public int getActorCount() {
+        return actorReferences.size();
     }
-    
-	@Override
-	public int getId() {
-		return id;
-	}
 
-	public void addScene(Scene scene) {
-		referenceManager.addObject(scene);
-		sceneReferences.add(scene.getId());
-		
-	}
+    public void setSceneReferenceManager(
+            ReferenceManager<Scene> sceneReferenceManager) {
+        this.sceneReferenceManager = sceneReferenceManager;
+    }
 
-	public Scene getSceneById(Integer id) {
-		return referenceManager.getObject(id);
-	}
-	
-	public Set<Integer> getSceneReferences(){
-		return sceneReferences;
-	}
+    public void setActorReferenceManager(
+            ReferenceManager<Actor> actorReferenceManager) {
+        this.actorReferenceManager = actorReferenceManager;
+    }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    public void addScene(Scene scene) {
+        sceneReferenceManager.addObject(scene);
+        sceneReferences.add(scene.getId());
+
+    }
+
+    public Scene getSceneById(Integer id) {
+        return sceneReferenceManager.getObject(id);
+    }
+
+    public Set<Integer> getSceneReferences() {
+        return sceneReferences;
+    }
+
+    public void addActor(Actor actor) {
+        actorReferenceManager.addObject(actor);
+    }
+
+    public Actor getActorById(Integer id) {
+        return actorReferenceManager.getObject(id);
+    }
+
+    public Set<Integer> getActorReferences() {
+        return actorReferences;
+    }
 
 }
