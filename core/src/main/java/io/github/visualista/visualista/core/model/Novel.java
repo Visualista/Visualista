@@ -6,8 +6,8 @@ import io.github.visualista.visualista.util.ReferenceManager;
 import java.util.*;
 
 public class Novel implements Identifiable{
-	private ReferenceManager<Novel> referenceManager;
-    private final List<Integer> sceneReferences;
+	private ReferenceManager<Scene> referenceManager;
+    private final Set<Integer> sceneReferences;
 
 	private final int id;
     private String name;
@@ -20,7 +20,7 @@ public class Novel implements Identifiable{
 		this.name = name;
 	}
 
-	public Novel(int id, List<Integer> sceneReferences) {
+	public Novel(int id, Set<Integer> sceneReferences) {
     	this.id = id;
         this.sceneReferences = sceneReferences;
     }
@@ -29,13 +29,27 @@ public class Novel implements Identifiable{
         return sceneReferences.size();
     }
 
-    public void setReferenceManager(ReferenceManager<Novel> referenceManager){
+    public void setReferenceManager(ReferenceManager<Scene> referenceManager){
     	this.referenceManager = referenceManager;
     }
     
 	@Override
 	public int getId() {
 		return id;
+	}
+
+	public void addScene(Integer id, Scene scene) {
+		referenceManager.addObject(id,scene);
+		sceneReferences.add(id);
+		
+	}
+
+	public Scene getSceneById(Integer id) {
+		return referenceManager.getObject(id);
+	}
+	
+	public Set<Integer> getSceneReferences(){
+		return sceneReferences;
 	}
 
 }

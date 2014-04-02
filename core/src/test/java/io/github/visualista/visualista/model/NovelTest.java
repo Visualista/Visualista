@@ -7,42 +7,54 @@ import io.github.visualista.visualista.core.model.Novel;
 import io.github.visualista.visualista.core.model.NovelFactory;
 import io.github.visualista.visualista.core.model.Scene;
 import io.github.visualista.visualista.util.Dimension;
+import io.github.visualista.visualista.util.ReferenceManager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class NovelTest {
+	Novel novel;
+	Scene firstScene;
+	
+	@Before
+    public void setUp() throws Exception {
+		Set<Integer> sceneIDs = new HashSet<Integer>();
+    	novel = new Novel(3, sceneIDs);
+    	novel.setReferenceManager(new ReferenceManager<Scene>());
+    	firstScene = new Scene(2, new Grid(new Dimension(4, 3)));
+    	novel.addScene(4, firstScene);
+	}
 
     @Test
     public void test() {
-        Map<Integer, Scene> sceneMap = new HashMap();
-        sceneMap.put(4, new Scene(2, new Grid(new Dimension(4, 3))));
-        Novel novel = new Novel(3, sceneMap);
+    	
+        
         assertNotNull(novel);
     }
 
     @Test
     public void testSceneCount() {
-        Map<Integer, Scene> sceneMap = new HashMap();
-        sceneMap.put(4, new Scene(2, new Grid(new Dimension(4, 3))));
-        Novel novel = new Novel(3, sceneMap);
         assertEquals(novel.getSceneCount(), 1);
     }
 
     @Test
     public void testSceneById() {
-        Map<Integer, Scene> sceneMap = new HashMap();
-        Scene scene = new Scene(2, new Grid(new Dimension(4, 3)));
-        sceneMap.put(4, scene);
-        Novel novel = new Novel(3, sceneMap);
-        assertTrue(scene.equals(novel.getSceneById(4)));
+    	Scene secondScene = new Scene(2, new Grid(new Dimension(4, 3)));
+    	novel.addScene(7, secondScene);
+    	assertEquals(firstScene,novel.getSceneById(2));
+    	assertEquals(secondScene,novel.getSceneById(7));
+    	
     }
     
     @Test
 	public void testGetAndSetName() {
-    	Novel novel = new Novel(0, null); //TODO shouldn't be null
 		String testString = "Something, something, evil";
 		novel.setName(testString);
 		assertEquals(testString, novel.getName());

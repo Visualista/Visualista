@@ -2,6 +2,7 @@ package io.github.visualista.visualista.util;
 
 
 
+import io.github.visualista.visualista.core.model.Scene;
 import io.github.visualista.visualista.io.ObjectFactory;
 import io.github.visualista.visualista.util.Identifiable;
 
@@ -35,6 +36,11 @@ public class ReferenceManager<E extends Identifiable> {
 		}
 		
 	}
+	
+	public ReferenceManager(){
+		objectFactory = new ObjectFactory<E>(xstream);
+		objectMap = new HashMap<Integer, E>();
+	}
 
 	private void createObjects(File folder){
 		for (final File file : folder.listFiles()){
@@ -62,5 +68,13 @@ public class ReferenceManager<E extends Identifiable> {
 			sb.append(sc.next());
 		}
 		return objectFactory.createObject(sb.toString());
+	}
+
+	public void addObject(int id, E scene) {
+		objectMap.put(id, scene);
+	}
+
+	public E getObject(Integer id) {
+		return objectMap.get(id);
 	}
 }

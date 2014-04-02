@@ -1,5 +1,7 @@
 package io.github.visualista.visualista.core.model;
 
+import io.github.visualista.visualista.util.ReferenceManager;
+
 import java.util.*;
 
 public class NovelFactory {
@@ -15,9 +17,12 @@ public class NovelFactory {
 
     public Novel createNovel() {
     	int id = idGen.generateId();
-    	List<Integer> sceneReferences = new ArrayList<Integer>();
+    	Set<Integer> sceneReferences = new HashSet<Integer>();
         Scene scene = sceneFactory.createScene();
-        sceneReferences.add(scene.getId());
-        return new Novel(id, sceneReferences);
+        Novel novel = new Novel(id, sceneReferences);
+        novel.setReferenceManager(new ReferenceManager<Scene>());
+        novel.addScene(scene.getId(), scene);
+        //TODO Referene manager should be passed in
+        return novel;
     }
 }
