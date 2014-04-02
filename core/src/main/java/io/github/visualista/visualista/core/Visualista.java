@@ -26,6 +26,6 @@ public class Visualista {
 		NovelFactory novelFactory = new NovelFactory(sceneFactory);
 		
 		currentNovel = novelFactory.createNovel();
-		currentNovel.setSceneReferenceManager(new ReferenceManager<Scene>(new File(options.getNOVEL_FILE_PATH())));
+		currentNovel.setSceneReferenceManager(new ReferenceManager<Scene>());
 	}
 }

@@ -1,6 +1,7 @@
 package io.github.visualista.visualista.model;
 
 import static org.junit.Assert.*;
+import io.github.visualista.visualista.core.model.Actor;
 import io.github.visualista.visualista.core.model.Grid;
 import io.github.visualista.visualista.core.model.Novel;
 import io.github.visualista.visualista.core.model.Scene;
@@ -20,8 +21,10 @@ public class NovelTest {
 	@Before
     public void setUp() throws Exception {
 		Set<Integer> sceneIDs = new HashSet<Integer>();
-    	novel = new Novel(3, sceneIDs);
-    	novel.setReferenceManager(new ReferenceManager<Scene>());
+		Set<Integer> actorIDs = new HashSet<Integer>();
+    	novel = new Novel(3, sceneIDs,actorIDs);
+    	novel.setSceneReferenceManager(new ReferenceManager<Scene>());
+    	novel.setActorReferenceManager(new ReferenceManager<Actor>());
     	firstScene = new Scene(4, new Grid(new Dimension(4, 3)));
     	novel.addScene(firstScene);
 	}
