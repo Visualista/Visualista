@@ -18,9 +18,8 @@ public class ReferenceManager<E extends Identifiable> {
 	
 	private Map<Integer, E> objectMap;
 	
-	public ReferenceManager(){
-		
-		objectMap = new HashMap<Integer, E>();
+	public ReferenceManager(Map<Integer, E> objectMap){
+		this.objectMap = objectMap;
 	}
 
 	public void addObject(E object) {
