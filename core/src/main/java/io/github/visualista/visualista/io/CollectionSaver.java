@@ -9,12 +9,12 @@ import com.thoughtworks.xstream.XStream;
 
 import io.github.visualista.visualista.util.Identifiable;
 
-public class ObjectSaver<E extends Identifiable> {
+public class CollectionSaver<E extends Identifiable> {
 
 	private final XStream xstream;
 	private File folder;
 
-	public ObjectSaver(XStream xstream, File folder) {
+	public CollectionSaver(XStream xstream, File folder) {
 		if (!folder.exists()) {
 			folder.mkdirs();
 		} else if (!folder.isDirectory()) {

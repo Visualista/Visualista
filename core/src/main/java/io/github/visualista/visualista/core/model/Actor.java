@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Actor implements Identifiable{
+
 	public static final Actor EMPTY_ACTOR = new Actor();
 	private Image image;
 	private final List<Action> actions;
@@ -54,5 +55,11 @@ public class Actor implements Identifiable{
 	
 	public void setImage(Image image){
 		this.image = image;
+	}
+	
+	@Override
+	public String toString() {
+		return "Actor [actions=" + actions + ", id=" + id + ", name=" + name
+				+ "]";
 	}
 }
