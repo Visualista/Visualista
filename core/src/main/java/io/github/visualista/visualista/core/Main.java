@@ -1,12 +1,16 @@
 package io.github.visualista.visualista.core;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Set;
 
 import io.github.visualista.visualista.core.model.*;
+import io.github.visualista.visualista.io.CollectionSaver;
+import io.github.visualista.visualista.io.XStreamManager;
 import io.github.visualista.visualista.util.Dimension;
 import io.github.visualista.visualista.util.Matrix;
+import io.github.visualista.visualista.util.Point;
 
 public class Main {
 
@@ -42,9 +46,17 @@ public class Main {
         }
         Actor actor = actorFactory.createActor();
         otherScene.addActor(actor);
+        otherScene.getGrid().getTiles().getAt(new Point(0,0)).setActor(actor);
+        otherScene.getGrid().getTiles().getAt(new Point(1,1)).setActor(actor);
+        otherScene.getGrid().getTiles().getAt(new Point(1,0)).setActor(actor);
         System.out.println("The id of the created actor " + actor.getId());
-
         sc.close();
+        
+		XStreamManager manager = new XStreamManager();
+		CollectionSaver<Novel> saver = new CollectionSaver<Novel>(manager.getMainXStream(), new File("C:\\VISUALISTA\\"));
+		ArrayList<Novel> arr= new ArrayList<Novel>();
+		arr.add(novel);
+		saver.saveCollection(arr);
     }
 
 }
