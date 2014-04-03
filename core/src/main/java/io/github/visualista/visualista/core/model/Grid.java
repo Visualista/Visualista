@@ -8,6 +8,7 @@ public class Grid {
 	
 	public Grid(Dimension gridSize){
 		tiles = new Matrix<Tile>(gridSize);
+		tiles.fillWith(new TileFactory());
 	}
 	
 	public Grid(int width, int height){
