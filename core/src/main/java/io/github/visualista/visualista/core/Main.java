@@ -43,7 +43,10 @@ public class Main {
         }
         Actor actor = actorFactory.createActor();
         novel.addActor(actor);
-        System.out.println("The id of the created actor " + actor.getId());
+        System.out.println("Name the actor");
+        String name = sc.next();
+        actor.setName(name);
+        System.out.println("The name of the created actor is " + actor.getName());
 
         sc.close();
     }
