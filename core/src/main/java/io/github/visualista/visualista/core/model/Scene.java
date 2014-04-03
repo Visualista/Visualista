@@ -9,7 +9,7 @@ public class Scene implements Identifiable{
     private final int id;
     private final Grid grid;
     
-    private final List<Integer> actorsInScene;
+    private final List<Actor> actorsInScene;
     private String name;
 
     public String getName() {
@@ -20,10 +20,10 @@ public class Scene implements Identifiable{
 		this.name = name;
 	}
 
-	public Scene(int id, Grid grid) {
+	public Scene(int id, Grid grid, List<Actor> actorsInScene) {
         this.id = id;
         this.grid = grid;
-        actorsInScene = new ArrayList<Integer>();
+        this.actorsInScene = actorsInScene;
     }
 
     public int getId() {

@@ -1,5 +1,6 @@
 package io.github.visualista.visualista.core;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -34,7 +35,7 @@ public class Main {
         int x = sc.nextInt();
         int y = sc.nextInt();
         Grid grid = new Grid(new Dimension(x, y));
-        Scene scene = new Scene(2, grid);
+        Scene scene = new Scene(2, grid, new ArrayList<Actor>());
         novel.addScene(scene);
         for (Integer key : sceneIdSet) {
             System.out.println("Dimension of scene in novel "
