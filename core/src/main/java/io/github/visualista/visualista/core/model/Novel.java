@@ -22,9 +22,9 @@ public class Novel implements Identifiable {
         this.name = name;
     }
 
-    public Novel(int id, Set<Integer> sceneReferences,
-            Set<Integer> actorReferences) {
+    public Novel(int id, List<Scene> scenes) {
         this.id = id;
+        this.scenes = scenes;
         //this.sceneReferences = sceneReferences;
         //this.actorReferences = actorReferences;
     }
