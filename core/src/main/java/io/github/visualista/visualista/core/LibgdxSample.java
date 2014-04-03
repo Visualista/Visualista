@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -23,11 +24,17 @@ public class LibgdxSample implements ApplicationListener {
     public void create() {
         stage = new Stage(1900, 1000, true);
         stage.clear();
-
+        
+        Label label = new Label("h",new Skin());
+        
         leftGroup = new VerticalGroup();
         rightGroup = new VerticalGroup();
         stage.addActor(leftGroup);
         stage.addActor(rightGroup);
+        leftGroup.addActor(label);
+        Skin uiSkin = new Skin(Gdx.files.internal("data/uiskin.json"));
+        Label l = new Label("H",uiSkin);
+        leftGroup.addActor(l);
     }
 
     @Override
