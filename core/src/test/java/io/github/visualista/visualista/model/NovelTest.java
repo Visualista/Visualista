@@ -51,7 +51,7 @@ public class NovelTest {
     	Scene secondScene = new Scene(7, new Grid(new Dimension(4, 3)),new ArrayList<Actor>());
     	novel.addScene(secondScene);
     	assertEquals(firstScene,novel.getScenes().get(0));
-    	assertEquals(secondScene,novel.getScenes().get(0));
+    	assertEquals(secondScene,novel.getScenes().get(1));
     	
     }
     
