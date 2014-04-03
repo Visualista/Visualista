@@ -21,7 +21,7 @@ public class NovelFactory {
     	Set<Integer> sceneReferences = new HashSet<Integer>();
     	Set<Integer> actorReferences = new HashSet<Integer>();
         Scene scene = sceneFactory.createScene();
-        Novel novel = new Novel(id, sceneReferences,actorReferences);
+        Novel novel = new Novel(id, new ArrayList<Scene>());
         ReferenceManagerFactory<Scene> rfsFactory = new ReferenceManagerFactory<Scene>();
     	ReferenceManagerFactory<Actor> rfaFactory = new ReferenceManagerFactory<Actor>();
     	

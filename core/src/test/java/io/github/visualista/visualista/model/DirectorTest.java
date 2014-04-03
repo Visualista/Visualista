@@ -20,7 +20,7 @@ public class DirectorTest {
     public void test() {
     	Set<Integer> sceneIDs = new HashSet<Integer>();
     	Set<Integer> actorIDs = new HashSet<Integer>();
-    	Novel novel = new Novel(3, sceneIDs,actorIDs);
+    	Novel novel = new Novel(3, new ArrayList<Scene>());
     	ReferenceManagerFactory<Scene> rfsFactory = new ReferenceManagerFactory<Scene>();
     	ReferenceManagerFactory<Actor> rfaFactory = new ReferenceManagerFactory<Actor>();
     	
