@@ -6,10 +6,10 @@ import io.github.visualista.visualista.util.ReferenceManager;
 import java.util.*;
 
 public class Novel implements Identifiable {
-    private ReferenceManager<Scene> sceneReferenceManager;
-    private ReferenceManager<Actor> actorReferenceManager;
-    private final Set<Integer> sceneReferences;
-    private final Set<Integer> actorReferences;
+    //private ReferenceManager<Scene> sceneReferenceManager;
+    //private final Set<Integer> sceneReferences;
+	List<Scene> scenes;
+
 
     private final int id;
     private String name;
@@ -25,27 +25,25 @@ public class Novel implements Identifiable {
     public Novel(int id, Set<Integer> sceneReferences,
             Set<Integer> actorReferences) {
         this.id = id;
-        this.sceneReferences = sceneReferences;
-        this.actorReferences = actorReferences;
+        //this.sceneReferences = sceneReferences;
+        //this.actorReferences = actorReferences;
     }
 
     public int getSceneCount() {
-        return sceneReferences.size();
+        return scenes.size();
     }
 
-    public int getActorCount() {
-        return actorReferences.size();
-    }
 
+/*
     public void setSceneReferenceManager(
             ReferenceManager<Scene> sceneReferenceManager) {
         this.sceneReferenceManager = sceneReferenceManager;
-    }
-
+    }*/
+/*
     public void setActorReferenceManager(
             ReferenceManager<Actor> actorReferenceManager) {
         this.actorReferenceManager = actorReferenceManager;
-    }
+    }*/
 
     @Override
     public int getId() {
@@ -53,11 +51,17 @@ public class Novel implements Identifiable {
     }
 
     public void addScene(Scene scene) {
-        sceneReferenceManager.addObject(scene);
-        sceneReferences.add(scene.getId());
+    	//sceneReferenceManager.addObject(scene);
+        //sceneReferences.add(scene.getId());
+    	scenes.add(scene);
 
     }
 
+	public List<Scene> getScenes() {
+		return scenes;
+	}
+
+    /*
     public Scene getSceneById(Integer id) {
         return sceneReferenceManager.getObject(id);
     }
@@ -65,7 +69,6 @@ public class Novel implements Identifiable {
     public Set<Integer> getSceneReferences() {
         return sceneReferences;
     }
-
     public void addActor(Actor actor) {
         actorReferenceManager.addObject(actor);
     }
@@ -76,6 +79,6 @@ public class Novel implements Identifiable {
 
     public Set<Integer> getActorReferences() {
         return actorReferences;
-    }
+    }*/
 
 }

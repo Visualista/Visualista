@@ -39,5 +39,10 @@ public class Scene implements Identifiable{
 				+ ", name=" + name + "]";
 	}
 
+	public void addActor(Actor actor) {
+		actorsInScene.add(actor);
+		
+	}
+
 
 }

@@ -22,9 +22,7 @@ public class Main {
         Novel novel = novelFactory.createNovel();
         System.out
                 .println("Number of scenes in novel " + novel.getSceneCount());
-        Set<Integer> sceneIdSet = novel.getSceneReferences();
-        for (Integer key : sceneIdSet) {
-            Scene scene = novel.getSceneById(key);
+        for (Scene scene : novel.getScenes()) {
             Grid grid = scene.getGrid();
             Matrix<Tile> tiles = grid.getTiles();
             String sceneSize = tiles.getSize().toString();
@@ -35,15 +33,15 @@ public class Main {
         int x = sc.nextInt();
         int y = sc.nextInt();
         Grid grid = new Grid(new Dimension(x, y));
-        Scene scene = new Scene(2, grid, new ArrayList<Actor>());
-        novel.addScene(scene);
-        for (Integer key : sceneIdSet) {
+        Scene otherScene = new Scene(2, grid, new ArrayList<Actor>());
+        novel.addScene(otherScene);
+        for (Scene scene : novel.getScenes()) {
             System.out.println("Dimension of scene in novel "
-                    + novel.getSceneById(key).getGrid().getTiles().getSize()
+                    + scene.getGrid().getTiles().getSize()
                             .toString());
         }
         Actor actor = actorFactory.createActor();
-        novel.addActor(actor);
+        otherScene.addActor(actor);
         System.out.println("The id of the created actor " + actor.getId());
 
         sc.close();

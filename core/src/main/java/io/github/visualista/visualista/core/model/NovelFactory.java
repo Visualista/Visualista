@@ -25,10 +25,10 @@ public class NovelFactory {
         ReferenceManagerFactory<Scene> rfsFactory = new ReferenceManagerFactory<Scene>();
     	ReferenceManagerFactory<Actor> rfaFactory = new ReferenceManagerFactory<Actor>();
     	
-    	novel.setSceneReferenceManager(rfsFactory.createReferenceManager());
+    	//novel.setSceneReferenceManager(rfsFactory.createReferenceManager());
     	
         novel.addScene(scene);
-        novel.setActorReferenceManager(rfaFactory.createReferenceManager());
+        //novel.setActorReferenceManager(rfaFactory.createReferenceManager());
         //TODO Referene manager should be passed in
         return novel;
     }

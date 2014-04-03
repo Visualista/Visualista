@@ -24,8 +24,8 @@ public class DirectorTest {
     	ReferenceManagerFactory<Scene> rfsFactory = new ReferenceManagerFactory<Scene>();
     	ReferenceManagerFactory<Actor> rfaFactory = new ReferenceManagerFactory<Actor>();
     	
-    	novel.setSceneReferenceManager(rfsFactory.createReferenceManager());
-    	novel.setActorReferenceManager(rfaFactory.createReferenceManager());
+    	//novel.setSceneReferenceManager(rfsFactory.createReferenceManager());
+    	//novel.setActorReferenceManager(rfaFactory.createReferenceManager());
     	novel.addScene(new Scene(4, new Grid(new Dimension(4, 3)),new ArrayList<Actor>()));
         
         Director director = new Director(novel);

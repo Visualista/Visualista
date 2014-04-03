@@ -28,8 +28,8 @@ public class NovelTest {
     	ReferenceManagerFactory<Scene> rfsFactory = new ReferenceManagerFactory<Scene>();
     	ReferenceManagerFactory<Actor> rfaFactory = new ReferenceManagerFactory<Actor>();
     	
-    	novel.setSceneReferenceManager(rfsFactory.createReferenceManager());
-        novel.setActorReferenceManager(rfaFactory.createReferenceManager());
+    	//novel.setSceneReferenceManager(rfsFactory.createReferenceManager());
+        //novel.setActorReferenceManager(rfaFactory.createReferenceManager());
     	firstScene = new Scene(4, new Grid(new Dimension(4, 3)),new ArrayList<Actor>());
     	novel.addScene(firstScene);
 	}
@@ -50,8 +50,8 @@ public class NovelTest {
     public void testSceneById() {
     	Scene secondScene = new Scene(7, new Grid(new Dimension(4, 3)),new ArrayList<Actor>());
     	novel.addScene(secondScene);
-    	assertEquals(firstScene,novel.getSceneById(4));
-    	assertEquals(secondScene,novel.getSceneById(7));
+    	assertEquals(firstScene,novel.getScenes().get(0));
+    	assertEquals(secondScene,novel.getScenes().get(0));
     	
     }
     
