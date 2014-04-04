@@ -17,7 +17,7 @@ public class TileTest {
     @Test
     public void testGetActor() {
         Tile tile = new Tile(new Actor());
-        assertNotNull(tile.getActor());
+        assertNotEquals(-1,tile.getActorId());
     }
 
     @Test
@@ -25,7 +25,7 @@ public class TileTest {
         Tile tile = new Tile(new Actor());
         Actor actor = new Actor(5);
         tile.setActor(actor);
-        assertEquals(tile.getActor().getId(), 5);
+        assertEquals(tile.getActorId(), 5);
     }
 
 }

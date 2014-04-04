@@ -31,7 +31,7 @@ public class Visualista {
 		ReferenceManagerFactory<Scene> rfsFactory = new ReferenceManagerFactory<Scene>();
     	ReferenceManagerFactory<Actor> rfaFactory = new ReferenceManagerFactory<Actor>();
     	
-    	currentNovel.setSceneReferenceManager(rfsFactory.createReferenceManager());
-    	currentNovel.setActorReferenceManager(rfaFactory.createReferenceManager());
+    	//currentNovel.setSceneReferenceManager(rfsFactory.createReferenceManager());
+    	//currentNovel.setActorReferenceManager(rfaFactory.createReferenceManager());
 	}
 }

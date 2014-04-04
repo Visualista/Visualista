@@ -9,6 +9,7 @@ import io.github.visualista.visualista.util.Dimension;
 import io.github.visualista.visualista.util.ReferenceManager;
 import io.github.visualista.visualista.util.ReferenceManagerFactory;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,13 +24,13 @@ public class NovelTest {
     public void setUp() throws Exception {
 		Set<Integer> sceneIDs = new HashSet<Integer>();
 		Set<Integer> actorIDs = new HashSet<Integer>();
-    	novel = new Novel(3, sceneIDs,actorIDs);
+    	novel = new Novel(3, new ArrayList<Scene>());
     	ReferenceManagerFactory<Scene> rfsFactory = new ReferenceManagerFactory<Scene>();
     	ReferenceManagerFactory<Actor> rfaFactory = new ReferenceManagerFactory<Actor>();
     	
-    	novel.setSceneReferenceManager(rfsFactory.createReferenceManager());
-        novel.setActorReferenceManager(rfaFactory.createReferenceManager());
-    	firstScene = new Scene(4, new Grid(new Dimension(4, 3)));
+    	//novel.setSceneReferenceManager(rfsFactory.createReferenceManager());
+        //novel.setActorReferenceManager(rfaFactory.createReferenceManager());
+    	firstScene = new Scene(4, new Grid(new Dimension(4, 3)),new ArrayList<Actor>());
     	novel.addScene(firstScene);
 	}
 
@@ -47,10 +48,10 @@ public class NovelTest {
 
     @Test
     public void testSceneById() {
-    	Scene secondScene = new Scene(7, new Grid(new Dimension(4, 3)));
+    	Scene secondScene = new Scene(7, new Grid(new Dimension(4, 3)),new ArrayList<Actor>());
     	novel.addScene(secondScene);
-    	assertEquals(firstScene,novel.getSceneById(4));
-    	assertEquals(secondScene,novel.getSceneById(7));
+    	assertEquals(firstScene,novel.getScenes().get(0));
+    	assertEquals(secondScene,novel.getScenes().get(1));
     	
     }
     
