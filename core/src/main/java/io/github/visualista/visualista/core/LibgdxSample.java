@@ -25,16 +25,16 @@ public class LibgdxSample implements ApplicationListener {
         stage = new Stage(1900, 1000, true);
         stage.clear();
         
-        Label label = new Label("h",new Skin());
+       // Label label = new Label("h",new Skin());
         
         leftGroup = new VerticalGroup();
         rightGroup = new VerticalGroup();
         stage.addActor(leftGroup);
         stage.addActor(rightGroup);
-        leftGroup.addActor(label);
-        Skin uiSkin = new Skin(Gdx.files.internal("data/uiskin.json"));
-        Label l = new Label("H",uiSkin);
-        leftGroup.addActor(l);
+       // leftGroup.addActor(label);
+        //Skin uiSkin = new Skin(Gdx.files.internal("data/uiskin.json"));
+        //Label l = new Label("H",uiSkin);
+        //leftGroup.addActor(l);
     }
 
     @Override
