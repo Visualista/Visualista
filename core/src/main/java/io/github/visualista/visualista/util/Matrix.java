@@ -13,10 +13,11 @@ public class Matrix<E> implements IMatrixGet<E>,IMatrixSet<E> {
 		}
 		matrix = (Row<E>[])new Row[size.getHeight()];
 		for(int i = 0;i<matrix.length;++i){
-			matrix[i] = new Row(size.getWidth());
+			matrix[i] = new Row<E>(size.getWidth());
 		}
 	}
 	
+	@Override
 	public Dimension getSize(){
 		return new Dimension(matrix[0].getLength(),matrix.length);
 	}
