@@ -36,12 +36,5 @@ public class GridTest {
 		Grid dimensionGrid = new Grid(dim);
 		assertEquals(dim,dimensionGrid.getSize());
 	}
-	
-	@Test
-	public void testGetTiles(){
-		Grid grid = new Grid(width,height);
-		Matrix<Tile> tiles = grid.getTiles();
-		assertNotNull(tiles);
-	}
 
 }

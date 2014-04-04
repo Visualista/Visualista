@@ -26,8 +26,8 @@ public class NovelFactoryTest {
 	    Novel novel = factory.createNovel();
 		assertNotNull(novel);
 		assertEquals(1,novel.getSceneCount());
-		assertNotNull(novel.getSceneById(1));
-		Scene scene = novel.getSceneById(1);
+		assertNotNull(novel.getScenes().get(0));
+		Scene scene = novel.getScenes().get(0);
 		assertEquals(1,scene.getId());
 	}
 
