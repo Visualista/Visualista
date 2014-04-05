@@ -9,8 +9,8 @@ public class VisualistaDesktop {
 	public static void main (String[] args) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.useGL20 = true;
-		config.width = 1900;
-		config.height = 1000;
+		config.width = 1800;
+		config.height = 900;
 		new LwjglApplication(new LibgdxSample(), config);
 	}
 }
