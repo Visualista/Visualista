@@ -32,8 +32,9 @@ public class LibgdxSample implements ApplicationListener {
         stage.addActor(leftGroup);
         stage.addActor(rightGroup);
        // leftGroup.addActor(label);
-        //Skin uiSkin = new Skin(Gdx.files.internal("data/uiskin.json"));
-        //Label l = new Label("H",uiSkin);
+        //Skin uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
+        //Label l = new Label("Hej",uiSkin);
+        //stage.addActor(l);
         //leftGroup.addActor(l);
     }
 
@@ -43,7 +44,7 @@ public class LibgdxSample implements ApplicationListener {
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClearColor(1, 2, 2, 2);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
     }
