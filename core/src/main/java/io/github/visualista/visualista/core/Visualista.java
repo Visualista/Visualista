@@ -7,7 +7,6 @@ public class Visualista {
 
 	private Novel currentNovel;
 	private final XStreamManager xstreamManager;
-	private final Options options = new Options();
 	
 	public Visualista(){
 		xstreamManager = new XStreamManager();

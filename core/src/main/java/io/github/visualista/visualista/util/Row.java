@@ -11,7 +11,7 @@ public class Row<E>{
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	protected Object clone() throws CloneNotSupportedException {
+	protected Object clone(){
 		return new Row(row.clone());
 	}
 
