@@ -24,6 +24,7 @@ public class XStreamManager {
 		mainXStream.alias("Scene", Scene.class);
 		mainXStream.alias("Novel", Novel.class);
 		mainXStream.alias("Tile", Tile.class);
+		mainXStream.setMode(XStream.ID_REFERENCES);
 		
 	}
 	
