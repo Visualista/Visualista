@@ -1,16 +1,13 @@
 package io.github.visualista.visualista.core.model;
 
-import io.github.visualista.visualista.util.Identifiable;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class Actor implements Identifiable{
+public class Actor{
 
 	public static final Actor EMPTY_ACTOR = new Actor();
 	private Image image;
 	private final List<Action> actions;
-	private final int id;
 	private String name;
 	
 	public String getName() {
@@ -21,23 +18,12 @@ public class Actor implements Identifiable{
 		this.name = name;
 	}
 
-	public Actor(int id){
-		this.id = id;
+	public Actor(){
 		actions = new ArrayList<Action>();
 		image = new Image();
 	}
 	
-	public Actor(){
-		this.id = 0;
-		actions = null;
-		image = null;
-	}
-	
-	public int getId(){
-		return id;
-	}
-	
-	public List<Action> getActions(){
+		public List<Action> getActions(){
 		return actions;
 	}
 	
@@ -56,10 +42,11 @@ public class Actor implements Identifiable{
 	public void setImage(Image image){
 		this.image = image;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Actor [actions=" + actions + ", id=" + id + ", name=" + name
-				+ "]";
+		return "Actor [actions=" + actions + ", name=" + name + "]";
 	}
+	
+	
 }
