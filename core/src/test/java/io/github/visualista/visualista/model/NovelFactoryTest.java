@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 import io.github.visualista.visualista.core.model.GridFactory;
 import io.github.visualista.visualista.core.model.Novel;
 import io.github.visualista.visualista.core.model.NovelFactory;
-import io.github.visualista.visualista.core.model.Scene;
 import io.github.visualista.visualista.core.model.SceneFactory;
 
 import org.junit.Test;
@@ -27,8 +26,6 @@ public class NovelFactoryTest {
 		assertNotNull(novel);
 		assertEquals(1,novel.getSceneCount());
 		assertNotNull(novel.getScenes().get(0));
-		Scene scene = novel.getScenes().get(0);
-		assertEquals(1,scene.getId());
 	}
 
 }

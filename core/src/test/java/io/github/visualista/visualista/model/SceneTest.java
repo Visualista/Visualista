@@ -9,10 +9,12 @@ import io.github.visualista.visualista.core.model.Scene;
 
 
 
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
+import org.hamcrest.core.StringContains;
 import org.hamcrest.text.StringContainsInOrder;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,25 +30,16 @@ public class SceneTest {
 
     @Test
     public void test() {
-        Random rand = new Random();
-        int id = rand.nextInt();
-        Scene scene = new Scene(id,gridFactory.createGrid(),new ArrayList<Actor>());
-        assertEquals(id,scene.getId());
+        Scene scene = new Scene(gridFactory.createGrid(),new ArrayList<Actor>());
         assertNotNull(scene.getGrid());
     }
     
     @Test
 	public void testGetAndSetName() {
-		Scene scene = new Scene(0, gridFactory.createGrid(),new ArrayList<Actor>());
+		Scene scene = new Scene(gridFactory.createGrid(),new ArrayList<Actor>());
 		String testString = "Something, something, dark side";
 		scene.setName(testString);
 		assertEquals(testString, scene.getName());
 	}
-    
-    @Test
-    public void testToString(){
-    	Scene scene = new Scene(0, gridFactory.createGrid(),new ArrayList<Actor>());
-    	assertThat(scene.toString(),StringContainsInOrder.stringContainsInOrder(Arrays.asList(""+scene.getId(),""+scene.getName())));
-    }
 
 }

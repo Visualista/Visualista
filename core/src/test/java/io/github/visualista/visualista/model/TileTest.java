@@ -14,18 +14,4 @@ public class TileTest {
         assertNotNull(tile);
     }
 
-    @Test
-    public void testGetActor() {
-        Tile tile = new Tile(new Actor());
-        assertNotEquals(-1,tile.getActorId());
-    }
-
-    @Test
-    public void testSetActor() {
-        Tile tile = new Tile(new Actor());
-        Actor actor = new Actor(5);
-        tile.setActor(actor);
-        assertEquals(tile.getActorId(), 5);
-    }
-
 }
