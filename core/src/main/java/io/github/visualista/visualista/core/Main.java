@@ -27,8 +27,7 @@ public class Main {
         System.out
                 .println("Number of scenes in novel " + novel.getSceneCount());
         for (Scene scene : novel.getScenes()) {
-            Grid grid = scene.getGrid();
-            Matrix<Tile> tiles = grid.getTiles();
+            Matrix<Tile> tiles = scene.getGrid();
             String sceneSize = tiles.getSize().toString();
             System.out.println("Dimension of scene in novel " + sceneSize);
         }
@@ -41,15 +40,16 @@ public class Main {
         novel.addScene(otherScene);
         for (Scene scene : novel.getScenes()) {
             System.out.println("Dimension of scene in novel "
-                    + scene.getGrid().getTiles().getSize()
+                    + scene.getGrid().getSize()
                             .toString());
         }
         Actor actor = actorFactory.createActor();
         otherScene.addActor(actor);
-        otherScene.getGrid().getTiles().getAt(new Point(0,0)).setActor(actor);
-        otherScene.getGrid().getTiles().getAt(new Point(1,1)).setActor(actor);
-        otherScene.getGrid().getTiles().getAt(new Point(1,0)).setActor(actor);
-        System.out.println("The id of the created actor " + actor.getId());
+        System.out.println("Name the actor");
+        String name = sc.next();
+        actor.setName(name);
+        System.out.println("The name of the created actor is " + actor.getName());
+
         sc.close();
         
 		XStreamManager manager = new XStreamManager();

@@ -2,14 +2,18 @@ package io.github.visualista.visualista.core.model;
 
 import io.github.visualista.visualista.util.Point;
 
-public class TileAction extends Action{
+public class ReplaceTileAction implements Action{
 	
 	private Point targetTile;
 	private Actor replacementActor;
 	
-	public TileAction(Point targetTile, Actor replacementActor){
+	public ReplaceTileAction(Point targetTile, Actor replacementActor){
 		this.targetTile = targetTile;
 		this.replacementActor = replacementActor;
+	}
+	
+	public void callAction(){
+		
 	}
 	
 	public Point getTargetTile(){
