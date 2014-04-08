@@ -48,4 +48,9 @@ public class NovelTest {
 		novel.setName(testString);
 		assertEquals(testString, novel.getName());
 	}
+    
+    @Test
+    public void testGetId() {
+    	assertEquals(new Integer(3),novel.getId());
+    }
 }
