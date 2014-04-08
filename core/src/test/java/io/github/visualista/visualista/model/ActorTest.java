@@ -1,10 +1,9 @@
 package io.github.visualista.visualista.model;
 
 import static org.junit.Assert.*;
-
 import io.github.visualista.visualista.core.model.*;
+//import static org.hamcrest.CoreMatchers.*;
 
-import org.hamcrest.core.StringContains;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,7 +24,7 @@ public class ActorTest {
 	@Test
 	public void testActions() {
 		Actor actor2 = new Actor();
-		Action action = new Action() {
+		IAction action = new IAction() {
 
 			@Override
 			public void callAction() {
@@ -46,4 +45,8 @@ public class ActorTest {
 		assertEquals(testString, actor.getName());
 	}
 	
+	@Test
+	public void testToString() {
+		fail("Not yet implemented");
+	}
 }

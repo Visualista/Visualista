@@ -7,8 +7,17 @@ public class Scene{
     
     private final List<Actor> actorsInScene;
     private String name;
+    private String storyText;
 
-    public String getName() {
+    public String getStoryText() {
+		return storyText;
+	}
+
+	public void setStoryText(String storyText) {
+		this.storyText = storyText;
+	}
+
+	public String getName() {
 		return name;
 	}
 
@@ -35,6 +44,9 @@ public class Scene{
 		actorsInScene.add(actor);
 		
 	}
-
+	
+	public List<Actor> getActorsInScene() {
+		return actorsInScene;
+	}
 
 }

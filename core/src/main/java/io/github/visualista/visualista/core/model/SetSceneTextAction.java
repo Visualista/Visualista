@@ -1,6 +1,6 @@
 package io.github.visualista.visualista.core.model;
 
-public class SetSceneTextAction implements Action{
+public class SetSceneTextAction implements IAction{
 
 	private String sceneText;
 	

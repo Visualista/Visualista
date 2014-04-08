@@ -1,6 +1,6 @@
 package io.github.visualista.visualista.core.model;
 
-public class SwitchSceneAction implements Action{
+public class SwitchSceneAction implements IAction{
 
 	private Scene targetScene;
 	

@@ -7,7 +7,7 @@ public class Actor{
 
 	public static final Actor EMPTY_ACTOR = new Actor();
 	private Image image;
-	private final List<Action> actions;
+	private final List<IAction> actions;
 	private String name;
 	
 	public String getName() {
@@ -19,19 +19,19 @@ public class Actor{
 	}
 
 	public Actor(){
-		actions = new ArrayList<Action>();
+		actions = new ArrayList<IAction>();
 		image = new Image();
 	}
 	
-		public List<Action> getActions(){
+		public List<IAction> getActions(){
 		return actions;
 	}
 	
-	public void addAction(Action action){
+	public void addAction(IAction action){
 		actions.add(action);
 	}
 	
-	public void removeAction(Action action){
+	public void removeAction(IAction action){
 		actions.remove(action);
 	}
 	

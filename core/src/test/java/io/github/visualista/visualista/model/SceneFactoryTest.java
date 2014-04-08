@@ -1,6 +1,7 @@
 package io.github.visualista.visualista.model;
 
 import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 import io.github.visualista.visualista.core.model.GridFactory;
 import io.github.visualista.visualista.core.model.Scene;
 import io.github.visualista.visualista.core.model.SceneFactory;
@@ -21,7 +22,8 @@ public class SceneFactoryTest {
     @Test
     public void test() {
         Scene scene = factory.createScene();
-        assertNotNull(scene);
+        assertThat(scene,notNullValue());
     }
+    
 
 }
