@@ -44,6 +44,9 @@ public class Scene{
 		actorsInScene.add(actor);
 		
 	}
-
+	
+	public List<Actor> getActorsInScene() {
+		return actorsInScene;
+	}
 
 }
