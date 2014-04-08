@@ -25,7 +25,7 @@ public class ActorTest {
 	@Test
 	public void testActions() {
 		Actor actor2 = new Actor();
-		Action action = new Action() {
+		IAction action = new IAction() {
 
 			@Override
 			public void callAction() {

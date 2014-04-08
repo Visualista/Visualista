@@ -2,7 +2,7 @@ package io.github.visualista.visualista.core.model;
 
 import io.github.visualista.visualista.util.Point;
 
-public class ReplaceTileAction implements Action{
+public class ReplaceTileAction implements IAction{
 	
 	private Point targetTile;
 	private Actor replacementActor;

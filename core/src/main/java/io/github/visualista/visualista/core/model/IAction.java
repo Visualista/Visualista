@@ -1,6 +1,6 @@
 package io.github.visualista.visualista.core.model;
 
-public interface Action{
+public interface IAction{
 	
 	public void callAction();
 	
