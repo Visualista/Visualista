@@ -10,6 +10,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -19,7 +22,6 @@ public class VisualistaEditor implements ApplicationListener,
 		FilePickerListener {
 	private Stage stage;
 	private FilePicker filePicker;
-	private ShapeRenderer shapeRenderer;
 
 	public VisualistaEditor(FilePicker filePicker) {
 		this.filePicker = filePicker;
@@ -64,9 +66,23 @@ public class VisualistaEditor implements ApplicationListener,
 		leftButton.setWidth(100);
 		leftButton.setHeight(100);
 		stage.addActor(rightButton);
-		//filePicker.fileDialog(this, true);
-		//filePicker.makeFocused();
-		shapeRenderer = new ShapeRenderer();
+		leftButton.addListener(new EventListener(){
+			
+			@Override
+			public boolean handle(Event event) {
+				if(event instanceof InputEvent){
+					InputEvent inputEvent = (InputEvent)event;
+					if(inputEvent.getType() == InputEvent.Type.touchDown){
+						filePicker.fileDialog(VisualistaEditor.this, true);
+					}
+					return true;
+				}
+				
+				return false;
+			}
+			
+		});
+		Gdx.input.setInputProcessor(stage);
 	}
 
 	@Override
@@ -78,7 +94,6 @@ public class VisualistaEditor implements ApplicationListener,
 	@Override
 	public void render() {
 		stage.act();
-
 		Gdx.gl.glClearColor(1, 1, 1, 2);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		stage.draw();
