@@ -1,12 +1,12 @@
 package io.github.visualista.visualista.io;
 
-import io.github.visualista.visualista.util.Identifiable;
+import io.github.visualista.visualista.util.Nameable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class FileLoader<E extends Identifiable> {
+public class FileLoader<E extends Nameable> {
 
 	private final ObjectFactory<E> objectFactory;
 

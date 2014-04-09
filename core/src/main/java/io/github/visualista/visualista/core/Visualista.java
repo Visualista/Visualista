@@ -1,8 +1,11 @@
 package io.github.visualista.visualista.core;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import io.github.visualista.visualista.core.model.*;
+import io.github.visualista.visualista.io.FileLoader;
+import io.github.visualista.visualista.io.ObjectFactory;
 import io.github.visualista.visualista.io.XStreamManager;
 
 public class Visualista {
@@ -41,8 +44,13 @@ public class Visualista {
 	
 	public void openNovel(File file){
 		saveNovelIfNeeded();
-		//TODO add file fetch
-		setCurrentNovel(novel);
+		FileLoader<Novel> fileLoader = new FileLoader<Novel>(new ObjectFactory<Novel>(xstreamManager.getMainXStream()));
+		try {
+			setCurrentNovel(fileLoader.getObjectFromFile(file));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	

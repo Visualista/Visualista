@@ -16,7 +16,7 @@ public class NovelTest {
 	
 	@Before
     public void setUp() throws Exception {
-    	novel = new Novel(3, new ArrayList<Scene>());
+    	novel = new Novel(new ArrayList<Scene>());
     	firstScene = new Scene(new Grid(new Dimension(4, 3)),new ArrayList<Actor>());
     	novel.addScene(firstScene);
 	}
@@ -49,8 +49,4 @@ public class NovelTest {
 		assertEquals(testString, novel.getName());
 	}
     
-    @Test
-    public void testGetId() {
-    	assertEquals(new Integer(3),novel.getId());
-    }
 }

@@ -1,7 +1,6 @@
 package io.github.visualista.visualista.core.model;
 
 import io.github.visualista.visualista.util.Dimension;
-import io.github.visualista.visualista.util.Identifiable;
 import io.github.visualista.visualista.util.Matrix;
 
 public class Grid extends Matrix<Tile> {

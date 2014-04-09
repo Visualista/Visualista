@@ -7,9 +7,9 @@ import java.util.Collection;
 
 import com.thoughtworks.xstream.XStream;
 
-import io.github.visualista.visualista.util.Identifiable;
+import io.github.visualista.visualista.util.Nameable;
 
-public class CollectionSaver<E extends Identifiable> {
+public class CollectionSaver<E extends Nameable> {
 
 	private final XStream xstream;
 	private File folder;
@@ -27,7 +27,7 @@ public class CollectionSaver<E extends Identifiable> {
 	public void saveCollection(Collection<E> objects){
 		FileSaver<E> fileSaver = new FileSaver<E>(xstream);
 		for(E object : objects){
-			File outputFile = new File(folder.getAbsolutePath(), object.getId()
+			File outputFile = new File(folder.getAbsolutePath(), object.getName()
 					+ ".vis");
 			fileSaver.saveObjectToFile(outputFile, object);
 			

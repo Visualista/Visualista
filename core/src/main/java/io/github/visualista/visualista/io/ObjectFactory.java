@@ -1,10 +1,10 @@
 package io.github.visualista.visualista.io;
 
-import io.github.visualista.visualista.util.Identifiable;
+import io.github.visualista.visualista.util.Nameable;
 
 import com.thoughtworks.xstream.XStream;
 
-public class ObjectFactory<E extends Identifiable> {
+public class ObjectFactory<E extends Nameable> {
 	
 	private final XStream xstream;
 	

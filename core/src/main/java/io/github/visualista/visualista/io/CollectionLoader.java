@@ -1,6 +1,6 @@
 package io.github.visualista.visualista.io;
 
-import io.github.visualista.visualista.util.Identifiable;
+import io.github.visualista.visualista.util.Nameable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,7 +9,7 @@ import java.util.*;
 
 import com.thoughtworks.xstream.XStream;
 
-public class CollectionLoader<E extends Identifiable> {
+public class CollectionLoader<E extends Nameable> {
 	private Collection<E> objects = new ArrayList<E>();
 
 	private final ObjectFactory<E> objectFactory;

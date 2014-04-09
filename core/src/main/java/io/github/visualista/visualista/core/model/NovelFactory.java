@@ -14,7 +14,7 @@ public class NovelFactory {
 
     public Novel createNovel() {
     	Scene scene = sceneFactory.createScene();
-        Novel novel = new Novel(idGenerator.generateId(), new ArrayList<Scene>());
+        Novel novel = new Novel(new ArrayList<Scene>());
         novel.addScene(scene);
         return novel;
     }
