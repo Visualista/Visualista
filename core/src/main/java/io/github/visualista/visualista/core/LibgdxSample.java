@@ -41,7 +41,7 @@ public class LibgdxSample implements ApplicationListener {
         //stage.addActor(label);
 
         Drawable cursor = new TextureRegionDrawable(new TextureRegion(
-                new Texture(Gdx.files.internal("icons/cursor.png"))));
+                new Texture(Gdx.files.internal("icons/hand.png"))));
         ImageButton leftButton = new ImageButton(cursor);
         leftButton.setX(69);
         leftButton.setY(100);
