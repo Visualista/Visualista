@@ -32,4 +32,21 @@ public class Visualista {
 	public void updateCurrentNovel(){
 		
 	}
+	
+	private void saveNovelIfNeeded(){
+		//TODO Code to handle saving
+	}
+	
+	public void openNovel(File file){
+		saveNovelIfNeeded();
+		//TODO add file fetch
+		setCurrentNovel(novel);
+		
+	}
+	
+	public void createNewNovel(){
+		saveNovelIfNeeded();
+		Novel newNovel = novelFactory.createNovel();
+		setCurrentNovel(newNovel);
+	}
 }
