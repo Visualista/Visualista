@@ -19,6 +19,7 @@ public class VisualistaDesktop {
 		config.width = 1100;
 		config.height = 700;
 		//new LwjglApplication(new LibgdxSample(), config);
-		new LwjglApplication(new VisualistaEditor(new DesktopFilePicker()), config);
+		LwjglApplication temp = new LwjglApplication(new VisualistaEditor(new DesktopFilePicker(null)), config);
+		
 	}
 }
