@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package io.github.visualista.visualista.java;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
@@ -23,3 +24,4 @@ public class VisualistaDesktop {
 		
 	}
 }
+

@@ -29,31 +29,23 @@ public class LibgdxSample implements ApplicationListener {
 
     @Override
     public void create() {
-        stage = new Stage(1800, 900, true);
+        stage = new Stage(900, 900, true);
         stage.clear();
-
-        //Skin uiSkin = new Skin(Gdx.files.internal("uiskin.json.txt"));
-        //Label label = new Label("Hej", uiSkin);
-        //label.setX(500);
-        //label.setY(500);
-        //label.setWidth(100);
-        //label.setHeight(100);
-        //stage.addActor(label);
 
         Drawable cursor = new TextureRegionDrawable(new TextureRegion(
                 new Texture(Gdx.files.internal("icons/cursor.png"))));
         ImageButton leftButton = new ImageButton(cursor);
-        leftButton.setX(69);
-        leftButton.setY(100);
-        leftButton.setWidth(100);
-        leftButton.setHeight(100);
+        leftButton.setX(500);
+        leftButton.setY(500);
+        leftButton.setWidth(200);
+        leftButton.setHeight(200);
         stage.addActor(leftButton);
 
         Drawable hand = new TextureRegionDrawable(new TextureRegion(
                 new Texture(Gdx.files.internal("icons/hand.png"))));
         ImageButton centerButton = new ImageButton(hand);
-        leftButton.setX(171);
-        leftButton.setY(100);
+        leftButton.setX(271);
+        leftButton.setY(200);
         leftButton.setWidth(100);
         leftButton.setHeight(100);
         stage.addActor(centerButton);
@@ -61,8 +53,8 @@ public class LibgdxSample implements ApplicationListener {
         Drawable arrow = new TextureRegionDrawable(new TextureRegion(
                 new Texture(Gdx.files.internal("icons/arrow.png"))));
         ImageButton rightButton = new ImageButton(arrow);
-        leftButton.setX(273);
-        leftButton.setY(100);
+        leftButton.setX(473);
+        leftButton.setY(400);
         leftButton.setWidth(100);
         leftButton.setHeight(100);
         stage.addActor(rightButton);
