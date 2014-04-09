@@ -30,9 +30,10 @@ public class CollectionLoader<E extends Identifiable> {
 	private void loadObjects(File folder) {
 
 		for (final File file : folder.listFiles()) {
+			FileLoader<E> fileLoader = new FileLoader<E>(objectFactory);
 			if (!file.isDirectory()) {
 				try {
-					E obj = getObjectFromFile(file);
+					E obj = fileLoader.getObjectFromFile(file);
 					objects.add(obj);
 				} catch (FileNotFoundException fnfe) {
 					System.out.println("File not readable!");
@@ -45,15 +46,4 @@ public class CollectionLoader<E extends Identifiable> {
 	public Collection<E> getObjects() {
 		return objects;
 	}
-
-	private E getObjectFromFile(File file) throws FileNotFoundException {
-		Scanner sc = new Scanner(file);
-		StringBuilder sb = new StringBuilder();
-		while (sc.hasNext()) {
-			sb.append(sc.next());
-		}
-		sc.close();
-		return objectFactory.createObject(sb.toString());
-	}
-
 }
