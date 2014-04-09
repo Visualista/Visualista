@@ -25,19 +25,11 @@ public class CollectionSaver<E extends Identifiable> {
 	}
 	
 	public void saveCollection(Collection<E> objects){
+		FileSaver<E> fileSaver = new FileSaver<E>(xstream);
 		for(E object : objects){
-			File outputFile = new File(folder.getAbsolutePath(),object.getId()+".vis");
-			
-			try {
-				FileOutputStream fos= new FileOutputStream(outputFile);
-				try{
-				xstream.toXML(object, fos);
-				}
-				finally{
-					fos.close();
-				}
-			}catch(IOException e){
-			}
+			File outputFile = new File(folder.getAbsolutePath(), object.getId()
+					+ ".vis");
+			fileSaver.saveObjectToFile(outputFile, object);
 			
 
 		}
