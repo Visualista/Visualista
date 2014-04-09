@@ -1,8 +1,10 @@
 package io.github.visualista.visualista.core.model;
 
+import io.github.visualista.visualista.util.Nameable;
+
 import java.util.*;
 
-public class Scene{
+public class Scene implements Nameable{
     private final Grid grid;
     
     private final List<Actor> actorsInScene;

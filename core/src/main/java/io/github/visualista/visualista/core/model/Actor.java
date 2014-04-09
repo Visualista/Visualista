@@ -1,9 +1,11 @@
 package io.github.visualista.visualista.core.model;
 
+import io.github.visualista.visualista.util.Nameable;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Actor{
+public class Actor implements Nameable{
 
 	public static final Actor EMPTY_ACTOR = new Actor();
 	private Image image;

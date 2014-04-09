@@ -1,11 +1,10 @@
 package io.github.visualista.visualista.core.model;
 
-import io.github.visualista.visualista.util.Identifiable;
+import io.github.visualista.visualista.util.Nameable;
 
 import java.util.*;
 
-public class Novel implements Identifiable{
-	private final Integer id;
+public class Novel implements Nameable{
 	List<Scene> scenes;
     private String name;
 
@@ -17,8 +16,8 @@ public class Novel implements Identifiable{
         this.name = name;
     }
 
-    public Novel(Integer id, List<Scene> scenes) {
-        this.id = id;
+    public Novel(List<Scene> scenes) {
+    	setName("NewNovel");
     	this.scenes = scenes;
     }
 
@@ -32,11 +31,6 @@ public class Novel implements Identifiable{
 
 	public List<Scene> getScenes() {
 		return scenes;
-	}
-
-	@Override
-	public Integer getId() {
-		return id;
 	}
 
 }
