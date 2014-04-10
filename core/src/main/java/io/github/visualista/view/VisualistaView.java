@@ -1,8 +1,10 @@
 package io.github.visualista.view;
 
 import io.github.visualista.visualista.core.model.Actor;
+
 import java.io.File;
 import java.util.logging.FileHandler;
+
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
@@ -10,6 +12,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -86,35 +91,36 @@ public class VisualistaView implements ApplicationListener {
         stage.addActor(centerButton);
         stage.addActor(rightButton);
 
-        createTable();
-
         Actor a1 = new Actor();
         a1.setName("Jacob");
         Actor a2 = new Actor();
         a2.setName("Ja");
         String[] actors = { a1.getName(), a2.getName() };
 
-        List list = new List(actors, uiSkin);
+        List list = new BorderList(actors, uiSkin);
         list.setPosition(20, 0);
         list.setSize(400, 600);
         list.setColor(Color.BLACK);
-        ;
+
+        list.addCaptureListener(new EventListener() {
+
+            @Override
+            public boolean handle(Event event) {
+                if (event instanceof InputEvent) {
+                    InputEvent inputEvent = (InputEvent) event;
+                    Gdx.app.log("Handle event", "" + inputEvent.getType());
+                }
+                return false;
+            }
+
+        });
         stage.addActor(list);
 
         newActorButton = new TextButton("New", uiSkin);
         newActorButton.setSize(100, 20);
         newActorButton.setPosition(320, 200);
         stage.addActor(newActorButton);
-
-    }
-
-    public void createTable() {
-        /*
-         * table = new Table(uiSkin); table.setX(20); table.setY(200);
-         * table.setWidth(300); table.setHeight(600);
-         * table.setColor(Color.BLACK); table.add(rightButton);
-         * stage.addActor(table);
-         */
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
@@ -127,7 +133,6 @@ public class VisualistaView implements ApplicationListener {
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
-
     }
 
     @Override
