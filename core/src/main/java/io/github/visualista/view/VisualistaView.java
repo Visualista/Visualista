@@ -46,6 +46,8 @@ public class VisualistaView implements ApplicationListener {
     private TextButton actorsButton;
     private TextButton dialogsButton;
 
+    private Border leftBorder;
+
     // private TextureAtlas atlas;
 
     @Override
@@ -53,8 +55,10 @@ public class VisualistaView implements ApplicationListener {
         stage = new Stage(1800, 900, true);
         stage.clear();
 
-        // atlas = new TextureAtlas(
-        // Gdx.files.internal("uiskin.atlas"));
+        leftBorder = new Border(null);
+        leftBorder.setSize(450, 1800);
+        leftBorder.setPosition(0, 0);
+        stage.addActor(leftBorder);
 
         uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
         Label label = new Label("Hej", uiSkin);
