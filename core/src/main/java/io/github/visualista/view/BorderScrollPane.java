@@ -45,9 +45,39 @@ public class BorderScrollPane extends ScrollPane {
     }
 
     @Override
+    public float getWidth() {
+        return super.getWidth() + 3;
+    }
+
+    @Override
+    public float getRight() {
+        return super.getRight() + 3;
+    }
+
+    @Override
+    public void setX(float x) {
+        super.setX(x + 2);
+    }
+
+    @Override
+    public void setY(float y) {
+        super.setY(y + 2);
+    }
+
+    @Override
+    public float getX() {
+        return super.getX() - 2;
+    }
+
+    @Override
+    public float getY() {
+        return super.getY() - 2;
+    }
+
+    @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
         batch.draw(blackTexture, this.getX() - 2, this.getY() - 2,
-                this.getWidth()+3, this.getHeight()+3);
+                this.getWidth() + 3, this.getHeight() + 3);
         batch.draw(whiteTexture, this.getX() - 1, this.getY() - 1,
                 this.getWidth() - 2, this.getHeight() - 2);
         super.draw(batch, parentAlpha);

@@ -43,17 +43,19 @@ public class VisualistaView implements ApplicationListener {
     private ImageButton centerButton;
     private ImageButton rightButton;
     private TextButton newActorButton;
+    private TextButton actorsButton;
+    private TextButton dialogsButton;
 
-   // private TextureAtlas atlas;
+    // private TextureAtlas atlas;
 
     @Override
     public void create() {
         stage = new Stage(1800, 900, true);
         stage.clear();
 
-      //  atlas = new TextureAtlas(
-      //          Gdx.files.internal("uiskin.atlas"));
-        
+        // atlas = new TextureAtlas(
+        // Gdx.files.internal("uiskin.atlas"));
+
         uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
         Label label = new Label("Hej", uiSkin);
         label.setX(500);
@@ -66,7 +68,7 @@ public class VisualistaView implements ApplicationListener {
         Drawable cursor = new TextureRegionDrawable(new TextureRegion(
                 new Texture(Gdx.files.internal("icons/cursor.png"))));
         leftButton = new ImageButton(cursor);
-        leftButton.setX(20);
+        leftButton.setX(60);
         leftButton.setY(750);
         leftButton.setWidth(50);
         leftButton.setHeight(50);
@@ -86,10 +88,10 @@ public class VisualistaView implements ApplicationListener {
                 new Texture(Gdx.files.internal("icons/arrow.png"))));
 
         rightButton = new ImageButton(arrow);
-        rightButton.setX(326);
+        rightButton.setX(286);
         rightButton.setY(750);
-        rightButton.setWidth(100);
-        rightButton.setHeight(100);
+        rightButton.setWidth(50);
+        rightButton.setHeight(50);
         rightButton.addListener(new ClickListener());
 
         stage.addActor(leftButton);
@@ -114,7 +116,7 @@ public class VisualistaView implements ApplicationListener {
 
         list.setSize(400, 400);
         list.setColor(Color.BLACK);
-       
+
         ScrollPane scroll = new BorderScrollPane(list, uiSkin);
         scroll.setPosition(20, 200);
         scroll.setSize(400, 400);
@@ -138,6 +140,17 @@ public class VisualistaView implements ApplicationListener {
         newActorButton.setSize(100, 20);
         newActorButton.setPosition(320, 178);
         stage.addActor(newActorButton);
+
+        actorsButton = new TextButton("Actors", uiSkin);
+        actorsButton.setSize(150, 20);
+        actorsButton.setPosition(20, 602);
+        stage.addActor(actorsButton);
+
+        dialogsButton = new TextButton("Dialogs", uiSkin);
+        dialogsButton.setSize(150, 20);
+        dialogsButton.setPosition(172, 602);
+        stage.addActor(dialogsButton);
+
         Gdx.input.setInputProcessor(stage);
     }
 
