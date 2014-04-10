@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -19,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -42,13 +44,16 @@ public class VisualistaView implements ApplicationListener {
     private ImageButton rightButton;
     private TextButton newActorButton;
 
-    private Table table;
+   // private TextureAtlas atlas;
 
     @Override
     public void create() {
         stage = new Stage(1800, 900, true);
         stage.clear();
 
+      //  atlas = new TextureAtlas(
+      //          Gdx.files.internal("uiskin.atlas"));
+        
         uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
         Label label = new Label("Hej", uiSkin);
         label.setX(500);
@@ -59,7 +64,7 @@ public class VisualistaView implements ApplicationListener {
         // stage.addActor(label);
 
         Drawable cursor = new TextureRegionDrawable(new TextureRegion(
-                new Texture(Gdx.files.internal("icons/cursor2.png"))));
+                new Texture(Gdx.files.internal("icons/cursor.png"))));
         leftButton = new ImageButton(cursor);
         leftButton.setX(20);
         leftButton.setY(750);
@@ -95,12 +100,26 @@ public class VisualistaView implements ApplicationListener {
         a1.setName("Jacob");
         Actor a2 = new Actor();
         a2.setName("Ja");
-        String[] actors = { a1.getName(), a2.getName() };
+        String[] actors = { a1.getName(), a2.getName(), a2.getName(),
+                a2.getName(), a2.getName(), a2.getName(), a2.getName(),
+                a2.getName(), a2.getName(), a2.getName(), a2.getName(),
+                a2.getName(), a2.getName(), a2.getName(), a2.getName(),
+                a2.getName(), a2.getName(), a2.getName(), a2.getName(),
+                a2.getName(), a2.getName(), a2.getName(), a2.getName(),
+                a2.getName(), a2.getName(), a2.getName(), a2.getName(),
+                a2.getName(), a2.getName(), a2.getName(), a2.getName(),
+                a2.getName() };
 
-        List list = new BorderList(actors, uiSkin);
-        list.setPosition(20, 0);
-        list.setSize(400, 600);
+        List list = new List(actors, uiSkin);
+
+        list.setSize(400, 400);
         list.setColor(Color.BLACK);
+       
+        ScrollPane scroll = new BorderScrollPane(list, uiSkin);
+        scroll.setPosition(20, 200);
+        scroll.setSize(400, 400);
+        scroll.setFadeScrollBars(false);
+        stage.addActor(scroll);
 
         list.addCaptureListener(new EventListener() {
 
@@ -114,11 +133,10 @@ public class VisualistaView implements ApplicationListener {
             }
 
         });
-        stage.addActor(list);
 
         newActorButton = new TextButton("New", uiSkin);
         newActorButton.setSize(100, 20);
-        newActorButton.setPosition(320, 200);
+        newActorButton.setPosition(320, 178);
         stage.addActor(newActorButton);
         Gdx.input.setInputProcessor(stage);
     }
