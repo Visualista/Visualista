@@ -2,6 +2,8 @@ package io.github.visualista.visualista.core;
 
 import java.io.File;
 
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -73,7 +75,7 @@ public class VisualistaEditor implements ApplicationListener,
 				if(event instanceof InputEvent){
 					InputEvent inputEvent = (InputEvent)event;
 					if(inputEvent.getType() == InputEvent.Type.touchDown){
-						filePicker.fileDialog(VisualistaEditor.this, true);
+						filePicker.fileDialog(VisualistaEditor.this, true, new FileNameExtensionFilter("Visualista Novel", "vis"));
 					}
 					return true;
 				}
