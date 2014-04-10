@@ -4,6 +4,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
+import io.github.visualista.view.VisualistaView;
 import io.github.visualista.visualista.core.LibgdxSample;
 import io.github.visualista.visualista.core.TestGame;
 import io.github.visualista.visualista.core.VisualistaEditor;
@@ -16,10 +17,10 @@ public class VisualistaDesktop {
 	public static void main (String[] args) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.useGL20 = true;
-		config.width = 1100;
-		config.height = 700;
+		config.width = 1800;
+		config.height = 900;
 		//new LwjglApplication(new LibgdxSample(), config);
-		LwjglApplication temp = new LwjglApplication(new VisualistaEditor(new DesktopFilePicker(null)), config);
+		LwjglApplication temp = new LwjglApplication(new VisualistaView(), config);
 		
 	}
 }
