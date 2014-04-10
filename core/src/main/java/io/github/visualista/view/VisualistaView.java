@@ -2,16 +2,11 @@ package io.github.visualista.view;
 
 import io.github.visualista.visualista.core.model.Actor;
 
-import java.io.File;
-import java.util.logging.FileHandler;
+import java.util.*;
 
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -45,8 +40,15 @@ public class VisualistaView implements ApplicationListener {
     private TextButton newActorButton;
     private TextButton actorsButton;
     private TextButton dialogsButton;
+    private TextButton newSceneButton;
+
+    private ArrayList<TextButton> sceneButtons;
+    private ArrayList<ImageButton> gridButtons;
 
     private Border leftBorder;
+    private Border rightBorder;
+    private Border upperBorder;
+    private Border lowerBorder;
 
     // private TextureAtlas atlas;
 
@@ -55,12 +57,41 @@ public class VisualistaView implements ApplicationListener {
         stage = new Stage(1800, 900, true);
         stage.clear();
 
+        uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
+
+        gridButtons = new ArrayList<ImageButton>();
+
+        Drawable tile = new TextureRegionDrawable(new TextureRegion(
+                new Texture(Gdx.files.internal("icons/hand.png"))));
+        for (int i = 0; i < 25; i++) {
+            gridButtons.add(new ImageButton(tile));
+        }
+
+        newSceneButton = new TextButton("+", uiSkin);
+
+        sceneButtons = new ArrayList<TextButton>();
+        sceneButtons.add(new TextButton("Scene1", uiSkin));
+
         leftBorder = new Border(null);
         leftBorder.setSize(450, 1800);
         leftBorder.setPosition(0, 0);
         stage.addActor(leftBorder);
 
-        uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
+        rightBorder = new Border(null);
+        rightBorder.setSize(450, 1800);
+        rightBorder.setPosition(1350, 0);
+        stage.addActor(rightBorder);
+
+        upperBorder = new Border(null);
+        upperBorder.setSize(900, 200);
+        upperBorder.setPosition(450, 700);
+        stage.addActor(upperBorder);
+
+        lowerBorder = new Border(null);
+        lowerBorder.setSize(900, 200);
+        lowerBorder.setPosition(450, 0);
+        stage.addActor(lowerBorder);
+
         Label label = new Label("Hej", uiSkin);
         label.setX(500);
         label.setY(500);
@@ -155,7 +186,35 @@ public class VisualistaView implements ApplicationListener {
         dialogsButton.setPosition(172, 602);
         stage.addActor(dialogsButton);
 
+        placeSceneButtons();
+        placeGrid();
+
         Gdx.input.setInputProcessor(stage);
+    }
+
+    public void placeGrid() {
+        int x = 400;
+        int y = 600;
+        for (int i = 0; i < 5; i++) {
+            gridButtons.get(i).setSize(50, 50);
+            x = x + 50;
+            for (int j = 0; j < 5; j++) {
+                gridButtons.get(j).setPosition(x, y);
+                stage.addActor(gridButtons.get(j));
+                y = y - 50;
+            }
+        }
+    }
+
+    public void placeSceneButtons() {
+        for (int i = 0; i < sceneButtons.size(); i++) {
+            sceneButtons.get(i).setSize(70, 20);
+            sceneButtons.get(i).setPosition(452, 701);
+            stage.addActor(sceneButtons.get(i));
+        }
+        newSceneButton.setSize(20, 20);
+        newSceneButton.setPosition(452 + 70 * sceneButtons.size() + 1, 701);
+        stage.addActor(newSceneButton);
     }
 
     @Override
