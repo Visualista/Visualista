@@ -5,11 +5,11 @@ import io.github.visualista.visualista.util.Nameable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Actor implements Nameable {
+public class Actor implements Nameable, IActor {
 
 	public static final Actor EMPTY_ACTOR = new Actor();
 	private Image image;
-	private final List<IAction> actions;
+	private final List<IEditAction> actions;
 	private String name;
 
 	public String getName() {
@@ -20,20 +20,20 @@ public class Actor implements Nameable {
 		this.name = name;
 	}
 
-	public Actor() {
-		actions = new ArrayList<IAction>();
+	public Actor(){
+		actions = new ArrayList<IEditAction>();
 		image = new Image();
 	}
-
-	public List<IAction> getActions() {
+	
+		public List<IEditAction> getActions(){
 		return actions;
 	}
-
-	public void addAction(IAction action) {
+	
+	public void addAction(IEditAction action){
 		actions.add(action);
 	}
-
-	public void removeAction(IAction action) {
+	
+	public void removeAction(IEditAction action){
 		actions.remove(action);
 	}
 
