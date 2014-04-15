@@ -235,28 +235,28 @@ public class VisualistaView implements ApplicationListener {
         actorImage.setPosition(1530, 650);
         stage.addActor(actorImage);
 
-        gridButtons.get(1).setSize(50, 50);
-        gridButtons.get(1).setPosition(1500, 600);
-        stage.addActor(gridButtons.get(1));
-
         placeSceneButtons();
-        // placeGrid();
+        placeGrid();
 
         Gdx.input.setInputProcessor(stage);
     }
 
     public void placeGrid() {
-        int x = 900;
-        int y = 600;
-        for (int i = 0; i < 5; i++) {
-            gridButtons.get(i).setSize(50, 50);
-            x = x + 52;
-            for (int j = 0; j < 5; j++) {
-                gridButtons.get(j).setPosition(x, y);
-                stage.addActor(gridButtons.get(j));
-                y = y - 50;
-            }
+        int y = 580;
+        int x = 700;
+        for (int i = 0; i < 25; i++) {
+            gridButtons.get(i).setSize(80, 80);
+            gridButtons.get(i).setPosition(x, y);
+            stage.addActor(gridButtons.get(i));
+
+            if (i == 4 || i == 9 || i == 14 || i == 19) {
+                x = x + 81;
+                y = 580;
+            } else
+                y = y - 81;
+
         }
+
     }
 
     public void placeSceneButtons() {
