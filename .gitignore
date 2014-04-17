@@ -5,3 +5,7 @@
 *.war
 *.ear
 Thumbs.db
+
+#folders
+bin/
+.settings/
