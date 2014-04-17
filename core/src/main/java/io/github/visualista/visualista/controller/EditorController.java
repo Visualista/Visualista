@@ -1,16 +1,14 @@
 package io.github.visualista.visualista.controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 
-public class EditorController implements ActionListener{
+public class EditorController implements EventListener{
 
 	@Override
-	public void actionPerformed(ActionEvent ae) {
+	public boolean handle(Event event) {
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 
 }
