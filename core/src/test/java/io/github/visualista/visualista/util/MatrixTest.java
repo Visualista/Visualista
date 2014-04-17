@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.util.Random;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+
 import org.junit.Test;
 
 public class MatrixTest {
@@ -61,5 +63,10 @@ public class MatrixTest {
 				assertNotNull(matrix.getAt(new Point(i, j)));
 			}
 		}
+	}
+	
+	@Test
+	public void equalsContract() {
+		EqualsVerifier.forClass(Matrix.class).verify();
 	}
 }
