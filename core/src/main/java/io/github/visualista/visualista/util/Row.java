@@ -32,22 +32,23 @@ public class Row<E>{
 		return "Row [row=" + Arrays.toString(row) + "]";
 	}
 	@Override
-	public int hashCode() {
+	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Arrays.hashCode(row);
+		result = prime * result + Arrays.deepHashCode(row);
 		return result;
 	}
 	@Override
-	public boolean equals(Object obj) {
+	public final boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (!(obj instanceof Row))
 			return false;
+		@SuppressWarnings("rawtypes")
 		Row other = (Row) obj;
-		if (!Arrays.equals(row, other.row))
+		if (!Arrays.deepEquals(row, other.row))
 			return false;
 		return true;
 	}
