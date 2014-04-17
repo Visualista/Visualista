@@ -1,5 +1,7 @@
 package io.github.visualista.visualista.util;
 
+import java.util.Arrays;
+
 public class Row<E>{
 	private final E[] row;
 	@SuppressWarnings("unchecked")
@@ -9,10 +11,9 @@ public class Row<E>{
 	private Row(E[] row){
 		this.row = row;
 	}
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Override
-	protected Object clone(){
-		return new Row(row.clone());
+	
+	public Row(Row<E> row){
+		this((E[])row.row.clone());
 	}
 
 	public int getLength(){
@@ -25,5 +26,29 @@ public class Row<E>{
 	
 	public E getAt(int i){
 		return row[i];
+	}
+	@Override
+	public String toString() {
+		return "Row [row=" + Arrays.toString(row) + "]";
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(row);
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Row))
+			return false;
+		Row other = (Row) obj;
+		if (!Arrays.equals(row, other.row))
+			return false;
+		return true;
 	}
 }

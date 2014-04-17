@@ -2,7 +2,6 @@ package io.github.visualista.visualista.model;
 
 import static org.junit.Assert.*;
 import io.github.visualista.visualista.core.model.*;
-//import static org.hamcrest.CoreMatchers.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,12 +23,14 @@ public class ActorTest {
 	@Test
 	public void testActions() {
 		Actor actor2 = new Actor();
-		IAction action = new IAction() {
+		IEditAction action = new IEditAction() {
 
 			@Override
-			public void callAction() {
-				
+			public String getExplainatoryName() {
+				// TODO Auto-generated method stub
+				return null;
 			}
+
 		};
 		actor2.addAction(action);
 		assertEquals(1, actor2.getActions().size());
@@ -45,8 +46,4 @@ public class ActorTest {
 		assertEquals(testString, actor.getName());
 	}
 	
-	@Test
-	public void testToString() {
-		fail("Not yet implemented");
-	}
 }
