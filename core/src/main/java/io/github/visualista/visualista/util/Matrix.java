@@ -1,5 +1,7 @@
 package io.github.visualista.visualista.util;
 
+import java.util.Arrays;
+
 public class Matrix<E> implements IMatrixGet<E>,IMatrixSet<E> {
 	private final Row<E>[] matrix;
 
@@ -40,6 +42,29 @@ public class Matrix<E> implements IMatrixGet<E>,IMatrixSet<E> {
 	@Override
 	public void setAt(Point where, E object) {
 		matrix[where.getY()].setAt(where.getX(), object);
+	}
+
+	@Override
+	public final int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.deepHashCode(matrix);
+		return result;
+	}
+
+	@Override
+	public final boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Matrix))
+			return false;
+		@SuppressWarnings("rawtypes")
+		Matrix other = (Matrix) obj;
+		if (!Arrays.deepEquals(matrix, other.matrix))
+			return false;
+		return true;
 	}
 
 }
