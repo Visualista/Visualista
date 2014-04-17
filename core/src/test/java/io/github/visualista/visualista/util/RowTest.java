@@ -42,7 +42,7 @@ public class RowTest {
 	
 	@Test
 	public void equalsContract() {
-		EqualsVerifier.forClass(Dimension.class).verify();
+		EqualsVerifier.forClass(Row.class).verify();
 	}
 
 }
