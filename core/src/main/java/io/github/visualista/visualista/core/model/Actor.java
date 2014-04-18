@@ -5,7 +5,7 @@ import io.github.visualista.visualista.util.Nameable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Actor implements Nameable, IActor {
+public class Actor implements Nameable, IEditActor {
 
 	public static final Actor EMPTY_ACTOR = new Actor();
 	private Image image;
