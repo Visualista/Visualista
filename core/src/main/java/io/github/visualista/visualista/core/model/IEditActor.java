@@ -2,7 +2,7 @@ package io.github.visualista.visualista.core.model;
 
 import java.util.List;
 
-public interface IActor {
+public interface IEditActor {
 	
 	public String getName();
 	

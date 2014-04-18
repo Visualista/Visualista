@@ -4,7 +4,7 @@ import io.github.visualista.visualista.util.Nameable;
 
 import java.util.*;
 
-public class Scene implements Nameable{
+public class Scene implements Nameable, IEditScene{
     private final Grid grid;
     
     private final List<Actor> actorsInScene;

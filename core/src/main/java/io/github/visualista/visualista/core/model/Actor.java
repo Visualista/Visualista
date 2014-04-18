@@ -6,7 +6,7 @@ import io.github.visualista.visualista.util.Nameable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Actor extends ActorEventSource implements Nameable, IActor, IPlayActor {
+public class Actor extends ActorEventSource implements Nameable, IPlayActor {
 
 	public static final Actor EMPTY_ACTOR = new Actor();
 	private Image image;
