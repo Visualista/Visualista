@@ -44,12 +44,14 @@
 				<module>desktop</module>
 			</modules>
 		</profile>
+		<!--
 		<profile>
 			<id>android</id>
 			<modules>
 				<module>android</module>
 			</modules>
 		</profile>
+		 
 		<profile>
 			<id>html</id>
 			<modules>
@@ -62,12 +64,15 @@
 				<module>ios</module>
 			</modules>
 		</profile>
+		-->
 	</profiles>
 
 	<modules>
 		<module>core</module>
 		<module>desktop</module>
+		<!--
 		<module>html</module>
+		-->
 	</modules>
 	<dependencies>
 		<dependency>
