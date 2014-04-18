@@ -12,5 +12,5 @@ public interface IActor {
 	
 	public void setImage(Image newImage);
 	
-	public List<IEditAction> getActions();
+	public List<IAction> getActions();
 }
