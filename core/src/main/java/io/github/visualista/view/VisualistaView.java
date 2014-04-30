@@ -79,7 +79,7 @@ public class VisualistaView implements ApplicationListener {
 
         newSceneButton = new TextButton("+", uiSkin);
 
-        newSceneButton.addCaptureListener(new EventListener() {
+        newSceneButton.addCaptureListener(new ClickListener() {
 
             @Override
             public boolean handle(Event event) {
@@ -275,9 +275,12 @@ public class VisualistaView implements ApplicationListener {
     }
 
     public void placeSceneButtons() {
+        int x = 452;
         for (int i = 0; i < sceneButtons.size(); i++) {
             sceneButtons.get(i).setSize(70, 20);
-            sceneButtons.get(i).setPosition(452, 701);
+            sceneButtons.get(i).setPosition(x, 701);
+            x = x +70;
+            
             stage.addActor(sceneButtons.get(i));
         }
         newSceneButton.setSize(20, 20);
