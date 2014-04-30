@@ -79,6 +79,21 @@ public class VisualistaView implements ApplicationListener {
 
         newSceneButton = new TextButton("+", uiSkin);
 
+        newSceneButton.addCaptureListener(new EventListener() {
+
+            @Override
+            public boolean handle(Event event) {
+                if (event instanceof InputEvent) {
+                    InputEvent inputEvent = (InputEvent) event;
+                    sceneButtons.add(new TextButton("Scene"
+                            + sceneButtons.size(), uiSkin));
+                    placeSceneButtons();
+                }
+                return false;
+            }
+
+        });
+
         sceneButtons = new ArrayList<TextButton>();
         sceneButtons.add(new TextButton("Scene1", uiSkin));
 
