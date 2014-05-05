@@ -5,7 +5,7 @@
     This configuration file was written by the eclipse-cs plugin configuration editor
 -->
 <!--
-    Checkstyle-Configuration: Visualista
+    Checkstyle-Configuration: Visualista checkstyle
     Description: none
 -->
 <module name="Checker">
@@ -27,23 +27,6 @@
     <module name="LineLength"/>
     <module name="MethodLength"/>
     <module name="ParameterNumber"/>
-    <module name="EmptyForIteratorPad">
-      <property name="option" value="space"/>
-    </module>
-    <module name="MethodParamPad"/>
-    <module name="NoWhitespaceAfter"/>
-    <module name="NoWhitespaceBefore"/>
-    <module name="OperatorWrap"/>
-    <module name="ParenPad"/>
-    <module name="TypecastParenPad"/>
-    <module name="WhitespaceAfter">
-      <property name="severity" value="ignore"/>
-      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-    </module>
-    <module name="WhitespaceAround">
-      <property name="severity" value="ignore"/>
-      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-    </module>
     <module name="ModifierOrder"/>
     <module name="RedundantModifier"/>
     <module name="AvoidNestedBlocks"/>
@@ -119,19 +102,6 @@
     <module name="ArrayTrailingComma"/>
     <module name="UnnecessaryParentheses"/>
     <module name="OneStatementPerLine"/>
-    <module name="GenericWhitespace"/>
-    <module name="EmptyForInitializerPad"/>
-    <module name="EmptyForIteratorPad"/>
-    <module name="NoWhitespaceAfter"/>
-    <module name="NoWhitespaceBefore"/>
-    <module name="OperatorWrap"/>
-    <module name="MethodParamPad"/>
-    <module name="ParenPad"/>
-    <module name="TypecastParenPad">
-      <property name="tokens" value="RPAREN,TYPECAST"/>
-    </module>
-    <module name="WhitespaceAfter"/>
-    <module name="WhitespaceAround"/>
     <module name="AbstractClassName"/>
     <module name="ClassTypeParameterName"/>
     <module name="ConstantName"/>
@@ -188,7 +158,6 @@
   <module name="NewlineAtEndOfFile"/>
   <module name="Translation"/>
   <module name="FileLength"/>
-  <module name="FileTabCharacter"/>
   <module name="FileLength"/>
   <module name="StrictDuplicateCode"/>
   <module name="NewlineAtEndOfFile"/>
