@@ -6,19 +6,19 @@ import java.util.List;
 
 public class ActorEventSource {
 	private final List<ActorListener> actorEventListeners = new ArrayList<ActorListener>();
-	
-	public synchronized void addEventListener(ActorListener actorListener){
+
+	public synchronized void addEventListener(ActorListener actorListener) {
 		actorEventListeners.add(actorListener);
 	}
-	
-	public synchronized void removeEventListener(ActorListener actorListener){
+
+	public synchronized void removeEventListener(ActorListener actorListener) {
 		actorEventListeners.remove(actorListener);
 	}
-	
-	private synchronized void fireActorEvent(){
+
+	private synchronized void fireActorEvent() {
 		ActorEvent event = new ActorEvent(this);
 		Iterator<ActorListener> eventIterator = actorEventListeners.iterator();
-		while(eventIterator.hasNext()){
+		while (eventIterator.hasNext()) {
 			eventIterator.next().actorCalled(event);
 		}
 	}

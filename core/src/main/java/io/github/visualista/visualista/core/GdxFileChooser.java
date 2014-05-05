@@ -4,7 +4,7 @@
 @Author: fb.com/CrazyCloud8
 
 Licensed under the Apache License, Version 2.0;
-*/
+ */
 
 package io.github.visualista.visualista.core;
 
@@ -45,421 +45,424 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 /** This may be a directory chooser, not a file chooser. Take care. */
 public class GdxFileChooser implements Screen {
 
-    /** This is what a Caller should implement. */
-    public interface Callback {
-        /** the choosed directory */
-        public void choose(String directory);
+	/** This is what a Caller should implement. */
+	public interface Callback {
+		/** the choosed directory */
+		public void choose(String directory);
 
-        /** nothing to choose */
-        public void cancel();
-    }
+		/** nothing to choose */
+		public void cancel();
+	}
 
-    Array<String> items;
-    // public Array<String> getItems() {
-    // return items;
-    // }
+	Array<String> items;
+	// public Array<String> getItems() {
+	// return items;
+	// }
 
-    private final static boolean debug = true;
-    private GdxFileChooser.Callback callback;
+	private final static boolean debug = true;
+	private GdxFileChooser.Callback callback;
 
-    private Stage stage;
-    private Table root;
-    private Table content;
+	private Stage stage;
+	private Table root;
+	private Table content;
 
-    private Skin skin;
-    private Label fpsLabel;
+	private Skin skin;
+	private Label fpsLabel;
 
-    private String directory;
-    private String[] fileFilter;
+	private String directory;
+	private String[] fileFilter;
 
-    private NinePatch patch;
-    private TextField textfield;
-    // private TextButton ok, cancel;
-    private ImageButton ok, cancel;
-    private ImageButton back;
-    private ImageButton refresh;
-    // private SelectBox lastDir;
+	private NinePatch patch;
+	private TextField textfield;
+	// private TextButton ok, cancel;
+	private ImageButton ok, cancel;
+	private ImageButton back;
+	private ImageButton refresh;
+	// private SelectBox lastDir;
 
-    private List list;
-    private SpriteBatch batch;
+	private List list;
+	private SpriteBatch batch;
 
-    private GdxFileChooser() {/*No No*/}
+	private GdxFileChooser() {/* No No */
+	}
 
-    /** normally, you would like this */
-    public GdxFileChooser(GdxFileChooser.Callback c, SpriteBatch b) {
-        this.callback = c;
-        this.batch = b;
-    }
+	/** normally, you would like this */
+	public GdxFileChooser(GdxFileChooser.Callback c, SpriteBatch b) {
+		this.callback = c;
+		this.batch = b;
+	}
 
-    /** this is good for testing, creates own SpriteBatch */
-    public GdxFileChooser(GdxFileChooser.Callback c) {
-        callback = c;
-        batch = new SpriteBatch();
-    }
+	/** this is good for testing, creates own SpriteBatch */
+	public GdxFileChooser(GdxFileChooser.Callback c) {
+		callback = c;
+		batch = new SpriteBatch();
+	}
 
-    /** may be later */
-    public void setFilter(String directory, String... fileFilter) {
-        this.directory = directory;
-        this.fileFilter = fileFilter;
-    }
+	/** may be later */
+	public void setFilter(String directory, String... fileFilter) {
+		this.directory = directory;
+		this.fileFilter = fileFilter;
+	}
 
-    private String getParentPath(String dir) {
-        if (dir==null) return "";
-        int x = dir.lastIndexOf('/');
-        if (x>0) return dir.substring(0,x);
-        return dir;
-    }
+	private String getParentPath(String dir) {
+		if (dir == null)
+			return "";
+		int x = dir.lastIndexOf('/');
+		if (x > 0)
+			return dir.substring(0, x);
+		return dir;
+	}
 
-    /** to make desktop more equal */
-    private String getMyPath(String path) {
-        if (Gdx.app.getType() == ApplicationType.Desktop)
-            return "assets/" + path;
-        return path;
-    }
+	/** to make desktop more equal */
+	private String getMyPath(String path) {
+		if (Gdx.app.getType() == ApplicationType.Desktop)
+			return "assets/" + path;
+		return path;
+	}
 
-    //@Override
-    public void create() {
-        items = new Array<String>();
-        if(debug)
-        	Gdx.app.log("GdxFileChooser", "asset folder "+Gdx.files.internal("data/uiskin.json").exists());
-        
-     // Creates our atlas from our png file containing all the sprites
-        TextureAtlas atlas = new TextureAtlas("uiskin.atlas");
+	// @Override
+	public void create() {
+		items = new Array<String>();
+		if (debug)
+			Gdx.app.log("GdxFileChooser",
+					"asset folder "
+							+ Gdx.files.internal("data/uiskin.json").exists());
 
-        // Create a stage, everything goes on the stage
-        stage = new Stage();
-        // A skin for the stage
-        skin = new Skin(Gdx.files.internal("uiskin.json"), atlas);
-        
-        stage = new Stage(Gdx.graphics.getWidth(),
-                          Gdx.graphics.getHeight(), false, batch);
-        patch = skin.getPatch("default-round");
-        root = new Table();
-        root.setBackground(new NinePatchDrawable(patch));
-        content = new Table();
+		// Creates our atlas from our png file containing all the sprites
+		TextureAtlas atlas = new TextureAtlas("uiskin.atlas");
 
-        textfield = new TextField("", skin);
-        if(debug)
-        	Gdx.app.log("GdxFileChooser", "textfield set "+textfield);
-        textfield.setMessageText("Do not click here!");
-        textfield.setTextFieldListener(new TextFieldListener() {
-            public void keyTyped (TextField textField, char key) {
-                if (key == '\n') {
-                    textField.getOnscreenKeyboard().show(false);
-                    action(-5);
-                }
-            }
-        });
+		// Create a stage, everything goes on the stage
+		stage = new Stage();
+		// A skin for the stage
+		skin = new Skin(Gdx.files.internal("uiskin.json"), atlas);
 
-        refresh = createImageButton("cursor.png");
-        refresh.addListener(new ClickListener() {
-             @Override
-             public void clicked(InputEvent event, float x, float y) {
-                 action(-4);
-             }
-        });
+		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
+				false, batch);
+		patch = skin.getPatch("default-round");
+		root = new Table();
+		root.setBackground(new NinePatchDrawable(patch));
+		content = new Table();
 
-        // ok = new TextButton("OK", skin);
-        ok = createImageButton("hand.png");
-        ok.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                action(-3);
-            }
-        });
+		textfield = new TextField("", skin);
+		if (debug)
+			Gdx.app.log("GdxFileChooser", "textfield set " + textfield);
+		textfield.setMessageText("Do not click here!");
+		textfield.setTextFieldListener(new TextFieldListener() {
+			public void keyTyped(TextField textField, char key) {
+				if (key == '\n') {
+					textField.getOnscreenKeyboard().show(false);
+					action(-5);
+				}
+			}
+		});
 
-        // cancel = new TextButton("Cancel", skin);
-        cancel = createImageButton("hand.png");
-        cancel.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                action(-2);
-            }
-        });
+		refresh = createImageButton("cursor.png");
+		refresh.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				action(-4);
+			}
+		});
 
-        back = createImageButton("hand.png");
-        back.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                action(-1);
-            }
-        });
+		// ok = new TextButton("OK", skin);
+		ok = createImageButton("hand.png");
+		ok.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				action(-3);
+			}
+		});
 
-     // Texture checkOnTex = new Texture(Gdx.files.internal(
-     // getMyPath("data/icons/btn_check_on.png")));
-     // Texture checkOffTex = new Texture(Gdx.files.internal(
-     // getMyPath("data/icons/btn_check_off.png")));
-     // TextureRegion checkOnTR = new TextureRegion(checkOnTex);
-     // TextureRegion checkOffTR = new TextureRegion(checkOffTex);
-     // TextureRegion checkOffTRFlipped = new TextureRegion(checkOffTex);
-     // checkOffTRFlipped.flip(true, false);
-     // ImageButtonStyle it = new ImageButtonStyle(skin.get(ButtonStyle.class));
-     // it.imageUp = new TextureRegionDrawable(checkOffTR);
-     // it.imageDown = new TextureRegionDrawable(checkOffTRFlipped);
-     // it.imageChecked = new TextureRegionDrawable(checkOnTR);
-     // check = new ImageButton(it.imageUp, it.imageDown, it.imageChecked);
-     // // 0.1f, 0.1f, 0.1f, 0.1f,
-     // // it.imageChecked, it.imageDown, it.imageUp);
-     // check.addListener(new ClickListener() {
-     // @Override
-     // public void clicked(InputEvent event, float x, float y) {
-     // action(-5);
-     // }
-     // });
+		// cancel = new TextButton("Cancel", skin);
+		cancel = createImageButton("hand.png");
+		cancel.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				action(-2);
+			}
+		});
 
-        fpsLabel = new Label("fps:", skin);
-        root.setFillParent(true);
+		back = createImageButton("hand.png");
+		back.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				action(-1);
+			}
+		});
 
-        if (debug)
-            root.debug();
-        stage.addActor(root);
-        if (debug)
-            Gdx.app.log("GdxFileChooser", "created: [" + directory + "]");
-    }
+		// Texture checkOnTex = new Texture(Gdx.files.internal(
+		// getMyPath("data/icons/btn_check_on.png")));
+		// Texture checkOffTex = new Texture(Gdx.files.internal(
+		// getMyPath("data/icons/btn_check_off.png")));
+		// TextureRegion checkOnTR = new TextureRegion(checkOnTex);
+		// TextureRegion checkOffTR = new TextureRegion(checkOffTex);
+		// TextureRegion checkOffTRFlipped = new TextureRegion(checkOffTex);
+		// checkOffTRFlipped.flip(true, false);
+		// ImageButtonStyle it = new
+		// ImageButtonStyle(skin.get(ButtonStyle.class));
+		// it.imageUp = new TextureRegionDrawable(checkOffTR);
+		// it.imageDown = new TextureRegionDrawable(checkOffTRFlipped);
+		// it.imageChecked = new TextureRegionDrawable(checkOnTR);
+		// check = new ImageButton(it.imageUp, it.imageDown, it.imageChecked);
+		// // 0.1f, 0.1f, 0.1f, 0.1f,
+		// // it.imageChecked, it.imageDown, it.imageUp);
+		// check.addListener(new ClickListener() {
+		// @Override
+		// public void clicked(InputEvent event, float x, float y) {
+		// action(-5);
+		// }
+		// });
 
-    private ImageButton createImageButton(String name) {
-        Texture texture = new Texture(
-                      Gdx.files.internal(getMyPath("data/icons/" + name)));
-        TextureRegion tRegion = new TextureRegion(texture);
-        TextureRegion tFlip = new TextureRegion(tRegion);
-        tFlip.flip(true, true);
-        ImageButtonStyle is = new ImageButtonStyle(skin.get(ButtonStyle.class));
-        is.imageUp = new TextureRegionDrawable(tRegion);
-        is.imageDown = new TextureRegionDrawable(tFlip);
-        return new ImageButton(is.imageUp, is.imageDown);
-    }
+		fpsLabel = new Label("fps:", skin);
+		root.setFillParent(true);
 
-    @Override
-    public void show() {
-        Gdx.input.setInputProcessor( stage );
-        if (debug)
-            Gdx.app.log("GdxFileChooser", "show " + directory);
-        if(debug)
-        	Gdx.app.log("GdxFileChooser", "textfield "+textfield);
-        textfield.setMessageText( ""+directory );
-        textfield.setText( ""+directory );
+		if (debug)
+			root.debug();
+		stage.addActor(root);
+		if (debug)
+			Gdx.app.log("GdxFileChooser", "created: [" + directory + "]");
+	}
 
-        root.clear();
-        // Table content = getContent(directory); // this is no ponyhof
-        content = getContent(directory);
-        root.setClip(true);
-        root.setSkin(skin);
-        root.bottom();
+	private ImageButton createImageButton(String name) {
+		Texture texture = new Texture(
+				Gdx.files.internal(getMyPath("data/icons/" + name)));
+		TextureRegion tRegion = new TextureRegion(texture);
+		TextureRegion tFlip = new TextureRegion(tRegion);
+		tFlip.flip(true, true);
+		ImageButtonStyle is = new ImageButtonStyle(skin.get(ButtonStyle.class));
+		is.imageUp = new TextureRegionDrawable(tRegion);
+		is.imageDown = new TextureRegionDrawable(tFlip);
+		return new ImageButton(is.imageUp, is.imageDown);
+	}
 
-        ScrollPane scroll = new ScrollPane(content, skin);
-        root.add(scroll).colspan(4).fill();
+	@Override
+	public void show() {
+		Gdx.input.setInputProcessor(stage);
+		if (debug)
+			Gdx.app.log("GdxFileChooser", "show " + directory);
+		if (debug)
+			Gdx.app.log("GdxFileChooser", "textfield " + textfield);
+		textfield.setMessageText("" + directory);
+		textfield.setText("" + directory);
 
-        root.row();
-        root.add(textfield).colspan(4).expandX().fill();
-        root.row();
+		root.clear();
+		// Table content = getContent(directory); // this is no ponyhof
+		content = getContent(directory);
+		root.setClip(true);
+		root.setSkin(skin);
+		root.bottom();
 
-        root.add(ok);
-        root.add(refresh);
-        root.add(back);
-        root.add(cancel);
-        root.add(fpsLabel);
-        root.pack();
-        root.layout();
-    }
+		ScrollPane scroll = new ScrollPane(content, skin);
+		root.add(scroll).colspan(4).fill();
 
-    /** eventually callbacks the caller */
-    private void action(int what) {
-        if (debug)
-            Gdx.app.log("GdxFileChooser", "action " + what);
+		root.row();
+		root.add(textfield).colspan(4).expandX().fill();
+		root.row();
 
-        // back button : go to parent directory
-        if (what==-1) {
-            if (debug)
-                Gdx.app.log("GdxFileChooser", "action back " + what);
-            directory = getParent(directory);
-            show();
-            return;
-        }
-        // cancel button : call back
-        if (what==-2) {
-            if (debug)
-                Gdx.app.log("GdxFileChooser", "action cancel " + what);
-            callback.cancel();
-            return;
-        }
-        // ok button
-        if (what==-3) {
-            if (debug)
-Gdx.app.log("GdxFileChooser", "ok [" + directory + "]");
-            loadItems(directory);
-            callback.choose(directory);
-            return;
-        }
-// refresh
-        if (what==-4) {
-            if (debug)
-Gdx.app.log("GdxFileChooser", "refresh [" + directory + "]");
-show();
-            return;
-        }
-        // manual text edit
-        if (what==-5) {
-            directory = textfield.getText();
-            if (directory.startsWith("http:"))
-callback.choose(directory);
-else show();
-            return;
-        }
-        if (what<0) {
-            if (debug)
-                Gdx.app.log("GdxFileChooser", "strange action " + what);
-            return;
-        }
-        if (what<items.size) {
-            String whats = items.get(what);
-            if (whats.startsWith("http://")) {
-callback.choose(whats);
-                return;
-            }
+		root.add(ok);
+		root.add(refresh);
+		root.add(back);
+		root.add(cancel);
+		root.add(fpsLabel);
+		root.pack();
+		root.layout();
+	}
 
-            directory = getChild( items.get(what) );
-            textfield.setText( directory );
-        }
-        show();
-    }
+	/** eventually callbacks the caller */
+	private void action(int what) {
+		if (debug)
+			Gdx.app.log("GdxFileChooser", "action " + what);
 
-    private String getParent(String directory) {
-        if ( directory.lastIndexOf("/")>0 )
-directory = directory.substring(0, directory.lastIndexOf("/"));
-else directory = "";
-        return directory;
-    }
+		// back button : go to parent directory
+		if (what == -1) {
+			if (debug)
+				Gdx.app.log("GdxFileChooser", "action back " + what);
+			directory = getParent(directory);
+			show();
+			return;
+		}
+		// cancel button : call back
+		if (what == -2) {
+			if (debug)
+				Gdx.app.log("GdxFileChooser", "action cancel " + what);
+			callback.cancel();
+			return;
+		}
+		// ok button
+		if (what == -3) {
+			if (debug)
+				Gdx.app.log("GdxFileChooser", "ok [" + directory + "]");
+			loadItems(directory);
+			callback.choose(directory);
+			return;
+		}
+		// refresh
+		if (what == -4) {
+			if (debug)
+				Gdx.app.log("GdxFileChooser", "refresh [" + directory + "]");
+			show();
+			return;
+		}
+		// manual text edit
+		if (what == -5) {
+			directory = textfield.getText();
+			if (directory.startsWith("http:"))
+				callback.choose(directory);
+			else
+				show();
+			return;
+		}
+		if (what < 0) {
+			if (debug)
+				Gdx.app.log("GdxFileChooser", "strange action " + what);
+			return;
+		}
+		if (what < items.size) {
+			String whats = items.get(what);
+			if (whats.startsWith("http://")) {
+				callback.choose(whats);
+				return;
+			}
 
-private String getChild(String child) {
-        // FileHandle check = Gdx.files.absolute(directory + "/" + child);
-        FileHandle check = Gdx.files.external(directory + "/" + child);
-        if (check.isDirectory()) {
-            directory = directory + "/" + child;
-}
-        if (debug)
-            Gdx.app.log("GdxFileChooser", "selected " + directory + "]");
-return directory;
-}
+			directory = getChild(items.get(what));
+			textfield.setText(directory);
+		}
+		show();
+	}
 
-    public void render(/* so what */) {
-        Gdx.gl.glViewport(0, 0,
-        Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-        // Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
-        fpsLabel.setText("fps: " + Gdx.graphics.getFramesPerSecond());
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        stage.draw();
-        if (debug) Table.drawDebug(stage);
-    }
+	private String getParent(String directory) {
+		if (directory.lastIndexOf("/") > 0)
+			directory = directory.substring(0, directory.lastIndexOf("/"));
+		else
+			directory = "";
+		return directory;
+	}
 
-    private Table getContent(String directory) {
-        content = new Table(); //make new Table prevents exception
-        // content.clear(); // may be later.
-        content.left();
-        List list = getList(directory);
-        content.row();
-        content.add(list);
-        return content;
-    }
+	private String getChild(String child) {
+		// FileHandle check = Gdx.files.absolute(directory + "/" + child);
+		FileHandle check = Gdx.files.external(directory + "/" + child);
+		if (check.isDirectory()) {
+			directory = directory + "/" + child;
+		}
+		if (debug)
+			Gdx.app.log("GdxFileChooser", "selected " + directory + "]");
+		return directory;
+	}
 
-    private List getList(String directory) {
-        items = getItems(directory);
-        list = new List(items.toArray(), skin);
-        list.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    action(list.getSelectedIndex());
-                }
-        });
-        return list;
-    }
+	public void render(/* so what */) {
+		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(),
+				Gdx.graphics.getHeight());
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+		// Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+		fpsLabel.setText("fps: " + Gdx.graphics.getFramesPerSecond());
+		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+		stage.draw();
+		if (debug)
+			Table.drawDebug(stage);
+	}
 
-/**
-private Array<String> getItems(String directory, int start, int off) {
-items.clear();
-FileHandle[] files = Gdx.files.absolute(directory).list();
-if(files==null)
-return items;
-int i=0;
-for(FileHandle f:files) {
-if (f.isDirectory()) {
-if (i<start) continue;
-if (++i>off) break;
-items.add(f.name());
-}
-}
-if (i<off) for(FileHandle f:files) {
-if (!f.isDirectory()) {
-if (++i>off) break;
-items.add(f.name());
-}
-}
-return items;
-}
-**/
+	private Table getContent(String directory) {
+		content = new Table(); // make new Table prevents exception
+		// content.clear(); // may be later.
+		content.left();
+		List list = getList(directory);
+		content.row();
+		content.add(list);
+		return content;
+	}
 
-    private Array<String> getItems(String directory) {
-        items.clear();
-        // FileHandle[] files = Gdx.files.absolute(directory).list();
-        FileHandle[] files = Gdx.files.external(directory).list();
-        getItems(files);
-        // if (items.size<5) {
-        // items.add("http://localhost/~goetz/liste.php?format=json");
-        // }
-        if (items.size==0) {
-             items.add("Nothing found here.");
-}
-        return items;
-    }
+	private List getList(String directory) {
+		items = getItems(directory);
+		list = new List(items.toArray(), skin);
+		list.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				action(list.getSelectedIndex());
+			}
+		});
+		return list;
+	}
 
-    //GH201208
-    private void getItems(FileHandle[] files) {
-        // if(files==null) return ;
-        for(FileHandle f:files) {
-            if (f.isDirectory()) {
-if (f.name().startsWith(".")) ; // hidden
-                else items.add(f.name());
-            } else
-            for (int i=0; i<fileFilter.length; i++) {
-                 if (f.name().endsWith(fileFilter[i]))
-                     items.add(f.name());
-            }
-        }
-    }
+	/**
+	 * private Array<String> getItems(String directory, int start, int off) {
+	 * items.clear(); FileHandle[] files = Gdx.files.absolute(directory).list();
+	 * if(files==null) return items; int i=0; for(FileHandle f:files) { if
+	 * (f.isDirectory()) { if (i<start) continue; if (++i>off) break;
+	 * items.add(f.name()); } } if (i<off) for(FileHandle f:files) { if
+	 * (!f.isDirectory()) { if (++i>off) break; items.add(f.name()); } } return
+	 * items; }
+	 **/
 
-    public void loadItems(String directory) {
-        items.clear();
-        FileHandle[] files = Gdx.files.external(directory).list();
-        for(FileHandle f:files) {
-            for (int i=0; i<fileFilter.length; i++) {
-                if (f.name().endsWith(fileFilter[i]))
-                    items.add(directory + "/" + f.name());
-            }
-        }
-    }
+	private Array<String> getItems(String directory) {
+		items.clear();
+		// FileHandle[] files = Gdx.files.absolute(directory).list();
+		FileHandle[] files = Gdx.files.external(directory).list();
+		getItems(files);
+		// if (items.size<5) {
+		// items.add("http://localhost/~goetz/liste.php?format=json");
+		// }
+		if (items.size == 0) {
+			items.add("Nothing found here.");
+		}
+		return items;
+	}
 
-    @Override
-    public void resume() {}
+	// GH201208
+	private void getItems(FileHandle[] files) {
+		// if(files==null) return ;
+		for (FileHandle f : files) {
+			if (f.isDirectory()) {
+				if (f.name().startsWith("."))
+					; // hidden
+				else
+					items.add(f.name());
+			} else
+				for (int i = 0; i < fileFilter.length; i++) {
+					if (f.name().endsWith(fileFilter[i]))
+						items.add(f.name());
+				}
+		}
+	}
 
-    @Override
-    public void pause() {}
+	public void loadItems(String directory) {
+		items.clear();
+		FileHandle[] files = Gdx.files.external(directory).list();
+		for (FileHandle f : files) {
+			for (int i = 0; i < fileFilter.length; i++) {
+				if (f.name().endsWith(fileFilter[i]))
+					items.add(directory + "/" + f.name());
+			}
+		}
+	}
 
-    @Override
-    public void hide() { root.clear(); }
+	@Override
+	public void resume() {
+	}
 
-    @Override
-    public void render(float f) { render(); }
+	@Override
+	public void pause() {
+	}
 
-    @Override
-    public void resize (int width, int height) {
-        stage.setViewport(width, height, false);
-    }
+	@Override
+	public void hide() {
+		root.clear();
+	}
 
-    @Override
-    public void dispose () {
-        Gdx.app.log("GdxFileChooser", "disposed");
-        stage.dispose();
-        skin.dispose();
-    }
+	@Override
+	public void render(float f) {
+		render();
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		stage.setViewport(width, height, false);
+	}
+
+	@Override
+	public void dispose() {
+		Gdx.app.log("GdxFileChooser", "disposed");
+		stage.dispose();
+		skin.dispose();
+	}
 }

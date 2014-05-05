@@ -64,7 +64,7 @@ public class MatrixTest {
 			}
 		}
 	}
-	
+
 	@Test
 	public void equalsContract() {
 		EqualsVerifier.forClass(Matrix.class).verify();

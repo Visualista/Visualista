@@ -20,17 +20,18 @@ public class DesktopFilePicker implements FilePicker {
 		this.parent = parent;
 	}
 
-	void showChooser(final FilePickerListener listener, final boolean fileOpen, FileFilter fileFilter) {
+	void showChooser(final FilePickerListener listener, final boolean fileOpen,
+			FileFilter fileFilter) {
 		final JFileChooser chooser = new JFileChooser();
 		chooser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (e.getActionCommand().equals(JFileChooser.APPROVE_SELECTION)) {
-					listener.filePicked(chooser.getSelectedFile(),fileOpen);
+					listener.filePicked(chooser.getSelectedFile(), fileOpen);
 				} else if (e.getActionCommand().equals(
 						JFileChooser.CANCEL_SELECTION)) {
-					listener.filePicked(null,fileOpen);
+					listener.filePicked(null, fileOpen);
 				}
-				
+
 			}
 		});
 		chooser.setFileFilter(fileFilter);
@@ -39,10 +40,10 @@ public class DesktopFilePicker implements FilePicker {
 	}
 
 	@Override
-	public void fileDialog(FilePickerListener listener, boolean open, FileFilter fileFilter) {
-		showChooser(listener,open, fileFilter);
-		
-	}
+	public void fileDialog(FilePickerListener listener, boolean open,
+			FileFilter fileFilter) {
+		showChooser(listener, open, fileFilter);
 
+	}
 
 }

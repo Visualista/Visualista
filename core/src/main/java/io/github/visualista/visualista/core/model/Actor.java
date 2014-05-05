@@ -21,20 +21,20 @@ public class Actor extends ActorEventSource implements Nameable, IPlayActor {
 		this.name = name;
 	}
 
-	public Actor(){
+	public Actor() {
 		actions = new ArrayList<IAction>();
 		image = new Image();
 	}
-	
-	public List<IAction> getActions(){
+
+	public List<IAction> getActions() {
 		return actions;
 	}
-	
-	public void addAction(IAction action){
+
+	public void addAction(IAction action) {
 		actions.add(action);
 	}
-	
-	public void removeAction(IAction action){
+
+	public void removeAction(IAction action) {
 		actions.remove(action);
 	}
 

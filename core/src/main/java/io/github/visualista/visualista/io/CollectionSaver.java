@@ -23,16 +23,15 @@ public class CollectionSaver<E extends Nameable> {
 		this.xstream = xstream;
 		this.folder = folder;
 	}
-	
-	public void saveCollection(Collection<E> objects){
+
+	public void saveCollection(Collection<E> objects) {
 		FileSaver<E> fileSaver = new FileSaver<E>(xstream);
-		for(E object : objects){
-			File outputFile = new File(folder.getAbsolutePath(), object.getName()
-					+ ".vis");
+		for (E object : objects) {
+			File outputFile = new File(folder.getAbsolutePath(),
+					object.getName() + ".vis");
 			fileSaver.saveObjectToFile(outputFile, object);
-			
 
 		}
 	}
-	
+
 }

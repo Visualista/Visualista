@@ -30,281 +30,281 @@ import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 
 public class VisualistaView implements ApplicationListener {
-    private Stage stage;
+	private Stage stage;
 
-    private Skin uiSkin;
+	private Skin uiSkin;
 
-    private ImageButton leftButton;
-    private ImageButton centerButton;
-    private ImageButton rightButton;
-    private ImageButton actorImage;
+	private ImageButton leftButton;
+	private ImageButton centerButton;
+	private ImageButton rightButton;
+	private ImageButton actorImage;
 
-    private TextButton newActorButton;
-    private TextButton actorsButton;
-    private TextButton dialogsButton;
-    private TextButton newSceneButton;
-    private TextButton modifyButton;
-    private TextButton addActionButton;
+	private TextButton newActorButton;
+	private TextButton actorsButton;
+	private TextButton dialogsButton;
+	private TextButton newSceneButton;
+	private TextButton modifyButton;
+	private TextButton addActionButton;
 
-    private Label actorLabel;
-    private Label actionLabel;
+	private Label actorLabel;
+	private Label actionLabel;
 
-    private ArrayList<TextButton> sceneButtons;
-    private ArrayList<ImageButton> gridButtons;
+	private ArrayList<TextButton> sceneButtons;
+	private ArrayList<ImageButton> gridButtons;
 
-    private List actorList;
-    private List actionList;
+	private List actorList;
+	private List actionList;
 
-    private Border leftBorder;
-    private Border rightBorder;
-    private Border upperBorder;
-    private Border lowerBorder;
+	private Border leftBorder;
+	private Border rightBorder;
+	private Border upperBorder;
+	private Border lowerBorder;
 
-    // private TextureAtlas atlas;
+	// private TextureAtlas atlas;
 
-    @Override
-    public void create() {
-        stage = new Stage(1800, 900, true);
-        stage.clear();
+	@Override
+	public void create() {
+		stage = new Stage(1800, 900, true);
+		stage.clear();
 
-        uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
+		uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
 
-        gridButtons = new ArrayList<ImageButton>();
-        Drawable tile = new TextureRegionDrawable(new TextureRegion(
-                new Texture(Gdx.files.internal("icons/tile.png"))));
+		gridButtons = new ArrayList<ImageButton>();
+		Drawable tile = new TextureRegionDrawable(new TextureRegion(
+				new Texture(Gdx.files.internal("icons/tile.png"))));
 
-        for (int i = 0; i < 25; i++) {
-            gridButtons.add(i, new ImageButton(tile));
-        }
+		for (int i = 0; i < 25; i++) {
+			gridButtons.add(i, new ImageButton(tile));
+		}
 
-        newSceneButton = new TextButton("+", uiSkin);
-        
-        newSceneButton.addCaptureListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event,float x,float y) {
-                
-                InputEvent inputEvent = (InputEvent) event;
-                sceneButtons.add(new TextButton("Scene"
-                        + (sceneButtons.size()+1), uiSkin));
-                placeSceneButtons();
-            }
-        });
+		newSceneButton = new TextButton("+", uiSkin);
 
-        sceneButtons = new ArrayList<TextButton>();
-        sceneButtons.add(new TextButton("Scene1", uiSkin));
+		newSceneButton.addCaptureListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
 
-        leftBorder = new Border(null);
-        leftBorder.setSize(450, 1800);
-        leftBorder.setPosition(0, 0);
-        stage.addActor(leftBorder);
+				InputEvent inputEvent = (InputEvent) event;
+				sceneButtons.add(new TextButton("Scene"
+						+ (sceneButtons.size() + 1), uiSkin));
+				placeSceneButtons();
+			}
+		});
 
-        rightBorder = new Border(null);
-        rightBorder.setSize(450, 1800);
-        rightBorder.setPosition(1350, 0);
-        stage.addActor(rightBorder);
+		sceneButtons = new ArrayList<TextButton>();
+		sceneButtons.add(new TextButton("Scene1", uiSkin));
 
-        upperBorder = new Border(null);
-        upperBorder.setSize(900, 200);
-        upperBorder.setPosition(450, 700);
-        stage.addActor(upperBorder);
+		leftBorder = new Border(null);
+		leftBorder.setSize(450, 1800);
+		leftBorder.setPosition(0, 0);
+		stage.addActor(leftBorder);
 
-        lowerBorder = new Border(null);
-        lowerBorder.setSize(900, 200);
-        lowerBorder.setPosition(450, 0);
-        stage.addActor(lowerBorder);
+		rightBorder = new Border(null);
+		rightBorder.setSize(450, 1800);
+		rightBorder.setPosition(1350, 0);
+		stage.addActor(rightBorder);
 
-        actorLabel = new Label("Hej", uiSkin);
-        actorLabel.setPosition(1550, 750);
-        actorLabel.setSize(50, 50);
-        actorLabel.setColor(Color.BLACK);
-        stage.addActor(actorLabel);
+		upperBorder = new Border(null);
+		upperBorder.setSize(900, 200);
+		upperBorder.setPosition(450, 700);
+		stage.addActor(upperBorder);
 
-        actionLabel = new Label("Actions", uiSkin);
-        actionLabel.setPosition(1550, 500);
-        actionLabel.setSize(50, 50);
-        actionLabel.setColor(Color.BLACK);
-        stage.addActor(actionLabel);
+		lowerBorder = new Border(null);
+		lowerBorder.setSize(900, 200);
+		lowerBorder.setPosition(450, 0);
+		stage.addActor(lowerBorder);
 
-        Drawable cursor = new TextureRegionDrawable(new TextureRegion(
-                new Texture(Gdx.files.internal("icons/cursor.png"))));
-        leftButton = new ImageButton(cursor);
-        leftButton.setPosition(60, 750);
-        leftButton.setSize(50, 50);
-        leftButton.addListener(new ClickListener());
+		actorLabel = new Label("Hej", uiSkin);
+		actorLabel.setPosition(1550, 750);
+		actorLabel.setSize(50, 50);
+		actorLabel.setColor(Color.BLACK);
+		stage.addActor(actorLabel);
 
-        Drawable hand = new TextureRegionDrawable(new TextureRegion(
-                new Texture(Gdx.files.internal("icons/hand.png"))));
+		actionLabel = new Label("Actions", uiSkin);
+		actionLabel.setPosition(1550, 500);
+		actionLabel.setSize(50, 50);
+		actionLabel.setColor(Color.BLACK);
+		stage.addActor(actionLabel);
 
-        centerButton = new ImageButton(hand);
-        centerButton.setPosition(173, 750);
-        centerButton.setSize(50, 50);
-        centerButton.addListener(new ClickListener());
+		Drawable cursor = new TextureRegionDrawable(new TextureRegion(
+				new Texture(Gdx.files.internal("icons/cursor.png"))));
+		leftButton = new ImageButton(cursor);
+		leftButton.setPosition(60, 750);
+		leftButton.setSize(50, 50);
+		leftButton.addListener(new ClickListener());
 
-        Drawable arrow = new TextureRegionDrawable(new TextureRegion(
-                new Texture(Gdx.files.internal("icons/arrow.png"))));
+		Drawable hand = new TextureRegionDrawable(new TextureRegion(
+				new Texture(Gdx.files.internal("icons/hand.png"))));
 
-        rightButton = new ImageButton(arrow);
-        rightButton.setPosition(286, 750);
-        rightButton.setSize(50, 50);
-        rightButton.addListener(new ClickListener());
+		centerButton = new ImageButton(hand);
+		centerButton.setPosition(173, 750);
+		centerButton.setSize(50, 50);
+		centerButton.addListener(new ClickListener());
 
-        stage.addActor(leftButton);
-        stage.addActor(centerButton);
-        stage.addActor(rightButton);
+		Drawable arrow = new TextureRegionDrawable(new TextureRegion(
+				new Texture(Gdx.files.internal("icons/arrow.png"))));
 
-        Actor a1 = new Actor();
-        a1.setName("Jacob");
-        Actor a2 = new Actor();
-        a2.setName("Ja");
-        String[] actors = { a1.getName(), a2.getName(), a2.getName(),
-                a2.getName(), a2.getName(), a2.getName(), a2.getName(),
-                a2.getName(), a2.getName(), a2.getName(), a2.getName(),
-                a2.getName(), a2.getName(), a2.getName(), a2.getName(),
-                a2.getName(), a2.getName(), a2.getName(), a2.getName(),
-                a2.getName(), a2.getName(), a2.getName(), a2.getName(),
-                a2.getName(), a2.getName(), a2.getName(), a2.getName(),
-                a2.getName(), a2.getName(), a2.getName(), a2.getName(),
-                a2.getName() };
+		rightButton = new ImageButton(arrow);
+		rightButton.setPosition(286, 750);
+		rightButton.setSize(50, 50);
+		rightButton.addListener(new ClickListener());
 
-        actorList = new List(actors, uiSkin);
+		stage.addActor(leftButton);
+		stage.addActor(centerButton);
+		stage.addActor(rightButton);
 
-        actorList.setSize(400, 400);
-        actorList.setColor(Color.BLACK);
+		Actor a1 = new Actor();
+		a1.setName("Jacob");
+		Actor a2 = new Actor();
+		a2.setName("Ja");
+		String[] actors = { a1.getName(), a2.getName(), a2.getName(),
+				a2.getName(), a2.getName(), a2.getName(), a2.getName(),
+				a2.getName(), a2.getName(), a2.getName(), a2.getName(),
+				a2.getName(), a2.getName(), a2.getName(), a2.getName(),
+				a2.getName(), a2.getName(), a2.getName(), a2.getName(),
+				a2.getName(), a2.getName(), a2.getName(), a2.getName(),
+				a2.getName(), a2.getName(), a2.getName(), a2.getName(),
+				a2.getName(), a2.getName(), a2.getName(), a2.getName(),
+				a2.getName() };
 
-        ScrollPane scroll = new BorderScrollPane(actorList, uiSkin);
-        scroll.setPosition(20, 200);
-        scroll.setSize(400, 400);
-        scroll.setFadeScrollBars(false);
-        stage.addActor(scroll);
+		actorList = new List(actors, uiSkin);
 
-        actorList.addCaptureListener(new EventListener() {
+		actorList.setSize(400, 400);
+		actorList.setColor(Color.BLACK);
 
-            @Override
-            public boolean handle(Event event) {
-                if (event instanceof InputEvent) {
-                    InputEvent inputEvent = (InputEvent) event;
-                    // Gdx.app.log("Handle event", "" + inputEvent.getType());
-                }
-                return false;
-            }
+		ScrollPane scroll = new BorderScrollPane(actorList, uiSkin);
+		scroll.setPosition(20, 200);
+		scroll.setSize(400, 400);
+		scroll.setFadeScrollBars(false);
+		stage.addActor(scroll);
 
-        });
+		actorList.addCaptureListener(new EventListener() {
 
-        actionList = new List(actors, uiSkin);
+			@Override
+			public boolean handle(Event event) {
+				if (event instanceof InputEvent) {
+					InputEvent inputEvent = (InputEvent) event;
+					// Gdx.app.log("Handle event", "" + inputEvent.getType());
+				}
+				return false;
+			}
 
-        actionList.setSize(350, 400);
-        actionList.setColor(Color.BLACK);
+		});
 
-        ScrollPane actionScroll = new BorderScrollPane(actionList, uiSkin);
-        actionScroll.setPosition(1368, 100);
-        actionScroll.setSize(400, 400);
-        actionScroll.setFadeScrollBars(false);
-        stage.addActor(actionScroll);
+		actionList = new List(actors, uiSkin);
 
-        actionList.addCaptureListener(new EventListener() {
+		actionList.setSize(350, 400);
+		actionList.setColor(Color.BLACK);
 
-            @Override
-            public boolean handle(Event event) {
-                if (event instanceof InputEvent) {
-                    InputEvent inputEvent = (InputEvent) event;
-                    // Gdx.app.log("Handle event", "" + inputEvent.getType());
-                }
-                return false;
-            }
+		ScrollPane actionScroll = new BorderScrollPane(actionList, uiSkin);
+		actionScroll.setPosition(1368, 100);
+		actionScroll.setSize(400, 400);
+		actionScroll.setFadeScrollBars(false);
+		stage.addActor(actionScroll);
 
-        });
+		actionList.addCaptureListener(new EventListener() {
 
-        newActorButton = new TextButton("New", uiSkin);
-        newActorButton.setSize(100, 20);
-        newActorButton.setPosition(320, 178);
-        stage.addActor(newActorButton);
+			@Override
+			public boolean handle(Event event) {
+				if (event instanceof InputEvent) {
+					InputEvent inputEvent = (InputEvent) event;
+					// Gdx.app.log("Handle event", "" + inputEvent.getType());
+				}
+				return false;
+			}
 
-        actorsButton = new TextButton("Actors", uiSkin);
-        actorsButton.setSize(150, 20);
-        actorsButton.setPosition(20, 602);
-        stage.addActor(actorsButton);
+		});
 
-        dialogsButton = new TextButton("Dialogs", uiSkin);
-        dialogsButton.setSize(150, 20);
-        dialogsButton.setPosition(172, 602);
-        stage.addActor(dialogsButton);
+		newActorButton = new TextButton("New", uiSkin);
+		newActorButton.setSize(100, 20);
+		newActorButton.setPosition(320, 178);
+		stage.addActor(newActorButton);
 
-        modifyButton = new TextButton("Modify", uiSkin);
-        modifyButton.setSize(150, 20);
-        modifyButton.setPosition(1368, 75);
-        stage.addActor(modifyButton);
+		actorsButton = new TextButton("Actors", uiSkin);
+		actorsButton.setSize(150, 20);
+		actorsButton.setPosition(20, 602);
+		stage.addActor(actorsButton);
 
-        addActionButton = new TextButton("Add", uiSkin);
-        addActionButton.setSize(150, 20);
-        addActionButton.setPosition(1520, 75);
-        stage.addActor(addActionButton);
+		dialogsButton = new TextButton("Dialogs", uiSkin);
+		dialogsButton.setSize(150, 20);
+		dialogsButton.setPosition(172, 602);
+		stage.addActor(dialogsButton);
 
-        Drawable actorDraw = new TextureRegionDrawable(new TextureRegion(
-                new Texture(Gdx.files.internal("icons/cursor.png"))));
-        actorImage = new ImageButton(actorDraw);
-        actorImage.setSize(70, 70);
-        actorImage.setPosition(1530, 650);
-        stage.addActor(actorImage);
+		modifyButton = new TextButton("Modify", uiSkin);
+		modifyButton.setSize(150, 20);
+		modifyButton.setPosition(1368, 75);
+		stage.addActor(modifyButton);
 
-        placeSceneButtons();
-        placeGrid();
+		addActionButton = new TextButton("Add", uiSkin);
+		addActionButton.setSize(150, 20);
+		addActionButton.setPosition(1520, 75);
+		stage.addActor(addActionButton);
 
-        Gdx.input.setInputProcessor(stage);
-    }
+		Drawable actorDraw = new TextureRegionDrawable(new TextureRegion(
+				new Texture(Gdx.files.internal("icons/cursor.png"))));
+		actorImage = new ImageButton(actorDraw);
+		actorImage.setSize(70, 70);
+		actorImage.setPosition(1530, 650);
+		stage.addActor(actorImage);
 
-    public void placeGrid() {
-        int y = 580;
-        int x = 700;
-        for (int i = 0; i < 25; i++) {
-            gridButtons.get(i).setSize(80, 80);
-            gridButtons.get(i).setPosition(x, y);
-            stage.addActor(gridButtons.get(i));
+		placeSceneButtons();
+		placeGrid();
 
-            if (i == 4 || i == 9 || i == 14 || i == 19) {
-                x = x + 80;
-                y = 580;
-            } else
-                y = y - 80;
+		Gdx.input.setInputProcessor(stage);
+	}
 
-        }
+	public void placeGrid() {
+		int y = 580;
+		int x = 700;
+		for (int i = 0; i < 25; i++) {
+			gridButtons.get(i).setSize(80, 80);
+			gridButtons.get(i).setPosition(x, y);
+			stage.addActor(gridButtons.get(i));
 
-    }
+			if (i == 4 || i == 9 || i == 14 || i == 19) {
+				x = x + 80;
+				y = 580;
+			} else
+				y = y - 80;
 
-    public void placeSceneButtons() {
-        int x = 452;
-        for (int i = 0; i < sceneButtons.size(); i++) {
-            sceneButtons.get(i).setSize(70, 20);
-            sceneButtons.get(i).setPosition(x, 701);
-            x = x +70;
-            
-            stage.addActor(sceneButtons.get(i));
-        }
-        newSceneButton.setSize(20, 20);
-        newSceneButton.setPosition(452 + 70 * sceneButtons.size() + 1, 701);
-        stage.addActor(newSceneButton);
-    }
+		}
 
-    @Override
-    public void resize(int width, int height) {
-    }
+	}
 
-    @Override
-    public void render() {
-        Gdx.gl.glClearColor(1, 1, 1, 2);
-        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-        stage.act();
-        stage.draw();
-    }
+	public void placeSceneButtons() {
+		int x = 452;
+		for (int i = 0; i < sceneButtons.size(); i++) {
+			sceneButtons.get(i).setSize(70, 20);
+			sceneButtons.get(i).setPosition(x, 701);
+			x = x + 70;
 
-    @Override
-    public void pause() {
-    }
+			stage.addActor(sceneButtons.get(i));
+		}
+		newSceneButton.setSize(20, 20);
+		newSceneButton.setPosition(452 + 70 * sceneButtons.size() + 1, 701);
+		stage.addActor(newSceneButton);
+	}
 
-    @Override
-    public void resume() {
-    }
+	@Override
+	public void resize(int width, int height) {
+	}
 
-    @Override
-    public void dispose() {
-    }
+	@Override
+	public void render() {
+		Gdx.gl.glClearColor(1, 1, 1, 2);
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		stage.act();
+		stage.draw();
+	}
+
+	@Override
+	public void pause() {
+	}
+
+	@Override
+	public void resume() {
+	}
+
+	@Override
+	public void dispose() {
+	}
 }

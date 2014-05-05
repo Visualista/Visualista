@@ -24,64 +24,63 @@ import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 
 public class LibgdxSample implements ApplicationListener {
-    private Stage stage;
+	private Stage stage;
 
+	@Override
+	public void create() {
+		stage = new Stage(900, 900, true);
+		stage.clear();
 
-    @Override
-    public void create() {
-        stage = new Stage(900, 900, true);
-        stage.clear();
+		Drawable cursor = new TextureRegionDrawable(new TextureRegion(
+				new Texture(Gdx.files.internal("icons/hand.png"))));
+		ImageButton leftButton = new ImageButton(cursor);
+		leftButton.setX(500);
+		leftButton.setY(500);
+		leftButton.setWidth(200);
+		leftButton.setHeight(200);
+		stage.addActor(leftButton);
 
-        Drawable cursor = new TextureRegionDrawable(new TextureRegion(
-                new Texture(Gdx.files.internal("icons/hand.png"))));
-        ImageButton leftButton = new ImageButton(cursor);
-        leftButton.setX(500);
-        leftButton.setY(500);
-        leftButton.setWidth(200);
-        leftButton.setHeight(200);
-        stage.addActor(leftButton);
+		Drawable hand = new TextureRegionDrawable(new TextureRegion(
+				new Texture(Gdx.files.internal("icons/hand.png"))));
+		ImageButton centerButton = new ImageButton(hand);
+		leftButton.setX(271);
+		leftButton.setY(200);
+		leftButton.setWidth(100);
+		leftButton.setHeight(100);
+		stage.addActor(centerButton);
 
-        Drawable hand = new TextureRegionDrawable(new TextureRegion(
-                new Texture(Gdx.files.internal("icons/hand.png"))));
-        ImageButton centerButton = new ImageButton(hand);
-        leftButton.setX(271);
-        leftButton.setY(200);
-        leftButton.setWidth(100);
-        leftButton.setHeight(100);
-        stage.addActor(centerButton);
+		Drawable arrow = new TextureRegionDrawable(new TextureRegion(
+				new Texture(Gdx.files.internal("icons/arrow.png"))));
+		ImageButton rightButton = new ImageButton(arrow);
+		leftButton.setX(473);
+		leftButton.setY(400);
+		leftButton.setWidth(100);
+		leftButton.setHeight(100);
+		stage.addActor(rightButton);
+	}
 
-        Drawable arrow = new TextureRegionDrawable(new TextureRegion(
-                new Texture(Gdx.files.internal("icons/arrow.png"))));
-        ImageButton rightButton = new ImageButton(arrow);
-        leftButton.setX(473);
-        leftButton.setY(400);
-        leftButton.setWidth(100);
-        leftButton.setHeight(100);
-        stage.addActor(rightButton);
-    }
+	@Override
+	public void resize(int width, int height) {
+	}
 
-    @Override
-    public void resize(int width, int height) {
-    }
+	@Override
+	public void render() {
+		Gdx.gl.glClearColor(1, 1, 1, 2);
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		stage.act();
+		stage.draw();
 
-    @Override
-    public void render() {
-        Gdx.gl.glClearColor(1, 1, 1, 2);
-        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-        stage.act();
-        stage.draw();
+	}
 
-    }
+	@Override
+	public void pause() {
+	}
 
-    @Override
-    public void pause() {
-    }
+	@Override
+	public void resume() {
+	}
 
-    @Override
-    public void resume() {
-    }
-
-    @Override
-    public void dispose() {
-    }
+	@Override
+	public void dispose() {
+	}
 }

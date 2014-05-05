@@ -68,21 +68,23 @@ public class VisualistaEditor implements ApplicationListener,
 		leftButton.setWidth(100);
 		leftButton.setHeight(100);
 		stage.addActor(rightButton);
-		leftButton.addListener(new EventListener(){
-			
+		leftButton.addListener(new EventListener() {
+
 			@Override
 			public boolean handle(Event event) {
-				if(event instanceof InputEvent){
-					InputEvent inputEvent = (InputEvent)event;
-					if(inputEvent.getType() == InputEvent.Type.touchDown){
-						filePicker.fileDialog(VisualistaEditor.this, true, new FileNameExtensionFilter("Visualista Novel", "vis"));
+				if (event instanceof InputEvent) {
+					InputEvent inputEvent = (InputEvent) event;
+					if (inputEvent.getType() == InputEvent.Type.touchDown) {
+						filePicker.fileDialog(VisualistaEditor.this, true,
+								new FileNameExtensionFilter("Visualista Novel",
+										"vis"));
 					}
 					return true;
 				}
-				
+
 				return false;
 			}
-			
+
 		});
 		Gdx.input.setInputProcessor(stage);
 	}

@@ -13,40 +13,41 @@ import org.junit.Test;
 public class NovelTest {
 	Novel novel;
 	Scene firstScene;
-	
+
 	@Before
-    public void setUp() throws Exception {
-    	novel = new Novel(new ArrayList<Scene>());
-    	firstScene = new Scene(new Grid(new Dimension(4, 3)),new ArrayList<Actor>());
-    	novel.addScene(firstScene);
+	public void setUp() throws Exception {
+		novel = new Novel(new ArrayList<Scene>());
+		firstScene = new Scene(new Grid(new Dimension(4, 3)),
+				new ArrayList<Actor>());
+		novel.addScene(firstScene);
 	}
 
-    @Test
-    public void test() {
-    	
-        
-        assertNotNull(novel);
-    }
+	@Test
+	public void test() {
 
-    @Test
-    public void testSceneCount() {
-        assertEquals(novel.getSceneCount(), 1);
-    }
+		assertNotNull(novel);
+	}
 
-    @Test
-    public void testSceneById() {
-    	Scene secondScene = new Scene(new Grid(new Dimension(4, 3)),new ArrayList<Actor>());
-    	novel.addScene(secondScene);
-    	assertEquals(firstScene,novel.getScenes().get(0));
-    	assertEquals(secondScene,novel.getScenes().get(1));
-    	
-    }
-    
-    @Test
+	@Test
+	public void testSceneCount() {
+		assertEquals(novel.getSceneCount(), 1);
+	}
+
+	@Test
+	public void testSceneById() {
+		Scene secondScene = new Scene(new Grid(new Dimension(4, 3)),
+				new ArrayList<Actor>());
+		novel.addScene(secondScene);
+		assertEquals(firstScene, novel.getScenes().get(0));
+		assertEquals(secondScene, novel.getScenes().get(1));
+
+	}
+
+	@Test
 	public void testGetAndSetName() {
 		String testString = "Something, something, evil";
 		novel.setName(testString);
 		assertEquals(testString, novel.getName());
 	}
-    
+
 }

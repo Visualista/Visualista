@@ -2,12 +2,12 @@ package io.github.visualista.visualista.core.model;
 
 import io.github.visualista.visualista.util.IObjectCreator;
 
-public class TileFactory implements IObjectCreator<Tile>{
-	
-	public TileFactory(){
+public class TileFactory implements IObjectCreator<Tile> {
+
+	public TileFactory() {
 	}
-	
-	public Tile createTile(){
+
+	public Tile createTile() {
 		return new Tile(Actor.EMPTY_ACTOR);
 	}
 

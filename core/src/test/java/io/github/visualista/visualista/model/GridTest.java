@@ -18,8 +18,8 @@ public class GridTest {
 	@Before
 	public void setUp() throws Exception {
 		Random rand = new Random();
-		width = rand.nextInt(150)+1;
-		height = rand.nextInt(150)+1;
+		width = rand.nextInt(150) + 1;
+		height = rand.nextInt(150) + 1;
 	}
 
 	@Test
@@ -34,7 +34,7 @@ public class GridTest {
 	public void testGetSize() {
 		Dimension dim = new Dimension(width, height);
 		Grid dimensionGrid = new Grid(dim);
-		assertEquals(dim,dimensionGrid.getSize());
+		assertEquals(dim, dimensionGrid.getSize());
 	}
 
 }

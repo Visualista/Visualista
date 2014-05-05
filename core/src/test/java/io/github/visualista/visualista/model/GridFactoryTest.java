@@ -10,16 +10,16 @@ import org.junit.Test;
 
 public class GridFactoryTest {
 	GridFactory factory;
-	
+
 	@Before
-    public void setUp() throws Exception {
+	public void setUp() throws Exception {
 		factory = new GridFactory();
 	}
 
 	@Test
 	public void testCreateGrid() {
 		Grid grid = factory.createGrid();
-		assertEquals(new Dimension(5,5),grid.getSize());
+		assertEquals(new Dimension(5, 5), grid.getSize());
 	}
 
 }

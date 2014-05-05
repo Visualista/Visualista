@@ -12,7 +12,6 @@ public class ActorTest {
 	public void setUp() throws Exception {
 	}
 
-
 	@Test
 	public void testImage() {
 		Actor actor2 = new Actor();
@@ -34,7 +33,7 @@ public class ActorTest {
 			@Override
 			public void callAction() {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 		};
@@ -43,7 +42,7 @@ public class ActorTest {
 		actor2.removeAction(action);
 		assertEquals(0, actor2.getActions().size());
 	}
-	
+
 	@Test
 	public void testGetAndSetName() {
 		Actor actor = new Actor();
@@ -51,5 +50,5 @@ public class ActorTest {
 		actor.setName(testString);
 		assertEquals(testString, actor.getName());
 	}
-	
+
 }

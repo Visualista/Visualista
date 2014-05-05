@@ -8,12 +8,12 @@ import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
 
 public class VisualistaHtml extends GwtApplication {
 	@Override
-	public ApplicationListener getApplicationListener () {
+	public ApplicationListener getApplicationListener() {
 		return new LibgdxSample();
 	}
-	
+
 	@Override
-	public GwtApplicationConfiguration getConfig () {
+	public GwtApplicationConfiguration getConfig() {
 		return new GwtApplicationConfiguration(480, 320);
 	}
 }

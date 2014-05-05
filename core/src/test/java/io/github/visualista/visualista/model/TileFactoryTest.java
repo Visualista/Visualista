@@ -8,11 +8,11 @@ import org.junit.Test;
 
 public class TileFactoryTest {
 
-    @Test
-    public void test() {
-        TileFactory tileFactory = new TileFactory();
-        Tile tile = tileFactory.createObject();
-        assertNotNull(tile);
-    }
+	@Test
+	public void test() {
+		TileFactory tileFactory = new TileFactory();
+		Tile tile = tileFactory.createObject();
+		assertNotNull(tile);
+	}
 
 }

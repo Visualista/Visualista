@@ -11,16 +11,16 @@ import io.github.visualista.visualista.core.VisualistaEditor;
 
 public class VisualistaDesktop {
 	static {
-	    GdxNativesLoader.load();
+		GdxNativesLoader.load();
 	}
-	
-	public static void main (String[] args) {
+
+	public static void main(String[] args) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.useGL20 = true;
 		config.width = 1200;
 		config.height = 700;
-		LwjglApplication temp = new LwjglApplication(new VisualistaView(), config);
-		  
+		LwjglApplication temp = new LwjglApplication(new VisualistaView(),
+				config);
+
 	}
 }
-

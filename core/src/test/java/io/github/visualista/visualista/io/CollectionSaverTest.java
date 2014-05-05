@@ -13,7 +13,7 @@ public class CollectionSaverTest {
 
 	@Test
 	public void testSaveCollection() {
-		assertEquals(true,true);
+		assertEquals(true, true);
 	}
 
 }

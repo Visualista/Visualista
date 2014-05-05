@@ -3,29 +3,24 @@ package io.github.visualista.visualista.util;
 public class Dimension {
 	private final int width;
 	private final int height;
-	
 
 	public Dimension(int width, int height) {
 		this.width = width;
 		this.height = height;
 	}
 
-
 	public int getWidth() {
 		return width;
 	}
-
 
 	public int getHeight() {
 		return height;
 	}
 
-
 	@Override
 	public String toString() {
 		return "Dimension [width=" + width + ", height=" + height + "]";
 	}
-
 
 	@Override
 	public final int hashCode() {
@@ -35,7 +30,6 @@ public class Dimension {
 		result = prime * result + width;
 		return result;
 	}
-
 
 	@Override
 	public final boolean equals(Object obj) {
@@ -52,7 +46,5 @@ public class Dimension {
 			return false;
 		return true;
 	}
-
-
 
 }

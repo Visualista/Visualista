@@ -16,8 +16,8 @@ public class Visualista {
 	private final GridFactory gridFactory;
 	private final SceneFactory sceneFactory;
 	private final NovelFactory novelFactory;
-	
-	public Visualista(){
+
+	public Visualista() {
 		xstreamManager = new XStreamManager();
 		tileFactory = new TileFactory();
 		gridFactory = new GridFactory();
@@ -25,36 +25,37 @@ public class Visualista {
 		novelFactory = new NovelFactory(sceneFactory);
 		currentNovel = novelFactory.createNovel();
 	}
-	
-	public Novel getCurrentNovel(){
+
+	public Novel getCurrentNovel() {
 		return currentNovel;
 	}
-	
-	public void setCurrentNovel(Novel currentNovel){
+
+	public void setCurrentNovel(Novel currentNovel) {
 		this.currentNovel = currentNovel;
 	}
-	
-	public void updateCurrentNovel(){
-		
+
+	public void updateCurrentNovel() {
+
 	}
-	
-	private void saveNovelIfNeeded(){
-		//TODO Code to handle saving
+
+	private void saveNovelIfNeeded() {
+		// TODO Code to handle saving
 	}
-	
-	public void openNovel(File file){
+
+	public void openNovel(File file) {
 		saveNovelIfNeeded();
-		FileLoader<Novel> fileLoader = new FileLoader<Novel>(new ObjectFactory<Novel>(xstreamManager.getMainXStream()));
+		FileLoader<Novel> fileLoader = new FileLoader<Novel>(
+				new ObjectFactory<Novel>(xstreamManager.getMainXStream()));
 		try {
 			setCurrentNovel(fileLoader.getObjectFromFile(file));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
-	
-	public void createNewNovel(){
+
+	public void createNewNovel() {
 		saveNovelIfNeeded();
 		Novel newNovel = novelFactory.createNovel();
 		setCurrentNovel(newNovel);

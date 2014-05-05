@@ -13,7 +13,7 @@ public class FileLoader<E extends Nameable> {
 	public FileLoader(ObjectFactory<E> objectFactory) {
 		this.objectFactory = objectFactory;
 	}
-	
+
 	public E getObjectFromFile(File file) throws FileNotFoundException {
 		Scanner sc = new Scanner(file);
 		StringBuilder sb = new StringBuilder();

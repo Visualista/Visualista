@@ -8,15 +8,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
-public class TestMenu implements ApplicationListener{
+public class TestMenu implements ApplicationListener {
 
 	private Stage stage;
-	
+
 	@Override
 	public void create() {
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
-		
+
 		createTestObjects();
 	}
 
@@ -27,43 +27,42 @@ public class TestMenu implements ApplicationListener{
 
 	@Override
 	public void render() {
-        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-        stage.act(Gdx.graphics.getDeltaTime());
-        stage.draw();
-		
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		stage.act(Gdx.graphics.getDeltaTime());
+		stage.draw();
+
 	}
 
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void dispose() {
 		stage.dispose();
-		
+
 	}
-	
-	
-	//----------------------------------------------------------------------------//
-	
-	private void createTestObjects(){
-		
+
+	// ----------------------------------------------------------------------------//
+
+	private void createTestObjects() {
+
 		Skin uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
-		
+
 		Table table = new Table();
 		table.setFillParent(true);
-		
+
 		TextButton tb1 = new TextButton("Test", uiSkin);
 		table.addActor(tb1);
-		
+
 		stage.addActor(table);
 	}
 

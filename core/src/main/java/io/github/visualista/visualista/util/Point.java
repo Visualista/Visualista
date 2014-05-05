@@ -3,18 +3,15 @@ package io.github.visualista.visualista.util;
 public class Point {
 	private final int x;
 	private final int y;
-	
 
 	public Point(int width, int height) {
 		this.x = width;
 		this.y = height;
 	}
 
-
 	public int getX() {
 		return x;
 	}
-
 
 	public int getY() {
 		return y;
@@ -25,7 +22,6 @@ public class Point {
 		return "Point [x=" + x + ", y=" + y + "]";
 	}
 
-
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
@@ -34,7 +30,6 @@ public class Point {
 		result = prime * result + x;
 		return result;
 	}
-
 
 	@Override
 	public final boolean equals(Object obj) {
@@ -51,7 +46,5 @@ public class Point {
 			return false;
 		return true;
 	}
-
-
 
 }

@@ -1,6 +1,5 @@
 package io.github.visualista.visualista.io;
 
-
 import io.github.visualista.visualista.core.model.IEditAction;
 import io.github.visualista.visualista.core.model.Actor;
 import io.github.visualista.visualista.core.model.Grid;
@@ -13,10 +12,10 @@ import io.github.visualista.visualista.util.Row;
 import com.thoughtworks.xstream.XStream;
 
 public class XStreamManager {
-	
+
 	private final XStream mainXStream;
-	
-	public XStreamManager(){
+
+	public XStreamManager() {
 		mainXStream = new XStream();
 		configureXStream();
 	}
@@ -31,10 +30,10 @@ public class XStreamManager {
 		mainXStream.addImplicitArray(Row.class, "row");
 		mainXStream.addImplicitArray(Matrix.class, "matrix");
 		mainXStream.setMode(XStream.ID_REFERENCES);
-		
+
 	}
-	
-	public XStream getMainXStream(){
+
+	public XStream getMainXStream() {
 		return mainXStream;
 	}
 }

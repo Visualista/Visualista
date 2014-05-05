@@ -13,8 +13,8 @@ public class FileSaver<E> {
 	public FileSaver(XStream xstream) {
 		this.xstream = xstream;
 	}
-	
-	public void saveObjectToFile(File outputFile, E object){
+
+	public void saveObjectToFile(File outputFile, E object) {
 		try {
 			FileOutputStream fos = new FileOutputStream(outputFile);
 			try {
