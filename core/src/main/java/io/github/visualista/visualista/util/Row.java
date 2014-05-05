@@ -45,16 +45,20 @@ public class Row<E> {
 
 	@Override
 	public final boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (!(obj instanceof Row))
+		}
+		if (!(obj instanceof Row)) {
 			return false;
+		}
 		@SuppressWarnings("rawtypes")
 		Row other = (Row) obj;
-		if (!Arrays.deepEquals(row, other.row))
+		if (!Arrays.deepEquals(row, other.row)) {
 			return false;
+		}
 		return true;
 	}
 }

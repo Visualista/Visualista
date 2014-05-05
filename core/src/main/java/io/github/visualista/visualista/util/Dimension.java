@@ -33,17 +33,22 @@ public class Dimension {
 
 	@Override
 	public final boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (!(obj instanceof Dimension))
+		}
+		if (!(obj instanceof Dimension)) {
 			return false;
+		}
 		Dimension other = (Dimension) obj;
-		if (height != other.height)
+		if (height != other.height) {
 			return false;
-		if (width != other.width)
+		}
+		if (width != other.width) {
 			return false;
+		}
 		return true;
 	}
 

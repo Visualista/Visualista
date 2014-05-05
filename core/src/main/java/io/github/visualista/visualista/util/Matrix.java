@@ -58,16 +58,20 @@ public class Matrix<E> implements IMatrixGet<E>, IMatrixSet<E> {
 
 	@Override
 	public final boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (!(obj instanceof Matrix))
+		}
+		if (!(obj instanceof Matrix)) {
 			return false;
+		}
 		@SuppressWarnings("rawtypes")
 		Matrix other = (Matrix) obj;
-		if (!Arrays.deepEquals(matrix, other.matrix))
+		if (!Arrays.deepEquals(matrix, other.matrix)) {
 			return false;
+		}
 		return true;
 	}
 

@@ -33,17 +33,22 @@ public class Point {
 
 	@Override
 	public final boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (!(obj instanceof Point))
+		}
+		if (!(obj instanceof Point)) {
 			return false;
+		}
 		Point other = (Point) obj;
-		if (y != other.y)
+		if (y != other.y) {
 			return false;
-		if (x != other.x)
+		}
+		if (x != other.x) {
 			return false;
+		}
 		return true;
 	}
 
