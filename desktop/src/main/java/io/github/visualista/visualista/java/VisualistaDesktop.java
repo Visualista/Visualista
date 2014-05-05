@@ -5,9 +5,6 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import io.github.visualista.view.VisualistaView;
-import io.github.visualista.visualista.core.LibgdxSample;
-import io.github.visualista.visualista.core.TestGame;
-import io.github.visualista.visualista.core.VisualistaEditor;
 
 public class VisualistaDesktop {
 	static {
