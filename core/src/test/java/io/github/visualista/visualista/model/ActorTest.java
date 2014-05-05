@@ -23,12 +23,18 @@ public class ActorTest {
 	@Test
 	public void testActions() {
 		Actor actor2 = new Actor();
-		IEditAction action = new IEditAction() {
+		IAction action = new IAction() {
 
 			@Override
 			public String getExplainatoryName() {
 				// TODO Auto-generated method stub
 				return null;
+			}
+
+			@Override
+			public void callAction() {
+				// TODO Auto-generated method stub
+				
 			}
 
 		};
