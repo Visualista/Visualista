@@ -6,9 +6,25 @@ import java.util.Random;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class MatrixTest {
+
+	private static final int MATRIX_MAX_WIDTH = 140;
+	private static final int MATRIX_MAX_HEIGHT = 130;
+	private Dimension dim;
+	private Matrix<Integer> matrix;
+	private Random rand;
+	
+	@Before
+	public void setUp() {
+		rand = new Random();
+		int width = rand.nextInt(MATRIX_MAX_WIDTH) + 1;
+		int height = rand.nextInt(MATRIX_MAX_HEIGHT) + 1;
+		dim = new Dimension(width, height);
+		matrix = new Matrix<Integer>(dim);
+	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void matrixHeightShouldBeGreaterThan1() {
@@ -22,22 +38,13 @@ public class MatrixTest {
 
 	@Test
 	public void testGetSize() {
-		Random rand = new Random();
-		int width = rand.nextInt(140) + 1;
-		int height = rand.nextInt(130) + 1;
-		Dimension dim = new Dimension(width, height);
-		Matrix<Object> matrix = new Matrix<Object>(dim);
+		
 		assertEquals(dim, matrix.getSize());
 	}
 
 	@Test
 	public void testGetAndSetAtPosition() {
-		Random rand = new Random();
-		int width = rand.nextInt(140) + 1;
-		int height = rand.nextInt(130) + 1;
-		Dimension dim = new Dimension(width, height);
-		Matrix<Integer> matrix = new Matrix<Integer>(dim);
-		Point point = new Point(rand.nextInt(width), rand.nextInt(height));
+		Point point = new Point(rand.nextInt(dim.getWidth()), rand.nextInt(dim.getHeight()));
 		assertNull(matrix.getAt(point));
 		matrix.setAt(point, 42);
 		assertEquals(new Integer(42), matrix.getAt(point));
@@ -45,11 +52,6 @@ public class MatrixTest {
 
 	@Test
 	public void testFillWith() {
-		Random rand = new Random();
-		int width = rand.nextInt(140) + 1;
-		int height = rand.nextInt(130) + 1;
-		Dimension dim = new Dimension(width, height);
-		Matrix<Integer> matrix = new Matrix<Integer>(dim);
 		matrix.fillWith(new IObjectCreator<Integer>() {
 			Random rng = new Random();
 

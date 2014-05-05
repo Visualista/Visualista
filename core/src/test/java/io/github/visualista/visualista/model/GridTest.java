@@ -12,14 +12,16 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class GridTest {
+	private static final int MAX_HEIGHT = 150;
+	private static final int MAX_WIDTH = 150;
 	private int width;
 	private int height;
 
 	@Before
 	public void setUp() throws Exception {
 		Random rand = new Random();
-		width = rand.nextInt(150) + 1;
-		height = rand.nextInt(150) + 1;
+		width = rand.nextInt(MAX_WIDTH) + 1;
+		height = rand.nextInt(MAX_HEIGHT) + 1;
 	}
 
 	@Test

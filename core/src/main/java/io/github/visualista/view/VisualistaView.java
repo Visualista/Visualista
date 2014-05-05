@@ -63,14 +63,14 @@ public class VisualistaView implements ApplicationListener {
 	// private TextureAtlas atlas;
 
 	@Override
-	public void create() {
+	public final void create() {
 		stage = new Stage(1800, 900, true);
 		stage.clear();
 
 		uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
 
 		gridButtons = new ArrayList<ImageButton>();
-		Drawable tile = new TextureRegionDrawable(new TextureRegion(
+		final Drawable tile = new TextureRegionDrawable(new TextureRegion(
 				new Texture(Gdx.files.internal("icons/tile.png"))));
 
 		for (int i = 0; i < 25; i++) {
@@ -81,7 +81,7 @@ public class VisualistaView implements ApplicationListener {
 
 		newSceneButton.addCaptureListener(new ClickListener() {
 			@Override
-			public void clicked(InputEvent event, float x, float y) {
+			public void clicked(final InputEvent event, final float x, float y) {
 
 				InputEvent inputEvent = (InputEvent) event;
 				sceneButtons.add(new TextButton("Scene"
@@ -125,14 +125,14 @@ public class VisualistaView implements ApplicationListener {
 		actionLabel.setColor(Color.BLACK);
 		stage.addActor(actionLabel);
 
-		Drawable cursor = new TextureRegionDrawable(new TextureRegion(
+		final Drawable cursor = new TextureRegionDrawable(new TextureRegion(
 				new Texture(Gdx.files.internal("icons/cursor.png"))));
 		leftButton = new ImageButton(cursor);
 		leftButton.setPosition(60, 750);
 		leftButton.setSize(50, 50);
 		leftButton.addListener(new ClickListener());
 
-		Drawable hand = new TextureRegionDrawable(new TextureRegion(
+		final Drawable hand = new TextureRegionDrawable(new TextureRegion(
 				new Texture(Gdx.files.internal("icons/hand.png"))));
 
 		centerButton = new ImageButton(hand);
@@ -140,7 +140,7 @@ public class VisualistaView implements ApplicationListener {
 		centerButton.setSize(50, 50);
 		centerButton.addListener(new ClickListener());
 
-		Drawable arrow = new TextureRegionDrawable(new TextureRegion(
+		final Drawable arrow = new TextureRegionDrawable(new TextureRegion(
 				new Texture(Gdx.files.internal("icons/arrow.png"))));
 
 		rightButton = new ImageButton(arrow);
@@ -156,7 +156,7 @@ public class VisualistaView implements ApplicationListener {
 		a1.setName("Jacob");
 		Actor a2 = new Actor();
 		a2.setName("Ja");
-		String[] actors = { a1.getName(), a2.getName(), a2.getName(),
+		final String[] actors = { a1.getName(), a2.getName(), a2.getName(),
 				a2.getName(), a2.getName(), a2.getName(), a2.getName(),
 				a2.getName(), a2.getName(), a2.getName(), a2.getName(),
 				a2.getName(), a2.getName(), a2.getName(), a2.getName(),
@@ -171,7 +171,7 @@ public class VisualistaView implements ApplicationListener {
 		actorList.setSize(400, 400);
 		actorList.setColor(Color.BLACK);
 
-		ScrollPane scroll = new BorderScrollPane(actorList, uiSkin);
+		final ScrollPane scroll = new BorderScrollPane(actorList, uiSkin);
 		scroll.setPosition(20, 200);
 		scroll.setSize(400, 400);
 		scroll.setFadeScrollBars(false);
@@ -195,7 +195,7 @@ public class VisualistaView implements ApplicationListener {
 		actionList.setSize(350, 400);
 		actionList.setColor(Color.BLACK);
 
-		ScrollPane actionScroll = new BorderScrollPane(actionList, uiSkin);
+		final ScrollPane actionScroll = new BorderScrollPane(actionList, uiSkin);
 		actionScroll.setPosition(1368, 100);
 		actionScroll.setSize(400, 400);
 		actionScroll.setFadeScrollBars(false);
@@ -239,7 +239,7 @@ public class VisualistaView implements ApplicationListener {
 		addActionButton.setPosition(1520, 75);
 		stage.addActor(addActionButton);
 
-		Drawable actorDraw = new TextureRegionDrawable(new TextureRegion(
+		final Drawable actorDraw = new TextureRegionDrawable(new TextureRegion(
 				new Texture(Gdx.files.internal("icons/cursor.png"))));
 		actorImage = new ImageButton(actorDraw);
 		actorImage.setSize(70, 70);
@@ -252,7 +252,7 @@ public class VisualistaView implements ApplicationListener {
 		Gdx.input.setInputProcessor(stage);
 	}
 
-	public void placeGrid() {
+	public final void placeGrid() {
 		int y = 580;
 		int x = 700;
 		for (int i = 0; i < 25; i++) {
@@ -263,14 +263,15 @@ public class VisualistaView implements ApplicationListener {
 			if (i == 4 || i == 9 || i == 14 || i == 19) {
 				x = x + 80;
 				y = 580;
-			} else
+			} else {
 				y = y - 80;
+			}
 
 		}
 
 	}
 
-	public void placeSceneButtons() {
+	public final void placeSceneButtons() {
 		int x = 452;
 		for (int i = 0; i < sceneButtons.size(); i++) {
 			sceneButtons.get(i).setSize(70, 20);
@@ -285,11 +286,11 @@ public class VisualistaView implements ApplicationListener {
 	}
 
 	@Override
-	public void resize(int width, int height) {
+	public void resize(final int width, final int height) {
 	}
 
 	@Override
-	public void render() {
+	public final void render() {
 		Gdx.gl.glClearColor(1, 1, 1, 2);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		stage.act();
