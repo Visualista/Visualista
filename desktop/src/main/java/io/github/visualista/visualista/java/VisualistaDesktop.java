@@ -20,7 +20,7 @@ public class VisualistaDesktop {
 		config.width = 1800;
 		config.height = 900;
 		LwjglApplication temp = new LwjglApplication(new VisualistaView(), config);
-		
+		  
 	}
 }
 

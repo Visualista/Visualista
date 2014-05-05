@@ -78,20 +78,16 @@ public class VisualistaView implements ApplicationListener {
         }
 
         newSceneButton = new TextButton("+", uiSkin);
-
+        
         newSceneButton.addCaptureListener(new ClickListener() {
-
             @Override
-            public boolean handle(Event event) {
-                if (event instanceof InputEvent) {
-                    InputEvent inputEvent = (InputEvent) event;
-                    sceneButtons.add(new TextButton("Scene"
-                            + sceneButtons.size(), uiSkin));
-                    placeSceneButtons();
-                }
-                return false;
+            public void clicked(InputEvent event,float x,float y) {
+                
+                InputEvent inputEvent = (InputEvent) event;
+                sceneButtons.add(new TextButton("Scene"
+                        + (sceneButtons.size()+1), uiSkin));
+                placeSceneButtons();
             }
-
         });
 
         sceneButtons = new ArrayList<TextButton>();
@@ -265,10 +261,10 @@ public class VisualistaView implements ApplicationListener {
             stage.addActor(gridButtons.get(i));
 
             if (i == 4 || i == 9 || i == 14 || i == 19) {
-                x = x + 81;
+                x = x + 80;
                 y = 580;
             } else
-                y = y - 81;
+                y = y - 80;
 
         }
 
