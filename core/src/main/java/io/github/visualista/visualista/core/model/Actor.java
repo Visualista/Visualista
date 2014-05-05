@@ -1,15 +1,16 @@
 package io.github.visualista.visualista.core.model;
 
+import io.github.visualista.visualista.controller.ActorEventSource;
 import io.github.visualista.visualista.util.Nameable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Actor implements Nameable, IActor {
+public class Actor extends ActorEventSource implements Nameable, IPlayActor {
 
 	public static final Actor EMPTY_ACTOR = new Actor();
 	private Image image;
-	private final List<IEditAction> actions;
+	private final List<IAction> actions;
 	private String name;
 
 	public String getName() {
@@ -21,19 +22,19 @@ public class Actor implements Nameable, IActor {
 	}
 
 	public Actor(){
-		actions = new ArrayList<IEditAction>();
+		actions = new ArrayList<IAction>();
 		image = new Image();
 	}
 	
-		public List<IEditAction> getActions(){
+	public List<IAction> getActions(){
 		return actions;
 	}
 	
-	public void addAction(IEditAction action){
+	public void addAction(IAction action){
 		actions.add(action);
 	}
 	
-	public void removeAction(IEditAction action){
+	public void removeAction(IAction action){
 		actions.remove(action);
 	}
 
@@ -47,7 +48,7 @@ public class Actor implements Nameable, IActor {
 
 	@Override
 	public String toString() {
-		return "Actor [actions=" + actions + ", name=" + name + "]";
+		return "Actor [Actions=" + actions + ", Name=" + name + "]";
 	}
 
 }

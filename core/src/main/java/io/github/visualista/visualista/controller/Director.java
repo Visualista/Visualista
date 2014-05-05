@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Director implements ActionListener{
+public class Director implements ActorListener{
 	
 	private final List<IPlayActor> controlledActors;
 	
@@ -23,14 +23,15 @@ public class Director implements ActionListener{
 		controlledActors.addAll(newActors);
 		Iterator<IPlayActor> it = controlledActors.iterator();
 		while (it.hasNext()){
+			((Actor)it.next()).addEventListener(this);
 			System.out.println("Adding listener to Actor " +  it.next().toString());
 		}
 	}
 	
 	
 	@Override
-	public void actionPerformed(ActionEvent ae) {
-		// TODO Stuff
+	public void actorCalled(ActorEvent ae) {
+		ae.getActor().getActions();
 		
 	}
 
