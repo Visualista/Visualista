@@ -27,9 +27,8 @@ public class Border extends WidgetGroup {
 		batch.draw(borderTexture, this.getX(), this.getY(), this.getWidth(),
 				this.getHeight());
 		batch.draw(innerTexture, this.getX() + LINE_SIZE, this.getY()
-				+ LINE_SIZE, this.getWidth() - LINE_SIZE, this.getHeight()
-				- LINE_SIZE);
-		super.draw(batch, parentAlpha);
+				+ LINE_SIZE, this.getWidth() - LINE_SIZE*2, this.getHeight()
+				- LINE_SIZE*2);
 		super.draw(batch, parentAlpha);
 	}
 
