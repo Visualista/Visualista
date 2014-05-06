@@ -70,7 +70,6 @@
     <module name="FinalLocalVariable">
       <property name="tokens" value="PARAMETER_DEF,VARIABLE_DEF"/>
     </module>
-    <module name="HiddenField"/>
     <module name="IllegalInstantiation"/>
     <module name="IllegalCatch"/>
     <module name="IllegalThrows"/>
