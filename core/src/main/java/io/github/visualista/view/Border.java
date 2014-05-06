@@ -9,22 +9,26 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 
 public class Border extends WidgetGroup {
-	private Actor actor;
+	private static final int LINE_SIZE = 3;
 
-	private Texture blackTexture;
-	private Texture whiteTexture;
+	private Texture borderTexture;
+	private Texture innerTexture;
 
-	public Border(Actor actor) {
-		this.actor = actor;
-		setUp();
+	public Border() {
+		setUp(Color.WHITE, Color.BLACK);
+	}
+	
+	public Border(Color innerColor, Color borderColor){
+		setUp(innerColor,borderColor);
 	}
 
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
-		batch.draw(blackTexture, this.getX() - 2, this.getY() - 2,
-				this.getWidth() + 3, this.getHeight() + 3);
-		batch.draw(whiteTexture, this.getX() - 1, this.getY() - 1,
-				this.getWidth() - 2, this.getHeight() - 2);
+		batch.draw(borderTexture, this.getX(), this.getY(), this.getWidth(),
+				this.getHeight());
+		batch.draw(innerTexture, this.getX() + LINE_SIZE, this.getY()
+				+ LINE_SIZE, this.getWidth() - LINE_SIZE, this.getHeight()
+				- LINE_SIZE);
 		super.draw(batch, parentAlpha);
 		super.draw(batch, parentAlpha);
 	}
@@ -38,9 +42,9 @@ public class Border extends WidgetGroup {
 		return texture;
 	}
 
-	private void setUp() {
-		blackTexture = createTexture(Color.BLACK);
-		whiteTexture = createTexture(Color.WHITE);
+	private void setUp(Color innerColor, Color borderColor) {
+		borderTexture = createTexture(borderColor);
+		innerTexture = createTexture(innerColor);
 	}
 
 }

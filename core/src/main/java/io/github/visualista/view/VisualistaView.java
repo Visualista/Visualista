@@ -93,22 +93,22 @@ public class VisualistaView implements ApplicationListener {
 		sceneButtons = new ArrayList<TextButton>();
 		sceneButtons.add(new TextButton("Scene1", uiSkin));
 
-		leftBorder = new Border(null);
+		leftBorder = new Border();
 		leftBorder.setSize(450, 1800);
 		leftBorder.setPosition(0, 0);
 		stage.addActor(leftBorder);
 
-		rightBorder = new Border(null);
+		rightBorder = new Border();
 		rightBorder.setSize(450, 1800);
 		rightBorder.setPosition(1350, 0);
 		stage.addActor(rightBorder);
 
-		upperBorder = new Border(null);
+		upperBorder = new Border();
 		upperBorder.setSize(900, 200);
 		upperBorder.setPosition(450, 700);
 		stage.addActor(upperBorder);
 
-		lowerBorder = new Border(null);
+		lowerBorder = new Border();
 		lowerBorder.setSize(900, 200);
 		lowerBorder.setPosition(450, 0);
 		stage.addActor(lowerBorder);
