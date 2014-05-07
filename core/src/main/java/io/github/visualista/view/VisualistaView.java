@@ -349,4 +349,11 @@ public class VisualistaView implements ApplicationListener {
     public void removeViewEventListener(ViewEventListener eventListener) {
         eventManager.removeEventListener(eventListener);
     }
+
+    public void addScene() {
+
+        sceneButtons.add(new TextButton("Scene42", uiSkin));
+        placeSceneButtons();
+        
+    }
 }
