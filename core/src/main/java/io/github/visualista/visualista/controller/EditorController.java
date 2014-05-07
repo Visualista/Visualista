@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import io.github.visualista.view.VisualistaView;
 import io.github.visualista.visualista.core.Visualista;
 
-
 public class EditorController implements ViewEventListener {
 
 	private Visualista visualista;
@@ -20,12 +19,19 @@ public class EditorController implements ViewEventListener {
 
 	private void addEventHandlersToView() {
 		view.addViewEventListener(this);
-		
 	}
 
 	@Override
-	public void handleViewEvent(EditorViewEvent event) {
-		Gdx.app.log("Event", "ViewEvent fired");
+	public final void handleViewEvent(final EditorViewEvent event) {
+		switch (event.getEventType()) {
+		case NEW_SCENE:
+			final boolean addedNewScene = visualista.addNewScene();
+			if (addedNewScene) {
+
+			}
+			break;
+
+		}
 	}
 
 }
