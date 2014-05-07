@@ -2,7 +2,7 @@ package io.github.visualista.visualista.util;
 
 import java.util.Arrays;
 
-public class Matrix<E> implements IMatrixGet<E>, IMatrixSet<E> {
+public class Matrix<E> implements IMatrixSet<E> {
 	private final Row<E>[] matrix;
 
 	@SuppressWarnings("unchecked")
