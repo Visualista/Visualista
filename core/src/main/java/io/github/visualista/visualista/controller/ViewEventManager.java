@@ -16,7 +16,7 @@ public class ViewEventManager {
 	}
 	
 	public synchronized void fireViewEvent() {
-		ViewEvent event = new ViewEvent(this);
+		EditorViewEvent event = new EditorViewEvent(this);
 		Iterator<ViewEventListener> eventIterator = eventListeners.iterator();
 		while (eventIterator.hasNext()) {
 			eventIterator.next().handleViewEvent(event);

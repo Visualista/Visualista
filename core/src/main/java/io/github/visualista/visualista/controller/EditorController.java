@@ -24,7 +24,7 @@ public class EditorController implements ViewEventListener {
 	}
 
 	@Override
-	public void handleViewEvent(ViewEvent event) {
+	public void handleViewEvent(EditorViewEvent event) {
 		Gdx.app.log("Event", "ViewEvent fired");
 	}
 
