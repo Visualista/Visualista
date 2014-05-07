@@ -60,4 +60,12 @@ public class Visualista {
 		Novel newNovel = novelFactory.createNovel();
 		setCurrentNovel(newNovel);
 	}
+
+	public final boolean addNewScene() {
+		if(currentNovel!=null){
+			currentNovel.addScene(sceneFactory.createScene());
+			return true;
+		}
+		return false;
+	}
 }
