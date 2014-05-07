@@ -3,10 +3,10 @@ package io.github.visualista.visualista.core.model;
 import java.util.List;
 
 public interface IGetActor {
-	String getName();
+    String getName();
 
-	Image getImage();
+    Image getImage();
 
-	List<IAction> getActions();
+    List<IAction> getActions();
 
 }

@@ -13,27 +13,27 @@ import com.thoughtworks.xstream.XStream;
 
 public class XStreamManager {
 
-	private final XStream mainXStream;
+    private final XStream mainXStream;
 
-	public XStreamManager() {
-		mainXStream = new XStream();
-		configureXStream();
-	}
+    public XStreamManager() {
+        mainXStream = new XStream();
+        configureXStream();
+    }
 
-	private void configureXStream() {
-		mainXStream.alias("Action", IEditAction.class);
-		mainXStream.alias("Actor", Actor.class);
-		mainXStream.alias("Scene", Scene.class);
-		mainXStream.alias("Novel", Novel.class);
-		mainXStream.alias("Tile", Tile.class);
-		mainXStream.alias("Row", Row.class);
-		mainXStream.addImplicitArray(Row.class, "row");
-		mainXStream.addImplicitArray(Matrix.class, "matrix");
-		mainXStream.setMode(XStream.ID_REFERENCES);
+    private void configureXStream() {
+        mainXStream.alias("Action", IEditAction.class);
+        mainXStream.alias("Actor", Actor.class);
+        mainXStream.alias("Scene", Scene.class);
+        mainXStream.alias("Novel", Novel.class);
+        mainXStream.alias("Tile", Tile.class);
+        mainXStream.alias("Row", Row.class);
+        mainXStream.addImplicitArray(Row.class, "row");
+        mainXStream.addImplicitArray(Matrix.class, "matrix");
+        mainXStream.setMode(XStream.ID_REFERENCES);
 
-	}
+    }
 
-	public XStream getMainXStream() {
-		return mainXStream;
-	}
+    public XStream getMainXStream() {
+        return mainXStream;
+    }
 }

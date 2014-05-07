@@ -11,36 +11,36 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class DimensionTest {
-	private Dimension dimension;
-	private int width;
-	private int height;
+    private Dimension dimension;
+    private int width;
+    private int height;
 
-	@Before
-	public void setUp() throws Exception {
-		Random rand = new Random();
-		width = rand.nextInt();
-		height = rand.nextInt();
-		dimension = new Dimension(width, height);
-	}
+    @Before
+    public void setUp() throws Exception {
+        Random rand = new Random();
+        width = rand.nextInt();
+        height = rand.nextInt();
+        dimension = new Dimension(width, height);
+    }
 
-	@Test
-	public void testGetWidth() {
-		assertEquals(width, dimension.getWidth());
-	}
+    @Test
+    public void testGetWidth() {
+        assertEquals(width, dimension.getWidth());
+    }
 
-	@Test
-	public void testGetHeight() {
-		assertEquals(height, dimension.getHeight());
-	}
+    @Test
+    public void testGetHeight() {
+        assertEquals(height, dimension.getHeight());
+    }
 
-	@Test
-	public void equalsContract() {
-		EqualsVerifier.forClass(Dimension.class).verify();
-	}
+    @Test
+    public void equalsContract() {
+        EqualsVerifier.forClass(Dimension.class).verify();
+    }
 
-	@Test
-	public void testToString() {
-		assertTrue(dimension.toString().contains("" + width));
-		assertTrue(dimension.toString().contains("" + height));
-	}
+    @Test
+    public void testToString() {
+        assertTrue(dimension.toString().contains("" + width));
+        assertTrue(dimension.toString().contains("" + height));
+    }
 }

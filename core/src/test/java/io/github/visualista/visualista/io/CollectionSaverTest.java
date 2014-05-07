@@ -11,9 +11,9 @@ import org.junit.Test;
 
 public class CollectionSaverTest {
 
-	@Test
-	public void testSaveCollection() {
-		assertEquals(true, true);
-	}
+    @Test
+    public void testSaveCollection() {
+        assertEquals(true, true);
+    }
 
 }

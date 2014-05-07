@@ -9,19 +9,20 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class GridFactoryTest {
-	private static final int GRID_DEFAULT_HEIGHT = 5;
-	private static final int GRID_DEFAULT_WIDTH = 5;
-	GridFactory factory;
+    private static final int GRID_DEFAULT_HEIGHT = 5;
+    private static final int GRID_DEFAULT_WIDTH = 5;
+    GridFactory factory;
 
-	@Before
-	public void setUp() throws Exception {
-		factory = new GridFactory();
-	}
+    @Before
+    public void setUp() throws Exception {
+        factory = new GridFactory();
+    }
 
-	@Test
-	public void testCreateGrid() {
-		Grid grid = factory.createGrid();
-		assertEquals(new Dimension(GRID_DEFAULT_WIDTH, GRID_DEFAULT_HEIGHT), grid.getSize());
-	}
+    @Test
+    public void testCreateGrid() {
+        Grid grid = factory.createGrid();
+        assertEquals(new Dimension(GRID_DEFAULT_WIDTH, GRID_DEFAULT_HEIGHT),
+                grid.getSize());
+    }
 
 }

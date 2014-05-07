@@ -6,14 +6,14 @@ import com.thoughtworks.xstream.XStream;
 
 public class ObjectFactory<E extends Nameable> {
 
-	private final XStream xstream;
+    private final XStream xstream;
 
-	public ObjectFactory(XStream xstream) {
-		this.xstream = xstream;
-	}
+    public ObjectFactory(XStream xstream) {
+        this.xstream = xstream;
+    }
 
-	@SuppressWarnings("unchecked")
-	public E createObject(String readXML) {
-		return (E) xstream.fromXML(readXML);
-	};
+    @SuppressWarnings("unchecked")
+    public E createObject(String readXML) {
+        return (E) xstream.fromXML(readXML);
+    };
 }

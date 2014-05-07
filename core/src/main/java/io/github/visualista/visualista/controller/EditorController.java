@@ -7,31 +7,31 @@ import io.github.visualista.visualista.core.Visualista;
 
 public class EditorController implements ViewEventListener {
 
-	private Visualista visualista;
-	private VisualistaView view;
+    private Visualista visualista;
+    private VisualistaView view;
 
-	public EditorController(final Visualista visualista,
-			final VisualistaView view) {
-		this.visualista = visualista;
-		this.view = view;
-		addEventHandlersToView();
-	}
+    public EditorController(final Visualista visualista,
+            final VisualistaView view) {
+        this.visualista = visualista;
+        this.view = view;
+        addEventHandlersToView();
+    }
 
-	private void addEventHandlersToView() {
-		view.addViewEventListener(this);
-	}
+    private void addEventHandlersToView() {
+        view.addViewEventListener(this);
+    }
 
-	@Override
-	public final void handleViewEvent(final EditorViewEvent event) {
-		switch (event.getEventType()) {
-		case NEW_SCENE:
-			final boolean addedNewScene = visualista.addNewScene();
-			if (addedNewScene) {
+    @Override
+    public final void handleViewEvent(final EditorViewEvent event) {
+        switch (event.getEventType()) {
+            case NEW_SCENE:
+                final boolean addedNewScene = visualista.addNewScene();
+                if (addedNewScene) {
 
-			}
-			break;
+                }
+                break;
 
-		}
-	}
+        }
+    }
 
 }

@@ -8,22 +8,22 @@ import com.thoughtworks.xstream.XStream;
 
 public class FileSaver<E> {
 
-	private final XStream xstream;
+    private final XStream xstream;
 
-	public FileSaver(XStream xstream) {
-		this.xstream = xstream;
-	}
+    public FileSaver(XStream xstream) {
+        this.xstream = xstream;
+    }
 
-	public void saveObjectToFile(File outputFile, E object) {
-		try {
-			FileOutputStream fos = new FileOutputStream(outputFile);
-			try {
-				xstream.toXML(object, fos);
-			} finally {
-				fos.close();
-			}
-		} catch (IOException e) {
-		}
-	}
+    public void saveObjectToFile(File outputFile, E object) {
+        try {
+            FileOutputStream fos = new FileOutputStream(outputFile);
+            try {
+                xstream.toXML(object, fos);
+            } finally {
+                fos.close();
+            }
+        } catch (IOException e) {
+        }
+    }
 
 }

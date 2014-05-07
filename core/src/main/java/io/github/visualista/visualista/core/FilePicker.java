@@ -4,6 +4,6 @@ import javax.swing.filechooser.FileFilter;
 
 public interface FilePicker {
 
-	void fileDialog(FilePickerListener listener, boolean open,
-			FileFilter fileFilter);
+    void fileDialog(FilePickerListener listener, boolean open,
+            FileFilter fileFilter);
 }

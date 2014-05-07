@@ -5,13 +5,13 @@ import io.github.visualista.visualista.core.model.Novel;
 
 public class VisualistaPlayer {
 
-	private final Director director;
+    private final Director director;
 
-	public VisualistaPlayer() {
-		director = new Director();
-	}
+    public VisualistaPlayer() {
+        director = new Director();
+    }
 
-	public void playNovel(Novel novel) {
+    public void playNovel(Novel novel) {
 
-	}
+    }
 }

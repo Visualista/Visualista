@@ -11,64 +11,65 @@ import org.junit.Test;
 
 public class MatrixTest {
 
-	private static final int MATRIX_MAX_WIDTH = 140;
-	private static final int MATRIX_MAX_HEIGHT = 130;
-	private Dimension dim;
-	private Matrix<Integer> matrix;
-	private Random rand;
-	
-	@Before
-	public void setUp() {
-		rand = new Random();
-		int width = rand.nextInt(MATRIX_MAX_WIDTH) + 1;
-		int height = rand.nextInt(MATRIX_MAX_HEIGHT) + 1;
-		dim = new Dimension(width, height);
-		matrix = new Matrix<Integer>(dim);
-	}
+    private static final int MATRIX_MAX_WIDTH = 140;
+    private static final int MATRIX_MAX_HEIGHT = 130;
+    private Dimension dim;
+    private Matrix<Integer> matrix;
+    private Random rand;
 
-	@Test(expected = IllegalArgumentException.class)
-	public void matrixHeightShouldBeGreaterThan1() {
-		new Matrix<Object>(new Dimension(-1, 1));
-	}
+    @Before
+    public void setUp() {
+        rand = new Random();
+        int width = rand.nextInt(MATRIX_MAX_WIDTH) + 1;
+        int height = rand.nextInt(MATRIX_MAX_HEIGHT) + 1;
+        dim = new Dimension(width, height);
+        matrix = new Matrix<Integer>(dim);
+    }
 
-	@Test(expected = IllegalArgumentException.class)
-	public void matrixWidthShouldBeGreaterThan1() {
-		new Matrix<Object>(new Dimension(1, -1));
-	}
+    @Test(expected = IllegalArgumentException.class)
+    public void matrixHeightShouldBeGreaterThan1() {
+        new Matrix<Object>(new Dimension(-1, 1));
+    }
 
-	@Test
-	public void testGetSize() {
-		
-		assertEquals(dim, matrix.getSize());
-	}
+    @Test(expected = IllegalArgumentException.class)
+    public void matrixWidthShouldBeGreaterThan1() {
+        new Matrix<Object>(new Dimension(1, -1));
+    }
 
-	@Test
-	public void testGetAndSetAtPosition() {
-		Point point = new Point(rand.nextInt(dim.getWidth()), rand.nextInt(dim.getHeight()));
-		assertNull(matrix.getAt(point));
-		matrix.setAt(point, 42);
-		assertEquals(new Integer(42), matrix.getAt(point));
-	}
+    @Test
+    public void testGetSize() {
 
-	@Test
-	public void testFillWith() {
-		matrix.fillWith(new IObjectCreator<Integer>() {
-			Random rng = new Random();
+        assertEquals(dim, matrix.getSize());
+    }
 
-			@Override
-			public Integer createObject() {
-				return new Integer(rng.nextInt());
-			}
-		});
-		for (int i = 0; i < matrix.getSize().getWidth(); ++i) {
-			for (int j = 0; j < matrix.getSize().getHeight(); ++j) {
-				assertNotNull(matrix.getAt(new Point(i, j)));
-			}
-		}
-	}
+    @Test
+    public void testGetAndSetAtPosition() {
+        Point point = new Point(rand.nextInt(dim.getWidth()), rand.nextInt(dim
+                .getHeight()));
+        assertNull(matrix.getAt(point));
+        matrix.setAt(point, 42);
+        assertEquals(new Integer(42), matrix.getAt(point));
+    }
 
-	@Test
-	public void equalsContract() {
-		EqualsVerifier.forClass(Matrix.class).verify();
-	}
+    @Test
+    public void testFillWith() {
+        matrix.fillWith(new IObjectCreator<Integer>() {
+            Random rng = new Random();
+
+            @Override
+            public Integer createObject() {
+                return new Integer(rng.nextInt());
+            }
+        });
+        for (int i = 0; i < matrix.getSize().getWidth(); ++i) {
+            for (int j = 0; j < matrix.getSize().getHeight(); ++j) {
+                assertNotNull(matrix.getAt(new Point(i, j)));
+            }
+        }
+    }
+
+    @Test
+    public void equalsContract() {
+        EqualsVerifier.forClass(Matrix.class).verify();
+    }
 }

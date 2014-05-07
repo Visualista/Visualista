@@ -4,12 +4,12 @@ import io.github.visualista.visualista.util.Point;
 
 public interface IEditReplaceTileAction extends IEditAction {
 
-	public void setReplacementActor(Actor replacementActor);
+    public void setReplacementActor(Actor replacementActor);
 
-	public Actor getReplacementActor();
+    public Actor getReplacementActor();
 
-	public void setTargetTile(Point targetTile);
+    public void setTargetTile(Point targetTile);
 
-	public Point getTargetTile();
+    public Point getTargetTile();
 
 }

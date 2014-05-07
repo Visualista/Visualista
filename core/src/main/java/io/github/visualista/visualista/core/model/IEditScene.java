@@ -4,18 +4,18 @@ import java.util.List;
 
 public interface IEditScene {
 
-	public String getStoryText();
+    public String getStoryText();
 
-	public void setStoryText(String storyText);
+    public void setStoryText(String storyText);
 
-	public String getName();
+    public String getName();
 
-	public void setName(String name);
+    public void setName(String name);
 
-	public Grid getGrid();
+    public Grid getGrid();
 
-	public void addActor(Actor actor);
+    public void addActor(Actor actor);
 
-	public List<Actor> getActorsInScene();
+    public List<Actor> getActorsInScene();
 
 }

@@ -10,25 +10,25 @@ import org.junit.Test;
 
 public class ActorFactoryTest {
 
-	private ActorFactory factory;
-	private Actor actor;
+    private ActorFactory factory;
+    private Actor actor;
 
-	@Before
-	public void setUp() throws Exception {
-		factory = new ActorFactory();
-		actor = factory.createActor();
-	}
+    @Before
+    public void setUp() throws Exception {
+        factory = new ActorFactory();
+        actor = factory.createActor();
+    }
 
-	@Test
-	public void test() {
-		assertThat(factory, notNullValue());
-	}
+    @Test
+    public void test() {
+        assertThat(factory, notNullValue());
+    }
 
-	@Test
-	public void testCreateActor() {
-		assertThat(actor, notNullValue());
-		assertThat(actor.getImage(), notNullValue());
-		assertThat(actor.getActions(), notNullValue());
-	}
+    @Test
+    public void testCreateActor() {
+        assertThat(actor, notNullValue());
+        assertThat(actor.getImage(), notNullValue());
+        assertThat(actor.getActions(), notNullValue());
+    }
 
 }
