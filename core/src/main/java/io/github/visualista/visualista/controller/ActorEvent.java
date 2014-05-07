@@ -1,8 +1,10 @@
 package io.github.visualista.visualista.controller;
 
+import java.util.EventObject;
+
 import io.github.visualista.visualista.core.model.Actor;
 
-public class ActorEvent extends java.util.EventObject {
+public class ActorEvent extends EventObject {
 
 	public ActorEvent(Object source) {
 		super(source);
