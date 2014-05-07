@@ -73,8 +73,9 @@
     <module name="IllegalInstantiation"/>
     <module name="IllegalCatch"/>
     <module name="IllegalThrows"/>
-    <module name="IllegalToken"/>
-    <module name="IllegalTokenText"/>
+    <module name="IllegalToken">
+      <property name="tokens" value="POST_INC,POST_DEC"/>
+    </module>
     <module name="IllegalType">
       <property name="tokens" value="METHOD_DEF,PARAMETER_DEF,VARIABLE_DEF"/>
     </module>
