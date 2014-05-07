@@ -1,6 +1,5 @@
 package io.github.visualista.view;
 
-
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -11,12 +10,15 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -25,10 +27,8 @@ import io.github.visualista.visualista.core.model.Actor;
 
 import java.util.*;
 
-
-
 public class VisualistaView implements ApplicationListener {
-	private static final float LEFT_BORDER_WIDTH_RATIO = 2.0f/9;
+	private static final float LEFT_BORDER_WIDTH_RATIO = 2.0f / 9;
 
 	private Stage stage;
 
@@ -60,10 +60,11 @@ public class VisualistaView implements ApplicationListener {
 	private Border upperBorder;
 	private Border lowerBorder;
 
+	private VerticalGroup leftVerticalGroup;
+
+	//private Table leftTable;
 
 	// private TextureAtlas atlas;
-
-
 
 	@Override
 	public final void create() {
@@ -93,8 +94,6 @@ public class VisualistaView implements ApplicationListener {
 		sceneButtons = new ArrayList<TextButton>();
 		sceneButtons.add(new TextButton("Scene1", uiSkin));
 
-		createLeftBorderContent();
-
 		createRightBorderContent();
 
 		upperBorder = new Border();
@@ -119,11 +118,6 @@ public class VisualistaView implements ApplicationListener {
 		actionLabel.setColor(Color.BLACK);
 		stage.addActor(actionLabel);
 
-
-		
-
-		
-
 		final Drawable actorDraw = new TextureRegionDrawable(new TextureRegion(
 				new Texture(Gdx.files.internal("icons/cursor.png"))));
 		actorImage = new ImageButton(actorDraw);
@@ -133,61 +127,11 @@ public class VisualistaView implements ApplicationListener {
 
 		placeSceneButtons();
 		placeGrid();
-
+		createLeftBorderContent();
 		Gdx.input.setInputProcessor(stage);
 	}
 
 	private void createRightBorderContent() {
-		rightBorder = new Border();
-		rightBorder.setSize(450, 1800);
-		rightBorder.setPosition(1350, 0);
-		stage.addActor(rightBorder);
-		
-		modifyButton = new TextButton("Modify", uiSkin);
-		modifyButton.setSize(150, 20);
-		modifyButton.setPosition(1368, 75);
-		stage.addActor(modifyButton);
-
-		addActionButton = new TextButton("Add", uiSkin);
-		addActionButton.setSize(150, 20);
-		addActionButton.setPosition(1520, 75);
-		stage.addActor(addActionButton);
-	}
-
-	private void createLeftBorderContent() {
-		leftBorder = new Border();
-		leftBorder.setSize(stage.getWidth()*LEFT_BORDER_WIDTH_RATIO, stage.getHeight());
-		leftBorder.setPosition(0, 0);
-		stage.addActor(leftBorder);
-		
-
-		final Drawable cursor = new TextureRegionDrawable(new TextureRegion(
-				new Texture(Gdx.files.internal("icons/cursor.png"))));
-		leftButton = new ImageButton(cursor);
-		leftButton.setPosition(60, 750);
-		leftButton.setSize(50, 50);
-		leftButton.addListener(new ClickListener());
-
-		final Drawable hand = new TextureRegionDrawable(new TextureRegion(
-				new Texture(Gdx.files.internal("icons/hand.png"))));
-
-		centerButton = new ImageButton(hand);
-		centerButton.setPosition(173, 750);
-		centerButton.setSize(50, 50);
-		centerButton.addListener(new ClickListener());
-
-		final Drawable arrow = new TextureRegionDrawable(new TextureRegion(
-				new Texture(Gdx.files.internal("icons/arrow.png"))));
-
-		rightButton = new ImageButton(arrow);
-		rightButton.setPosition(286, 750);
-		rightButton.setSize(50, 50);
-		rightButton.addListener(new ClickListener());
-
-		stage.addActor(leftButton);
-		stage.addActor(centerButton);
-		stage.addActor(rightButton);
-
 		Actor a1 = new Actor();
 		a1.setName("Jacob");
 		Actor a2 = new Actor();
@@ -201,29 +145,6 @@ public class VisualistaView implements ApplicationListener {
 				a2.getName(), a2.getName(), a2.getName(), a2.getName(),
 				a2.getName(), a2.getName(), a2.getName(), a2.getName(),
 				a2.getName() };
-
-		actorList = new List(actors, uiSkin);
-
-		actorList.setSize(400, 400);
-		actorList.setColor(Color.BLACK);
-
-		final ScrollPane scroll = new BorderScrollPane(actorList, uiSkin);
-		scroll.setPosition(20, 200);
-		scroll.setSize(400, 400);
-		scroll.setFadeScrollBars(false);
-		stage.addActor(scroll);
-
-		actorList.addCaptureListener(new EventListener() {
-
-			@Override
-			public boolean handle(Event event) {
-				if (event instanceof InputEvent) {
-				}
-				return false;
-			}
-
-		});
-
 
 		actionList = new List(actors, uiSkin);
 
@@ -247,25 +168,123 @@ public class VisualistaView implements ApplicationListener {
 
 		});
 
+		rightBorder = new Border();
+		rightBorder.setSize(450, 1800);
+		rightBorder.setPosition(1350, 0);
+		stage.addActor(rightBorder);
+
+		modifyButton = new TextButton("Modify", uiSkin);
+		modifyButton.setSize(150, 20);
+		modifyButton.setPosition(1368, 75);
+		stage.addActor(modifyButton);
+
+		addActionButton = new TextButton("Add", uiSkin);
+		addActionButton.setSize(150, 20);
+		addActionButton.setPosition(1520, 75);
+		stage.addActor(addActionButton);
+	}
+
+	private void createLeftBorderContent() {
+		//leftTable = new Table(uiSkin);
+		leftVerticalGroup = new VerticalGroup();
+		leftBorder = new Border();
+		stage.addActor(leftBorder);
+
+		leftBorder.setActor(leftVerticalGroup);
+		leftVerticalGroup.setSize(stage.getWidth() * LEFT_BORDER_WIDTH_RATIO,
+				stage.getHeight());
+		leftVerticalGroup.setPosition(3, 3);
+
+		final Drawable cursor = new TextureRegionDrawable(new TextureRegion(
+				new Texture(Gdx.files.internal("icons/cursor.png"))));
+		leftButton = new ImageButton(cursor);
+		leftButton.setPosition(60, 750);
+		leftButton.setSize(50, 50);
+		leftButton.addListener(new ClickListener());
+
+		final Drawable hand = new TextureRegionDrawable(new TextureRegion(
+				new Texture(Gdx.files.internal("icons/hand.png"))));
+
+		centerButton = new ImageButton(hand);
+		// centerButton.setPosition(173, 750);
+		centerButton.setSize(50, 50);
+		centerButton.addListener(new ClickListener());
+
+		final Drawable arrow = new TextureRegionDrawable(new TextureRegion(
+				new Texture(Gdx.files.internal("icons/arrow.png"))));
+
+		rightButton = new ImageButton(arrow);
+		// rightButton.setPosition(286, 750);
+		rightButton.setSize(50, 50);
+		rightButton.addListener(new ClickListener());
+		
+		HorizontalGroup buttonContainer1 = new HorizontalGroup();
+
+		buttonContainer1.addActor(leftButton);
+		buttonContainer1.addActor(centerButton);
+		buttonContainer1.addActor(rightButton);
+		leftVerticalGroup.addActor(buttonContainer1);
+
+		Actor a1 = new Actor();
+		a1.setName("Jacob");
+		Actor a2 = new Actor();
+		a2.setName("Ja");
+		final String[] actors = { a1.getName(), a2.getName(), a2.getName(),
+				a2.getName(), a2.getName(), a2.getName(), a2.getName(),
+				a2.getName(), a2.getName(), a2.getName(), a2.getName(),
+				a2.getName(), a2.getName(), a2.getName(), a2.getName(),
+				a2.getName(), a2.getName(), a2.getName(), a2.getName(),
+				a2.getName(), a2.getName(), a2.getName(), a2.getName(),
+				a2.getName(), a2.getName(), a2.getName(), a2.getName(),
+				a2.getName(), a2.getName(), a2.getName(), a2.getName(),
+				a2.getName() };
+
+		actorList = new List(actors, uiSkin);
+
+		actorList.setSize(leftBorder.getWidth(), 400);
+		actorList.setColor(Color.BLACK);
+
+		final ScrollPane scroll = new ScrollPane(actorList, uiSkin);
+		scroll.setSize(400, 400);
+		scroll.setFadeScrollBars(false);
+		Border scrollBorder = new Border();
+		scrollBorder.setActor(scroll);
+		leftVerticalGroup.addActor(scrollBorder);
+		
+		
+		actorList.addCaptureListener(new EventListener() {
+
+			@Override
+			public boolean handle(Event event) {
+				if (event instanceof InputEvent) {
+				}
+				return false;
+			}
+
+		});
+
+		HorizontalGroup buttonContainer2 = new HorizontalGroup();
+		
 		newActorButton = new TextButton("New", uiSkin);
 		newActorButton.setSize(100, 20);
-		newActorButton.setPosition(320, 178);
-		stage.addActor(newActorButton);
+		//newActorButton.setPosition(320, 178);
+		buttonContainer2.addActor(newActorButton);
 
 		actorsButton = new TextButton("Actors", uiSkin);
 		actorsButton.setSize(150, 20);
-		actorsButton.setPosition(20, 602);
-		stage.addActor(actorsButton);
-		
+		//actorsButton.setPosition(20, 602);
+		buttonContainer2.addActor(actorsButton);
+
 		dialogsButton = new TextButton("Dialogs", uiSkin);
 		dialogsButton.setSize(150, 20);
-		dialogsButton.setPosition(172, 602);
-		stage.addActor(dialogsButton);
+		//dialogsButton.setPosition(172, 602);
+		buttonContainer2.addActor(dialogsButton);
+		leftVerticalGroup.addActor(buttonContainer2);
 	}
 
 	public final void placeGrid() {
 		int y = 580;
-		int x = (int) Math.floor(stage.getWidth()*LEFT_BORDER_WIDTH_RATIO);
+		int x = (int) Math.floor(stage.getWidth() * LEFT_BORDER_WIDTH_RATIO);
 		for (int i = 0; i < 25; i++) {
 			gridButtons.get(i).setSize(80, 80);
 			gridButtons.get(i).setPosition(x, y);
@@ -299,8 +318,9 @@ public class VisualistaView implements ApplicationListener {
 	@Override
 	public void resize(final int width, final int height) {
 		stage.setViewport(1800, 900, true);
-	    stage.getCamera().translate(-stage.getGutterWidth(), -stage.getGutterHeight(), 0);
-	    
+		stage.getCamera().translate(-stage.getGutterWidth(),
+				-stage.getGutterHeight(), 0);
+
 	}
 
 	@Override
