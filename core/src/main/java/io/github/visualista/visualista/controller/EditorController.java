@@ -27,7 +27,7 @@ public class EditorController implements ViewEventListener {
             case NEW_SCENE:
                 final boolean addedNewScene = visualista.addNewScene();
                 if (addedNewScene) {
-
+                    view.addScene();
                 }
                 break;
 
