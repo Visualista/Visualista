@@ -16,13 +16,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
+import io.github.visualista.visualista.controller.ViewEventListener;
+import io.github.visualista.visualista.controller.ViewEventManager;
 import io.github.visualista.visualista.core.model.Actor;
 
 import java.util.*;
@@ -61,6 +62,8 @@ public class VisualistaView implements ApplicationListener {
 	private Border lowerBorder;
 
 	private VerticalGroup leftVerticalGroup;
+	
+	private final ViewEventManager eventManager = new ViewEventManager();
 
 	//private Table leftTable;
 
@@ -84,10 +87,7 @@ public class VisualistaView implements ApplicationListener {
 		newSceneButton.addCaptureListener(new ClickListener() {
 			@Override
 			public void clicked(final InputEvent event, final float x, float y) {
-
-				sceneButtons.add(new TextButton("Scene"
-						+ (sceneButtons.size() + 1), uiSkin));
-				placeSceneButtons();
+				eventManager.fireViewEvent();
 			}
 		});
 
@@ -341,5 +341,13 @@ public class VisualistaView implements ApplicationListener {
 
 	@Override
 	public void dispose() {
+	}
+
+	public void addViewEventListener(ViewEventListener eventListener) {
+		eventManager.addEventListener(eventListener);
+	}
+	
+	public void removeViewEventListener(ViewEventListener eventListener) {
+		eventManager.removeEventListener(eventListener);
 	}
 }
