@@ -329,7 +329,7 @@ public class VisualistaView implements ApplicationListener {
             group.addActor(row);
             for (int j = 0; j < data.getSize().getWidth(); j++) {
                 ImageButton button = data.getAt(new Point(i, j));
-                button.setSize(80, 80);
+                button.setSize(100, 100);
                 row.addActor(button);
             }
         }
