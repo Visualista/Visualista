@@ -42,7 +42,10 @@ public class EditorController implements ViewEventListener {
             case CHANGE_ACTOR_NAME:
                 //TODO: Fix the Event as well as implementing actor name change
                 break;
-
+            case CHANGE_SCENE_NAME:
+                //TODO: Fix the Event as well as implementing scene name change
+                break;
+                
         }
     }
 

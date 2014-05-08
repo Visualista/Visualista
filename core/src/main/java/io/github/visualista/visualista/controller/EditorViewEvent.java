@@ -10,7 +10,8 @@ public class EditorViewEvent extends EventObject {
         NEW_ACTOR,
         SELECT_ACTOR,
         REMOVE_ACTOR,
-        CHANGE_ACTOR_NAME
+        CHANGE_ACTOR_NAME,
+        CHANGE_SCENE_NAME
     }
 
     private final Type eventType;
