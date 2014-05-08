@@ -1,6 +1,6 @@
 package io.github.visualista.visualista.core.model;
 
-public class SwitchSceneAction implements IEditSwitchSceneAction, IPlayAction {
+public class SwitchSceneAction implements IPlayAction {
 
     private Scene targetScene;
 
@@ -16,7 +16,6 @@ public class SwitchSceneAction implements IEditSwitchSceneAction, IPlayAction {
         this.targetScene = targetScene;
     }
 
-    @Override
     public String getExplainatoryName() {
         return "SwitchScene(\"" + targetScene.getName() + "\")";
     }

@@ -2,7 +2,7 @@ package io.github.visualista.visualista.core.model;
 
 import io.github.visualista.visualista.util.Point;
 
-public class ReplaceTileAction implements IEditReplaceTileAction, IPlayAction {
+public class ReplaceTileAction implements IPlayAction {
 
     private Point targetTile;
     private Actor replacementActor;
@@ -33,7 +33,6 @@ public class ReplaceTileAction implements IEditReplaceTileAction, IPlayAction {
                 + targetTile.getX() + "," + targetTile.getY() + ")";
     }
 
-    @Override
     public String getExplainatoryName() {
         return "SetTile(" + replacementActor.toString() + " | "
                 + targetTile.getX() + "," + targetTile.getY() + ")";

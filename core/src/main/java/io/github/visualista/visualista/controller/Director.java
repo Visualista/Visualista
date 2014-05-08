@@ -11,16 +11,16 @@ import java.util.List;
 
 public class Director implements ActorListener {
 
-    private final List<IPlayActor> controlledActors;
+    private final List<IGetActor> controlledActors;
 
     public Director() {
-        controlledActors = new ArrayList<IPlayActor>();
+        controlledActors = new ArrayList<IGetActor>();
     }
 
-    public void updateListeners(List<IPlayActor> newActors) {
+    public void updateListeners(List<IGetActor> newActors) {
         controlledActors.clear();
         controlledActors.addAll(newActors);
-        Iterator<IPlayActor> it = controlledActors.iterator();
+        Iterator<IGetActor> it = controlledActors.iterator();
         while (it.hasNext()) {
             ((Actor) it.next()).addEventListener(this);
             System.out.println("Adding listener to Actor "

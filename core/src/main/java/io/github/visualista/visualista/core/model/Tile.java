@@ -1,6 +1,6 @@
 package io.github.visualista.visualista.core.model;
 
-public class Tile implements IEditTile {
+public class Tile {
     private Actor tileActor;
 
     public Tile(Actor tileActor) {

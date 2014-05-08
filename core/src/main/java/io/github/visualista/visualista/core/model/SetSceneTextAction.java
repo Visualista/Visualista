@@ -1,6 +1,6 @@
 package io.github.visualista.visualista.core.model;
 
-public class SetSceneTextAction implements IEditSetSceneTextAction, IPlayAction {
+public class SetSceneTextAction implements IPlayAction {
 
     private String sceneText;
 
@@ -12,7 +12,6 @@ public class SetSceneTextAction implements IEditSetSceneTextAction, IPlayAction 
         return sceneText;
     }
 
-    @Override
     public String getExplainatoryName() {
         return "SetText(\"" + sceneText + "\")";
     }
