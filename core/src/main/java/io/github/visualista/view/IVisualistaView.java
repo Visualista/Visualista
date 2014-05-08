@@ -9,5 +9,7 @@ public interface IVisualistaView {
     public void removeViewEventListener(ViewEventListener eventListener);
     
     public void addViewEventListener(ViewEventListener eventListener);
+
+    public void changeCurrentSceneName(IGetScene currentScene,String newName);
     
 }

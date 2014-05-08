@@ -43,7 +43,7 @@ public class EditorController implements ViewEventListener {
                 //TODO: Fix the Event as well as implementing actor name change
                 break;
             case CHANGE_SCENE_NAME:
-                //TODO: Fix the Event as well as implementing scene name change
+                visualista.changeCurrentSceneName((String)(event.getSourceObject()));
                 break;
                 
         }

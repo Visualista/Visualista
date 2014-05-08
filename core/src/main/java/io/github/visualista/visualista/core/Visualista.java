@@ -84,4 +84,9 @@ public class Visualista {
     public void removeActor(Actor selectedActor){
         currentNovel.getCurrentScene().removeActor(selectedActor);
     }
+
+    public String changeCurrentSceneName(String name) {
+        currentNovel.getCurrentScene().setName(name);
+        return currentNovel.getCurrentScene().getName();
+    }
 }

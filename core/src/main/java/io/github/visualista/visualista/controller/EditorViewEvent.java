@@ -10,17 +10,22 @@ public class EditorViewEvent extends EventObject {
         NEW_ACTOR,
         SELECT_ACTOR,
         REMOVE_ACTOR,
-        CHANGE_ACTOR_NAME,
-        CHANGE_SCENE_NAME
+        CHANGE_ACTOR_NAME
     }
 
     private final Type eventType;
-    private final Object sourceObject;
+    private final Object targetObject;
+    private final Object newDataObject;
 
-    public EditorViewEvent(final Object source, final Type eventType, final Object sourceObject) {
+    public EditorViewEvent(final Object source, final Type eventType, final Object targetObject, final Object newDataObject) {
         super(source);
         this.eventType = eventType;
-        this.sourceObject = sourceObject;
+        this.targetObject = targetObject;
+        this.newDataObject = newDataObject;
+    }
+    
+    public EditorViewEvent(final Object source, final Type eventType, final Object targetObject) {
+        this(source, eventType,targetObject,null);
     }
     
     public EditorViewEvent(final Object source, final Type eventType){
@@ -31,7 +36,11 @@ public class EditorViewEvent extends EventObject {
         return eventType;
     }
     
-    public final Object getSourceObject() {
-        return sourceObject;
+    public final Object getTargetObject() {
+        return targetObject;
+    }
+    
+    public final Object getNewData(){
+        return newDataObject;
     }
 }
