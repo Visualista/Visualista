@@ -2,6 +2,7 @@ package io.github.visualista.visualista.controller;
 
 import com.badlogic.gdx.Gdx;
 
+import io.github.visualista.view.IVisualistaView;
 import io.github.visualista.view.VisualistaView;
 import io.github.visualista.visualista.core.Visualista;
 import io.github.visualista.visualista.core.model.Actor;
@@ -10,10 +11,10 @@ import io.github.visualista.visualista.core.model.Actor;
 public class EditorController implements ViewEventListener {
 
     private Visualista visualista;
-    private VisualistaView view;
+    private IVisualistaView view;
 
     public EditorController(final Visualista visualista,
-            final VisualistaView view) {
+            final IVisualistaView view) {
         this.visualista = visualista;
         this.view = view;
         addEventHandlersToView();
