@@ -10,6 +10,6 @@ public interface IVisualistaView {
     
     public void addViewEventListener(ViewEventListener eventListener);
 
-    public void changeCurrentSceneName(IGetScene currentScene,String newName);
+    public void updateScene(IGetScene currentScene);
     
 }
