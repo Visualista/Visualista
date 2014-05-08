@@ -16,6 +16,7 @@ public class Visualista {
     private final GridFactory gridFactory;
     private final SceneFactory sceneFactory;
     private final NovelFactory novelFactory;
+    private final ActorFactory actorFactory;
 
     public Visualista() {
         xstreamManager = new XStreamManager();
@@ -23,6 +24,7 @@ public class Visualista {
         gridFactory = new GridFactory();
         sceneFactory = new SceneFactory(gridFactory);
         novelFactory = new NovelFactory(sceneFactory);
+        actorFactory = new ActorFactory();
         currentNovel = novelFactory.createNovel();
     }
 
@@ -61,11 +63,24 @@ public class Visualista {
         setCurrentNovel(newNovel);
     }
 
-    public final boolean addNewScene() {
-        if (currentNovel != null) {
-            currentNovel.addScene(sceneFactory.createScene());
-            return true;
+    /**
+     * Adds a new scene to the counts of scenes, and selects it if the parameter is true.
+     * @param setCurrent decides if the new scene is selected.
+     */
+    public void addNewScene(boolean setCurrent) {
+        Scene newScene = sceneFactory.createScene();
+        currentNovel.addScene(newScene);
+        if (setCurrent){
+            currentNovel.setCurrentScene(newScene);
         }
-        return false;
+    }
+
+    public void addNewActor() {   
+        currentNovel.getCurrentScene().addActor(actorFactory.createActor());
+       
+    }
+    
+    public void removeActor(Actor selectedActor){
+        currentNovel.getCurrentScene().removeActor(selectedActor);
     }
 }
