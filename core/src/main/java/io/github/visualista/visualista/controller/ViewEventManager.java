@@ -1,5 +1,7 @@
 package io.github.visualista.visualista.controller;
 
+import io.github.visualista.visualista.controller.EditorViewEvent.Type;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -17,14 +19,19 @@ public class ViewEventManager {
         eventListeners.remove(eventListener);
     }
 
-    public final synchronized void fireViewEvent() {
-        final EditorViewEvent event = new EditorViewEvent(this,
-                EditorViewEvent.Type.NEW_SCENE);
+    public final synchronized void fireViewEvent(Object source, Type type) {
+        fireViewEvent(source, type, null);
+    }
+    
+    public final synchronized void fireViewEvent(Object source, Type type, Object sourceObject){
+        final EditorViewEvent event = new EditorViewEvent(source,
+                type, sourceObject);
         final Iterator<ViewEventListener> eventIterator = eventListeners
                 .iterator();
         while (eventIterator.hasNext()) {
             eventIterator.next().handleViewEvent(event);
         }
+        
     }
 
 }

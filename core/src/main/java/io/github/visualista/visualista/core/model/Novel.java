@@ -7,6 +7,7 @@ import java.util.*;
 public class Novel implements Nameable {
     List<Scene> scenes;
     private String name;
+    private Scene currentScene;
 
     public String getName() {
         return name;
@@ -32,6 +33,14 @@ public class Novel implements Nameable {
 
     public List<Scene> getScenes() {
         return scenes;
+    }
+
+    public void setCurrentScene(Scene newCurrentScene){
+        currentScene = newCurrentScene;
+    }
+    
+    public Scene getCurrentScene() {
+        return currentScene;
     }
 
 }

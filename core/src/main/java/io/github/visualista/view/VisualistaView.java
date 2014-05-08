@@ -1,5 +1,7 @@
 package io.github.visualista.view;
 
+import io.github.visualista.visualista.controller.EditorViewEvent.Type;
+
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -34,7 +36,6 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
     private Stage stage;
 
     private Skin uiSkin;
-
     private ImageButton leftButton;
     private ImageButton centerButton;
     private ImageButton rightButton;
@@ -87,7 +88,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
         newSceneButton.addCaptureListener(new ClickListener() {
             @Override
             public void clicked(final InputEvent event, final float x, float y) {
-                eventManager.fireViewEvent();
+                eventManager.fireViewEvent(this, Type.NEW_SCENE);
             }
         });
 

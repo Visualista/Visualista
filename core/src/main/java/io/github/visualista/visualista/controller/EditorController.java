@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 
 import io.github.visualista.view.VisualistaView;
 import io.github.visualista.visualista.core.Visualista;
+import io.github.visualista.visualista.core.model.Actor;
+
 
 public class EditorController implements ViewEventListener {
 
@@ -25,10 +27,17 @@ public class EditorController implements ViewEventListener {
     public final void handleViewEvent(final EditorViewEvent event) {
         switch (event.getEventType()) {
             case NEW_SCENE:
-                final boolean addedNewScene = visualista.addNewScene();
-                if (addedNewScene) {
-                    view.addScene();
-                }
+                visualista.addNewScene(true);
+                view.addScene();
+                break;
+            case NEW_ACTOR:
+                visualista.addNewActor();
+                break;
+            case REMOVE_ACTOR:
+                visualista.removeActor((Actor)(event.getSourceObject()));
+                break;
+            case CHANGE_ACTOR_NAME:
+                //TODO: Fix the Event as well as implementing actor name change
                 break;
 
         }
