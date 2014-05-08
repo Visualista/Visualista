@@ -25,10 +25,17 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import io.github.visualista.visualista.controller.ViewEventListener;
 import io.github.visualista.visualista.controller.ViewEventManager;
 import io.github.visualista.visualista.core.model.Actor;
+import io.github.visualista.visualista.util.Dimension;
+import io.github.visualista.visualista.util.IMatrixGet;
+import io.github.visualista.visualista.util.IObjectCreator;
+import io.github.visualista.visualista.util.Matrix;
+import io.github.visualista.visualista.util.Point;
 
 import java.util.*;
 
 public class VisualistaView implements ApplicationListener {
+    private static final float CENTER_BORDER_HEIGHT_RATIO = 0.5f;
+
     private static final float LEFT_BORDER_WIDTH_RATIO = 2.0f / 9;
 
     private Stage stage;
@@ -51,7 +58,7 @@ public class VisualistaView implements ApplicationListener {
     private Label actionLabel;
 
     private ArrayList<TextButton> sceneButtons;
-    private ArrayList<ImageButton> gridButtons;
+    private Matrix<ImageButton> gridButtons;
 
     private List actorList;
     private List actionList;
@@ -77,12 +84,19 @@ public class VisualistaView implements ApplicationListener {
         stage = new Stage(1800, 900, false);
         stage.clear();
         uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
-        gridButtons = new ArrayList<ImageButton>();
+        gridButtons = new Matrix<ImageButton>(new Dimension(5,5));
         final Drawable tile = new TextureRegionDrawable(new TextureRegion(
                 new Texture(Gdx.files.internal("icons/tile.png"))));
 
         for (int i = 0; i < 25; i++) {
-            gridButtons.add(i, new ImageButton(tile));
+            gridButtons.fillWith(new IObjectCreator<ImageButton>(){
+
+                @Override
+                public ImageButton createObject() {
+                    return new ImageButton(tile);
+                }
+                
+            });
         }
 
         newSceneButton = new TextButton("+", uiSkin);
@@ -110,7 +124,7 @@ public class VisualistaView implements ApplicationListener {
         placeSceneButtons();
         createLeftBorderContent();
         createRightBorderContent();
-        // createCenterBorderContent();
+        createCenterBorderContent();
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -199,13 +213,13 @@ public class VisualistaView implements ApplicationListener {
         stage.addActor(centerBorder);
 
         centerBorder.setActor(centerVerticalGroup);
-        centerVerticalGroup.setSize(stage.getWidth() * LEFT_BORDER_WIDTH_RATIO,
-                stage.getHeight());
-        centerVerticalGroup.setPosition(600, 3);
+        centerVerticalGroup.setSize(rightBorder.getX()-leftBorder.getX()-leftBorder.getWidth(),
+                (upperBorder.getY()-lowerBorder.getY()-lowerBorder.getHeight()));
+        Gdx.app.log("Height", ""+((stage.getHeight()-upperBorder.getY())));
+        centerVerticalGroup.setPosition(leftBorder.getWidth(), lowerBorder.getY()+lowerBorder.getHeight());
 
-        HorizontalGroup gridContainer = new HorizontalGroup();
-        placeGrid(gridContainer);
-        centerVerticalGroup.addActor(gridContainer);
+        fillGrid(centerVerticalGroup,gridButtons);
+
     }
 
     private void createLeftBorderContent() {
@@ -305,23 +319,20 @@ public class VisualistaView implements ApplicationListener {
         leftVerticalGroup.addActor(buttonContainer2);
     }
 
-    public final void placeGrid(HorizontalGroup group) {
-        int y = 580;
-        int x = (int) Math.floor(stage.getWidth() * LEFT_BORDER_WIDTH_RATIO);
-        for (int i = 0; i < 25; i++) {
-            gridButtons.get(i).setSize(80, 80);
-            gridButtons.get(i).setPosition(x, y);
-            group.addActor(gridButtons.get(i));
-
-            if (i == 4 || i == 9 || i == 14 || i == 19) {
-                x = x + 80;
-                y = 580;
-            } else {
-                y = y - 80;
+    public final void fillGrid(VerticalGroup group,
+            IMatrixGet<ImageButton> data) {
+        float prefferedButtonHeight = group.getHeight()/data.getSize().getHeight();
+        float prefferedButtonWidth = group.getWidth()/data.getSize().getWidth();
+        float buttonLength = Math.min(prefferedButtonWidth, prefferedButtonHeight);
+        for (int i = 0; i < data.getSize().getHeight(); i++) {
+            HorizontalGroup row = new HorizontalGroup();
+            group.addActor(row);
+            for (int j = 0; j < data.getSize().getWidth(); j++) {
+                ImageButton button = data.getAt(new Point(i, j));
+                button.setSize(80, 80);
+                row.addActor(button);
             }
-
         }
-
     }
 
     public final void placeSceneButtons() {
