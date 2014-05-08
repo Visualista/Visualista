@@ -30,7 +30,7 @@ import io.github.visualista.visualista.core.model.Actor;
 
 import java.util.*;
 
-public class VisualistaView implements ApplicationListener {
+public class VisualistaView implements ApplicationListener, IVisualistaView {
     private static final float LEFT_BORDER_WIDTH_RATIO = 2.0f / 9;
 
     private Stage stage;

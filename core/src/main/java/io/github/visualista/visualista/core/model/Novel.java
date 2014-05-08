@@ -4,7 +4,7 @@ import io.github.visualista.visualista.util.Nameable;
 
 import java.util.*;
 
-public class Novel implements Nameable, IEditNovel {
+public class Novel implements Nameable {
     List<Scene> scenes;
     private String name;
     private Scene currentScene;
