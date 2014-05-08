@@ -60,8 +60,11 @@ public class VisualistaView implements ApplicationListener {
     private Border rightBorder;
     private Border upperBorder;
     private Border lowerBorder;
+    private Border centerBorder;
 
     private VerticalGroup leftVerticalGroup;
+    private VerticalGroup rightVerticalGroup;
+    private VerticalGroup centerVerticalGroup;
 
     private final ViewEventManager eventManager = new ViewEventManager();
 
@@ -94,8 +97,6 @@ public class VisualistaView implements ApplicationListener {
         sceneButtons = new ArrayList<TextButton>();
         sceneButtons.add(new TextButton("Scene1", uiSkin));
 
-        createRightBorderContent();
-
         upperBorder = new Border();
         upperBorder.setSize(900, 200);
         upperBorder.setPosition(450, 700);
@@ -106,32 +107,41 @@ public class VisualistaView implements ApplicationListener {
         lowerBorder.setPosition(450, 0);
         stage.addActor(lowerBorder);
 
+        placeSceneButtons();
+        createLeftBorderContent();
+        createRightBorderContent();
+        // createCenterBorderContent();
+        Gdx.input.setInputProcessor(stage);
+    }
+
+    private void createRightBorderContent() {
+
+        rightVerticalGroup = new VerticalGroup();
+        rightBorder = new Border();
+        stage.addActor(rightBorder);
+        rightBorder.setActor(rightVerticalGroup);
+
+        rightVerticalGroup.setSize(stage.getWidth() * LEFT_BORDER_WIDTH_RATIO,
+                stage.getHeight());
+        rightVerticalGroup.setPosition(
+                stage.getWidth() - rightVerticalGroup.getWidth(), 3);
+
         actorLabel = new Label("Hej", uiSkin);
-        actorLabel.setPosition(1550, 750);
         actorLabel.setSize(50, 50);
         actorLabel.setColor(Color.BLACK);
-        stage.addActor(actorLabel);
-
-        actionLabel = new Label("Actions", uiSkin);
-        actionLabel.setPosition(1550, 500);
-        actionLabel.setSize(50, 50);
-        actionLabel.setColor(Color.BLACK);
-        stage.addActor(actionLabel);
+        rightVerticalGroup.addActor(actorLabel);
 
         final Drawable actorDraw = new TextureRegionDrawable(new TextureRegion(
                 new Texture(Gdx.files.internal("icons/cursor.png"))));
         actorImage = new ImageButton(actorDraw);
         actorImage.setSize(70, 70);
-        actorImage.setPosition(1530, 650);
-        stage.addActor(actorImage);
+        rightVerticalGroup.addActor(actorImage);
 
-        placeSceneButtons();
-        placeGrid();
-        createLeftBorderContent();
-        Gdx.input.setInputProcessor(stage);
-    }
+        actionLabel = new Label("Actions", uiSkin);
+        actionLabel.setSize(50, 50);
+        actionLabel.setColor(Color.BLACK);
+        rightVerticalGroup.addActor(actionLabel);
 
-    private void createRightBorderContent() {
         Actor a1 = new Actor();
         a1.setName("Jacob");
         Actor a2 = new Actor();
@@ -151,11 +161,12 @@ public class VisualistaView implements ApplicationListener {
         actionList.setSize(350, 400);
         actionList.setColor(Color.BLACK);
 
-        final ScrollPane actionScroll = new BorderScrollPane(actionList, uiSkin);
-        actionScroll.setPosition(1368, 100);
-        actionScroll.setSize(400, 400);
-        actionScroll.setFadeScrollBars(false);
-        stage.addActor(actionScroll);
+        final ScrollPane scroll = new ScrollPane(actionList, uiSkin);
+        scroll.setSize(400, 400);
+        scroll.setFadeScrollBars(false);
+        Border scrollBorder = new Border();
+        scrollBorder.setActor(scroll);
+        rightVerticalGroup.addActor(scrollBorder);
 
         actionList.addCaptureListener(new EventListener() {
 
@@ -168,20 +179,33 @@ public class VisualistaView implements ApplicationListener {
 
         });
 
-        rightBorder = new Border();
-        rightBorder.setSize(450, 1800);
-        rightBorder.setPosition(1350, 0);
-        stage.addActor(rightBorder);
-
         modifyButton = new TextButton("Modify", uiSkin);
         modifyButton.setSize(150, 20);
-        modifyButton.setPosition(1368, 75);
-        stage.addActor(modifyButton);
+        // modifyButton.setPosition(1368, 75);
 
         addActionButton = new TextButton("Add", uiSkin);
         addActionButton.setSize(150, 20);
-        addActionButton.setPosition(1520, 75);
-        stage.addActor(addActionButton);
+        // addActionButton.setPosition(1520, 75);
+        HorizontalGroup buttonContainer = new HorizontalGroup();
+        buttonContainer.addActor(modifyButton);
+        buttonContainer.addActor(addActionButton);
+
+        rightVerticalGroup.addActor(buttonContainer);
+    }
+
+    private void createCenterBorderContent() {
+        centerVerticalGroup = new VerticalGroup();
+        centerBorder = new Border();
+        stage.addActor(centerBorder);
+
+        centerBorder.setActor(centerVerticalGroup);
+        centerVerticalGroup.setSize(stage.getWidth() * LEFT_BORDER_WIDTH_RATIO,
+                stage.getHeight());
+        centerVerticalGroup.setPosition(600, 3);
+
+        HorizontalGroup gridContainer = new HorizontalGroup();
+        placeGrid(gridContainer);
+        centerVerticalGroup.addActor(gridContainer);
     }
 
     private void createLeftBorderContent() {
@@ -281,13 +305,13 @@ public class VisualistaView implements ApplicationListener {
         leftVerticalGroup.addActor(buttonContainer2);
     }
 
-    public final void placeGrid() {
+    public final void placeGrid(HorizontalGroup group) {
         int y = 580;
         int x = (int) Math.floor(stage.getWidth() * LEFT_BORDER_WIDTH_RATIO);
         for (int i = 0; i < 25; i++) {
             gridButtons.get(i).setSize(80, 80);
             gridButtons.get(i).setPosition(x, y);
-            stage.addActor(gridButtons.get(i));
+            group.addActor(gridButtons.get(i));
 
             if (i == 4 || i == 9 || i == 14 || i == 19) {
                 x = x + 80;
@@ -354,6 +378,6 @@ public class VisualistaView implements ApplicationListener {
 
         sceneButtons.add(new TextButton("Scene42", uiSkin));
         placeSceneButtons();
-        
+
     }
 }
