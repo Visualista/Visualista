@@ -29,7 +29,7 @@ public class Scene implements Nameable, IEditScene {
 
     public Scene(Grid grid, List<Actor> actorsInScene) {
         this.grid = grid;
-        this.actorsInScene = actorsInScene;
+        this.actorsInScene = new ArrayList<Actor>(actorsInScene);
     }
 
     public Grid getGrid() {
@@ -48,7 +48,11 @@ public class Scene implements Nameable, IEditScene {
     }
 
     public List<Actor> getActorsInScene() {
-        return actorsInScene;
+        return new ArrayList<Actor>(actorsInScene);
+    }
+    
+    public void removeActor(Actor actor){
+        actorsInScene.remove(actor);
     }
 
 }
