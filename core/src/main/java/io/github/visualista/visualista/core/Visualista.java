@@ -67,12 +67,13 @@ public class Visualista {
      * Adds a new scene to the counts of scenes, and selects it if the parameter is true.
      * @param setCurrent decides if the new scene is selected.
      */
-    public void addNewScene(boolean setCurrent) {
+    public Scene addNewScene(boolean setCurrent) {
         Scene newScene = sceneFactory.createScene();
         currentNovel.addScene(newScene);
         if (setCurrent){
             currentNovel.setCurrentScene(newScene);
         }
+        return newScene;
     }
 
     public void addNewActor() {   

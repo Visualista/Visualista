@@ -27,6 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import io.github.visualista.visualista.controller.ViewEventListener;
 import io.github.visualista.visualista.controller.ViewEventManager;
 import io.github.visualista.visualista.core.model.Actor;
+import io.github.visualista.visualista.core.model.IGetScene;
 import io.github.visualista.visualista.util.Dimension;
 import io.github.visualista.visualista.util.IMatrixGet;
 import io.github.visualista.visualista.util.IObjectCreator;
@@ -384,9 +385,10 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
         eventManager.removeEventListener(eventListener);
     }
 
-    public void addScene() {
+    @Override
+    public void addScene(IGetScene newScene) {
 
-        sceneButtons.add(new TextButton("Scene42", uiSkin));
+        sceneButtons.add(new TextButton(newScene.getName(), uiSkin));
         placeSceneButtons();
 
     }

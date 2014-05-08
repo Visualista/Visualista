@@ -6,6 +6,8 @@ import io.github.visualista.view.IVisualistaView;
 import io.github.visualista.view.VisualistaView;
 import io.github.visualista.visualista.core.Visualista;
 import io.github.visualista.visualista.core.model.Actor;
+import io.github.visualista.visualista.core.model.IGetScene;
+import io.github.visualista.visualista.core.model.Scene;
 
 
 public class EditorController implements ViewEventListener {
@@ -28,8 +30,8 @@ public class EditorController implements ViewEventListener {
     public final void handleViewEvent(final EditorViewEvent event) {
         switch (event.getEventType()) {
             case NEW_SCENE:
-                visualista.addNewScene(true);
-                view.addScene();
+                IGetScene newScene = visualista.addNewScene(true);
+                view.addScene(newScene);
                 break;
             case NEW_ACTOR:
                 visualista.addNewActor();
