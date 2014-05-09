@@ -1,7 +1,6 @@
 package io.github.visualista.visualista.io;
 
 import io.github.visualista.visualista.model.Actor;
-import io.github.visualista.visualista.model.Grid;
 import io.github.visualista.visualista.model.IEditAction;
 import io.github.visualista.visualista.model.Novel;
 import io.github.visualista.visualista.model.Scene;

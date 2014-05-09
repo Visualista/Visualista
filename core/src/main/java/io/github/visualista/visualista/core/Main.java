@@ -3,9 +3,6 @@ package io.github.visualista.visualista.core;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Set;
-
-import io.github.visualista.visualista.model.*;
 import io.github.visualista.visualista.io.CollectionSaver;
 import io.github.visualista.visualista.io.XStreamManager;
 import io.github.visualista.visualista.model.Actor;
@@ -20,7 +17,6 @@ import io.github.visualista.visualista.model.Tile;
 import io.github.visualista.visualista.model.TileFactory;
 import io.github.visualista.visualista.util.Dimension;
 import io.github.visualista.visualista.util.Matrix;
-import io.github.visualista.visualista.util.Point;
 
 public class Main {
 
