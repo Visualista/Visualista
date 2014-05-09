@@ -392,4 +392,10 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
         placeSceneButtons();
 
     }
+
+    @Override
+    public void updateScene(IGetScene currentScene) {
+        // TODO Auto-generated method stub
+        
+    }
 }
