@@ -1,7 +1,7 @@
-package io.github.visualista.view;
+package io.github.visualista.visualista.view;
 
 import io.github.visualista.visualista.controller.ViewEventListener;
-import io.github.visualista.visualista.core.model.IGetScene;
+import io.github.visualista.visualista.model.IGetScene;
 
 public interface IVisualistaView {
     public void addScene(IGetScene newScene);

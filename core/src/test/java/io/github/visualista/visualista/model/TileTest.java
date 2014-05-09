@@ -2,10 +2,7 @@ package io.github.visualista.visualista.model;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
-import io.github.visualista.visualista.core.model.Actor;
-import io.github.visualista.visualista.core.model.ActorFactory;
-import io.github.visualista.visualista.core.model.Tile;
-import io.github.visualista.visualista.core.model.TileFactory;
+import io.github.visualista.visualista.model.Actor;
 
 import org.junit.Before;
 import org.junit.Test;

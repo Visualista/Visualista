@@ -2,7 +2,8 @@ package io.github.visualista.visualista.controller;
 
 import java.awt.event.ActionEvent;
 
-import io.github.visualista.visualista.core.model.*;
+import io.github.visualista.visualista.model.*;
+import io.github.visualista.visualista.model.IGetActor;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;

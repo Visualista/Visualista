@@ -2,7 +2,7 @@ package io.github.visualista.visualista.controller;
 
 import java.util.EventObject;
 
-import io.github.visualista.visualista.core.model.Actor;
+import io.github.visualista.visualista.model.Actor;
 
 public class ActorEvent extends EventObject {
 

@@ -1,10 +1,6 @@
 package io.github.visualista.visualista.model;
 
 import static org.junit.Assert.*;
-import io.github.visualista.visualista.core.model.GridFactory;
-import io.github.visualista.visualista.core.model.Novel;
-import io.github.visualista.visualista.core.model.NovelFactory;
-import io.github.visualista.visualista.core.model.SceneFactory;
 
 import org.junit.Test;
 import org.junit.Before;

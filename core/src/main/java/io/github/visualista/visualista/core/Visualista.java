@@ -3,10 +3,17 @@ package io.github.visualista.visualista.core;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import io.github.visualista.visualista.core.model.*;
+import io.github.visualista.visualista.model.*;
 import io.github.visualista.visualista.io.FileLoader;
 import io.github.visualista.visualista.io.ObjectFactory;
 import io.github.visualista.visualista.io.XStreamManager;
+import io.github.visualista.visualista.model.ActorFactory;
+import io.github.visualista.visualista.model.GridFactory;
+import io.github.visualista.visualista.model.Novel;
+import io.github.visualista.visualista.model.NovelFactory;
+import io.github.visualista.visualista.model.Scene;
+import io.github.visualista.visualista.model.SceneFactory;
+import io.github.visualista.visualista.model.TileFactory;
 
 public class Visualista {
 

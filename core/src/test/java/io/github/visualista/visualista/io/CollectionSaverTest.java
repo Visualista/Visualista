@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.util.ArrayList;
 
-import io.github.visualista.visualista.core.model.Actor;
+import io.github.visualista.visualista.model.Actor;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package io.github.visualista.view;
+package io.github.visualista.visualista.view;
 
 import io.github.visualista.visualista.controller.EditorViewEvent.Type;
 
@@ -26,8 +26,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import io.github.visualista.visualista.controller.ViewEventListener;
 import io.github.visualista.visualista.controller.ViewEventManager;
-import io.github.visualista.visualista.core.model.Actor;
-import io.github.visualista.visualista.core.model.IGetScene;
+import io.github.visualista.visualista.model.Actor;
+import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.util.Dimension;
 import io.github.visualista.visualista.util.IMatrixGet;
 import io.github.visualista.visualista.util.IObjectCreator;

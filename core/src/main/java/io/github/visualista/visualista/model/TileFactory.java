@@ -1,4 +1,4 @@
-package io.github.visualista.visualista.core.model;
+package io.github.visualista.visualista.model;
 
 import io.github.visualista.visualista.util.IObjectCreator;
 

@@ -1,12 +1,11 @@
 package io.github.visualista.visualista.model;
 
 import static org.junit.Assert.*;
-import io.github.visualista.visualista.core.model.Actor;
-import io.github.visualista.visualista.core.model.Grid;
-import io.github.visualista.visualista.core.model.Novel;
-import io.github.visualista.visualista.core.model.Scene;
+import io.github.visualista.visualista.model.Actor;
 import io.github.visualista.visualista.util.Dimension;
+
 import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 

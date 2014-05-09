@@ -2,12 +2,12 @@ package io.github.visualista.visualista.controller;
 
 import com.badlogic.gdx.Gdx;
 
-import io.github.visualista.view.IVisualistaView;
-import io.github.visualista.view.VisualistaView;
 import io.github.visualista.visualista.core.Visualista;
-import io.github.visualista.visualista.core.model.Actor;
-import io.github.visualista.visualista.core.model.IGetScene;
-import io.github.visualista.visualista.core.model.Scene;
+import io.github.visualista.visualista.model.Actor;
+import io.github.visualista.visualista.model.IGetScene;
+import io.github.visualista.visualista.model.Scene;
+import io.github.visualista.visualista.view.IVisualistaView;
+import io.github.visualista.visualista.view.VisualistaView;
 
 
 public class EditorController implements ViewEventListener {

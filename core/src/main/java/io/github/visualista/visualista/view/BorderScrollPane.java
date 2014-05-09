@@ -1,4 +1,4 @@
-package io.github.visualista.view;
+package io.github.visualista.visualista.view;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
