@@ -11,46 +11,22 @@ import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 
 public class Border extends Group {
-    private static final int LINE_SIZE = 3;
-
-    private Texture borderTexture;
-    private Texture innerTexture;
 
     private Actor actor;
+    private BorderActor borderActor;
 
     public Border() {
-        setUp(Color.WHITE, Color.BLACK);
+        this(Color.BLACK);
     }
 
-    public Border(Color innerColor, Color borderColor) {
-        setUp(innerColor, borderColor);
+    public Border(Color borderColor) {
+        borderActor = new BorderActor(borderColor);
+        super.addActor(borderActor);
     }
 
     @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
-        float x;
-        float y;
-        float width;
-        float height;
-        if (actor == null) {
-            x = this.getX();
-            y = this.getY();
-            width = this.getWidth();
-            height = this.getHeight();
-        } else {
-            x = actor.getX() - LINE_SIZE;
-            y = actor.getY() - LINE_SIZE;
-            width = actor.getWidth() + LINE_SIZE * 2;
-            height = actor.getHeight() + LINE_SIZE * 2;
-        }
-        batch.draw(borderTexture, x, y, width, height);
-        batch.draw(innerTexture, x + LINE_SIZE, y + LINE_SIZE, width
-                - LINE_SIZE * 2, height - LINE_SIZE * 2);
         super.draw(batch, parentAlpha);
-        if (actor != null) {
-            actor.draw(batch, parentAlpha);
-
-        }
     }
 
     private static Texture createTexture(Color color) {
@@ -62,18 +38,53 @@ public class Border extends Group {
         return texture;
     }
 
-    private void setUp(Color innerColor, Color borderColor) {
-        borderTexture = createTexture(borderColor);
-        innerTexture = createTexture(innerColor);
-    }
-
     public void setActor(Actor actor) {
         if (actor == this)
             throw new IllegalArgumentException("actor cannot be the Border.");
         super.removeActor(this.actor);
         this.actor = actor;
-        super.addActor(actor);
+        if (actor != null) {
+            actor.setBounds(0, 0, this.getWidth(), this.getHeight());
+            super.addActor(actor);
+        }
 
+    }
+
+    @Override
+    public void setWidth(float width) {
+        if (actor != null) {
+            actor.setWidth(width);
+        }
+        borderActor.setWidth(width);
+        super.setWidth(width);
+    }
+
+    @Override
+    public void setHeight(float height) {
+        if (actor != null) {
+            actor.setHeight(height);
+        }
+        borderActor.setHeight(height);
+        super.setHeight(height);
+    }
+
+    @Override
+    public void setSize(float width, float height) {
+        if (actor != null) {
+            actor.setSize(width, height);
+        }
+        borderActor.setSize(width, height);
+        super.setSize(width, height);
+    }
+
+    @Override
+    public void setBounds(float x, float y, float width, float height) {
+        if (actor != null) {
+            actor.setBounds(actor.getX(), actor.getY(), width, height);
+        }
+        borderActor.setBounds(borderActor.getX(), borderActor.getY(), width,
+                height);
+        super.setBounds(x, y, width, height);
     }
 
     public Actor getActor() {
@@ -117,38 +128,6 @@ public class Border extends Group {
             return false;
         setActor(null);
         return true;
-    }
-
-    @Override
-    public float getX() {
-        if (actor != null) {
-            return actor.getX() - LINE_SIZE;
-        }
-        return super.getX();
-    }
-
-    @Override
-    public float getY() {
-        if (actor != null) {
-            return actor.getY() - LINE_SIZE;
-        }
-        return super.getY();
-    }
-
-    @Override
-    public float getWidth() {
-        if (actor != null) {
-            return actor.getWidth() + LINE_SIZE * 2;
-        }
-        return super.getWidth();
-    }
-
-    @Override
-    public float getHeight() {
-        if (actor != null) {
-            return actor.getHeight() + LINE_SIZE * 2;
-        }
-        return super.getHeight();
     }
 
 }
