@@ -138,7 +138,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
         createCenterBorderContent();
 
         // Use if you need to zoom out a bit
-        ((OrthographicCamera) stage.getCamera()).zoom = 2;
+        //((OrthographicCamera) stage.getCamera()).zoom = 2;
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -343,8 +343,8 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
                 Image button = data.getAt(new Point(i, j));
                 Border border = new Border();
                 border.setActor(button);
-                border.setSize(200, 200);
-                row.addActor(button);
+                border.setSize(buttonLength, buttonLength);
+                row.addActor(border);
             }
         }
     }
