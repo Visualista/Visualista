@@ -45,7 +45,7 @@ public class Border extends Group {
         this.actor = actor;
         if (actor != null) {
             actor.setBounds(0, 0, this.getWidth(), this.getHeight());
-            super.addActor(actor);
+            super.addActorBefore(borderActor,actor);
         }
 
     }
