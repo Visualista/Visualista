@@ -11,6 +11,8 @@ public class Scene implements Nameable, IGetScene {
     private String name;
     private String storyText;
 
+    private Image image;
+
     public String getStoryText() {
         return storyText;
     }
@@ -53,6 +55,15 @@ public class Scene implements Nameable, IGetScene {
     
     public void removeActor(Actor actor){
         actorsInScene.remove(actor);
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+        
+    }
+    
+    public Image getImage (){
+        return image;
     }
 
 }
