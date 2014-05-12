@@ -35,16 +35,21 @@ public class EditorController implements ViewEventListener {
                 break;
             case NEW_ACTOR:
                 visualista.addNewActor();
+              //TODO view needs to do something to update actor list
                 break;
             case REMOVE_ACTOR:
                 visualista.removeActor((Actor)(event.getTargetObject()));
+              //TODO view needs to do something to update actor list
                 break;
             case CHANGE_ACTOR_NAME:
-                //TODO: Fix the Event as well as implementing actor name change
+                Actor updatedActor = visualista.changeActorName(
+                    (Actor)(event.getTargetObject()),(String)(event.getNewData()));
+                //TODO view needs to do something to update actor list
                 break;
             case CHANGE_SCENE_NAME:
-                visualista.changeCurrentSceneName((String)(event.getTargetObject()));
-                view.updateScene(visualista.getCurrentNovel().getCurrentScene());
+                Scene updatedScene = visualista.changeSceneName(
+                    (Scene)(event.getTargetObject()),(String)(event.getNewData()));
+                view.updateScene(updatedScene);
                 break;
                 
         }

@@ -7,6 +7,7 @@ import io.github.visualista.visualista.model.*;
 import io.github.visualista.visualista.io.FileLoader;
 import io.github.visualista.visualista.io.ObjectFactory;
 import io.github.visualista.visualista.io.XStreamManager;
+import io.github.visualista.visualista.model.Actor;
 import io.github.visualista.visualista.model.ActorFactory;
 import io.github.visualista.visualista.model.GridFactory;
 import io.github.visualista.visualista.model.Novel;
@@ -95,5 +96,15 @@ public class Visualista {
     public String changeCurrentSceneName(String name) {
         currentNovel.getCurrentScene().setName(name);
         return currentNovel.getCurrentScene().getName();
+    }
+
+    public Scene changeSceneName(Scene scene, String newName) {
+        scene.setName(newName);
+        return scene;
+    }
+
+    public Actor changeActorName(Actor actor, String newName) {
+        actor.setName(newName);
+        return actor;
     }
 }
