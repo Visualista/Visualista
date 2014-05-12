@@ -1,6 +1,10 @@
 package io.github.visualista.visualista.model;
 
-public class SetSceneTextAction implements IPlayAction {
+import java.util.Iterator;
+
+import io.github.visualista.visualista.controller.*;
+
+public class SetSceneTextAction extends ActionEventSource implements IPlayAction {
 
     private String sceneText;
 
@@ -20,6 +24,15 @@ public class SetSceneTextAction implements IPlayAction {
     public void callAction() {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public void fireActionEvent() {
+        final ActionEvent ae = new ActionEvent(this, ActionEventType.SET_TEXT, "This Scene", sceneText);
+        final Iterator<ActionEventListener> it = actorEventListeners.iterator();
+        while (it.hasNext()) {
+            it.next().handleActionEvent(ae);
+        }
     }
 
 }

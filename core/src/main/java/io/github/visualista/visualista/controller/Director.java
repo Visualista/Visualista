@@ -27,8 +27,18 @@ public class Director implements ActorListener {
 
     @Override
     public void actorCalled(ActorEvent ae) {
-        ae.getActor().getActions();
-
+        List<IPlayAction> actorActions = new ArrayList<IPlayAction>(ae.getActor().getActions());
+        Iterator<IPlayAction> it = actorActions.iterator();
+        while (it.hasNext()){
+            it.next().callAction();
+        }
+    }
+    
+    public void addListener(IGetActor newActor){
+        if (!controlledActors.contains(newActor)){
+            controlledActors.add(newActor);
+            ((Actor)newActor).addEventListener(this);
+        }
     }
 
 }
