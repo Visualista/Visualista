@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -87,12 +88,13 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
 
     private boolean tabsOverflowing;
 
-    private ArrayList<Actor> overflowingTabs;
+    private ArrayList<TextButton> overflowingTabs;
 
     private Actor overflowDropdownButton;
+    private List contextMenu;
+    private ScrollPane contextMenuScroll;
 
     private HorizontalGroup tabExtraButtons;
-
 
     public VisualistaView(Dimension dimension) {
         this.configDimension = dimension;
@@ -119,13 +121,38 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
             });
         }
 
-        overflowingTabs = new ArrayList<Actor>();
+        overflowingTabs = new ArrayList<TextButton>();
         newSceneButton = new TextButton("+", uiSkin);
-        overflowDropdownButton = new TextButton(">",uiSkin);
+        overflowDropdownButton = new TextButton(">", uiSkin);
         tabExtraButtons = new HorizontalGroup();
         tabExtraButtons.addActor(newSceneButton);
         tabExtraButtons.addActor(overflowDropdownButton);
         overflowDropdownButton.setVisible(false);
+        overflowDropdownButton.addCaptureListener(new ClickListener() {
+            @Override
+            public void clicked(final InputEvent event, final float x, float y) {
+                contextMenuScroll.setVisible(true);
+            }
+        });
+
+        stage.addListener(new InputListener() {
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y,
+                    int pointer, int button) {
+                Actor hitObject = stage.hit(x, y, true);
+                boolean contextMenuClicked = hitObject == contextMenuScroll
+                        || hitObject == contextMenu;
+                Gdx.app.log("Clicked", "" + stage.hit(x, y, true));
+                if (!contextMenuClicked) {
+                    contextMenuScroll.setVisible(false);
+                } else {
+                    Gdx.app.log("", "clicked");
+                }
+                return contextMenuClicked;
+            }
+
+        });
 
         newSceneButton.addCaptureListener(new ClickListener() {
             @Override
@@ -140,7 +167,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
         createRightBorderContent();
         upperBorder = new Border();
         upperBorder.setSize(horizontalDistanceBetween(leftBorder, rightBorder),
-                200);
+                50);
         upperBorder.setPosition(rightSideOf(leftBorder), stage.getHeight()
                 - upperBorder.getHeight());
         sceneButtonGroup = new HorizontalGroup();
@@ -154,6 +181,28 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
         lowerBorder.setPosition(rightSideOf(leftBorder), 0);
         stage.addActor(lowerBorder);
         createCenterBorderContent();
+
+        final String[] actors = {};
+        contextMenu = new List(actors, uiSkin);
+        contextMenu.setWidth(150);
+        contextMenu.setColor(Color.BLACK);
+        contextMenuScroll = new ScrollPane(contextMenu, uiSkin);
+        contextMenuScroll.setFadeScrollBars(false);
+        contextMenuScroll.setWidth(actionList.getWidth());
+        contextMenuScroll.setPosition(
+                rightBorder.getX() - contextMenuScroll.getWidth(),
+                upperBorder.getY() - contextMenuScroll.getHeight());
+        contextMenu.addCaptureListener(new ClickListener() {
+            @Override
+            public void clicked(final InputEvent event, final float x, float y) {
+                Gdx.app.log("contextMenu", "clicked");
+            }
+        });
+        contextMenuScroll.setVisible(false);
+        stage.addActor(contextMenuScroll);
+
+        // Use if you need to zoom out a bit
+        // ((OrthographicCamera) stage.getCamera()).zoom = 2;
 
         this.addScene(new IGetScene() {
 
@@ -178,9 +227,6 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
             }
 
         });
-
-        // Use if you need to zoom out a bit
-        // ((OrthographicCamera) stage.getCamera()).zoom = 2;
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -424,7 +470,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
             name = "";
         }
         while (name.length() < 5) {
-            name += " ";
+            name += "H";
         }
         TextButton tab = new TextButton(name, uiSkin);
         sceneButtons.add(tab);
@@ -438,7 +484,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
         overflowDropdownButton.setVisible(false);
         float totalWidth = 0;
         Actor firstChild = null;
-        if(children.size>0){
+        if (children.size > 0) {
             firstChild = children.get(0);
         }
         for (Actor overflowedTab : overflowingTabs) {
@@ -455,8 +501,15 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
             totalWidth -= currentlyFirstChild.getWidth();
             sceneButtonGroup.removeActor(currentlyFirstChild);
             overflowDropdownButton.setVisible(true);
-            overflowingTabs.add(currentlyFirstChild);
+            overflowingTabs.add((TextButton) currentlyFirstChild);
         }
+        contextMenu.setVisible(true);
+        ArrayList<String> objects = new ArrayList<String>(
+                overflowingTabs.size());
+        for (TextButton removedTab : overflowingTabs) {
+            objects.add(removedTab.getText().toString());
+        }
+        contextMenu.setItems(objects.toArray());
     }
 
     @Override
