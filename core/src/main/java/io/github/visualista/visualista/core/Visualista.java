@@ -10,6 +10,7 @@ import io.github.visualista.visualista.io.XStreamManager;
 import io.github.visualista.visualista.model.Actor;
 import io.github.visualista.visualista.model.ActorFactory;
 import io.github.visualista.visualista.model.GridFactory;
+import io.github.visualista.visualista.model.Image;
 import io.github.visualista.visualista.model.Novel;
 import io.github.visualista.visualista.model.NovelFactory;
 import io.github.visualista.visualista.model.Scene;
@@ -111,5 +112,10 @@ public class Visualista {
     public Actor changeActorImage(Actor actor, Image image) {
         actor.setImage(image);
         return actor;
+    }
+
+    public Scene changeSceneImage(Scene scene, Image image) {
+        scene.setImage(image);
+        return scene;
     }
 }
