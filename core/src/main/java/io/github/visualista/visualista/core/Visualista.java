@@ -123,4 +123,9 @@ public class Visualista {
         scene.setStoryText(string);
         return scene;
     }
+
+    public void removeScene(Scene scene) {
+        currentNovel.getScenes().remove(scene);
+        
+    }
 }

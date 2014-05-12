@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 
 import io.github.visualista.visualista.core.Visualista;
 import io.github.visualista.visualista.model.Actor;
+import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.model.Image;
 import io.github.visualista.visualista.model.Scene;
@@ -29,8 +30,8 @@ public class EditorController implements ViewEventListener {
 
     @Override
     public final void handleViewEvent(final EditorViewEvent event) {
-        Actor updatedActor;
-        Scene updatedScene;
+        IGetActor updatedActor;
+        IGetScene updatedScene;
         switch (event.getEventType()) {
             case NEW_SCENE:
                 IGetScene newScene = visualista.addNewScene(true);
@@ -65,6 +66,9 @@ public class EditorController implements ViewEventListener {
             case CHANGE_SCENE_TEXT:
                 updatedScene = visualista.changeSceneText((Scene)(event.getTargetObject()),(String)(event.getNewData()));
                 view.updateScene(updatedScene);
+                break;
+            case REMOVE_SCENE:
+                visualista.removeScene((Scene)(event.getTargetObject()));
                 break;
         }
     }
