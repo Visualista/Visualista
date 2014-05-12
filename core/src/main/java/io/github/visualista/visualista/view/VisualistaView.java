@@ -468,7 +468,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
             name = "";
         }
         while (name.length() < 5) {
-            name += "H";
+            name += " ";
         }
         TextButton tab = new TextButton(name, uiSkin);
         sceneButtons.add(tab);
@@ -530,5 +530,11 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
         } else {
             return 0;
         }
+    }
+
+    @Override
+    public void removeScene(IGetScene scene) {
+        // TODO Auto-generated method stub
+        
     }
 }
