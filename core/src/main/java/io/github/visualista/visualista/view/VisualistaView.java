@@ -34,6 +34,7 @@ import io.github.visualista.visualista.controller.ViewEventManager;
 import io.github.visualista.visualista.model.Grid;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetScene;
+import io.github.visualista.visualista.model.Scene;
 import io.github.visualista.visualista.util.Dimension;
 import io.github.visualista.visualista.util.IMatrixGet;
 import io.github.visualista.visualista.util.IObjectCreator;
@@ -479,5 +480,17 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
         } else {
             return 0;
         }
+    }
+
+    @Override
+    public void removeScene(IGetScene scene) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void changeActiveScene(Scene scene) {
+        // TODO Auto-generated method stub
+        
     }
 }
