@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 
 import io.github.visualista.visualista.core.Visualista;
 import io.github.visualista.visualista.model.Actor;
+import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetScene;
+import io.github.visualista.visualista.model.Image;
 import io.github.visualista.visualista.model.Scene;
 import io.github.visualista.visualista.view.IVisualistaView;
 import io.github.visualista.visualista.view.VisualistaView;
@@ -28,6 +30,8 @@ public class EditorController implements ViewEventListener {
 
     @Override
     public final void handleViewEvent(final EditorViewEvent event) {
+        IGetActor updatedActor;
+        IGetScene updatedScene;
         switch (event.getEventType()) {
             case NEW_SCENE:
                 IGetScene newScene = visualista.addNewScene(true);
@@ -35,18 +39,38 @@ public class EditorController implements ViewEventListener {
                 break;
             case NEW_ACTOR:
                 visualista.addNewActor();
+              //TODO view needs to do something to update actor list
                 break;
             case REMOVE_ACTOR:
                 visualista.removeActor((Actor)(event.getTargetObject()));
+              //TODO view needs to do something to update actor list
                 break;
             case CHANGE_ACTOR_NAME:
-                //TODO: Fix the Event as well as implementing actor name change
+                updatedActor = visualista.changeActorName(
+                    (Actor)(event.getTargetObject()),(String)(event.getNewData()));
+                //TODO view needs to do something to update actor list
                 break;
             case CHANGE_SCENE_NAME:
-                visualista.changeCurrentSceneName((String)(event.getTargetObject()));
-                view.updateScene(visualista.getCurrentNovel().getCurrentScene());
+                updatedScene = visualista.changeSceneName(
+                    (Scene)(event.getTargetObject()),(String)(event.getNewData()));
+                view.updateScene(updatedScene);
                 break;
-                
+            case CHANGE_ACTOR_IMAGE:
+                updatedActor = visualista.changeActorImage((Actor)(event.getTargetObject()),(Image)(event.getNewData()));
+                //TODO view needs to do something to update actor list
+                break;
+            case CHANGE_SCENE_IMAGE:
+                updatedScene = visualista.changeSceneImage((Scene)(event.getTargetObject()),(Image)(event.getNewData()));
+                view.updateScene(updatedScene);
+                break;
+            case CHANGE_SCENE_TEXT:
+                updatedScene = visualista.changeSceneText((Scene)(event.getTargetObject()),(String)(event.getNewData()));
+                view.updateScene(updatedScene);
+                break;
+            case REMOVE_SCENE:
+                updatedScene = visualista.removeScene((Scene)(event.getTargetObject()));
+                view.removeScene(updatedScene);
+                break;
         }
     }
 
