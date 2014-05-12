@@ -68,7 +68,8 @@ public class EditorController implements ViewEventListener {
                 view.updateScene(updatedScene);
                 break;
             case REMOVE_SCENE:
-                visualista.removeScene((Scene)(event.getTargetObject()));
+                updatedScene = visualista.removeScene((Scene)(event.getTargetObject()));
+                view.removeScene(updatedScene);
                 break;
         }
     }

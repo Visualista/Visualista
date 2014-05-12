@@ -12,4 +12,6 @@ public interface IVisualistaView {
 
     public void updateScene(IGetScene currentScene);
     
+    public void removeScene(IGetScene scene);
+    
 }

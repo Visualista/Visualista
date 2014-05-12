@@ -10,6 +10,7 @@ import io.github.visualista.visualista.io.XStreamManager;
 import io.github.visualista.visualista.model.Actor;
 import io.github.visualista.visualista.model.ActorFactory;
 import io.github.visualista.visualista.model.GridFactory;
+import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.model.Image;
 import io.github.visualista.visualista.model.Novel;
 import io.github.visualista.visualista.model.NovelFactory;
@@ -124,8 +125,8 @@ public class Visualista {
         return scene;
     }
 
-    public void removeScene(Scene scene) {
+    public Scene removeScene(Scene scene) {
         currentNovel.getScenes().remove(scene);
-        
+        return scene;
     }
 }
