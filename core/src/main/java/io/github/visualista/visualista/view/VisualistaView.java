@@ -146,8 +146,6 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
                 Gdx.app.log("Clicked", "" + stage.hit(x, y, true));
                 if (!contextMenuClicked) {
                     contextMenuScroll.setVisible(false);
-                } else {
-                    Gdx.app.log("", "clicked");
                 }
                 return contextMenuClicked;
             }
