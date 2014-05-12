@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 
@@ -14,6 +15,7 @@ public class Border extends Group {
 
     private Actor actor;
     private BorderActor borderActor;
+    private boolean lineOutsideActor;
 
     public Border() {
         this(Color.BLACK);
@@ -22,6 +24,8 @@ public class Border extends Group {
     public Border(Color borderColor) {
         borderActor = new BorderActor(borderColor);
         super.addActor(borderActor);
+        setTouchable(Touchable.childrenOnly);
+        borderActor.setTouchable(Touchable.disabled);
     }
 
     @Override
@@ -44,8 +48,15 @@ public class Border extends Group {
         super.removeActor(this.actor);
         this.actor = actor;
         if (actor != null) {
-            actor.setBounds(0, 0, this.getWidth(), this.getHeight());
-            super.addActorBefore(borderActor,actor);
+            if (lineOutsideActor) {
+                actor.setBounds(borderActor.getLineSize(),
+                        borderActor.getLineSize(), this.getWidth()
+                                - borderActor.getLineSize() * 2,
+                        this.getHeight() - borderActor.getLineSize() * 2);
+            } else {
+                actor.setBounds(0, 0, this.getWidth(), this.getHeight());
+            }
+            super.addActorBefore(borderActor, actor);
         }
 
     }
@@ -53,7 +64,11 @@ public class Border extends Group {
     @Override
     public void setWidth(float width) {
         if (actor != null) {
-            actor.setWidth(width);
+            if (lineOutsideActor) {
+                actor.setWidth(width - borderActor.getLineSize() * 2);
+            } else {
+                actor.setWidth(width);
+            }
         }
         borderActor.setWidth(width);
         super.setWidth(width);
@@ -62,7 +77,11 @@ public class Border extends Group {
     @Override
     public void setHeight(float height) {
         if (actor != null) {
-            actor.setHeight(height);
+            if (lineOutsideActor) {
+                actor.setHeight(height - borderActor.getLineSize() * 2);
+            } else {
+                actor.setHeight(height);
+            }
         }
         borderActor.setHeight(height);
         super.setHeight(height);
@@ -71,7 +90,12 @@ public class Border extends Group {
     @Override
     public void setSize(float width, float height) {
         if (actor != null) {
-            actor.setSize(width, height);
+            if (lineOutsideActor) {
+                actor.setSize(width - borderActor.getLineSize() * 2, height
+                        - borderActor.getLineSize() * 2);
+            } else {
+                actor.setSize(width, height);
+            }
         }
         borderActor.setSize(width, height);
         super.setSize(width, height);
@@ -80,10 +104,14 @@ public class Border extends Group {
     @Override
     public void setBounds(float x, float y, float width, float height) {
         if (actor != null) {
-            actor.setBounds(actor.getX(), actor.getY(), width, height);
+            if (lineOutsideActor) {
+                actor.setSize(width - borderActor.getLineSize() * 2, height
+                        - borderActor.getLineSize() * 2);
+            } else {
+                actor.setSize(width, height);
+            }
         }
-        borderActor.setBounds(borderActor.getX(), borderActor.getY(), width,
-                height);
+        borderActor.setSize(width, height);
         super.setBounds(x, y, width, height);
     }
 
@@ -128,6 +156,29 @@ public class Border extends Group {
             return false;
         setActor(null);
         return true;
+    }
+
+    public int getLineSize() {
+        return borderActor.getLineSize();
+    }
+
+    public void setLineSize(int lineSize) {
+        borderActor.setLineSize(lineSize);
+        if (actor != null) {
+            actor.setSize(getWidth() - lineSize, getHeight() - lineSize);
+        }
+    }
+
+    public void setLineOutsideActor(boolean lineShouldBeOutsideActor) {
+        this.lineOutsideActor = lineShouldBeOutsideActor;
+        if (actor != null) {
+            if (lineShouldBeOutsideActor) {
+                actor.setSize(getWidth() - borderActor.getLineSize(),
+                        getHeight() - borderActor.getLineSize());
+            } else {
+                actor.setSize(getWidth(), getHeight());
+            }
+        }
     }
 
 }

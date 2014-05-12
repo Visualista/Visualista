@@ -47,8 +47,8 @@ public class Scene implements Nameable, IGetScene {
 
     }
 
-    public List<Actor> getActorsInScene() {
-        return new ArrayList<Actor>(actorsInScene);
+    public List<IGetActor> getActorsInScene() {
+        return new ArrayList<IGetActor>(actorsInScene);
     }
     
     public void removeActor(Actor actor){

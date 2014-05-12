@@ -7,7 +7,7 @@ public interface IGetScene {
     
     public String getName();
     
-    public List<Actor> getActorsInScene();
+    public List<IGetActor> getActorsInScene();
     
     public Grid getGrid();
 
