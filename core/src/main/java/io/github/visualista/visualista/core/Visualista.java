@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 import io.github.visualista.visualista.model.*;
+import io.github.visualista.visualista.controller.Image;
 import io.github.visualista.visualista.io.FileLoader;
 import io.github.visualista.visualista.io.ObjectFactory;
 import io.github.visualista.visualista.io.XStreamManager;
@@ -105,6 +106,11 @@ public class Visualista {
 
     public Actor changeActorName(Actor actor, String newName) {
         actor.setName(newName);
+        return actor;
+    }
+
+    public Actor changeActorImage(Actor actor, Image image) {
+        actor.setImage(image);
         return actor;
     }
 }
