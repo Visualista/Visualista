@@ -11,10 +11,6 @@ public class ActorEvent extends EventObject {
         super(source);
     }
 
-    public Object getSource() {
-        return source;
-    }
-
     public Actor getActor() {
         if (source.getClass() == Actor.class) {
             return (Actor) source;
