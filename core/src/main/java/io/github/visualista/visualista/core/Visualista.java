@@ -118,4 +118,9 @@ public class Visualista {
         scene.setImage(image);
         return scene;
     }
+
+    public Scene changeSceneText(Scene scene, String string) {
+        scene.setStoryText(string);
+        return scene;
+    }
 }
