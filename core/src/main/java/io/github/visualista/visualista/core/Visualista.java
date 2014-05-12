@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 import io.github.visualista.visualista.model.*;
-import io.github.visualista.visualista.controller.Image;
 import io.github.visualista.visualista.io.FileLoader;
 import io.github.visualista.visualista.io.ObjectFactory;
 import io.github.visualista.visualista.io.XStreamManager;
