@@ -10,6 +10,7 @@ import io.github.visualista.visualista.io.XStreamManager;
 import io.github.visualista.visualista.model.Actor;
 import io.github.visualista.visualista.model.ActorFactory;
 import io.github.visualista.visualista.model.GridFactory;
+import io.github.visualista.visualista.model.IGetNovel;
 import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.model.Image;
 import io.github.visualista.visualista.model.Novel;
@@ -67,10 +68,11 @@ public class Visualista {
 
     }
 
-    public void createNewNovel() {
+    public Novel createNewNovel() {
         saveNovelIfNeeded();
         Novel newNovel = novelFactory.createNovel();
         setCurrentNovel(newNovel);
+        return newNovel;
     }
 
     /**
