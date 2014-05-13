@@ -36,6 +36,7 @@ import io.github.visualista.visualista.model.Grid;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.model.Scene;
+import io.github.visualista.visualista.util.BiDiMap;
 import io.github.visualista.visualista.util.Dimension;
 import io.github.visualista.visualista.util.IMatrixGet;
 import io.github.visualista.visualista.util.IObjectCreator;
@@ -65,7 +66,6 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
     private Label actorLabel;
     private Label actionLabel;
 
-    private ArrayList<TextButton> sceneButtons;
     private Matrix<Image> gridButtons;
 
     private List actorList;
@@ -87,9 +87,8 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
 
     private Dimension configDimension;
 
-    private boolean tabsOverflowing;
-
     private ArrayList<TextButton> overflowingTabs;
+    private BiDiMap<TextButton,IGetScene> tabs; 
 
     private Actor overflowDropdownButton;
     private List contextMenu;
@@ -99,6 +98,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
 
     public VisualistaView(Dimension dimension) {
         this.configDimension = dimension;
+        tabs = new BiDiMap<TextButton, IGetScene>();
     }
 
     @Override
@@ -160,7 +160,6 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
             }
         });
 
-        sceneButtons = new ArrayList<TextButton>();
 
         createLeftBorderContent();
         createRightBorderContent();
@@ -472,8 +471,9 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
             name += " ";
         }
         TextButton tab = new TextButton(name, uiSkin);
-        sceneButtons.add(tab);
+        tabs.put(tab, newScene);
         sceneButtonGroup.addActorBefore(tabExtraButtons, tab);
+        
         hideOverFlowingScenes();
 
     }
@@ -513,8 +513,19 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
 
     @Override
     public void updateScene(IGetScene currentScene) {
-        // TODO Auto-generated method stub
-
+        String name = currentScene.getName();
+        if (name == null) {
+            name = "";
+        }
+        while (name.length() < 5) {
+            name += " ";
+        }
+        TextButton tab = new TextButton(name, uiSkin);
+        TextButton oldTab = tabs.getKey(currentScene);
+        tabs.removeByKey(oldTab);
+        tabs.put(tab, currentScene);
+        sceneButtonGroup.addActorBefore(oldTab, tab);
+        sceneButtonGroup.removeActor(oldTab);
     }
 
     private static float horizontalDistanceBetween(
