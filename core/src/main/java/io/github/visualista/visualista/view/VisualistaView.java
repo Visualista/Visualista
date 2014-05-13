@@ -34,6 +34,7 @@ import io.github.visualista.visualista.controller.ViewEventListener;
 import io.github.visualista.visualista.controller.ViewEventManager;
 import io.github.visualista.visualista.model.Grid;
 import io.github.visualista.visualista.model.IGetActor;
+import io.github.visualista.visualista.model.IGetNovel;
 import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.model.Scene;
 import io.github.visualista.visualista.util.BiDiMap;
@@ -96,6 +97,14 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
 
     private HorizontalGroup tabExtraButtons;
 
+    private Border leftButtonBorder;
+
+    private Border centerButtonBorder;
+
+    private Border rightButtonBorder;
+
+    private boolean isReady = false;
+
     public VisualistaView(Dimension dimension) {
         this.configDimension = dimension;
         tabs = new BiDiMap<Tab, IGetScene>();
@@ -144,7 +153,6 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
                 Actor hitObject = stage.hit(x, y, true);
                 boolean contextMenuClicked = hitObject == contextMenuScroll
                         || hitObject == contextMenu;
-                Gdx.app.log("Clicked", "" + stage.hit(x, y, true));
                 if (!contextMenuClicked) {
                     contextMenuScroll.setVisible(false);
                 }
@@ -172,10 +180,11 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
         sceneButtonGroup.addActor(tabExtraButtons);
 
         upperBorder.setActor(sceneButtonGroup);
+        sceneButtonGroup.setX(3);
         stage.addActor(upperBorder);
         lowerBorder = new Border();
         lowerBorder.setSize(horizontalDistanceBetween(leftBorder, rightBorder),
-                200);
+                100);
         lowerBorder.setPosition(rightSideOf(leftBorder), 0);
         stage.addActor(lowerBorder);
         createCenterBorderContent();
@@ -202,31 +211,14 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
         // Use if you need to zoom out a bit
         // ((OrthographicCamera) stage.getCamera()).zoom = 2;
 
-        this.addScene(new IGetScene() {
-
-            @Override
-            public String getStoryText() {
-                return "No story";
-            }
-
-            @Override
-            public String getName() {
-                return "Dummy scene";
-            }
-
-            @Override
-            public java.util.List<IGetActor> getActorsInScene() {
-                return null;
-            }
-
-            @Override
-            public Grid getGrid() {
-                return null;
-            }
-
-        });
-
         Gdx.input.setInputProcessor(stage);
+        isReady=true;
+        eventManager.fireViewEvent(this, Type.VIEW_READY);
+    }
+    
+    @Override
+    public boolean getIsReady(){
+        return isReady;
     }
 
     private float rightSideOf(com.badlogic.gdx.scenes.scene2d.Actor actor) {
@@ -261,12 +253,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
         actionLabel.setColor(Color.BLACK);
         rightVerticalGroup.addActor(actionLabel);
 
-        final String[] actors = { "Jacob", "Hej", "Hej", "Hej", "Hej", "Hej",
-                "Hej", "Hej", "Hej", "Hej", "Hej", "Hej", "Hej", "Hej", "Hej",
-                "Hej", "Hej", "Hej", "Hej", "Hej", "Hej", "Hej", "Hej", "Hej",
-                "Hej", "Hej", "Hej", "Hej", "Hej", "Hej", "Hej", "Hej" };
-
-        actionList = new List(actors, uiSkin);
+        actionList = new List(new String[0], uiSkin);
 
         actionList.setWidth(rightBorder.getWidth() - rightBorder.getLineSize()
                 * 4);
@@ -277,7 +264,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
         Border scrollBorder = new Border();
         scrollBorder.setLineOutsideActor(true);
         scrollBorder.setLineSize(1);
-        scrollBorder.setSize(actionList.getWidth(), 400);
+        scrollBorder.setSize(actionList.getWidth(), rightBorder.getHeight()*0.7f);
         scrollBorder.setActor(scroll);
         rightVerticalGroup.addActor(scrollBorder);
 
@@ -334,45 +321,52 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
         final Drawable cursor = new TextureRegionDrawable(new TextureRegion(
                 new Texture(Gdx.files.internal("icons/cursor.png"))));
         leftButton = new ImageButton(cursor);
-        leftButton.setPosition(60, 750);
-        leftButton.setSize(50, 50);
         leftButton.addListener(new ClickListener());
+        leftButtonBorder =  new Border();
+        leftButtonBorder.setLineSize(0);
+        leftButtonBorder.setActor(leftButton);
 
         final Drawable hand = new TextureRegionDrawable(new TextureRegion(
                 new Texture(Gdx.files.internal("icons/hand.png"))));
 
         centerButton = new ImageButton(hand);
-        centerButton.setSize(50, 50);
         centerButton.addListener(new ClickListener());
+        centerButtonBorder =  new Border();
+        centerButtonBorder.setLineSize(0);
+        centerButtonBorder.setActor(centerButton);
 
         final Drawable arrow = new TextureRegionDrawable(new TextureRegion(
                 new Texture(Gdx.files.internal("icons/arrow.png"))));
 
         rightButton = new ImageButton(arrow);
-        rightButton.setSize(50, 50);
         rightButton.addListener(new ClickListener());
+        rightButtonBorder =  new Border();
+        rightButtonBorder.setLineSize(0);
+        rightButtonBorder.setActor(rightButton);
 
         HorizontalGroup buttonContainer1 = new HorizontalGroup();
 
-        buttonContainer1.addActor(leftButton);
-        buttonContainer1.addActor(centerButton);
-        buttonContainer1.addActor(rightButton);
+        leftButtonBorder.setSize(50, 40);
+        centerButtonBorder.setSize(50, 40);
+        rightButtonBorder.setSize(50, 40);
+        
+        buttonContainer1.addActor(leftButtonBorder);
+        buttonContainer1.addActor(centerButtonBorder);
+        buttonContainer1.addActor(rightButtonBorder);
         leftVerticalGroup.addActor(buttonContainer1);
 
-        final String[] actors = { "Jacob", "Hej", "Hej", "Hej", "Hej", "Hej",
-                "Hej", "Hej", "Hej", "Hej", "Hej", "Hej", "Hej", "Hej", "Hej",
-                "Hej", "Hej", "Hej", "Hej", "Hej", "Hej", "Hej", "Hej", "Hej",
-                "Hej", "Hej", "Hej", "Hej", "Hej", "Hej", "Hej", "Hej" };
+        
 
-        actorList = new List(actors, uiSkin);
+        actorList = new List(new String[0], uiSkin);
 
-        actorList.setSize(leftBorder.getWidth(), 400);
+        actorList.setWidth(leftBorder.getWidth() - leftBorder.getLineSize()
+                * 4);
         actorList.setColor(Color.BLACK);
 
         final ScrollPane scroll = new ScrollPane(actorList, uiSkin);
         scroll.setFadeScrollBars(false);
         Border scrollBorder = new Border();
-        scrollBorder.setSize(leftBorder.getWidth(), 400);
+        scrollBorder.setSize(actorList.getWidth(), leftBorder.getHeight()*0.7f);
         scrollBorder.setActor(scroll);
         leftVerticalGroup.addActor(scrollBorder);
 
@@ -463,19 +457,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
 
     @Override
     public void addScene(IGetScene newScene) {
-        String name = newScene.getName();
-        if (name == null) {
-            name = "";
-        }
-        while (name.length() < 5) {
-            name += " ";
-        }
-        final Tab tab = new Tab(name, uiSkin);
-        tabs.put(tab, newScene);
-        tab.setHeight(upperBorder.getHeight());
-        sceneButtonGroup.addActorBefore(tabExtraButtons, tab);
-        
-        hideOverFlowingScenes();
+        updateScene(newScene);
 
     }
 
@@ -522,11 +504,20 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
             name += " ";
         }
         Tab tab = new Tab(name, uiSkin);
+        tab.setHeight(upperBorder.getHeight());
         Tab oldTab = tabs.getKey(currentScene);
-        tabs.removeByKey(oldTab);
+        if(oldTab!=null){
+            tabs.removeByKey(oldTab);
+            overflowingTabs.remove(oldTab);
+            sceneButtonGroup.addActorBefore(oldTab, tab);
+            sceneButtonGroup.removeActor(oldTab);
+        }
+        else{
+            sceneButtonGroup.addActorBefore(tabExtraButtons, tab);
+        }
         tabs.put(tab, currentScene);
-        sceneButtonGroup.addActorBefore(oldTab, tab);
-        sceneButtonGroup.removeActor(oldTab);
+        hideOverFlowingScenes();
+        
     }
 
     private static float horizontalDistanceBetween(
@@ -552,6 +543,12 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
     }
     @Override
     public void changeActiveScene(Scene scene) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void changeActiveNovel(IGetNovel updatedNovel) {
         // TODO Auto-generated method stub
         
     }
