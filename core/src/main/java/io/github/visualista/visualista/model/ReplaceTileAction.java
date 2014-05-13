@@ -1,8 +1,14 @@
 package io.github.visualista.visualista.model;
 
+import java.util.Iterator;
+
+import io.github.visualista.visualista.controller.ActionEvent;
+import io.github.visualista.visualista.controller.ActionEventListener;
+import io.github.visualista.visualista.controller.ActionEventSource;
+import io.github.visualista.visualista.controller.ActionEventType;
 import io.github.visualista.visualista.util.Point;
 
-public class ReplaceTileAction implements IPlayAction {
+public class ReplaceTileAction extends ActionEventSource implements IPlayAction {
 
     private Point targetTile;
     private Actor replacementActor;
@@ -40,7 +46,18 @@ public class ReplaceTileAction implements IPlayAction {
 
     @Override
     public void callAction() {
-        // TODO Auto-generated method stub
+        fireActionEvent();
 
+    }
+
+    @Override
+    public void fireActionEvent() {
+        //TODO Make this work
+        final ActionEvent ae = new ActionEvent(this, ActionEventType.SET_SCENE, "Test");
+        final Iterator<ActionEventListener> it = actorEventListeners.iterator();
+        while (it.hasNext()) {
+            it.next().handleActionEvent(ae);
+        }
+        
     }
 }

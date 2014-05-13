@@ -1,6 +1,13 @@
 package io.github.visualista.visualista.model;
 
-public class SwitchSceneAction implements IPlayAction {
+import java.util.Iterator;
+
+import io.github.visualista.visualista.controller.ActionEvent;
+import io.github.visualista.visualista.controller.ActionEventListener;
+import io.github.visualista.visualista.controller.ActionEventSource;
+import io.github.visualista.visualista.controller.ActionEventType;
+
+public class SwitchSceneAction extends ActionEventSource implements IPlayAction {
 
     private Scene targetScene;
 
@@ -22,8 +29,18 @@ public class SwitchSceneAction implements IPlayAction {
 
     @Override
     public void callAction() {
-        // TODO Auto-generated method stub
+       fireActionEvent();
 
+    }
+
+    @Override
+    public void fireActionEvent() {
+        final ActionEvent ae = new ActionEvent(this, ActionEventType.SET_SCENE, targetScene);
+        final Iterator<ActionEventListener> it = actorEventListeners.iterator();
+        while (it.hasNext()) {
+            it.next().handleActionEvent(ae);
+        }
+        
     }
 
 }

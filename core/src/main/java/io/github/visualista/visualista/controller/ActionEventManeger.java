@@ -15,8 +15,8 @@ public class ActionEventManeger {
         eventListeners.remove(ael);
     }
     
-    public final synchronized void fireActionEvent(Object source, ActionEventType type, Object target, Object newData){
-        final ActionEvent actionEvent = new ActionEvent(source, type, target, newData);
+    public final synchronized void fireActionEvent(Object source, ActionEventType type, Object newData){
+        final ActionEvent actionEvent = new ActionEvent(source, type, newData);
         final Iterator<ActionEventListener> it = eventListeners.iterator();
         while (it.hasNext()){
             it.next().handleActionEvent(actionEvent);

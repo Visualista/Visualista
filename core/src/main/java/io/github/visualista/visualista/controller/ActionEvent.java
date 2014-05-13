@@ -5,13 +5,11 @@ import java.util.EventObject;
 public class ActionEvent extends EventObject{
     
     private final ActionEventType aeType;
-    private final Object target;
     private final Object newData;
     
-    public ActionEvent(Object source, ActionEventType aeType, Object target, Object newData) {
+    public ActionEvent(Object source, ActionEventType aeType, Object newData) {
         super(source);
         this.aeType = aeType;
-        this.target = target;
         this.newData = newData;
     }
 
@@ -19,10 +17,6 @@ public class ActionEvent extends EventObject{
 
     public ActionEventType getAeType(){
         return aeType;
-    }
-    
-    public Object getTarget(){
-        return target;
     }
     
     public Object getNewData(){
