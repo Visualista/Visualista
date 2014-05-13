@@ -12,7 +12,6 @@ import io.github.visualista.visualista.model.Scene;
 import io.github.visualista.visualista.view.IVisualistaView;
 import io.github.visualista.visualista.view.VisualistaView;
 
-
 public class EditorController implements ViewEventListener {
 
     private Visualista visualista;
@@ -23,6 +22,18 @@ public class EditorController implements ViewEventListener {
         this.visualista = visualista;
         this.view = view;
         addEventHandlersToView();
+
+        fillViewFromModel();
+
+    }
+
+    private void fillViewFromModel() {
+        if (view.getIsReady()) {
+            for (Scene scene : visualista.getCurrentNovel().getScenes()) {
+                view.addScene(scene);
+            }
+        }
+
     }
 
     private void addEventHandlersToView() {
@@ -41,44 +52,58 @@ public class EditorController implements ViewEventListener {
                 break;
             case NEW_ACTOR:
                 visualista.addNewActor();
-              //TODO view needs to do something to update actor list
+                // TODO view needs to do something to update actor list
                 break;
             case REMOVE_ACTOR:
-                visualista.removeActor((Actor)(event.getTargetObject()));
-              //TODO view needs to do something to update actor list
+                visualista.removeActor((Actor) (event.getTargetObject()));
+                // TODO view needs to do something to update actor list
                 break;
             case CHANGE_ACTOR_NAME:
                 updatedActor = visualista.changeActorName(
-                    (Actor)(event.getTargetObject()),(String)(event.getNewData()));
-                //TODO view needs to do something to update actor list
+                        (Actor) (event.getTargetObject()),
+                        (String) (event.getNewData()));
+                // TODO view needs to do something to update actor list
                 break;
             case CHANGE_SCENE_NAME:
                 updatedScene = visualista.changeSceneName(
-                    (Scene)(event.getTargetObject()),(String)(event.getNewData()));
+                        (Scene) (event.getTargetObject()),
+                        (String) (event.getNewData()));
                 view.updateScene(updatedScene);
                 break;
             case CHANGE_ACTOR_IMAGE:
-                updatedActor = visualista.changeActorImage((Actor)(event.getTargetObject()),(Image)(event.getNewData()));
-                //TODO view needs to do something to update actor list
+                updatedActor = visualista.changeActorImage(
+                        (Actor) (event.getTargetObject()),
+                        (Image) (event.getNewData()));
+                // TODO view needs to do something to update actor list
                 break;
             case CHANGE_SCENE_IMAGE:
-                updatedScene = visualista.changeSceneImage((Scene)(event.getTargetObject()),(Image)(event.getNewData()));
+                updatedScene = visualista.changeSceneImage(
+                        (Scene) (event.getTargetObject()),
+                        (Image) (event.getNewData()));
                 view.updateScene(updatedScene);
                 break;
             case CHANGE_SCENE_TEXT:
-                updatedScene = visualista.changeSceneText((Scene)(event.getTargetObject()),(String)(event.getNewData()));
+                updatedScene = visualista.changeSceneText(
+                        (Scene) (event.getTargetObject()),
+                        (String) (event.getNewData()));
                 view.updateScene(updatedScene);
                 break;
             case REMOVE_SCENE:
-                updatedScene = visualista.removeScene((Scene)(event.getTargetObject()));
+                updatedScene = visualista.removeScene((Scene) (event
+                        .getTargetObject()));
                 view.removeScene(updatedScene);
                 break;
             case CHANGE_ACTIVE_SCENE:
-                view.changeActiveScene((Scene)(event.getTargetObject()));
+                view.changeActiveScene((Scene) (event.getTargetObject()));
             case NEW_NOVEL:
                 updatedNovel = visualista.createNewNovel();
-                //TODO require any parameters?
+                // TODO require any parameters?
                 view.changeActiveNovel(updatedNovel);
+            case VIEW_READY:
+                fillViewFromModel();
+                break;
+            default:
+                break;
         }
     }
 
