@@ -1,6 +1,7 @@
 package io.github.visualista.visualista.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -8,23 +9,28 @@ import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-public class Tab extends HorizontalGroup {
-    private static final float FONT_SCALE_RATIO = 1/ 30.0f;
+public class Tab extends Stack {
+    private static final float FONT_SCALE_RATIO = 1 / 30.0f;
     private static final float CLOSE_IMAGE_RATIO = 0.8f;
     final static Drawable closeDrawable = new TextureRegionDrawable(
             new TextureRegion(new Texture(Gdx.files.internal("icons/tile.png"))));
-    final Label label;
-    final Image closeImage;
-    private Border closeImageBorder;
+    private final Label label;
+    private final Image closeImage;
+    private final Border closeImageBorder;
+    private final HorizontalGroup hGroup;
+    private final Rectangle background;
 
     public Tab(String name, Skin uiSkin) {
         label = new Label(name, uiSkin);
         closeImage = new Image(closeDrawable);
         closeImageBorder = new Border();
+        hGroup = new HorizontalGroup();
+        background = new Rectangle(Color.GRAY);
         closeImageBorder.setLineSize(1);
         closeImageBorder.setLineOutsideActor(true);
         closeImageBorder.setActor(closeImage);
@@ -33,20 +39,35 @@ public class Tab extends HorizontalGroup {
             public void clicked(final InputEvent event, final float x, float y) {
             }
         });
-        this.addActor(label);
-        this.addActor(closeImageBorder);
-
+        Rectangle padding1 =  new Rectangle(new Color(0,0,0,0));
+        padding1.setWidth(5);
+        hGroup.addActor(padding1);
+        hGroup.addActor(label);
+        Rectangle padding2 =  new Rectangle(new Color(0,0,0,0));
+        padding2.setWidth(5);
+        hGroup.addActor(padding2);
+        
+        hGroup.addActor(closeImageBorder);
+        this.add(background);
+        this.add(hGroup);
+        
     }
 
     @Override
     protected void sizeChanged() {
+        if (background != null) {
+            background.setSize(hGroup.getHeight(), hGroup.getWidth());
+        }
         super.sizeChanged();
     }
 
     @Override
     public void setHeight(float height) {
-        label.setFontScale((height *FONT_SCALE_RATIO));
-        closeImageBorder.setSize(height*CLOSE_IMAGE_RATIO, height*CLOSE_IMAGE_RATIO);
+        if (label != null && closeImageBorder != null) {
+            label.setFontScale((height * FONT_SCALE_RATIO));
+            closeImageBorder.setSize(height * CLOSE_IMAGE_RATIO, height
+                    * CLOSE_IMAGE_RATIO);
+        }
         super.setHeight(height);
     }
 
