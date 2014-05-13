@@ -9,17 +9,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileFilter;
 
-import io.github.visualista.visualista.core.FilePicker;
+import io.github.visualista.visualista.core.IFilePicker;
 import io.github.visualista.visualista.core.FilePickerListener;
 
-public class DesktopFilePicker implements FilePicker {
-
-    private Component parent;
-
-    public DesktopFilePicker(Component parent) {
-        this.parent = parent;
-    }
-
+public class DesktopFilePicker implements IFilePicker {
     void showChooser(final FilePickerListener listener, final boolean fileOpen,
             FileFilter fileFilter) {
         final JFileChooser chooser = new JFileChooser();
@@ -36,7 +29,7 @@ public class DesktopFilePicker implements FilePicker {
         });
         chooser.setFileFilter(fileFilter);
         chooser.setAcceptAllFileFilterUsed(false);
-        chooser.showDialog(parent, "Select");
+        chooser.showDialog(null, "Select");
     }
 
     @Override
