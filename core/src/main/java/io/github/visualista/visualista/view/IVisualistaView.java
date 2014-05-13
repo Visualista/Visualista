@@ -6,18 +6,20 @@ import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.model.Scene;
 
 public interface IVisualistaView {
-    public void addScene(IGetScene newScene);
-    
-    public void removeViewEventListener(ViewEventListener eventListener);
-    
-    public void addViewEventListener(ViewEventListener eventListener);
+    void addScene(IGetScene newScene);
 
-    public void updateScene(IGetScene currentScene);
-    
-    public void removeScene(IGetScene scene);
+    void removeViewEventListener(ViewEventListener eventListener);
 
-    public void changeActiveScene(Scene scene);
+    void addViewEventListener(ViewEventListener eventListener);
 
-    public void changeActiveNovel(IGetNovel updatedNovel);
-    
+    void updateScene(IGetScene currentScene);
+
+    void removeScene(IGetScene scene);
+
+    void changeActiveScene(Scene scene);
+
+    void changeActiveNovel(IGetNovel updatedNovel);
+
+    boolean getIsReady();
+
 }
