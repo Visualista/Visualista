@@ -32,6 +32,8 @@ import com.badlogic.gdx.utils.SnapshotArray;
 
 import io.github.visualista.visualista.controller.ViewEventListener;
 import io.github.visualista.visualista.controller.ViewEventManager;
+import io.github.visualista.visualista.core.FilePickerListener;
+import io.github.visualista.visualista.core.IFilePicker;
 import io.github.visualista.visualista.model.Grid;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetNovel;
@@ -44,9 +46,13 @@ import io.github.visualista.visualista.util.IObjectCreator;
 import io.github.visualista.visualista.util.Matrix;
 import io.github.visualista.visualista.util.Point;
 
+import java.io.File;
 import java.util.*;
 
-public class VisualistaView implements ApplicationListener, IVisualistaView {
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+public class VisualistaView implements ApplicationListener, IVisualistaView,
+        FilePickerListener {
     private static final float LEFT_BORDER_WIDTH_RATIO = 2.0f / 9;
 
     private Stage stage;
@@ -109,9 +115,12 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
 
     private Border openButtonBorder;
 
-    public VisualistaView(Dimension dimension) {
+    private IFilePicker filePicker;
+
+    public VisualistaView(Dimension dimension, IFilePicker filePicker) {
         this.configDimension = dimension;
         tabs = new BiDiMap<Tab, IGetScene>();
+        this.filePicker = filePicker;
     }
 
     @Override
@@ -131,6 +140,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
         // ((OrthographicCamera) stage.getCamera()).zoom = 2;
 
         Gdx.input.setInputProcessor(stage);
+        Gdx.graphics.setContinuousRendering(false);
         isReady = true;
         eventManager.fireViewEvent(this, Type.VIEW_READY);
     }
@@ -321,11 +331,19 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
         leftBorder.setSize(stage.getWidth() * LEFT_BORDER_WIDTH_RATIO,
                 stage.getHeight());
         leftBorder.setPosition(0, 0);
-        
+
         final Drawable open = new TextureRegionDrawable(new TextureRegion(
                 new Texture(Gdx.files.internal("icons/open.png"))));
         openButton = new ImageButton(open);
-        openButton.addListener(new ClickListener());
+        openButton.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                openNovel();
+                super.clicked(event, x, y);
+            }
+
+        });
         openButtonBorder = new Border();
         openButtonBorder.setLineSize(0);
         openButtonBorder.setActor(openButton);
@@ -337,8 +355,6 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
         cursorButtonBorder = new Border();
         cursorButtonBorder.setLineSize(0);
         cursorButtonBorder.setActor(cursorButton);
-        
-        
 
         final Drawable hand = new TextureRegionDrawable(new TextureRegion(
                 new Texture(Gdx.files.internal("icons/hand.png"))));
@@ -410,6 +426,11 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
         dialogsButton.setSize(150, 20);
         buttonContainer2.addActor(dialogsButton);
         leftVerticalGroup.addActor(buttonContainer2);
+    }
+
+    protected void openNovel() {
+        filePicker.fileDialog(VisualistaView.this, true,
+                new FileNameExtensionFilter("Visualista Novel", "vis"));
     }
 
     @Override
@@ -575,5 +596,10 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
     public void changeActiveNovel(IGetNovel updatedNovel) {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public void filePicked(File selectedFile, boolean fileOpen) {
+        Gdx.app.log("filePicked", "" + selectedFile);
     }
 }
