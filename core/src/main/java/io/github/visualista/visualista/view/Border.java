@@ -33,15 +33,6 @@ public class Border extends Group {
         super.draw(batch, parentAlpha);
     }
 
-    private static Texture createTexture(Color color) {
-        Pixmap pixmap = new Pixmap(1, 1, Format.RGBA4444);
-        pixmap.setColor(color);
-        pixmap.fill();
-        Texture texture = new Texture(pixmap);
-        pixmap.dispose();
-        return texture;
-    }
-
     public void setActor(Actor actor) {
         if (actor == this)
             throw new IllegalArgumentException("actor cannot be the Border.");
