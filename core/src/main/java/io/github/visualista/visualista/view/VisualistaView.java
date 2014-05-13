@@ -87,8 +87,8 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
 
     private Dimension configDimension;
 
-    private ArrayList<TextButton> overflowingTabs;
-    private BiDiMap<TextButton,IGetScene> tabs; 
+    private ArrayList<Tab> overflowingTabs;
+    private BiDiMap<Tab,IGetScene> tabs; 
 
     private Actor overflowDropdownButton;
     private List contextMenu;
@@ -98,7 +98,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
 
     public VisualistaView(Dimension dimension) {
         this.configDimension = dimension;
-        tabs = new BiDiMap<TextButton, IGetScene>();
+        tabs = new BiDiMap<Tab, IGetScene>();
     }
 
     @Override
@@ -122,7 +122,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
             });
         }
 
-        overflowingTabs = new ArrayList<TextButton>();
+        overflowingTabs = new ArrayList<Tab>();
         newSceneButton = new TextButton("+", uiSkin);
         overflowDropdownButton = new TextButton(">", uiSkin);
         tabExtraButtons = new HorizontalGroup();
@@ -165,7 +165,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
         createRightBorderContent();
         upperBorder = new Border();
         upperBorder.setSize(horizontalDistanceBetween(leftBorder, rightBorder),
-                50);
+                stage.getHeight()*(1/25f));
         upperBorder.setPosition(rightSideOf(leftBorder), stage.getHeight()
                 - upperBorder.getHeight());
         sceneButtonGroup = new HorizontalGroup();
@@ -470,8 +470,9 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
         while (name.length() < 5) {
             name += " ";
         }
-        TextButton tab = new TextButton(name, uiSkin);
+        final Tab tab = new Tab(name, uiSkin);
         tabs.put(tab, newScene);
+        tab.setHeight(upperBorder.getHeight());
         sceneButtonGroup.addActorBefore(tabExtraButtons, tab);
         
         hideOverFlowingScenes();
@@ -500,12 +501,12 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
             totalWidth -= currentlyFirstChild.getWidth();
             sceneButtonGroup.removeActor(currentlyFirstChild);
             overflowDropdownButton.setVisible(true);
-            overflowingTabs.add((TextButton) currentlyFirstChild);
+            overflowingTabs.add((Tab) currentlyFirstChild);
         }
         contextMenu.setVisible(true);
         ArrayList<String> objects = new ArrayList<String>(
                 overflowingTabs.size());
-        for (TextButton removedTab : overflowingTabs) {
+        for (Tab removedTab : overflowingTabs) {
             objects.add(removedTab.getText().toString());
         }
         contextMenu.setItems(objects.toArray());
@@ -520,8 +521,8 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
         while (name.length() < 5) {
             name += " ";
         }
-        TextButton tab = new TextButton(name, uiSkin);
-        TextButton oldTab = tabs.getKey(currentScene);
+        Tab tab = new Tab(name, uiSkin);
+        Tab oldTab = tabs.getKey(currentScene);
         tabs.removeByKey(oldTab);
         tabs.put(tab, currentScene);
         sceneButtonGroup.addActorBefore(oldTab, tab);
