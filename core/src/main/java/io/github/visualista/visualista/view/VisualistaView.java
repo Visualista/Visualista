@@ -105,6 +105,10 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
 
     private boolean isReady = false;
 
+    private IGetActor[] actorListActors;
+
+    private java.util.List<IGetActor> actorsInSceneList;
+
     public VisualistaView(Dimension dimension) {
         this.configDimension = dimension;
         tabs = new BiDiMap<Tab, IGetScene>();
@@ -195,7 +199,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
         contextMenu.setColor(Color.BLACK);
         contextMenuScroll = new ScrollPane(contextMenu, uiSkin);
         contextMenuScroll.setFadeScrollBars(false);
-        contextMenuScroll.setWidth(actionList.getWidth());
+        contextMenuScroll.setWidth(contextMenu.getWidth());
         contextMenuScroll.setPosition(
                 rightBorder.getX() - contextMenuScroll.getWidth(),
                 upperBorder.getY() - contextMenuScroll.getHeight());
@@ -212,6 +216,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
         // ((OrthographicCamera) stage.getCamera()).zoom = 2;
 
         Gdx.input.setInputProcessor(stage);
+        Gdx.graphics.setContinuousRendering(false);
         isReady=true;
         eventManager.fireViewEvent(this, Type.VIEW_READY);
     }
@@ -515,8 +520,19 @@ public class VisualistaView implements ApplicationListener, IVisualistaView {
         else{
             sceneButtonGroup.addActorBefore(tabExtraButtons, tab);
         }
+        setActorList(currentScene.getActorsInScene());
         tabs.put(tab, currentScene);
         hideOverFlowingScenes();
+        
+    }
+
+    private void setActorList(java.util.List<IGetActor> actorsInScene) {
+        actorsInSceneList = actorsInScene;
+        String[] actorNames = new String[actorsInSceneList.size()];
+        for(int i=0;i<actorNames.length;++i){
+            actorNames[i] = actorsInSceneList.get(i).getName();
+        }
+        actorList.setItems(actorNames);
         
     }
 
