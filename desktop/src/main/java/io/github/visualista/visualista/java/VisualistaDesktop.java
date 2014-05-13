@@ -22,7 +22,7 @@ public class VisualistaDesktop {
         config.useGL20 = true;
         config.width = APPLICATION_WIDTH;
         config.height = APPLICATION_HEIGHT;
-        final VisualistaView view = new VisualistaView(new Dimension(config.width,config.height));
+        final VisualistaView view = new VisualistaView(new Dimension(config.width,config.height),new DesktopFilePicker());
         final Visualista model = new Visualista();
         new EditorController(model, view);
         new LwjglApplication(view, config);
