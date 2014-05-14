@@ -134,6 +134,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
     private String renameActor;
 
     private java.util.List<IGetActor> actorNameList;
+    private Tab editingTab;
 
     public VisualistaView(Dimension dimension, IFilePicker filePicker) {
         this.configDimension = dimension;
@@ -227,6 +228,20 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
                         || hitObject == contextMenu;
                 if (!contextMenuClicked) {
                     contextMenuScroll.setVisible(false);
+                }
+                if (editingTab != null
+                        && (hitObject != editingTab && hitObject != editingTab
+                                .getTextField())) {
+                    String newName = editingTab.newName();
+                    if (editingTab.nameWasChanged()) {
+                        eventManager.fireViewEvent(this,
+                                Type.CHANGE_SCENE_NAME,
+                                tabs.getValue(editingTab), newName);
+                    } else {
+                        editingTab.stopEditing();
+
+                    }
+                    editingTab = null;
                 }
                 return contextMenuClicked;
             }
@@ -449,7 +464,6 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
                 leftBorder.getHeight() * 0.7f);
         scrollBorder.setActor(scroll);
         leftVerticalGroup.addActor(scrollBorder);
-
         actorList.addCaptureListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
@@ -654,8 +668,6 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         String[] actorNames = new String[scene.getActorsInScene().size()];
         for (int i = 0; i < scene.getActorsInScene().size(); i++) {
             actorNames[i] = scene.getActorsInScene().get(i).getName();
-
-            Gdx.app.log("Actor: ", "" + actorNames[i]);
         }
 
         actorList.setItems(actorNames);
@@ -687,7 +699,6 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
     @Override
     public void changeActiveScene(IGetScene scene) {
         updateScene(scene);
-        Gdx.app.log("Change active scene", "");
         String name = scene.getName();
         if (name == null) {
             name = "";
@@ -722,7 +733,6 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
 
     @Override
     public void fileOpened(File selectedFile) {
-        Gdx.app.log("", "");
         eventManager.fireViewEvent(this, Type.FILE_OPEN, null, selectedFile);
     }
 
@@ -759,8 +769,13 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
     public void tabEvent(Tab source,
             io.github.visualista.visualista.view.Tab.Type type) {
         if (type == Tab.Type.SELECT) {
-            eventManager.fireViewEvent(this, Type.SELECT_SCENE,
-                    tabs.getValue(source));
+            if (activeScene == tabs.getValue(source)) {
+                source.makeNameEditable();
+                editingTab = source;
+            } else {
+                eventManager.fireViewEvent(this, Type.SELECT_SCENE,
+                        tabs.getValue(source));
+            }
         }
 
     }
