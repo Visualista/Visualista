@@ -90,8 +90,8 @@ public class Visualista {
         return newScene;
     }
 
-    public void addNewActor() {   
-        currentNovel.getCurrentScene().addActor(actorFactory.createActor());
+    public void addNewActor(Scene scene) {   
+        scene.addActor(actorFactory.createActor());
        
     }
     
