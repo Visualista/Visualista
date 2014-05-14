@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class FileLoader<E extends Nameable> {
+public class FileLoader<E> {
 
     private final ObjectFactory<E> objectFactory;
 
@@ -18,7 +18,7 @@ public class FileLoader<E extends Nameable> {
         Scanner sc = new Scanner(file);
         StringBuilder sb = new StringBuilder();
         while (sc.hasNext()) {
-            sb.append(sc.next());
+            sb.append(sc.nextLine());
         }
         sc.close();
         return objectFactory.createObject(sb.toString());
