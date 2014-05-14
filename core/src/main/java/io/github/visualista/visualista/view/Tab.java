@@ -1,5 +1,7 @@
 package io.github.visualista.visualista.view;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -24,6 +26,8 @@ public class Tab extends Stack {
     private final Border closeImageBorder;
     private final HorizontalGroup hGroup;
     private final Rectangle background;
+    ArrayList<TabClickListener> clickListeners = new ArrayList<TabClickListener>();
+    
 
     public Tab(String name, Skin uiSkin) {
         label = new Label(name, uiSkin);
@@ -37,8 +41,13 @@ public class Tab extends Stack {
         closeImage.addCaptureListener(new ClickListener() {
             @Override
             public void clicked(final InputEvent event, final float x, float y) {
+            for(TabClickListener listener : clickListeners){
+                Gdx.app.log("Tab", "Close");
+                listener.tabEvent(Tab.this,Type.CLOSE);
+            }
             }
         });
+        
         Rectangle padding1 =  new Rectangle(new Color(0,0,0,0));
         padding1.setWidth(5);
         hGroup.addActor(padding1);
@@ -50,6 +59,18 @@ public class Tab extends Stack {
         hGroup.addActor(closeImageBorder);
         this.add(background);
         this.add(hGroup);
+        ClickListener selectListener = new ClickListener() {
+            @Override
+            public void clicked(final InputEvent event, final float x, float y) {
+            for(TabClickListener listener : clickListeners){
+                Gdx.app.log("Tab", "Select");
+                listener.tabEvent(Tab.this,Type.SELECT);
+            }
+            }
+        };
+        padding1.addCaptureListener(selectListener);
+        label.addCaptureListener(selectListener);
+        padding2.addCaptureListener(selectListener);
         
     }
 
@@ -75,4 +96,11 @@ public class Tab extends Stack {
         return label.getText();
     }
 
+    public void addClickListener(TabClickListener listener) {
+       clickListeners.add(listener);
+    }
+    
+    public enum Type{
+        SELECT,CLOSE
+    }
 }
