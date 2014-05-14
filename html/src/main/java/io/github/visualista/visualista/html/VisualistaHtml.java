@@ -13,7 +13,7 @@ public class VisualistaHtml extends GwtApplication {
 
     @Override
     public ApplicationListener getApplicationListener() {
-        return new VisualistaView(new Dimension(APPLICATION_WIDTH,APPLICATION_HEIGHT));
+        return new VisualistaView(new Dimension(APPLICATION_WIDTH,APPLICATION_HEIGHT),null);
     }
 
     @Override
