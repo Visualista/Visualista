@@ -42,7 +42,6 @@ public class Tab extends Stack {
             @Override
             public void clicked(final InputEvent event, final float x, float y) {
             for(TabClickListener listener : clickListeners){
-                Gdx.app.log("Tab", "Close");
                 listener.tabEvent(Tab.this,Type.CLOSE);
             }
             }
