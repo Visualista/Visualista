@@ -9,6 +9,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileFilter;
 
+import com.badlogic.gdx.Gdx;
+
 import io.github.visualista.visualista.core.IFilePicker;
 import io.github.visualista.visualista.core.FilePickerListener;
 
@@ -19,23 +21,39 @@ public class DesktopFilePicker implements IFilePicker {
         chooser.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (e.getActionCommand().equals(JFileChooser.APPROVE_SELECTION)) {
-                    listener.filePicked(chooser.getSelectedFile(), fileOpen);
+                    if (fileOpen) {
+                        listener.fileOpened(chooser.getSelectedFile());
+                    } else {
+                        listener.fileSaved(chooser.getSelectedFile());
+                    }
+
                 } else if (e.getActionCommand().equals(
                         JFileChooser.CANCEL_SELECTION)) {
-                    listener.filePicked(null, fileOpen);
                 }
 
             }
         });
         chooser.setFileFilter(fileFilter);
         chooser.setAcceptAllFileFilterUsed(false);
-        chooser.showDialog(null, "Select");
+        if (fileOpen) {
+            chooser.showDialog(null, "Open");
+        } else {
+            chooser.showDialog(null, "Save");
+        }
+
     }
 
     @Override
-    public void fileDialog(FilePickerListener listener, boolean open,
+    public void openFileDialog(FilePickerListener listener,
             FileFilter fileFilter) {
-        showChooser(listener, open, fileFilter);
+        showChooser(listener, true, fileFilter);
+
+    }
+
+    @Override
+    public void saveFileDialog(FilePickerListener listener,
+            FileFilter fileFilter) {
+        showChooser(listener, false, fileFilter);
 
     }
 
