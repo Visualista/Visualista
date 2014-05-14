@@ -52,7 +52,7 @@ import java.util.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class VisualistaView implements ApplicationListener, IVisualistaView,
-        FilePickerListener {
+        FilePickerListener, TabClickListener {
     private static final float LEFT_BORDER_WIDTH_RATIO = 2.0f / 9;
 
     private Stage stage;
@@ -116,6 +116,8 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
     private Border openButtonBorder;
 
     private IFilePicker filePicker;
+
+    private IGetScene activeScene;
 
     public VisualistaView(Dimension dimension, IFilePicker filePicker) {
         this.configDimension = dimension;
@@ -549,6 +551,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
             name += " ";
         }
         Tab tab = new Tab(name, uiSkin);
+        tab.addClickListener(this);
         tab.setHeight(upperBorder.getHeight());
         Tab oldTab = tabs.getKey(currentScene);
         if (oldTab != null) {
@@ -587,9 +590,30 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
     }
 
     @Override
-    public void changeActiveScene(Scene scene) {
-        // TODO Auto-generated method stub
-
+    public void changeActiveScene(IGetScene scene) {
+        Gdx.app.log("Change active scene", "");
+        String name = scene.getName();
+        if (name == null) {
+            name = "";
+        }
+        while (name.length() < 5) {
+            name += " ";
+        }
+        Tab tab = new Tab(name, uiSkin);
+        tab.addClickListener(this);
+        tab.setHeight(upperBorder.getHeight());
+        Tab oldTab = tabs.getKey(scene);
+        if (oldTab != null) {
+            tabs.removeByKey(oldTab);
+            overflowingTabs.remove(oldTab);
+            sceneButtonGroup.addActorAt(0, tab);
+            sceneButtonGroup.removeActor(oldTab);
+        } else {
+            sceneButtonGroup.addActorAt(0, tab);
+        }
+        tabs.put(tab, scene);
+        hideOverFlowingScenes();
+        activeScene = scene;
     }
 
     @Override
@@ -631,5 +655,15 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         sceneButtonGroup.clearChildren();
         sceneButtonGroup.addActor(tabExtraButtons);
         tabs.clear();
+    }
+
+    @Override
+    public void tabEvent(Tab source,
+            io.github.visualista.visualista.view.Tab.Type type) {
+        if (type == Tab.Type.SELECT) {
+            eventManager.fireViewEvent(this, Type.SELECT_SCENE,
+                    tabs.getValue(source));
+        }
+
     }
 }
