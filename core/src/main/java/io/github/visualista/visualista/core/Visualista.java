@@ -51,7 +51,7 @@ public class Visualista {
 
     }
 
-    private void saveNovelIfNeeded() {
+    public void saveNovelIfNeeded() {
         // TODO Code to handle saving
     }
 

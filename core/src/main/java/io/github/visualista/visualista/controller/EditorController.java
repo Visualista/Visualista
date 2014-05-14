@@ -114,6 +114,7 @@ public class EditorController implements ViewEventListener {
                 }
                 break;
             case FILE_SAVE:
+                visualista.saveNovelIfNeeded();
                 break;
             default:
                 break;
