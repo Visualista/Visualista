@@ -24,6 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -119,6 +120,8 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
     private IFilePicker filePicker;
 
     private IGetScene activeScene;
+
+    private TextArea textInput;
 
     public VisualistaView(Dimension dimension, IFilePicker filePicker) {
         this.configDimension = dimension;
@@ -222,6 +225,8 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         lowerBorder.setSize(horizontalDistanceBetween(leftBorder, rightBorder),
                 100);
         lowerBorder.setPosition(rightSideOf(leftBorder), 0);
+        textInput = new TextArea("", uiSkin);
+        lowerBorder.setActor(textInput);
         stage.addActor(lowerBorder);
     }
 
