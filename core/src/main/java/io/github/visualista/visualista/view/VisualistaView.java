@@ -135,7 +135,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         stage = new Stage();
         stage.getViewport().setWorldHeight(configDimension.getHeight());
         stage.getViewport().setWorldWidth(configDimension.getWidth());
-        
+
         stage.clear();
         uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
         createLeftBorderContent();
@@ -306,21 +306,19 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         stage.addActor(centerBorder);
 
         centerBorder.setActor(centerVerticalGroup);
-        gridButtons = new Matrix<Image>(new Dimension(5, 5));
+    }
+
+    private void fillGridFromScene(IGetScene scene) {
+        gridButtons = new Matrix<Image>(scene.getGrid().getSize());
         final Drawable tile = new TextureRegionDrawable(new TextureRegion(
                 new Texture(Gdx.files.internal("icons/transparent.png"))));
 
-        for (int i = 0; i < 25; i++) {
-            gridButtons.fillWith(new IObjectCreator<Image>() {
-
-                @Override
-                public Image createObject() {
-                    return new Image(tile);
-                }
-
-            });
+        for(int i = 0;i<scene.getGrid().getSize().getHeight();++i){
+            for(int j = 0;j<scene.getGrid().getSize().getWidth();++j){
+                gridButtons.setAt(new Point(i,j), new Image(tile));
+            }
         }
-
+        fillGrid(centerVerticalGroup, gridButtons);
     }
 
     private void resizeCenterBorder() {
@@ -331,7 +329,6 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         centerBorder.setPosition(rightSideOf(leftBorder), lowerBorder.getY()
                 + lowerBorder.getHeight());
 
-        fillGrid(centerVerticalGroup, gridButtons);
     }
 
     private void createLeftBorderContent() {
@@ -505,10 +502,10 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
 
     @Override
     public void resize(final int width, final int height) {
-        //stage.setViewport(configDimension.getWidth(),
-        //        configDimension.getHeight(), true);
-        //stage.getCamera().translate(-stage.getGutterWidth(),
-        //        -stage.getGutterHeight(), 0);
+        // stage.setViewport(configDimension.getWidth(),
+        // configDimension.getHeight(), true);
+        // stage.getCamera().translate(-stage.getGutterWidth(),
+        // -stage.getGutterHeight(), 0);
 
     }
 
@@ -580,8 +577,8 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
     }
 
     @Override
-    public void updateScene(IGetScene currentScene) {
-        String name = currentScene.getName();
+    public void updateScene(IGetScene scene) {
+        String name = scene.getName();
         if (name == null) {
             name = "";
         }
@@ -591,7 +588,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         Tab tab = new Tab(name, uiSkin);
         tab.addClickListener(this);
         tab.setHeight(upperBorder.getHeight());
-        Tab oldTab = tabs.getKey(currentScene);
+        Tab oldTab = tabs.getKey(scene);
         if (oldTab != null) {
             tabs.removeByKey(oldTab);
             overflowingTabs.remove(oldTab);
@@ -600,12 +597,12 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         } else {
             sceneButtonGroup.addActorBefore(tabExtraButtons, tab);
         }
-        tabs.put(tab, currentScene);
+        tabs.put(tab, scene);
         hideOverFlowingScenes();
-        String[] actorNames = new String[currentScene.getActorsInScene().size()];
-        for (int i = 0; i < currentScene.getActorsInScene().size(); i++) {
-            actorNames[i] = currentScene.getActorsInScene().get(i).getName();
-            Gdx.app.log("Actor: ", ""+actorNames[i]);
+        String[] actorNames = new String[scene.getActorsInScene().size()];
+        for (int i = 0; i < scene.getActorsInScene().size(); i++) {
+            actorNames[i] = scene.getActorsInScene().get(i).getName();
+            Gdx.app.log("Actor: ", "" + actorNames[i]);
         }
         actorList.setItems(actorNames);
     }
@@ -657,6 +654,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         }
         tabs.put(tab, scene);
         hideOverFlowingScenes();
+        fillGridFromScene(scene);
         activeScene = scene;
     }
 
