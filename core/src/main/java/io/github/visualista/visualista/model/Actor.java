@@ -13,7 +13,7 @@ public class Actor extends ActorEventSource implements Nameable, IGetActor, IPla
     public static final Actor EMPTY_ACTOR = new Actor();
     private Image image;
     private final List<IAction> actions;
-    private String name;
+    private String name ="";
 
     public String getName() {
         return name;

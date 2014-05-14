@@ -428,10 +428,15 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         leftVerticalGroup.addActor(scrollBorder);
 
         actorList.addCaptureListener(new EventListener() {
-
             @Override
             public boolean handle(Event event) {
                 if (event instanceof InputEvent) {
+                    if (actorList.getItems().size > 0) {
+                        String[] actorNames = new String[] { "h", "j", "g" };
+                        actorLabel.setText(actorNames[actorList
+                                .getSelectedIndex()]);
+
+                    }
                 }
                 return false;
             }
@@ -440,10 +445,16 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
 
         HorizontalGroup buttonContainer2 = new HorizontalGroup();
 
-
         actorsButton = new TextButton("Add actor", uiSkin);
         actorsButton.setSize(150, 20);
         buttonContainer2.addActor(actorsButton);
+
+        actorsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                eventManager.fireViewEvent(this, Type.NEW_ACTOR, activeScene);
+            }
+        });
 
         leftVerticalGroup.addActor(buttonContainer2);
 
@@ -604,8 +615,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
                             .getAbsolutePath()))));
 
             sceneBackgroundImage.setDrawable(tile);
-        }
-        else {
+        } else {
             sceneBackgroundImage.setDrawable(null);
         }
         Tab tab = new Tab(name, uiSkin);
@@ -629,6 +639,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
 
             Gdx.app.log("Actor: ", "" + actorNames[i]);
         }
+
         actorList.setItems(actorNames);
     }
 
@@ -709,11 +720,11 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
     }
 
     private void clearActionList() {
-        actionList.clear();
+        actionList.setItems(new String[] {});
     }
 
     private void clearActorList() {
-        actorList.clear();
+        actorList.setItems(new String[] {});
 
     }
 
