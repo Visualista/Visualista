@@ -22,16 +22,22 @@ public class ViewEventManager {
     public final synchronized void fireViewEvent(Object source, Type type) {
         fireViewEvent(source, type, null);
     }
-    
-    public final synchronized void fireViewEvent(Object source, Type type, Object sourceObject){
-        final EditorViewEvent event = new EditorViewEvent(source,
-                type, sourceObject);
+
+    public final synchronized void fireViewEvent(Object source, Type type,
+            Object targetObject) {
+        fireViewEvent(source, type, targetObject, null);
+
+    }
+
+    public final synchronized void fireViewEvent(Object source, Type type,
+            Object targetObject, Object newDataObject) {
+        final EditorViewEvent event = new EditorViewEvent(source, type,
+                targetObject,newDataObject);
         final Iterator<ViewEventListener> eventIterator = eventListeners
                 .iterator();
         while (eventIterator.hasNext()) {
             eventIterator.next().handleViewEvent(event);
         }
-        
     }
 
 }
