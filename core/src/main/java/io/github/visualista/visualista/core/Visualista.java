@@ -55,7 +55,7 @@ public class Visualista {
         // TODO Code to handle saving
     }
 
-    public void openNovel(File file) {
+    public Novel openNovel(File file) {
         saveNovelIfNeeded();
         FileLoader<Novel> fileLoader = new FileLoader<Novel>(
                 new ObjectFactory<Novel>(xstreamManager.getMainXStream()));
@@ -65,6 +65,7 @@ public class Visualista {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        return currentNovel;
 
     }
 
