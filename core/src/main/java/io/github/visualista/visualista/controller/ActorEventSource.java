@@ -15,7 +15,7 @@ public class ActorEventSource {
         actorEventListeners.remove(actorListener);
     }
 
-    private synchronized void fireActorEvent() {
+    protected synchronized void fireActorEvent() {
         ActorEvent event = new ActorEvent(this);
         Iterator<ActorListener> eventIterator = actorEventListeners.iterator();
         while (eventIterator.hasNext()) {
