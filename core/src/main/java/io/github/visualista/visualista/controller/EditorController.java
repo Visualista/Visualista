@@ -36,6 +36,8 @@ public class EditorController implements ViewEventListener {
             for (Scene scene : visualista.getCurrentNovel().getScenes()) {
                 view.addScene(scene);
             }
+            view.changeActiveScene(visualista.getCurrentNovel().getScenes()
+                    .get(0));
         }
 
     }
@@ -107,7 +109,7 @@ public class EditorController implements ViewEventListener {
                 fillViewFromModel();
                 break;
             case FILE_OPEN:
-                Gdx.app.log("File open", ""+event.getExtraData());
+                Gdx.app.log("File open", "" + event.getExtraData());
                 if (event.getExtraData() instanceof File) {
                     updatedNovel = visualista.openNovel((File) event
                             .getExtraData());
@@ -118,8 +120,14 @@ public class EditorController implements ViewEventListener {
                 visualista.saveNovelIfNeeded();
                 break;
             case CHANGE_NOVEL_NAME:
-                ((Novel)(event.getSource())).setName((String)(event.getExtraData()));
-                //TODO update view?
+                ((Novel) (event.getSource())).setName((String) (event
+                        .getExtraData()));
+                // TODO update view?
+                break;
+            case CLICK_TILE:
+                break;
+            case SELECT_SCENE:
+                view.changeActiveScene((IGetScene) event.getTargetObject());
                 break;
             default:
                 break;
