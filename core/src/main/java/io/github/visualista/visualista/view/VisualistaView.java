@@ -423,20 +423,14 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
 
         HorizontalGroup buttonContainer2 = new HorizontalGroup();
 
-        newActorButton = new TextButton("New", uiSkin);
-        newActorButton.setSize(100, 20);
-        buttonContainer2.addActor(newActorButton);
 
-        actorsButton = new TextButton("Actors", uiSkin);
+        actorsButton = new TextButton("Add actor", uiSkin);
         actorsButton.setSize(150, 20);
         buttonContainer2.addActor(actorsButton);
 
-        dialogsButton = new TextButton("Dialogs", uiSkin);
-        dialogsButton.setSize(150, 20);
-        buttonContainer2.addActor(dialogsButton);
         leftVerticalGroup.addActor(buttonContainer2);
 
-        addSceneBackgroundButton = new TextButton("Add background", uiSkin);
+        addSceneBackgroundButton = new TextButton("Set background", uiSkin);
         leftVerticalGroup.addActor(addSceneBackgroundButton);
 
         addSceneBackgroundButton.addListener(new ClickListener() {
