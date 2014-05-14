@@ -1,6 +1,8 @@
 package io.github.visualista.visualista.model;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import io.github.visualista.visualista.controller.ActionEvent;
 import io.github.visualista.visualista.controller.ActionEventListener;
