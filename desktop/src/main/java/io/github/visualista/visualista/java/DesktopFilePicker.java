@@ -15,17 +15,15 @@ import io.github.visualista.visualista.core.IFilePicker;
 import io.github.visualista.visualista.core.FilePickerListener;
 
 public class DesktopFilePicker implements IFilePicker {
-    void showChooser(final FilePickerListener listener, final boolean fileOpen,
+    private boolean fileIsChoosen = false;
+    private synchronized void showChooser(final FilePickerListener listener, final boolean fileOpen,
             FileFilter fileFilter) {
         final JFileChooser chooser = new JFileChooser();
+        
         chooser.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (e.getActionCommand().equals(JFileChooser.APPROVE_SELECTION)) {
-                    if (fileOpen) {
-                        listener.fileOpened(chooser.getSelectedFile());
-                    } else {
-                        listener.fileSaved(chooser.getSelectedFile());
-                    }
+                    fileIsChoosen = true;
 
                 } else if (e.getActionCommand().equals(
                         JFileChooser.CANCEL_SELECTION)) {
@@ -40,7 +38,17 @@ public class DesktopFilePicker implements IFilePicker {
         } else {
             chooser.showDialog(null, "Save");
         }
-
+        while(!fileIsChoosen){
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e1) {
+            }
+        }
+        if (fileOpen) {
+            listener.fileOpened(chooser.getSelectedFile());
+        } else {
+            listener.fileSaved(chooser.getSelectedFile());
+        }
     }
 
     @Override
