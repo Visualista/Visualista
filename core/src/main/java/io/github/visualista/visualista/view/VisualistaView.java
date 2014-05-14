@@ -129,6 +129,12 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
 
     private Border centerVerticalGroupBorder;
 
+    private TextField actorField;
+
+    private String renameActor;
+
+    private java.util.List<IGetActor> actorNameList;
+
     public VisualistaView(Dimension dimension, IFilePicker filePicker) {
         this.configDimension = dimension;
         tabs = new BiDiMap<Tab, IGetScene>();
@@ -250,10 +256,27 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         rightBorder.setPosition(
                 stage.getWidth() - rightVerticalGroup.getWidth(), 0);
 
-        actorLabel = new Label("Hej", uiSkin);
-        actorLabel.setSize(50, 50);
-        actorLabel.setColor(Color.BLACK);
-        rightVerticalGroup.addActor(actorLabel);
+        // actorLabel = new Label("Hej", uiSkin);
+        // actorLabel.setSize(50, 50);
+        // actorLabel.setColor(Color.BLACK);
+        // rightVerticalGroup.addActor(actorLabel);
+        actorField = new TextField("", uiSkin);
+        rightVerticalGroup.addActor(actorField);
+
+        actorField.addCaptureListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("list size", actorNameList.size() + "");
+                renameActor = actorField.getMessageText();
+
+                eventManager.fireViewEvent(this, Type.CHANGE_ACTOR_NAME,
+                        actorNameList.get(actorList.getSelectedIndex()),
+                        renameActor);
+                super.clicked(event, x, y);
+            }
+
+        });
 
         final Drawable actorDraw = new TextureRegionDrawable(new TextureRegion(
                 new Texture(Gdx.files.internal("icons/cursor.png"))));
@@ -431,12 +454,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
             @Override
             public boolean handle(Event event) {
                 if (event instanceof InputEvent) {
-                    if (actorList.getItems().size > 0) {
-                        String[] actorNames = new String[] { "h", "j", "g" };
-                        actorLabel.setText(actorNames[actorList
-                                .getSelectedIndex()]);
 
-                    }
                 }
                 return false;
             }
@@ -641,6 +659,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         }
 
         actorList.setItems(actorNames);
+        actorNameList = scene.getActorsInScene();
     }
 
     private static float horizontalDistanceBetween(
@@ -692,6 +711,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         hideOverFlowingScenes();
         fillGridFromScene(scene);
         activeScene = scene;
+
     }
 
     @Override
