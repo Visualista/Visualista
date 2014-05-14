@@ -16,12 +16,14 @@ public interface IVisualistaView {
 
     void removeScene(IGetScene scene);
 
-    void changeActiveScene(Scene scene);
+    void changeActiveScene(IGetScene scene);
 
     void changeActiveNovel(IGetNovel updatedNovel);
 
     boolean getIsReady();
 
     void clearModel();
+
+    
 
 }
