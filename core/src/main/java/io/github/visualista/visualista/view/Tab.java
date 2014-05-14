@@ -6,12 +6,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -27,7 +29,7 @@ public class Tab extends Stack {
     private final HorizontalGroup hGroup;
     private final Rectangle background;
     ArrayList<TabClickListener> clickListeners = new ArrayList<TabClickListener>();
-    
+    private TextField labelTextField;
 
     public Tab(String name, Skin uiSkin) {
         label = new Label(name, uiSkin);
@@ -41,36 +43,38 @@ public class Tab extends Stack {
         closeImage.addCaptureListener(new ClickListener() {
             @Override
             public void clicked(final InputEvent event, final float x, float y) {
-            for(TabClickListener listener : clickListeners){
-                listener.tabEvent(Tab.this,Type.CLOSE);
-            }
+                for (TabClickListener listener : clickListeners) {
+                    listener.tabEvent(Tab.this, Type.CLOSE);
+                }
             }
         });
-        
-        Rectangle padding1 =  new Rectangle(new Color(0,0,0,0));
+
+        labelTextField = new TextField(name, uiSkin);
+
+        Rectangle padding1 = new Rectangle(new Color(0, 0, 0, 0));
         padding1.setWidth(5);
         hGroup.addActor(padding1);
         hGroup.addActor(label);
-        Rectangle padding2 =  new Rectangle(new Color(0,0,0,0));
+        Rectangle padding2 = new Rectangle(new Color(0, 0, 0, 0));
         padding2.setWidth(5);
         hGroup.addActor(padding2);
-        
+
         hGroup.addActor(closeImageBorder);
         this.add(background);
         this.add(hGroup);
         ClickListener selectListener = new ClickListener() {
             @Override
             public void clicked(final InputEvent event, final float x, float y) {
-            for(TabClickListener listener : clickListeners){
-                Gdx.app.log("Tab", "Select");
-                listener.tabEvent(Tab.this,Type.SELECT);
-            }
+                for (TabClickListener listener : clickListeners) {
+                    Gdx.app.log("Tab", "Select");
+                    listener.tabEvent(Tab.this, Type.SELECT);
+                }
             }
         };
         padding1.addCaptureListener(selectListener);
         label.addCaptureListener(selectListener);
         padding2.addCaptureListener(selectListener);
-        
+
     }
 
     @Override
@@ -96,10 +100,35 @@ public class Tab extends Stack {
     }
 
     public void addClickListener(TabClickListener listener) {
-       clickListeners.add(listener);
+        clickListeners.add(listener);
     }
-    
-    public enum Type{
-        SELECT,CLOSE
+
+    public enum Type {
+        SELECT, CLOSE
+    }
+
+    public void makeNameEditable() {
+        hGroup.addActorBefore(label, labelTextField);
+        hGroup.removeActor(label);
+    }
+
+    public boolean nameWasChanged() {
+        return !labelTextField.getText().equals(label.getText());
+    }
+
+    public String newName() {
+        return labelTextField.getText().toString();
+    }
+
+    public TextField getTextField() {
+        // TODO: Remove this method. It should not be used except now when it is
+        // temporary needed
+        return labelTextField;
+    }
+
+    public void stopEditing() {
+        hGroup.addActorBefore(labelTextField,label);
+        hGroup.removeActor(labelTextField);
+        
     }
 }
