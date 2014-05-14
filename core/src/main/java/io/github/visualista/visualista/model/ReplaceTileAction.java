@@ -7,13 +7,13 @@ import io.github.visualista.visualista.controller.ActionEventListener;
 import io.github.visualista.visualista.controller.ActionEventSource;
 import io.github.visualista.visualista.controller.ActionEventType;
 import io.github.visualista.visualista.util.Point;
-import io.github.visualista.visualista.util.TileWrapper;
+import io.github.visualista.visualista.util.PositionedActor;
 
 public class ReplaceTileAction extends ActionEventSource implements IPlayAction {
 
     private Point targetTile;
     private Actor replacementActor;
-    private TileWrapper wrappedData;
+    private PositionedActor wrappedData;
 
     public ReplaceTileAction(Point targetTile, Actor replacementActor) {
         this.targetTile = targetTile;
@@ -46,12 +46,12 @@ public class ReplaceTileAction extends ActionEventSource implements IPlayAction 
                 + targetTile.getX() + "," + targetTile.getY() + ")";
     }
 
-    public TileWrapper getWrappedData(){
+    public PositionedActor getWrappedData(){
         return wrappedData;
     }
     
     private void wrapData(){
-        wrappedData = new TileWrapper(targetTile, replacementActor);
+        wrappedData = new PositionedActor(targetTile, replacementActor);
     }
     
     @Override
