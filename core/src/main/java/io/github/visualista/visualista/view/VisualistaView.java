@@ -69,6 +69,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
     private TextButton newSceneButton;
     private TextButton modifyButton;
     private TextButton addActionButton;
+    private TextButton addSceneBackgroundButton;
 
     private Label actorLabel;
     private Label actionLabel;
@@ -188,6 +189,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         contextMenuScroll.setPosition(
                 rightBorder.getX() - contextMenuScroll.getWidth(),
                 upperBorder.getY() - contextMenuScroll.getHeight());
+
         contextMenu.addCaptureListener(new ClickListener() {
             @Override
             public void clicked(final InputEvent event, final float x, float y) {
@@ -426,6 +428,33 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         dialogsButton.setSize(150, 20);
         buttonContainer2.addActor(dialogsButton);
         leftVerticalGroup.addActor(buttonContainer2);
+
+        addSceneBackgroundButton = new TextButton("Add background", uiSkin);
+        leftVerticalGroup.addActor(addSceneBackgroundButton);
+
+        addSceneBackgroundButton.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // TODO selected scene and image
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                        "Chose image", "png");
+                filePicker.openFileDialog(new FilePickerListener(){
+
+                    @Override
+                    public void fileOpened(File selectedFile) {
+                        eventManager.fireViewEvent(this, Type.CHANGE_SCENE_IMAGE,null,selectedFile);
+                    }
+
+                    @Override
+                    public void fileSaved(File selectedFile) {
+                    }
+                }, filter);
+                
+                super.clicked(event, x, y);
+            }
+
+        });
     }
 
     protected void openNovel() {
