@@ -5,7 +5,7 @@ import io.github.visualista.visualista.controller.EditorViewEvent.Type;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -128,8 +128,10 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
 
     @Override
     public final void create() {
-        stage = new Stage(configDimension.getWidth(),
-                configDimension.getHeight(), false);
+        stage = new Stage();
+        stage.getViewport().setWorldHeight(configDimension.getHeight());
+        stage.getViewport().setWorldWidth(configDimension.getWidth());
+        
         stage.clear();
         uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
         createLeftBorderContent();
@@ -182,7 +184,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         stage.addActor(upperBorder);
 
         final String[] actors = {};
-        contextMenu = new List(actors, uiSkin);
+        contextMenu = new List(uiSkin);
         contextMenu.setWidth(150);
         contextMenu.setColor(Color.BLACK);
         contextMenuScroll = new ScrollPane(contextMenu, uiSkin);
@@ -253,7 +255,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         actionLabel.setColor(Color.BLACK);
         rightVerticalGroup.addActor(actionLabel);
 
-        actionList = new List(new String[0], uiSkin);
+        actionList = new List(uiSkin);
 
         actionList.setWidth(rightBorder.getWidth() - rightBorder.getLineSize()
                 * 4);
@@ -391,7 +393,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         buttonContainer1.addActor(arrowButtonBorder);
         leftVerticalGroup.addActor(buttonContainer1);
 
-        actorList = new List(new String[0], uiSkin);
+        actorList = new List(uiSkin);
 
         actorList
                 .setWidth(leftBorder.getWidth() - leftBorder.getLineSize() * 4);
@@ -497,17 +499,17 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
 
     @Override
     public void resize(final int width, final int height) {
-        stage.setViewport(configDimension.getWidth(),
-                configDimension.getHeight(), true);
-        stage.getCamera().translate(-stage.getGutterWidth(),
-                -stage.getGutterHeight(), 0);
+        //stage.setViewport(configDimension.getWidth(),
+        //        configDimension.getHeight(), true);
+        //stage.getCamera().translate(-stage.getGutterWidth(),
+        //        -stage.getGutterHeight(), 0);
 
     }
 
     @Override
     public final void render() {
         Gdx.gl.glClearColor(1, 1, 1, 2);
-        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
     }
@@ -597,6 +599,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         String[] actorNames = new String[currentScene.getActorsInScene().size()];
         for (int i = 0; i < currentScene.getActorsInScene().size(); i++) {
             actorNames[i] = currentScene.getActorsInScene().get(i).getName();
+            Gdx.app.log("Actor: ", ""+actorNames[i]);
         }
         actorList.setItems(actorNames);
     }
@@ -625,6 +628,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
 
     @Override
     public void changeActiveScene(IGetScene scene) {
+        updateScene(scene);
         Gdx.app.log("Change active scene", "");
         String name = scene.getName();
         if (name == null) {

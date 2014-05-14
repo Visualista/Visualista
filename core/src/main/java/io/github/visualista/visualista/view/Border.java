@@ -28,10 +28,6 @@ public class Border extends Group {
         borderActor.setTouchable(Touchable.disabled);
     }
 
-    @Override
-    public void draw(SpriteBatch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
-    }
 
     public void setActor(Actor actor) {
         if (actor == this)

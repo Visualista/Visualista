@@ -19,7 +19,6 @@ public class VisualistaDesktop {
 
     public static void main(String[] args) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.useGL20 = true;
         config.width = APPLICATION_WIDTH;
         config.height = APPLICATION_HEIGHT;
         final VisualistaView view = new VisualistaView(new Dimension(config.width,config.height),new DesktopFilePicker());
