@@ -14,7 +14,7 @@ public class ActorTest {
     @Test
     public void testImage() {
         Actor actor2 = new Actor();
-        actor2.setImage(new Image());
+        actor2.setImage(new Image(null));
         assertNotNull(actor2.getImage());
     }
 

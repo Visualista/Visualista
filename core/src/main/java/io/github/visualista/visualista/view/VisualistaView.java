@@ -69,6 +69,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
     private TextButton newSceneButton;
     private TextButton modifyButton;
     private TextButton addActionButton;
+    private TextButton addSceneBackgroundButton;
 
     private Label actorLabel;
     private Label actionLabel;
@@ -190,6 +191,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         contextMenuScroll.setPosition(
                 rightBorder.getX() - contextMenuScroll.getWidth(),
                 upperBorder.getY() - contextMenuScroll.getHeight());
+
         contextMenu.addCaptureListener(new ClickListener() {
             @Override
             public void clicked(final InputEvent event, final float x, float y) {
@@ -298,7 +300,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         centerBorder.setActor(centerVerticalGroup);
         gridButtons = new Matrix<Image>(new Dimension(5, 5));
         final Drawable tile = new TextureRegionDrawable(new TextureRegion(
-                new Texture(Gdx.files.internal("icons/tile.png"))));
+                new Texture(Gdx.files.internal("icons/transparent.png"))));
 
         for (int i = 0; i < 25; i++) {
             gridButtons.fillWith(new IObjectCreator<Image>() {
@@ -428,6 +430,34 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         dialogsButton.setSize(150, 20);
         buttonContainer2.addActor(dialogsButton);
         leftVerticalGroup.addActor(buttonContainer2);
+
+        addSceneBackgroundButton = new TextButton("Add background", uiSkin);
+        leftVerticalGroup.addActor(addSceneBackgroundButton);
+
+        addSceneBackgroundButton.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // TODO selected scene and image
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                        "Chose image", "png");
+                filePicker.openFileDialog(new FilePickerListener() {
+
+                    @Override
+                    public void fileOpened(File selectedFile) {
+                        eventManager.fireViewEvent(this,
+                                Type.CHANGE_SCENE_IMAGE, null, selectedFile);
+                    }
+
+                    @Override
+                    public void fileSaved(File selectedFile) {
+                    }
+                }, filter);
+
+                super.clicked(event, x, y);
+            }
+
+        });
     }
 
     protected void openNovel() {
@@ -564,7 +594,11 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         }
         tabs.put(tab, currentScene);
         hideOverFlowingScenes();
-
+        String[] actorNames = new String[currentScene.getActorsInScene().size()];
+        for (int i = 0; i < currentScene.getActorsInScene().size(); i++) {
+            actorNames[i] = currentScene.getActorsInScene().get(i).getName();
+        }
+        actorList.setItems(actorNames);
     }
 
     private static float horizontalDistanceBetween(
