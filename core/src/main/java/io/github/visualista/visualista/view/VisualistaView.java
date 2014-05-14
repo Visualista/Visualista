@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -49,7 +50,7 @@ import io.github.visualista.visualista.util.Matrix;
 import io.github.visualista.visualista.util.Point;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -124,6 +125,10 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
 
     private TextArea textInput;
 
+    private Image sceneBackgroundImage;
+
+    private Border centerVerticalGroupBorder;
+
     public VisualistaView(Dimension dimension, IFilePicker filePicker) {
         this.configDimension = dimension;
         tabs = new BiDiMap<Tab, IGetScene>();
@@ -135,7 +140,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         stage = new Stage();
         stage.getViewport().setWorldHeight(configDimension.getHeight());
         stage.getViewport().setWorldWidth(configDimension.getWidth());
-        
+
         stage.clear();
         uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
         createLeftBorderContent();
@@ -305,7 +310,18 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         centerBorder = new Border();
         stage.addActor(centerBorder);
 
-        centerBorder.setActor(centerVerticalGroup);
+        final Drawable tile1 = new TextureRegionDrawable(new TextureRegion(
+                new Texture(Gdx.files.internal("icons/arrow.png"))));
+
+        Stack stack = new Stack();
+        sceneBackgroundImage = new Image(tile1);
+        stack.add(sceneBackgroundImage);
+
+        centerVerticalGroupBorder = new Border();
+        centerVerticalGroupBorder.setActor(centerVerticalGroup);
+        stack.add(centerVerticalGroupBorder);
+
+        centerBorder.setActor(stack);
         gridButtons = new Matrix<Image>(new Dimension(5, 5));
         final Drawable tile = new TextureRegionDrawable(new TextureRegion(
                 new Texture(Gdx.files.internal("icons/transparent.png"))));
@@ -330,6 +346,9 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
                         .getHeight()));
         centerBorder.setPosition(rightSideOf(leftBorder), lowerBorder.getY()
                 + lowerBorder.getHeight());
+        centerVerticalGroupBorder.setLineSize(0);
+        centerVerticalGroupBorder.setSize(centerBorder.getWidth(),
+                centerBorder.getHeight());
 
         fillGrid(centerVerticalGroup, gridButtons);
     }
@@ -505,10 +524,10 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
 
     @Override
     public void resize(final int width, final int height) {
-        //stage.setViewport(configDimension.getWidth(),
-        //        configDimension.getHeight(), true);
-        //stage.getCamera().translate(-stage.getGutterWidth(),
-        //        -stage.getGutterHeight(), 0);
+        // stage.setViewport(configDimension.getWidth(),
+        // configDimension.getHeight(), true);
+        // stage.getCamera().translate(-stage.getGutterWidth(),
+        // -stage.getGutterHeight(), 0);
 
     }
 
@@ -605,7 +624,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         String[] actorNames = new String[currentScene.getActorsInScene().size()];
         for (int i = 0; i < currentScene.getActorsInScene().size(); i++) {
             actorNames[i] = currentScene.getActorsInScene().get(i).getName();
-            Gdx.app.log("Actor: ", ""+actorNames[i]);
+            Gdx.app.log("Actor: ", "" + actorNames[i]);
         }
         actorList.setItems(actorNames);
     }
