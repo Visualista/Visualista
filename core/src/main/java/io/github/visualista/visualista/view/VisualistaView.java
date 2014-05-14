@@ -429,7 +429,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
     }
 
     protected void openNovel() {
-        filePicker.fileDialog(VisualistaView.this, true,
+        filePicker.openFileDialog(VisualistaView.this,
                 new FileNameExtensionFilter("Visualista Novel", "vis"));
     }
 
@@ -599,7 +599,37 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
     }
 
     @Override
-    public void filePicked(File selectedFile, boolean fileOpen) {
-        Gdx.app.log("filePicked", "" + selectedFile);
+    public void fileOpened(File selectedFile) {
+        Gdx.app.log("", "");
+        eventManager.fireViewEvent(this, Type.FILE_OPEN, null, selectedFile);
+    }
+
+    @Override
+    public void fileSaved(File selectedFile) {
+        eventManager.fireViewEvent(this, Type.FILE_SAVE, null, selectedFile);
+
+    }
+
+    @Override
+    public void clearModel() {
+        clearSceneTabs();
+        clearActorList();
+        clearActionList();
+    }
+
+    private void clearActionList() {
+        actionList.clear();
+    }
+
+    private void clearActorList() {
+        actorList.clear();
+
+    }
+
+    private void clearSceneTabs() {
+        overflowingTabs.clear();
+        sceneButtonGroup.clearChildren();
+        sceneButtonGroup.addActor(tabExtraButtons);
+        tabs.clear();
     }
 }
