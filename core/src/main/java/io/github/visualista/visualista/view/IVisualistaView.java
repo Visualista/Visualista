@@ -22,4 +22,6 @@ public interface IVisualistaView {
 
     boolean getIsReady();
 
+    void clearModel();
+
 }
