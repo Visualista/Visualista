@@ -61,9 +61,10 @@ public class Scene implements Nameable, IGetScene {
         this.image = image;
         
     }
-    
+    @Override
     public Image getImage (){
         return image;
     }
+
 
 }

@@ -3,12 +3,14 @@ package io.github.visualista.visualista.model;
 import java.util.List;
 
 public interface IGetScene {
-    public String getStoryText();
+    String getStoryText();
     
-    public String getName();
+    String getName();
     
-    public List<IGetActor> getActorsInScene();
+    List<IGetActor> getActorsInScene();
     
-    public Grid getGrid();
+    Grid getGrid();
+
+    Image getImage();
 
 }

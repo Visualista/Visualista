@@ -310,11 +310,8 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         centerBorder = new Border();
         stage.addActor(centerBorder);
 
-        final Drawable tile1 = new TextureRegionDrawable(new TextureRegion(
-                new Texture(Gdx.files.internal("icons/arrow.png"))));
-
+        sceneBackgroundImage = new Image();
         Stack stack = new Stack();
-        sceneBackgroundImage = new Image(tile1);
         stack.add(sceneBackgroundImage);
 
         centerVerticalGroupBorder = new Border();
@@ -330,9 +327,9 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         final Drawable tile = new TextureRegionDrawable(new TextureRegion(
                 new Texture(Gdx.files.internal("icons/transparent.png"))));
 
-        for(int i = 0;i<scene.getGrid().getSize().getHeight();++i){
-            for(int j = 0;j<scene.getGrid().getSize().getWidth();++j){
-                gridButtons.setAt(new Point(i,j), new Image(tile));
+        for (int i = 0; i < scene.getGrid().getSize().getHeight(); ++i) {
+            for (int j = 0; j < scene.getGrid().getSize().getWidth(); ++j) {
+                gridButtons.setAt(new Point(i, j), new Image(tile));
             }
         }
         fillGrid(centerVerticalGroup, gridButtons);
@@ -471,7 +468,8 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
                     @Override
                     public void fileOpened(File selectedFile) {
                         eventManager.fireViewEvent(this,
-                                Type.CHANGE_SCENE_IMAGE, null, selectedFile);
+                                Type.CHANGE_SCENE_IMAGE, activeScene,
+                                selectedFile);
                     }
 
                     @Override
@@ -605,6 +603,17 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         while (name.length() < 5) {
             name += " ";
         }
+
+        if (scene.getImage() != null) {
+            final Drawable tile = new TextureRegionDrawable(new TextureRegion(
+                    new Texture(Gdx.files.absolute(scene.getImage().getFile()
+                            .getAbsolutePath()))));
+
+            sceneBackgroundImage.setDrawable(tile);
+        }
+        else {
+            sceneBackgroundImage.setDrawable(null);
+        }
         Tab tab = new Tab(name, uiSkin);
         tab.addClickListener(this);
         tab.setHeight(upperBorder.getHeight());
@@ -624,7 +633,6 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         for (int i = 0; i < scene.getActorsInScene().size(); i++) {
             actorNames[i] = scene.getActorsInScene().get(i).getName();
 
-        
             Gdx.app.log("Actor: ", "" + actorNames[i]);
         }
         actorList.setItems(actorNames);
