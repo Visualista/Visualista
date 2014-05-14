@@ -1,5 +1,7 @@
 package io.github.visualista.visualista.controller;
 
+import java.io.File;
+
 import com.badlogic.gdx.Gdx;
 
 import io.github.visualista.visualista.core.Visualista;
@@ -29,6 +31,7 @@ public class EditorController implements ViewEventListener {
 
     private void fillViewFromModel() {
         if (view.getIsReady()) {
+            view.clearModel();
             for (Scene scene : visualista.getCurrentNovel().getScenes()) {
                 view.addScene(scene);
             }
@@ -102,8 +105,19 @@ public class EditorController implements ViewEventListener {
             case VIEW_READY:
                 fillViewFromModel();
                 break;
+            case FILE_OPEN:
+                Gdx.app.log("File open", ""+event.getNewData());
+                if (event.getNewData() instanceof File) {
+                    updatedNovel = visualista.openNovel((File) event
+                            .getNewData());
+                    fillViewFromModel();
+                }
+                break;
+            case FILE_SAVE:
+                break;
             default:
                 break;
+
         }
     }
 
