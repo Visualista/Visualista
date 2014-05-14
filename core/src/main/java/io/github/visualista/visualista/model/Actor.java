@@ -6,7 +6,9 @@ import io.github.visualista.visualista.util.Nameable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Actor extends ActorEventSource implements Nameable, IGetActor {
+import com.badlogic.gdx.graphics.g3d.utils.FirstPersonCameraController;
+
+public class Actor extends ActorEventSource implements Nameable, IGetActor, IPlayActor {
 
     public static final Actor EMPTY_ACTOR = new Actor();
     private Image image;
@@ -49,6 +51,14 @@ public class Actor extends ActorEventSource implements Nameable, IGetActor {
     @Override
     public String toString() {
         return "Actor [Actions=" + actions + ", Name=" + name + "]";
+    }
+
+    @Override
+    public void playActor() {
+        if (!this.equals(EMPTY_ACTOR)){
+            fireActorEvent();
+        }
+        
     }
 
 }

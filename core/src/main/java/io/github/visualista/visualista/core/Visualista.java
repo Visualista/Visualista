@@ -18,6 +18,7 @@ import io.github.visualista.visualista.model.NovelFactory;
 import io.github.visualista.visualista.model.Scene;
 import io.github.visualista.visualista.model.SceneFactory;
 import io.github.visualista.visualista.model.TileFactory;
+import io.github.visualista.visualista.util.Point;
 
 public class Visualista {
 
@@ -131,5 +132,9 @@ public class Visualista {
     public Scene removeScene(Scene scene) {
         currentNovel.getScenes().remove(scene);
         return scene;
+    }
+    
+    public Actor getActorFromPosition(Point position){
+        return currentNovel.getCurrentScene().getGrid().getAt(position).getActor();
     }
 }

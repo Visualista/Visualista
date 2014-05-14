@@ -9,11 +9,11 @@ import io.github.visualista.visualista.controller.ActionEventListener;
 import io.github.visualista.visualista.controller.ActionEventSource;
 import io.github.visualista.visualista.controller.ActionEventType;
 
-public class SwitchSceneAction extends ActionEventSource implements IPlayAction {
+public class SetSceneAction extends ActionEventSource implements IPlayAction {
 
     private Scene targetScene;
 
-    public SwitchSceneAction(Scene targetScene) {
+    public SetSceneAction(Scene targetScene) {
         this.targetScene = targetScene;
     }
 

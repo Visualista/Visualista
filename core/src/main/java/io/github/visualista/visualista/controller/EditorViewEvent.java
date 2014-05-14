@@ -9,19 +9,19 @@ public class EditorViewEvent extends EventObject {
         NEW_SCENE, NEW_ACTOR, REMOVE_ACTOR, CHANGE_ACTOR_NAME, 
         CHANGE_SCENE_NAME, CHANGE_ACTOR_IMAGE, CHANGE_SCENE_IMAGE, 
         CHANGE_SCENE_TEXT, REMOVE_SCENE, CHANGE_ACTIVE_SCENE, 
-        NEW_NOVEL, VIEW_READY, FILE_OPEN, FILE_SAVE, CHANGE_NOVEL_NAME
+        NEW_NOVEL, VIEW_READY, FILE_OPEN, FILE_SAVE, CHANGE_NOVEL_NAME, CLICK_TILE
     }
 
     private final Type eventType;
     private final Object targetObject;
-    private final Object newDataObject;
+    private final Object extraData;
 
     public EditorViewEvent(final Object source, final Type eventType,
-            final Object targetObject, final Object newDataObject) {
+            final Object targetObject, final Object extraData) {
         super(source);
         this.eventType = eventType;
         this.targetObject = targetObject;
-        this.newDataObject = newDataObject;
+        this.extraData = extraData;
     }
 
     public EditorViewEvent(final Object source, final Type eventType,
@@ -41,7 +41,7 @@ public class EditorViewEvent extends EventObject {
         return targetObject;
     }
 
-    public final Object getNewData() {
-        return newDataObject;
+    public final Object getExtraData() {
+        return extraData;
     }
 }

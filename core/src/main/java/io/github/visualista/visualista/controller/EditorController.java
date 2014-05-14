@@ -65,31 +65,31 @@ public class EditorController implements ViewEventListener {
             case CHANGE_ACTOR_NAME:
                 updatedActor = visualista.changeActorName(
                         (Actor) (event.getTargetObject()),
-                        (String) (event.getNewData()));
+                        (String) (event.getExtraData()));
                 // TODO view needs to do something to update actor list
                 break;
             case CHANGE_SCENE_NAME:
                 updatedScene = visualista.changeSceneName(
                         (Scene) (event.getTargetObject()),
-                        (String) (event.getNewData()));
+                        (String) (event.getExtraData()));
                 view.updateScene(updatedScene);
                 break;
             case CHANGE_ACTOR_IMAGE:
                 updatedActor = visualista.changeActorImage(
                         (Actor) (event.getTargetObject()),
-                        (Image) (event.getNewData()));
+                        (Image) (event.getExtraData()));
                 // TODO view needs to do something to update actor list
                 break;
             case CHANGE_SCENE_IMAGE:
                 updatedScene = visualista.changeSceneImage(
                         (Scene) (event.getTargetObject()),
-                        (Image) (event.getNewData()));
+                        (Image) (event.getExtraData()));
                 view.updateScene(updatedScene);
                 break;
             case CHANGE_SCENE_TEXT:
                 updatedScene = visualista.changeSceneText(
                         (Scene) (event.getTargetObject()),
-                        (String) (event.getNewData()));
+                        (String) (event.getExtraData()));
                 view.updateScene(updatedScene);
                 break;
             case REMOVE_SCENE:
@@ -107,10 +107,10 @@ public class EditorController implements ViewEventListener {
                 fillViewFromModel();
                 break;
             case FILE_OPEN:
-                Gdx.app.log("File open", ""+event.getNewData());
-                if (event.getNewData() instanceof File) {
+                Gdx.app.log("File open", ""+event.getExtraData());
+                if (event.getExtraData() instanceof File) {
                     updatedNovel = visualista.openNovel((File) event
-                            .getNewData());
+                            .getExtraData());
                     fillViewFromModel();
                 }
                 break;
@@ -118,7 +118,7 @@ public class EditorController implements ViewEventListener {
                 visualista.saveNovelIfNeeded();
                 break;
             case CHANGE_NOVEL_NAME:
-                ((Novel)(event.getSource())).setName((String)(event.getNewData()));
+                ((Novel)(event.getSource())).setName((String)(event.getExtraData()));
                 //TODO update view?
                 break;
             default:

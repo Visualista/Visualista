@@ -9,13 +9,13 @@ import io.github.visualista.visualista.controller.ActionEventType;
 import io.github.visualista.visualista.util.Point;
 import io.github.visualista.visualista.util.PositionedActor;
 
-public class ReplaceTileAction extends ActionEventSource implements IPlayAction {
+public class SetActorAction extends ActionEventSource implements IPlayAction {
 
     private Point targetTile;
     private Actor replacementActor;
     private PositionedActor wrappedData;
 
-    public ReplaceTileAction(Point targetTile, Actor replacementActor) {
+    public SetActorAction(Point targetTile, Actor replacementActor) {
         this.targetTile = targetTile;
         this.replacementActor = replacementActor;
     }
