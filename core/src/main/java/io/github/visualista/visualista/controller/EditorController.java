@@ -10,6 +10,7 @@ import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetNovel;
 import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.model.Image;
+import io.github.visualista.visualista.model.Novel;
 import io.github.visualista.visualista.model.Scene;
 import io.github.visualista.visualista.view.IVisualistaView;
 import io.github.visualista.visualista.view.VisualistaView;
@@ -115,6 +116,10 @@ public class EditorController implements ViewEventListener {
                 break;
             case FILE_SAVE:
                 visualista.saveNovelIfNeeded();
+                break;
+            case CHANGE_NOVEL_NAME:
+                ((Novel)(event.getSource())).setName((String)(event.getNewData()));
+                //TODO update view?
                 break;
             default:
                 break;
