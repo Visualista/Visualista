@@ -25,7 +25,7 @@ public class Actor extends ActorEventSource implements Nameable, IGetActor, IPla
 
     public Actor() {
         actions = new ArrayList<IAction>();
-        image = new Image();
+        image = new Image(null);
     }
 
     public List<IAction> getActions() {

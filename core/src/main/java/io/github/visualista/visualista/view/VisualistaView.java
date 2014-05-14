@@ -298,7 +298,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         centerBorder.setActor(centerVerticalGroup);
         gridButtons = new Matrix<Image>(new Dimension(5, 5));
         final Drawable tile = new TextureRegionDrawable(new TextureRegion(
-                new Texture(Gdx.files.internal("icons/tile.png"))));
+                new Texture(Gdx.files.internal("icons/transparent.png"))));
 
         for (int i = 0; i < 25; i++) {
             gridButtons.fillWith(new IObjectCreator<Image>() {
@@ -439,18 +439,19 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
                 // TODO selected scene and image
                 FileNameExtensionFilter filter = new FileNameExtensionFilter(
                         "Chose image", "png");
-                filePicker.openFileDialog(new FilePickerListener(){
+                filePicker.openFileDialog(new FilePickerListener() {
 
                     @Override
                     public void fileOpened(File selectedFile) {
-                        eventManager.fireViewEvent(this, Type.CHANGE_SCENE_IMAGE,null,selectedFile);
+                        eventManager.fireViewEvent(this,
+                                Type.CHANGE_SCENE_IMAGE, null, selectedFile);
                     }
 
                     @Override
                     public void fileSaved(File selectedFile) {
                     }
                 }, filter);
-                
+
                 super.clicked(event, x, y);
             }
 
@@ -590,7 +591,11 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         }
         tabs.put(tab, currentScene);
         hideOverFlowingScenes();
-
+        String[] actorNames = new String[currentScene.getActorsInScene().size()];
+        for (int i = 0; i < currentScene.getActorsInScene().size(); i++) {
+            actorNames[i] = currentScene.getActorsInScene().get(i).getName();
+        }
+        actorList.setItems(actorNames);
     }
 
     private static float horizontalDistanceBetween(
