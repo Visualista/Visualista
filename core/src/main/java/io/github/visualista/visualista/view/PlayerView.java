@@ -58,8 +58,14 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class PlayerView implements ApplicationListener, IVisualistaView,
         FilePickerListener, TabClickListener {
-    private static final float SIDE_BORDERS_WIDTH_EDITOR_RATIO = 2.0f / 9;
-    private static final float SIDE_BORDERS_WIDTH_PLAYER_RATIO = 1.5f / 9;
+    
+    //Defining static objects and variables //
+    private static final float SIDE_BORDER_RATIO = 1.5f / 9;
+    private static final Skin BASE_SKIN = new Skin( Gdx.files.internal( "uiskin.json" ) );
+    private static final Drawable EMPTY_ICON = new TextureRegionDrawable(
+            new TextureRegion( 
+                    new Texture( Gdx.files.internal( "icons/transparent.png" ) ) ) );
+    // End static objects and variables //
 
     private Stage stage;
 
@@ -155,6 +161,7 @@ public class PlayerView implements ApplicationListener, IVisualistaView,
 
     @Override
     public final void create() {
+        createPlayerView();
     }
     
     
@@ -168,7 +175,7 @@ public class PlayerView implements ApplicationListener, IVisualistaView,
         stage.clear();
         
         
-        uiSkin = new Skin( Gdx.files.internal("uiskin.json"));
+        uiSkin = BASE_SKIN;
         
         createLeftPlayerBorderContent();
         createRightPlayerBorderContent();
@@ -223,7 +230,7 @@ public class PlayerView implements ApplicationListener, IVisualistaView,
         // End referencing //
         
         // Define appearance of right border //
-        rightBorder.setSize( stage.getWidth() * SIDE_BORDERS_WIDTH_PLAYER_RATIO, stage.getHeight() );
+        rightBorder.setSize( stage.getWidth() * SIDE_BORDER_RATIO, stage.getHeight() );
         rightBorder.setPosition( stage.getWidth() - rightVerticalGroup.getWidth(), 0 );
         rightBorder.setColor(Color.BLACK);
         // End defining appearance //
@@ -246,7 +253,7 @@ public class PlayerView implements ApplicationListener, IVisualistaView,
         // End referencing //
         
         // Define appearance of left border //¨
-        leftBorder.setSize( stage.getWidth() * SIDE_BORDERS_WIDTH_PLAYER_RATIO, stage.getHeight() );
+        leftBorder.setSize( stage.getWidth() * SIDE_BORDER_RATIO, stage.getHeight() );
         leftBorder.setPosition(0, 0);
         leftBorder.setColor(Color.BLACK);
         // End defining appearance //
@@ -283,7 +290,7 @@ public class PlayerView implements ApplicationListener, IVisualistaView,
 
        protected void openNovel() {
         filePicker.openFileDialog(PlayerView.this,
-                new FileNameExtensionFilter("Visualista Novel", "vis"));
+                new FileNameExtensionFilter("Visualista Novel (.vis)", "vis"));
     }
 
     @Override
@@ -291,8 +298,8 @@ public class PlayerView implements ApplicationListener, IVisualistaView,
         return isReady;
     }
 
-    private float rightSideOf(com.badlogic.gdx.scenes.scene2d.Actor actor) {
-        return actor.getX() + actor.getWidth();
+    private float rightSideOf(com.badlogic.gdx.scenes.scene2d.Actor gdxActor) {
+        return gdxActor.getX() + gdxActor.getWidth();
     }
 
     public final void fillGrid(VerticalGroup group, IMatrixGet<Image> data) {
