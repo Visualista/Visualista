@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 
 import io.github.visualista.visualista.model.*;
 import io.github.visualista.visualista.io.FileLoader;
+import io.github.visualista.visualista.io.FileSaver;
 import io.github.visualista.visualista.io.ObjectFactory;
 import io.github.visualista.visualista.io.XStreamManager;
 import io.github.visualista.visualista.model.Actor;
@@ -52,12 +53,12 @@ public class Visualista {
 
     }
 
-    public void saveNovelIfNeeded() {
-        // TODO Code to handle saving
+    public void saveNovel(File file) {
+        FileSaver<Novel> saver = new FileSaver<Novel>(xstreamManager.getMainXStream());
+        saver.saveObjectToFile(file, currentNovel);
     }
 
     public Novel openNovel(File file) {
-        saveNovelIfNeeded();
         FileLoader<Novel> fileLoader = new FileLoader<Novel>(
                 new ObjectFactory<Novel>(xstreamManager.getMainXStream()));
         try {
@@ -71,7 +72,6 @@ public class Visualista {
     }
 
     public Novel createNewNovel() {
-        saveNovelIfNeeded();
         Novel newNovel = novelFactory.createNovel();
         setCurrentNovel(newNovel);
         return newNovel;
