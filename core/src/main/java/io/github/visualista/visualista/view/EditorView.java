@@ -70,14 +70,13 @@ public class EditorView implements ApplicationListener, IVisualistaView,
     private Image actorImage;
 
     private TextButton newActorButton;
-    private TextButton actorsButton;
-    private TextButton dialogsButton;
+    private TextButton addActorButton;
+    private TextButton removeActorButton;
     private TextButton newSceneButton;
     private TextButton modifyButton;
     private TextButton addActionButton;
     private TextButton addSceneBackgroundButton;
 
-    private Label actorLabel;
     private Label actionLabel;
 
     private Matrix<Image> gridButtons;
@@ -134,8 +133,6 @@ public class EditorView implements ApplicationListener, IVisualistaView,
 
     private TextField actorField;
 
-    private String renameActor;
-
     private java.util.List<IGetActor> actorNameList;
     private Tab editingTab;
 
@@ -169,7 +166,7 @@ public class EditorView implements ApplicationListener, IVisualistaView,
 
         stage.clear();
         uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
-        createLeftEditorBorderContent();
+        createLeftBorderContent();
         createRightEditorBorderContent();
         creatLowerEditorBorderContent();
         createCenterEditorBorderContent();
@@ -409,127 +406,30 @@ public class EditorView implements ApplicationListener, IVisualistaView,
         gridButtons = new Matrix<Image>(new Dimension(5, 5));
     }
 
-    private void createLeftEditorBorderContent() {
-        leftVerticalGroup = new VerticalGroup();
-        leftBorder = new Border();
-        stage.addActor(leftBorder);
-
-        leftBorder.setActor(leftVerticalGroup);
-        leftBorder.setSize(stage.getWidth() * SIDE_BORDERS_WIDTH_EDITOR_RATIO,
-                stage.getHeight());
-        leftBorder.setPosition(0, 0);
-
-        final Drawable open = new TextureRegionDrawable(new TextureRegion(
-                new Texture(Gdx.files.internal("icons/open.png"))));
-        openButton = new ImageButton(open);
-        openButton.addListener(new ClickListener() {
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                openNovel();
-                super.clicked(event, x, y);
-            }
-
-        });
-        openButtonBorder = new Border();
-        openButtonBorder.setLineSize(0);
-        openButtonBorder.setActor(openButton);
-
-        final Drawable save = new TextureRegionDrawable(new TextureRegion(
-                new Texture(Gdx.files.internal("icons/save.png"))));
-        saveButton = new ImageButton(save);
-        saveButton.addListener(new ClickListener() {
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                saveNovel();
-                super.clicked(event, x, y);
-            }
-
-        });
-        saveButtonBorder = new Border();
-        saveButtonBorder.setLineSize(0);
-        saveButtonBorder.setActor(saveButton);
-
-        final Drawable cursor = new TextureRegionDrawable(new TextureRegion(
-                new Texture(Gdx.files.internal("icons/cursor.png"))));
-        cursorButton = new ImageButton(cursor);
-        cursorButton.addListener(new ClickListener());
-        cursorButtonBorder = new Border();
-        cursorButtonBorder.setLineSize(0);
-        cursorButtonBorder.setActor(cursorButton);
-
-        final Drawable hand = new TextureRegionDrawable(new TextureRegion(
-                new Texture(Gdx.files.internal("icons/hand.png"))));
-
-        handButton = new ImageButton(hand);
-        handButton.addListener(new ClickListener());
-        handButtonBorder = new Border();
-        handButtonBorder.setLineSize(0);
-        handButtonBorder.setActor(handButton);
-
-        final Drawable arrow = new TextureRegionDrawable(new TextureRegion(
-                new Texture(Gdx.files.internal("icons/arrow.png"))));
-
-        arrowButton = new ImageButton(arrow);
-        arrowButton.addListener(new ClickListener());
-        arrowButtonBorder = new Border();
-        arrowButtonBorder.setLineSize(0);
-        arrowButtonBorder.setActor(arrowButton);
-
-        HorizontalGroup buttonContainer1 = new HorizontalGroup();
-
-        openButtonBorder.setSize(50, 40);
-        saveButtonBorder.setSize(50, 40);
-        cursorButtonBorder.setSize(50, 40);
-        handButtonBorder.setSize(50, 40);
-        arrowButtonBorder.setSize(50, 40);
-
-        buttonContainer1.addActor(saveButtonBorder);
-        buttonContainer1.addActor(openButtonBorder);
-        buttonContainer1.addActor(cursorButtonBorder);
-        buttonContainer1.addActor(handButtonBorder);
-        buttonContainer1.addActor(arrowButtonBorder);
-        leftVerticalGroup.addActor(buttonContainer1);
-
-        actorList = new List(uiSkin);
-
-        actorList
-                .setWidth(leftBorder.getWidth() - leftBorder.getLineSize() * 4);
-        actorList.setColor(Color.BLACK);
-
-        final ScrollPane scroll = new ScrollPane(actorList, uiSkin);
-        scroll.setFadeScrollBars(false);
-        Border scrollBorder = new Border();
-        scrollBorder.setSize(actorList.getWidth(),
-                leftBorder.getHeight() * 0.7f);
-        scrollBorder.setActor(scroll);
-        leftVerticalGroup.addActor(scrollBorder);
-        actorList.addListener(new ChangeListener() {
-
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                int index = actorList.getSelectedIndex();
-                if (index != -1) {
-                    eventManager.fireViewEvent(this, Type.SELECT_ACTOR,
-                            actorNameList.get(index));
-                }
-            }
-
-        });
+    private void createLeftBorderContent() {
+        createLeftBorder();
+        createLeftVerticalGroup();        
+        createOpenButton();
+        createOpenButtonBorder();
+        createSaveButton();
+        createSaveButtonBorder();
+        createCursorButton();
+        createCursorButtonBorder();
+        createHandButton();
+        createHandButtonBorder();
+        createArrowButton();
+        createArrowButtonBorder();
+        resizeButtonGroup1Buttons();
+        createButtonContainer1();
+        createActorList();
+        final ScrollPane scroll = createScrollPane();
+        createScrollBorder(scroll);
+        createAddActorButton();
+        createRemoveActorButton();
 
         HorizontalGroup buttonContainer2 = new HorizontalGroup();
 
-        actorsButton = new TextButton("Add actor", uiSkin);
-        actorsButton.setSize(150, 20);
-        buttonContainer2.addActor(actorsButton);
-
-        actorsButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                eventManager.fireViewEvent(this, Type.NEW_ACTOR, activeScene);
-            }
-        });
+        buttonContainer2.addActor(addActorButton);
 
         leftVerticalGroup.addActor(buttonContainer2);
 
@@ -561,6 +461,179 @@ public class EditorView implements ApplicationListener, IVisualistaView,
             }
 
         });
+    }
+
+    private void createRemoveActorButton() {
+        removeActorButton = new TextButton("Remove actor", uiSkin);
+        removeActorButton.setSize(150, 20);
+
+        removeActorButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //TODO list linking
+                eventManager.fireViewEvent(this, Type.REMOVE_ACTOR, activeScene);
+            }
+        });
+    }
+
+    private void createAddActorButton() {
+        addActorButton = new TextButton("Add actor", uiSkin);
+        addActorButton.setSize(150, 20);
+
+        addActorButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                eventManager.fireViewEvent(this, Type.NEW_ACTOR, activeScene);
+            }
+        });
+    }
+
+    private void createScrollBorder(final ScrollPane scroll) {
+        Border scrollBorder = new Border();
+        scrollBorder.setSize(actorList.getWidth(),
+                leftBorder.getHeight() * 0.7f);
+        scrollBorder.setActor(scroll);
+        leftVerticalGroup.addActor(scrollBorder);
+    }
+
+    private ScrollPane createScrollPane() {
+        final ScrollPane scroll = new ScrollPane(actorList, uiSkin);
+        scroll.setFadeScrollBars(false);
+        return scroll;
+    }
+
+    private void createActorList() {
+        actorList = new List(uiSkin);
+
+        actorList
+                .setWidth(leftBorder.getWidth() - leftBorder.getLineSize() * 4);
+        actorList.setColor(Color.BLACK);
+        actorList.addListener(new ChangeListener() {
+
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                int index = actorList.getSelectedIndex();
+                if (index != -1) {
+                    eventManager.fireViewEvent(this, Type.SELECT_ACTOR,
+                            actorNameList.get(index));
+                }
+            }
+
+        });
+    }
+
+    private void createButtonContainer1() {
+        HorizontalGroup buttonContainer1 = new HorizontalGroup();
+        buttonContainer1.addActor(saveButtonBorder);
+        buttonContainer1.addActor(openButtonBorder);
+        buttonContainer1.addActor(cursorButtonBorder);
+        buttonContainer1.addActor(handButtonBorder);
+        buttonContainer1.addActor(arrowButtonBorder);
+        leftVerticalGroup.addActor(buttonContainer1);
+    }
+
+    private void resizeButtonGroup1Buttons() {
+        openButtonBorder.setSize(50, 40);
+        saveButtonBorder.setSize(50, 40);
+        cursorButtonBorder.setSize(50, 40);
+        handButtonBorder.setSize(50, 40);
+        arrowButtonBorder.setSize(50, 40);
+    }
+
+    private void createArrowButtonBorder() {
+        arrowButtonBorder = new Border();
+        arrowButtonBorder.setLineSize(0);
+        arrowButtonBorder.setActor(arrowButton);
+    }
+
+    private void createArrowButton() {
+        final Drawable arrow = new TextureRegionDrawable(new TextureRegion(
+                new Texture(Gdx.files.internal("icons/arrow.png"))));
+
+        arrowButton = new ImageButton(arrow);
+        arrowButton.addListener(new ClickListener());
+    }
+
+    private void createHandButtonBorder() {
+        handButtonBorder = new Border();
+        handButtonBorder.setLineSize(0);
+        handButtonBorder.setActor(handButton);
+    }
+
+    private void createHandButton() {
+        final Drawable hand = new TextureRegionDrawable(new TextureRegion(
+                new Texture(Gdx.files.internal("icons/hand.png"))));
+    
+        handButton = new ImageButton(hand);
+        handButton.addListener(new ClickListener());
+    }
+
+    private void createCursorButtonBorder() {
+        cursorButtonBorder = new Border();
+        cursorButtonBorder.setLineSize(0);
+        cursorButtonBorder.setActor(cursorButton);
+    }
+
+    private void createCursorButton() {
+        final Drawable cursor = new TextureRegionDrawable(new TextureRegion(
+                new Texture(Gdx.files.internal("icons/cursor.png"))));
+        cursorButton = new ImageButton(cursor);
+        cursorButton.addListener(new ClickListener());
+    }
+
+    private void createSaveButtonBorder() {
+        saveButtonBorder = new Border();
+        saveButtonBorder.setLineSize(0);
+        saveButtonBorder.setActor(saveButton);
+    }
+
+    private void createSaveButton() {
+        final Drawable save = new TextureRegionDrawable(new TextureRegion(
+                new Texture(Gdx.files.internal("icons/save.png"))));
+        saveButton = new ImageButton(save);
+        saveButton.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                saveNovel();
+                super.clicked(event, x, y);
+            }
+
+        });
+    }
+
+    private void createOpenButtonBorder() {
+        openButtonBorder = new Border();
+        openButtonBorder.setLineSize(0);
+        openButtonBorder.setActor(openButton);
+    }
+
+    private void createOpenButton() {
+        final Drawable open = new TextureRegionDrawable(new TextureRegion(
+                new Texture(Gdx.files.internal("icons/open.png"))));
+        openButton = new ImageButton(open);
+        openButton.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                openNovel();
+                super.clicked(event, x, y);
+            }
+
+        });
+    }
+
+    private void createLeftVerticalGroup() {
+        leftVerticalGroup = new VerticalGroup();
+        leftBorder.setActor(leftVerticalGroup);
+    }
+
+    private void createLeftBorder() {
+        leftBorder = new Border();
+        stage.addActor(leftBorder);
+        leftBorder.setSize(stage.getWidth() * SIDE_BORDERS_WIDTH_EDITOR_RATIO,
+                stage.getHeight());
+        leftBorder.setPosition(0, 0);
     }
 
     protected void saveNovel() {
