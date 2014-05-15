@@ -66,7 +66,8 @@ public class EditorView implements ApplicationListener, IVisualistaView,
     private ImageButton cursorButton;
     private ImageButton handButton;
     private ImageButton arrowButton;
-    private ImageButton actorImage;
+
+    private Image actorImage;
 
     private TextButton newActorButton;
     private TextButton actorsButton;
@@ -154,14 +155,14 @@ public class EditorView implements ApplicationListener, IVisualistaView,
 
     @Override
     public final void create() {
-        //TODO: A non-state way of deciding if we are playing or editing the Visual Novel
+        // TODO: A non-state way of deciding if we are playing or editing the
+        // Visual Novel
         createEditorView();
     }
-    
-    
+
     // Start Create Editor //
-    
-    private void createEditorView(){
+
+    private void createEditorView() {
         stage = new Stage();
         stage.getViewport().setWorldHeight(configDimension.getHeight());
         stage.getViewport().setWorldWidth(configDimension.getWidth());
@@ -182,9 +183,9 @@ public class EditorView implements ApplicationListener, IVisualistaView,
         Gdx.graphics.setContinuousRendering(false);
         isReady = true;
         eventManager.fireViewEvent(this, Type.VIEW_READY);
-        
+
     }
-    
+
     private void createUpperEditorBorderContent() {
         overflowingTabs = new ArrayList<Tab>();
         newSceneButton = new TextButton("+", uiSkin);
@@ -262,7 +263,7 @@ public class EditorView implements ApplicationListener, IVisualistaView,
                     }
                     editingTab = null;
                 }
-                Gdx.app.log("", ""+actorFieldHasFocus+" "+selectedActor);
+                Gdx.app.log("", "" + actorFieldHasFocus + " " + selectedActor);
                 if (actorFieldHasFocus && selectedActor != null
                         && hitObject != actorField) {
 
@@ -317,9 +318,35 @@ public class EditorView implements ApplicationListener, IVisualistaView,
 
         final Drawable actorDraw = new TextureRegionDrawable(new TextureRegion(
                 new Texture(Gdx.files.internal("icons/cursor.png"))));
-        actorImage = new ImageButton(actorDraw);
+        actorImage = new Image(actorDraw);
         actorImage.setSize(70, 70);
         rightVerticalGroup.addActor(actorImage);
+
+        actorImage.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // TODO selected scene and image
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                        "Chose image", "png");
+                filePicker.openFileDialog(new FilePickerListener() {
+
+                    @Override
+                    public void fileOpened(File selectedFile) {
+                        eventManager.fireViewEvent(this,
+                                Type.CHANGE_ACTOR_IMAGE, selectedActor,
+                                selectedFile);
+                    }
+
+                    @Override
+                    public void fileSaved(File selectedFile) {
+                    }
+                }, filter);
+
+                super.clicked(event, x, y);
+            }
+
+        });
 
         actionLabel = new Label("Actions", uiSkin);
         actionLabel.setSize(50, 50);
@@ -407,7 +434,7 @@ public class EditorView implements ApplicationListener, IVisualistaView,
         openButtonBorder = new Border();
         openButtonBorder.setLineSize(0);
         openButtonBorder.setActor(openButton);
-        
+
         final Drawable save = new TextureRegionDrawable(new TextureRegion(
                 new Texture(Gdx.files.internal("icons/save.png"))));
         saveButton = new ImageButton(save);
@@ -453,7 +480,7 @@ public class EditorView implements ApplicationListener, IVisualistaView,
         HorizontalGroup buttonContainer1 = new HorizontalGroup();
 
         openButtonBorder.setSize(50, 40);
-        saveButtonBorder.setSize(50,40);
+        saveButtonBorder.setSize(50, 40);
         cursorButtonBorder.setSize(50, 40);
         handButtonBorder.setSize(50, 40);
         arrowButtonBorder.setSize(50, 40);
@@ -537,108 +564,109 @@ public class EditorView implements ApplicationListener, IVisualistaView,
     }
 
     protected void saveNovel() {
-        filePicker.saveFileDialog(this,
-                new FileNameExtensionFilter("Visualista Novel", "vis"));
+        filePicker.saveFileDialog(this, new FileNameExtensionFilter(
+                "Visualista Novel", "vis"));
     }
 
     // End Create Editor //
-    
+
     // Start Create Player //
 
-    private void createPlayerView(){
+    private void createPlayerView() {
         stage = new Stage();
-        stage.getViewport().setWorldHeight( configDimension.getHeight() );
-        stage.getViewport().setWorldWidth( configDimension.getWidth() );
+        stage.getViewport().setWorldHeight(configDimension.getHeight());
+        stage.getViewport().setWorldWidth(configDimension.getWidth());
         stage.clear();
-        
-        
-        uiSkin = new Skin( Gdx.files.internal("uiskin.json"));
-        
+
+        uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
+
         createLeftPlayerBorderContent();
         createRightPlayerBorderContent();
         createCenterPlayerBorderContent();
-        
+
         Gdx.input.setInputProcessor(stage);
         Gdx.graphics.setContinuousRendering(false);
         isReady = true;
         eventManager.fireViewEvent(this, Type.VIEW_READY);
     }
-    
-    private void createCenterPlayerBorderContent(){
-        
+
+    private void createCenterPlayerBorderContent() {
+
         // Defining the necessary variables //
         centerVerticalGroup = new VerticalGroup();
         centerBorder = new Border();
         sceneBackgroundImage = new Image();
         centerVerticalGroupBorder = new Border();
-        gridButtons = new Matrix<Image>( new Dimension( 5, 5 ) );
+        gridButtons = new Matrix<Image>(new Dimension(5, 5));
         // End defining variables //
-        
+
         // Declaring local variables //
         Stack stack = new Stack();
         // End declaring local variables //
-        
+
         stage.addActor(centerBorder);
         centerVerticalGroupBorder.setActor(centerVerticalGroup);
-        
+
         // Adding actors in the right order to the stack //
         stack.add(sceneBackgroundImage);
         stack.add(centerVerticalGroupBorder);
-       // End adding actors to stack //
-        
+        // End adding actors to stack //
+
         centerBorder.setActor(stack);
-        
-        
+
     }
 
-    private void createRightPlayerBorderContent(){
+    private void createRightPlayerBorderContent() {
         // Defining the necessary variables //
         rightVerticalGroup = new VerticalGroup();
         rightBorder = new Border();
         // End defining variables //
-        
+
         // Declaring local variables //
-        
+
         // End declaring local variables //
-        
+
         // Reference actor to stage //
         stage.addActor(rightBorder);
         rightBorder.setActor(rightVerticalGroup);
         // End referencing //
-        
+
         // Define appearance of right border //
-        rightBorder.setSize( stage.getWidth() * SIDE_BORDERS_WIDTH_PLAYER_RATIO, stage.getHeight() );
-        rightBorder.setPosition( stage.getWidth() - rightVerticalGroup.getWidth(), 0 );
+        rightBorder.setSize(stage.getWidth() * SIDE_BORDERS_WIDTH_PLAYER_RATIO,
+                stage.getHeight());
+        rightBorder.setPosition(
+                stage.getWidth() - rightVerticalGroup.getWidth(), 0);
         rightBorder.setColor(Color.BLACK);
         // End defining appearance //
-        
+
     }
-    
-    private void createLeftPlayerBorderContent(){
+
+    private void createLeftPlayerBorderContent() {
         // Defining the necessary variables //
         leftVerticalGroup = new VerticalGroup();
         leftBorder = new Border();
         // End defining variables //
-        
+
         // Declare local variables //
-        
+
         // End declare local variables //
-        
+
         // Reference actor to stage //
         stage.addActor(leftBorder);
         leftBorder.setActor(leftVerticalGroup);
         // End referencing //
-        
+
         // Define appearance of left border //¨
-        leftBorder.setSize( stage.getWidth() * SIDE_BORDERS_WIDTH_PLAYER_RATIO, stage.getHeight() );
+        leftBorder.setSize(stage.getWidth() * SIDE_BORDERS_WIDTH_PLAYER_RATIO,
+                stage.getHeight());
         leftBorder.setPosition(0, 0);
         leftBorder.setColor(Color.BLACK);
         // End defining appearance //
-        
+
     }
+
     // End Create Player //
-    
-    
+
     private void fillGridFromScene(IGetScene scene) {
         gridButtons = new Matrix<Image>(scene.getGrid().getSize());
         final Drawable tile = new TextureRegionDrawable(new TextureRegion(
@@ -665,9 +693,9 @@ public class EditorView implements ApplicationListener, IVisualistaView,
 
     }
 
-       protected void openNovel() {
-        filePicker.openFileDialog(EditorView.this,
-                new FileNameExtensionFilter("Visualista Novel", "vis"));
+    protected void openNovel() {
+        filePicker.openFileDialog(EditorView.this, new FileNameExtensionFilter(
+                "Visualista Novel", "vis"));
     }
 
     @Override
@@ -812,7 +840,8 @@ public class EditorView implements ApplicationListener, IVisualistaView,
 
         String[] actorNames = new String[scene.getActorsInScene().size()];
         for (int i = 0; i < scene.getActorsInScene().size(); i++) {
-            Gdx.app.log("actorName", ""+scene.getActorsInScene().get(i).getName());
+            Gdx.app.log("actorName", ""
+                    + scene.getActorsInScene().get(i).getName());
             actorNames[i] = scene.getActorsInScene().get(i).getName();
         }
         actorNameList = scene.getActorsInScene();
@@ -941,8 +970,19 @@ public class EditorView implements ApplicationListener, IVisualistaView,
     @Override
     public void updateActor(IGetActor updatedActor) {
         // TODO Make better
-        if(selectedActor==updatedActor){
+        if (selectedActor == updatedActor) {
             changeActiveScene(this.activeScene);
+        }
+        if (updatedActor.getImage().getFile() != null) {
+            final Drawable tile = new TextureRegionDrawable(new TextureRegion(
+                    new Texture(Gdx.files.absolute(updatedActor.getImage()
+                            .getFile().getAbsolutePath()))));
+
+            actorImage.setDrawable(tile);
+        } else {
+            final Drawable tile = new TextureRegionDrawable(new TextureRegion(
+                    new Texture(Gdx.files.internal("icons/tile.png"))));
+            actorImage.setDrawable(tile);
         }
     }
 }
