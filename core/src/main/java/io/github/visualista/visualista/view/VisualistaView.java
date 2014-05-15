@@ -56,7 +56,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class VisualistaView implements ApplicationListener, IVisualistaView,
         FilePickerListener, TabClickListener {
-    private static final float LEFT_BORDER_WIDTH_RATIO = 2.0f / 9;
+    private static final float SIDE_BORDERS_WIDTH_EDITOR_RATIO = 2.0f / 9;
+    private static final float SIDE_BORDERS_WIDTH_PLAYER_RATIO = 1.5f / 9;
 
     private Stage stage;
 
@@ -144,17 +145,25 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
 
     @Override
     public final void create() {
+        //TODO: A non-state way of deciding if we are playing or editing the Visual Novel
+        createEditorView();
+    }
+    
+    
+    // Start Create Editor //
+    
+    private void createEditorView(){
         stage = new Stage();
         stage.getViewport().setWorldHeight(configDimension.getHeight());
         stage.getViewport().setWorldWidth(configDimension.getWidth());
 
         stage.clear();
         uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
-        createLeftBorderContent();
-        createRightBorderContent();
-        createLowerBorderContent();
-        createCenterBorderContent();
-        createUpperBorderContent();
+        createLeftEditorBorderContent();
+        createRightEditorBorderContent();
+        creatLowerEditorBorderContent();
+        createCenterEditorBorderContent();
+        createUpperEditorBorderContent();
         resizeCenterBorder();
 
         // Use if you need to zoom out a bit
@@ -163,10 +172,11 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         Gdx.input.setInputProcessor(stage);
         Gdx.graphics.setContinuousRendering(false);
         isReady = true;
-        eventManager.fireViewEvent(this, Type.VIEW_READY);
+        eventManager.fireViewEvent(this, Type.EDITOR_VIEW_READY);
+        
     }
-
-    private void createUpperBorderContent() {
+    
+    private void createUpperEditorBorderContent() {
         overflowingTabs = new ArrayList<Tab>();
         newSceneButton = new TextButton("+", uiSkin);
         overflowDropdownButton = new TextButton(">", uiSkin);
@@ -249,7 +259,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         });
     }
 
-    private void createLowerBorderContent() {
+    private void creatLowerEditorBorderContent() {
         lowerBorder = new Border();
         lowerBorder.setSize(horizontalDistanceBetween(leftBorder, rightBorder),
                 100);
@@ -259,14 +269,14 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         stage.addActor(lowerBorder);
     }
 
-    private void createRightBorderContent() {
+    private void createRightEditorBorderContent() {
 
         rightVerticalGroup = new VerticalGroup();
         rightBorder = new Border();
         stage.addActor(rightBorder);
         rightBorder.setActor(rightVerticalGroup);
 
-        rightBorder.setSize(stage.getWidth() * LEFT_BORDER_WIDTH_RATIO,
+        rightBorder.setSize(stage.getWidth() * SIDE_BORDERS_WIDTH_EDITOR_RATIO,
                 stage.getHeight());
         rightBorder.setPosition(
                 stage.getWidth() - rightVerticalGroup.getWidth(), 0);
@@ -343,7 +353,7 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         rightVerticalGroup.addActor(buttonContainer);
     }
 
-    private void createCenterBorderContent() {
+    private void createCenterEditorBorderContent() {
         centerVerticalGroup = new VerticalGroup();
         centerBorder = new Border();
         stage.addActor(centerBorder);
@@ -360,39 +370,13 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         gridButtons = new Matrix<Image>(new Dimension(5, 5));
     }
 
-    private void fillGridFromScene(IGetScene scene) {
-        gridButtons = new Matrix<Image>(scene.getGrid().getSize());
-        final Drawable tile = new TextureRegionDrawable(new TextureRegion(
-                new Texture(Gdx.files.internal("icons/transparent.png"))));
-
-        for (int i = 0; i < scene.getGrid().getSize().getHeight(); ++i) {
-            for (int j = 0; j < scene.getGrid().getSize().getWidth(); ++j) {
-                gridButtons.setAt(new Point(i, j), new Image(tile));
-            }
-        }
-        fillGrid(centerVerticalGroup, gridButtons);
-    }
-
-    private void resizeCenterBorder() {
-        centerBorder.setSize(
-                horizontalDistanceBetween(leftBorder, rightBorder),
-                (upperBorder.getY() - lowerBorder.getY() - lowerBorder
-                        .getHeight()));
-        centerBorder.setPosition(rightSideOf(leftBorder), lowerBorder.getY()
-                + lowerBorder.getHeight());
-        centerVerticalGroupBorder.setLineSize(0);
-        centerVerticalGroupBorder.setSize(centerBorder.getWidth(),
-                centerBorder.getHeight());
-
-    }
-
-    private void createLeftBorderContent() {
+    private void createLeftEditorBorderContent() {
         leftVerticalGroup = new VerticalGroup();
         leftBorder = new Border();
         stage.addActor(leftBorder);
 
         leftBorder.setActor(leftVerticalGroup);
-        leftBorder.setSize(stage.getWidth() * LEFT_BORDER_WIDTH_RATIO,
+        leftBorder.setSize(stage.getWidth() * SIDE_BORDERS_WIDTH_EDITOR_RATIO,
                 stage.getHeight());
         leftBorder.setPosition(0, 0);
 
@@ -520,7 +504,127 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         });
     }
 
-    protected void openNovel() {
+    // End Create Editor //
+    
+    // Start Create Player //
+
+    private void createPlayerView(){
+        stage = new Stage();
+        stage.getViewport().setWorldHeight( configDimension.getHeight() );
+        stage.getViewport().setWorldWidth( configDimension.getWidth() );
+        stage.clear();
+        
+        
+        uiSkin = new Skin( Gdx.files.internal("uiskin.json"));
+        
+        createLeftPlayerBorderContent();
+        createRightPlayerBorderContent();
+        createCenterPlayerBorderContent();
+        
+        Gdx.input.setInputProcessor(stage);
+        Gdx.graphics.setContinuousRendering(false);
+        isReady = true;
+        eventManager.fireViewEvent(this, Type.PLAYER_VIEW_READY);
+    }
+    
+    private void createCenterPlayerBorderContent(){
+        
+        // Defining the necessary variables //
+        centerVerticalGroup = new VerticalGroup();
+        centerBorder = new Border();
+        sceneBackgroundImage = new Image();
+        centerVerticalGroupBorder = new Border();
+        gridButtons = new Matrix<Image>( new Dimension( 5, 5 ) );
+        // End defining variables //
+        
+        // Declaring local variables //
+        Stack stack = new Stack();
+        // End declaring local variables //
+        
+        stage.addActor(centerBorder);
+        centerVerticalGroupBorder.setActor(centerVerticalGroup);
+        
+        // Adding actors in the right order to the stack //
+        stack.add(sceneBackgroundImage);
+        stack.add(centerVerticalGroupBorder);
+       // End adding actors to stack //
+        
+        centerBorder.setActor(stack);
+        
+        
+    }
+
+    private void createRightPlayerBorderContent(){
+        // Defining the necessary variables //
+        rightVerticalGroup = new VerticalGroup();
+        rightBorder = new Border();
+        // End defining variables //
+        
+        // Declaring local variables //
+        
+        // End declaring local variables //
+        
+        // Reference actor to stage //
+        stage.addActor(rightBorder);
+        rightBorder.setActor(rightVerticalGroup);
+        // End referencing //
+        
+        // Define appearance of right border //
+        rightBorder.setSize( stage.getWidth() * SIDE_BORDERS_WIDTH_PLAYER_RATIO, stage.getHeight() );
+        rightBorder.setPosition( stage.getWidth() - rightVerticalGroup.getWidth(), 0 );
+        rightBorder.setColor(Color.BLACK);
+        // End defining appearance //
+        
+    }
+    
+    private void createLeftPlayerBorderContent(){
+        // Defining the necessary variables //
+        leftVerticalGroup = new VerticalGroup();
+        leftBorder = new Border();
+        // End defining variables //
+        
+        // Reference actor to stage //
+        stage.addActor(leftBorder);
+        leftBorder.setActor(leftVerticalGroup);
+        // End referencing //
+        
+        // Define appearance of left border //¨
+        leftBorder.setSize( stage.getWidth() * SIDE_BORDERS_WIDTH_PLAYER_RATIO, stage.getHeight() );
+        leftBorder.setPosition(0, 0);
+        leftBorder.setColor(Color.BLACK);
+        // End defining appearance //
+        
+    }
+    // End Create Player //
+    
+    
+    private void fillGridFromScene(IGetScene scene) {
+        gridButtons = new Matrix<Image>(scene.getGrid().getSize());
+        final Drawable tile = new TextureRegionDrawable(new TextureRegion(
+                new Texture(Gdx.files.internal("icons/transparent.png"))));
+
+        for (int i = 0; i < scene.getGrid().getSize().getHeight(); ++i) {
+            for (int j = 0; j < scene.getGrid().getSize().getWidth(); ++j) {
+                gridButtons.setAt(new Point(i, j), new Image(tile));
+            }
+        }
+        fillGrid(centerVerticalGroup, gridButtons);
+    }
+
+    private void resizeCenterBorder() {
+        centerBorder.setSize(
+                horizontalDistanceBetween(leftBorder, rightBorder),
+                (upperBorder.getY() - lowerBorder.getY() - lowerBorder
+                        .getHeight()));
+        centerBorder.setPosition(rightSideOf(leftBorder), lowerBorder.getY()
+                + lowerBorder.getHeight());
+        centerVerticalGroupBorder.setLineSize(0);
+        centerVerticalGroupBorder.setSize(centerBorder.getWidth(),
+                centerBorder.getHeight());
+
+    }
+
+       protected void openNovel() {
         filePicker.openFileDialog(VisualistaView.this,
                 new FileNameExtensionFilter("Visualista Novel", "vis"));
     }
