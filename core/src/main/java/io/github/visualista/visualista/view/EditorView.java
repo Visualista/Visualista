@@ -76,8 +76,8 @@ public class EditorView implements ApplicationListener, IEditorView,
 
     private Matrix<Image> gridButtons;
 
-    private List <IGetActor>actorList;
-    private List <IAction>actionList;
+    private List<IGetActor> actorList;
+    private List<IAction> actionList;
 
     private Border leftBorder;
     private Border rightBorder;
@@ -411,8 +411,10 @@ public class EditorView implements ApplicationListener, IEditorView,
         Actor cursorButton = createCursorButton();
         Actor handButton = createHandButton();
         Actor arrowButton = createArrowButton();
-        resizeButtonGroup1Buttons(openButton,saveButton,cursorButton,handButton,arrowButton);
-        return createButtonContainer1(openButton,saveButton,cursorButton,handButton,arrowButton);
+        resizeButtonGroup1Buttons(openButton, saveButton, cursorButton,
+                handButton, arrowButton);
+        return createButtonContainer1(openButton, saveButton, cursorButton,
+                handButton, arrowButton);
     }
 
     private void createSetSceneBackgroundButton() {
@@ -500,6 +502,7 @@ public class EditorView implements ApplicationListener, IEditorView,
                 if (index != -1) {
                     eventManager.fireViewEvent(this, Type.SELECT_ACTOR,
                             actorList.getSelected());
+                    
                 }
             }
 
@@ -969,7 +972,7 @@ public class EditorView implements ApplicationListener, IEditorView,
     }
 
     private void clearActionList() {
-        //actionList.setItems(new String[] {});
+        // actionList.setItems(new String[] {});
     }
 
     private void clearActorList() {
@@ -1005,6 +1008,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         if (targetObject != null) {
             rightVerticalGroup.setVisible(true);
             actorField.setText(targetObject.getName());
+            
         } else {
             rightVerticalGroup.setVisible(false);
         }
