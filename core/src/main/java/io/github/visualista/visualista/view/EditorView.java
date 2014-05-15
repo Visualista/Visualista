@@ -39,6 +39,7 @@ import io.github.visualista.visualista.editorcontroller.ViewEventListener;
 import io.github.visualista.visualista.editorcontroller.ViewEventManager;
 import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
 import io.github.visualista.visualista.model.Grid;
+import io.github.visualista.visualista.model.IAction;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetNovel;
 import io.github.visualista.visualista.model.IGetScene;
@@ -82,7 +83,7 @@ public class EditorView implements ApplicationListener, IEditorView,
     private Matrix<Image> gridButtons;
 
     private List <IGetActor>actorList;
-    private List actionList;
+    private List <IAction>actionList;
 
     private Border leftBorder;
     private Border rightBorder;
@@ -998,7 +999,7 @@ public class EditorView implements ApplicationListener, IEditorView,
     }
 
     private void clearActionList() {
-        actionList.setItems(new String[] {});
+        //actionList.setItems(new String[] {});
     }
 
     private void clearActorList() {
