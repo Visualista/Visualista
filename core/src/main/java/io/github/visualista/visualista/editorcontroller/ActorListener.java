@@ -1,4 +1,4 @@
-package io.github.visualista.visualista.controller;
+package io.github.visualista.visualista.editorcontroller;
 
 public interface ActorListener {
 

@@ -1,4 +1,4 @@
-package io.github.visualista.visualista.controller;
+package io.github.visualista.visualista.editorcontroller;
 
 import java.util.ArrayList;
 import java.util.Iterator;

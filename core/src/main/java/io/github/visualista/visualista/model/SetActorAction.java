@@ -2,10 +2,10 @@ package io.github.visualista.visualista.model;
 
 import java.util.Iterator;
 
-import io.github.visualista.visualista.controller.ActionEvent;
-import io.github.visualista.visualista.controller.ActionEventListener;
-import io.github.visualista.visualista.controller.ActionEventSource;
-import io.github.visualista.visualista.controller.ActionEventType;
+import io.github.visualista.visualista.editorcontroller.ActionEvent;
+import io.github.visualista.visualista.editorcontroller.ActionEventListener;
+import io.github.visualista.visualista.editorcontroller.ActionEventSource;
+import io.github.visualista.visualista.editorcontroller.ActionEventType;
 import io.github.visualista.visualista.util.Point;
 import io.github.visualista.visualista.util.PositionedActor;
 

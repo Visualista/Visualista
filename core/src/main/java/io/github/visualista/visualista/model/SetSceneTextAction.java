@@ -2,7 +2,7 @@ package io.github.visualista.visualista.model;
 
 import java.util.Iterator;
 
-import io.github.visualista.visualista.controller.*;
+import io.github.visualista.visualista.editorcontroller.*;
 
 public class SetSceneTextAction extends ActionEventSource implements IPlayAction {
 
