@@ -1,6 +1,7 @@
 package io.github.visualista.visualista.view;
 
 import io.github.visualista.visualista.controller.ViewEventListener;
+import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetNovel;
 import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.model.Scene;
@@ -23,6 +24,10 @@ public interface IVisualistaView {
     boolean getIsReady();
 
     void clearModel();
+
+    void selectActor(IGetActor targetObject);
+
+    void updateActor(IGetActor updatedActor);
 
     
 
