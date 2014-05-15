@@ -68,7 +68,7 @@ public class EditorController implements ViewEventListener {
                 updatedActor = visualista.changeActorName(
                         (Actor) (event.getTargetObject()),
                         (String) (event.getExtraData()));
-                // TODO view needs to do something to update actor list
+                view.updateActor(updatedActor);
                 break;
             case CHANGE_SCENE_NAME:
                 updatedScene = visualista.changeSceneName(
@@ -118,7 +118,7 @@ public class EditorController implements ViewEventListener {
                 }
                 break;
             case FILE_SAVE:
-                visualista.saveNovelIfNeeded();
+                visualista.saveNovel((File)event.getExtraData());
                 break;
             case CHANGE_NOVEL_NAME:
                 ((Novel) (event.getSource())).setName((String) (event
@@ -129,6 +129,9 @@ public class EditorController implements ViewEventListener {
                 break;
             case SELECT_SCENE:
                 view.changeActiveScene((IGetScene) event.getTargetObject());
+                break;
+            case SELECT_ACTOR:
+                view.selectActor((IGetActor)event.getTargetObject());
                 break;
             default:
                 break;
