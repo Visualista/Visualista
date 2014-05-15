@@ -10,7 +10,6 @@ import io.github.visualista.visualista.model.Scene;
 import io.github.visualista.visualista.model.SetActorAction;
 import io.github.visualista.visualista.model.SetSceneAction;
 import io.github.visualista.visualista.util.Point;
-import io.github.visualista.visualista.view.IVisualistaView;
 
 import java.io.File;
 

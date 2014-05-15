@@ -12,7 +12,6 @@ import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.model.Image;
 import io.github.visualista.visualista.model.Novel;
 import io.github.visualista.visualista.model.Scene;
-import io.github.visualista.visualista.view.IVisualistaView;
 import io.github.visualista.visualista.view.VisualistaView;
 
 public class EditorController implements ViewEventListener {
