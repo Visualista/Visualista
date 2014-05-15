@@ -5,7 +5,7 @@ import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
 
 import io.github.visualista.visualista.util.Dimension;
-import io.github.visualista.visualista.view.VisualistaView;
+import io.github.visualista.visualista.view.EditorView;
 
 public class VisualistaHtml extends GwtApplication {
     private static final int APPLICATION_HEIGHT = 320;
@@ -13,7 +13,7 @@ public class VisualistaHtml extends GwtApplication {
 
     @Override
     public ApplicationListener getApplicationListener() {
-        return new VisualistaView(new Dimension(APPLICATION_WIDTH,APPLICATION_HEIGHT),null);
+        return new EditorView(new Dimension(APPLICATION_WIDTH,APPLICATION_HEIGHT),null);
     }
 
     @Override

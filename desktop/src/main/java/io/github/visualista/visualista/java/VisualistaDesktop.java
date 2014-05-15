@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.GdxNativesLoader;
 import io.github.visualista.visualista.controller.EditorController;
 import io.github.visualista.visualista.core.Visualista;
 import io.github.visualista.visualista.util.Dimension;
-import io.github.visualista.visualista.view.VisualistaView;
+import io.github.visualista.visualista.view.EditorView;
 
 public class VisualistaDesktop {
     private static final int APPLICATION_HEIGHT = 700;
@@ -21,7 +21,7 @@ public class VisualistaDesktop {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.width = APPLICATION_WIDTH;
         config.height = APPLICATION_HEIGHT;
-        final VisualistaView view = new VisualistaView(new Dimension(config.width,config.height),new DesktopFilePicker());
+        final EditorView view = new EditorView(new Dimension(config.width,config.height),new DesktopFilePicker());
         final Visualista model = new Visualista();
         new EditorController(model, view);
         new LwjglApplication(view, config);
