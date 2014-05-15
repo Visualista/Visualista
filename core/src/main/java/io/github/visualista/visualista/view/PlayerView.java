@@ -34,7 +34,7 @@ import com.badlogic.gdx.utils.SnapshotArray;
 
 import io.github.visualista.visualista.core.FilePickerListener;
 import io.github.visualista.visualista.core.IFilePicker;
-import io.github.visualista.visualista.editorcontroller.IVisualistaView;
+import io.github.visualista.visualista.editorcontroller.IEditorView;
 import io.github.visualista.visualista.editorcontroller.ViewEventListener;
 import io.github.visualista.visualista.editorcontroller.ViewEventManager;
 import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
@@ -43,6 +43,7 @@ import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetNovel;
 import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.model.Scene;
+import io.github.visualista.visualista.playercontroller.IPlayerView;
 import io.github.visualista.visualista.util.BiDiMap;
 import io.github.visualista.visualista.util.Dimension;
 import io.github.visualista.visualista.util.IMatrixGet;
@@ -50,45 +51,30 @@ import io.github.visualista.visualista.util.IObjectCreator;
 import io.github.visualista.visualista.util.Matrix;
 import io.github.visualista.visualista.util.Point;
 
+import java.awt.Font;
 import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class PlayerView implements ApplicationListener, IVisualistaView,
-        FilePickerListener, TabClickListener {
+public class PlayerView implements ApplicationListener, IPlayerView{
     
     //Defining static objects and variables //
     private static final float SIDE_BORDER_RATIO = 1.5f / 9;
     private static final Skin BASE_SKIN = new Skin( Gdx.files.internal( "uiskin.json" ) );
-    private static final Drawable EMPTY_ICON = new TextureRegionDrawable(
+    private static final Drawable TRANSPARENT_ICON = new TextureRegionDrawable(
             new TextureRegion( 
                     new Texture( Gdx.files.internal( "icons/transparent.png" ) ) ) );
+    private static final float TITLE_FONT_SCALE = 2.0f;
+    private static final float STORY_FONT_SCALE = 1.0f;
     // End static objects and variables //
 
+    // Reference variables //
+    
+    
+    // End reference variables //
     private Stage stage;
-
-    private Skin uiSkin;
-    private ImageButton cursorButton;
-    private ImageButton handButton;
-    private ImageButton arrowButton;
-    private ImageButton actorImage;
-
-    private TextButton newActorButton;
-    private TextButton actorsButton;
-    private TextButton dialogsButton;
-    private TextButton newSceneButton;
-    private TextButton modifyButton;
-    private TextButton addActionButton;
-    private TextButton addSceneBackgroundButton;
-
-    private Label actorLabel;
-    private Label actionLabel;
-
-    private Matrix<Image> gridButtons;
-
-    private List actorList;
-    private List actionList;
+    private Matrix<IGetActor> gridButtons;
 
     private Border leftBorder;
     private Border rightBorder;
@@ -100,62 +86,20 @@ public class PlayerView implements ApplicationListener, IVisualistaView,
     private VerticalGroup rightVerticalGroup;
     private VerticalGroup centerVerticalGroup;
 
-    private HorizontalGroup sceneButtonGroup;
 
     private final ViewEventManager eventManager = new ViewEventManager();
 
     private Dimension configDimension;
 
-    private ArrayList<Tab> overflowingTabs;
-    private BiDiMap<Tab, IGetScene> tabs;
-
-    private Actor overflowDropdownButton;
-    private List contextMenu;
-    private ScrollPane contextMenuScroll;
-
-    private HorizontalGroup tabExtraButtons;
-
-    private Border cursorButtonBorder;
-
-    private Border handButtonBorder;
-
-    private Border arrowButtonBorder;
-
-    private boolean isReady = false;
-
-    private ImageButton openButton;
-
-    private Border openButtonBorder;
-
-    private IFilePicker filePicker;
-
-    private IGetScene activeScene;
-
-    private TextArea textInput;
-
     private Image sceneBackgroundImage;
 
     private Border centerVerticalGroupBorder;
-
-    private TextField actorField;
-
-    private String renameActor;
-
-    private java.util.List<IGetActor> actorNameList;
-    private Tab editingTab;
-
     protected IGetActor selectedActor;
 
     protected boolean actorFieldHasFocus;
 
-    private ImageButton saveButton;
-
-    private Border saveButtonBorder;
-
-    public PlayerView(Dimension dimension, IFilePicker filePicker) {
+    public PlayerView(Dimension dimension) {
         this.configDimension = dimension;
-        tabs = new BiDiMap<Tab, IGetScene>();
-        this.filePicker = filePicker;
     }
 
     @Override
@@ -173,27 +117,26 @@ public class PlayerView implements ApplicationListener, IVisualistaView,
         stage.getViewport().setWorldWidth( configDimension.getWidth() );
         stage.clear();
         
-        
-        uiSkin = BASE_SKIN;
-        
-        createLeftPlayerBorderContent();
-        createRightPlayerBorderContent();
-        createCenterPlayerBorderContent();
+        createLeftBorderContent();
+        createRightBorderContent();
+        createCenterBorderContent();
+        createLowerBorderContent();
+        createUppderBorderContent();
+        resizeCenterBorder();
         
         Gdx.input.setInputProcessor(stage);
         Gdx.graphics.setContinuousRendering(false);
-        isReady = true;
         eventManager.fireViewEvent(this, Type.VIEW_READY);
     }
     
-    private void createCenterPlayerBorderContent(){
+    private void createCenterBorderContent(){
         
         // Defining the necessary variables //
         centerVerticalGroup = new VerticalGroup();
         centerBorder = new Border();
         sceneBackgroundImage = new Image();
         centerVerticalGroupBorder = new Border();
-        gridButtons = new Matrix<Image>( new Dimension( 5, 5 ) );
+        gridButtons = new Matrix<IGetActor>( new Dimension( 5, 5 ) );
         // End defining variables //
         
         // Declaring local variables //
@@ -213,7 +156,7 @@ public class PlayerView implements ApplicationListener, IVisualistaView,
         
     }
 
-    private void createRightPlayerBorderContent(){
+    private void createRightBorderContent(){
         // Defining the necessary variables //
         rightVerticalGroup = new VerticalGroup();
         rightBorder = new Border();
@@ -236,7 +179,7 @@ public class PlayerView implements ApplicationListener, IVisualistaView,
         
     }
     
-    private void createLeftPlayerBorderContent(){
+    private void createLeftBorderContent(){
         // Defining the necessary variables //
         leftVerticalGroup = new VerticalGroup();
         leftBorder = new Border();
@@ -258,17 +201,46 @@ public class PlayerView implements ApplicationListener, IVisualistaView,
         // End defining appearance //
         
     }
+    
+    private void createLowerBorderContent() {
+        // Defining the necessary variables //
+        lowerBorder = new Border();
+        // End defining variables //
+        // Define appearance of lower border //
+        lowerBorder.setSize(horizontalDistanceBetween(leftBorder, rightBorder),
+                100);
+        lowerBorder.setPosition(getRightSideOf(leftBorder), 0);
+        // End defining appearance //
+        stage.addActor(lowerBorder);
+        
+        updateTextInBorder(lowerBorder, "<<Test>>", TITLE_FONT_SCALE);
+    }
+    
+    private void createUppderBorderContent(){
+        // Defining the necessary variables //
+        upperBorder = new Border();
+        // End defining variables //
+        // Define appearance of lower border //
+        upperBorder.setSize(horizontalDistanceBetween(leftBorder, rightBorder),
+                100);
+        upperBorder.setPosition(getRightSideOf(leftBorder), 0);
+        // End defining appearance //
+        stage.addActor(upperBorder);
+        
+        updateTextInBorder(upperBorder, "<<Test>>", STORY_FONT_SCALE);
+        
+    }
+
     // End Create Player //
     
     
     private void fillGridFromScene(IGetScene scene) {
-        gridButtons = new Matrix<Image>(scene.getGrid().getSize());
-        final Drawable tile = new TextureRegionDrawable(new TextureRegion(
-                new Texture(Gdx.files.internal("icons/transparent.png"))));
-
+        gridButtons = new Matrix<IGetActor>(scene.getGrid().getSize());
+        
         for (int i = 0; i < scene.getGrid().getSize().getHeight(); ++i) {
             for (int j = 0; j < scene.getGrid().getSize().getWidth(); ++j) {
-                gridButtons.setAt(new Point(i, j), new Image(tile));
+                gridButtons.setAt(new Point( i, j ), scene.getGrid().getAt( 
+                        new Point (i, j) ).getActor() );
             }
         }
         fillGrid(centerVerticalGroup, gridButtons);
@@ -277,9 +249,9 @@ public class PlayerView implements ApplicationListener, IVisualistaView,
     private void resizeCenterBorder() {
         centerBorder.setSize(
                 horizontalDistanceBetween(leftBorder, rightBorder),
-                (upperBorder.getY() - lowerBorder.getY() - lowerBorder
-                        .getHeight()));
-        centerBorder.setPosition(rightSideOf(leftBorder), lowerBorder.getY()
+                (upperBorder.getY() - lowerBorder.getY()
+                        - lowerBorder.getHeight()));
+        centerBorder.setPosition(getRightSideOf(leftBorder), lowerBorder.getY()
                 + lowerBorder.getHeight());
         centerVerticalGroupBorder.setLineSize(0);
         centerVerticalGroupBorder.setSize(centerBorder.getWidth(),
@@ -287,47 +259,43 @@ public class PlayerView implements ApplicationListener, IVisualistaView,
 
     }
 
-       protected void openNovel() {
-        filePicker.openFileDialog(PlayerView.this,
-                new FileNameExtensionFilter("Visualista Novel (.vis)", "vis"));
+    private float getRightSideOf(com.badlogic.gdx.scenes.scene2d.Actor viewActor) {
+        return viewActor.getX() + viewActor.getWidth();
     }
 
-    @Override
-    public boolean getIsReady() {
-        return isReady;
-    }
-
-    private float rightSideOf(com.badlogic.gdx.scenes.scene2d.Actor gdxActor) {
-        return gdxActor.getX() + gdxActor.getWidth();
-    }
-
-    public final void fillGrid(VerticalGroup group, IMatrixGet<Image> data) {
+    public final void fillGrid(VerticalGroup group, IMatrixGet<IGetActor> data) {
+        // Declare local variables //
         float prefferedButtonHeight = group.getHeight()
                 / data.getSize().getHeight();
         float prefferedButtonWidth = group.getWidth()
                 / data.getSize().getWidth();
-        float buttonLength = Math.min(prefferedButtonWidth,
+        float buttonSide = Math.min(prefferedButtonWidth,
                 prefferedButtonHeight);
+        // End declare local variables //
+        
         for (int i = 0; i < data.getSize().getHeight(); i++) {
             HorizontalGroup row = new HorizontalGroup();
             group.addActor(row);
             for (int j = 0; j < data.getSize().getWidth(); j++) {
-                Image button = data.getAt(new Point(i, j));
-                Border border = new Border();
-                border.setActor(button);
-                border.setSize(buttonLength, buttonLength);
-                border.setLineSize(1);
-                row.addActor(border);
+                row.addActor(createSingleTile(data.getAt(new Point(i, j)), buttonSide));
             }
         }
     }
 
+    private Border createSingleTile(IGetActor tileActor, float tileSize){
+        Drawable actorImage = new TextureRegionDrawable( new TextureRegion( 
+                new Texture ( Gdx.files.absolute( 
+                        tileActor.getImage().getFile().getAbsolutePath() ) ) ) );
+        Image button = new Image(actorImage);
+        Border tempBorder = new Border();
+        tempBorder.setActor(button);
+        tempBorder.setSize(tileSize, tileSize);
+        tempBorder.setLineSize(1);
+        
+        return tempBorder;
+    }
     @Override
     public void resize(final int width, final int height) {
-        // stage.setViewport(configDimension.getWidth(),
-        // configDimension.getHeight(), true);
-        // stage.getCamera().translate(-stage.getGutterWidth(),
-        // -stage.getGutterHeight(), 0);
 
     }
 
@@ -359,89 +327,41 @@ public class PlayerView implements ApplicationListener, IVisualistaView,
         eventManager.removeEventListener(eventListener);
     }
 
+    
     @Override
-    public void addScene(IGetScene newScene) {
-        updateScene(newScene);
+    public void updateScene(IGetScene sceneToDisplay) {
+        // Declaring local variables //
+        ArrayList<IGetActor> actorsInScene = new ArrayList<IGetActor>();
+        actorsInScene.addAll(sceneToDisplay.getActorsInScene());
+        String storyText = sceneToDisplay.getStoryText();
+        // End local variables //
 
-    }
-
-    private void hideOverFlowingScenes() {
-        SnapshotArray<Actor> children = sceneButtonGroup.getChildren();
-        overflowDropdownButton.setVisible(false);
-        float totalWidth = 0;
-        Actor firstChild = null;
-        if (children.size > 0) {
-            firstChild = children.get(0);
-        }
-        for (Actor overflowedTab : overflowingTabs) {
-            sceneButtonGroup.addActorBefore(firstChild, overflowedTab);
-        }
-        overflowingTabs.clear();
-
-        for (com.badlogic.gdx.scenes.scene2d.Actor child : children) {
-            totalWidth += child.getWidth();
-        }
-        while (totalWidth > sceneButtonGroup.getWidth()
-                && sceneButtonGroup.getChildren().size > 1) {
-            Actor currentlyFirstChild = sceneButtonGroup.getChildren().get(0);
-            totalWidth -= currentlyFirstChild.getWidth();
-            sceneButtonGroup.removeActor(currentlyFirstChild);
-            overflowDropdownButton.setVisible(true);
-            overflowingTabs.add((Tab) currentlyFirstChild);
-        }
-        contextMenu.setVisible(true);
-        ArrayList<String> objects = new ArrayList<String>(
-                overflowingTabs.size());
-        for (Tab removedTab : overflowingTabs) {
-            objects.add(removedTab.getText().toString());
-        }
-        contextMenu.setItems(objects.toArray());
-    }
-
-    @Override
-    public void updateScene(IGetScene scene) {
-        String name = scene.getName();
-        if (name == null) {
-            name = "";
-        }
-        while (name.length() < 5) {
-            name += " ";
-        }
-
-        if (scene.getImage() != null) {
+        if (sceneToDisplay.getImage() != null) {
             final Drawable tile = new TextureRegionDrawable(new TextureRegion(
-                    new Texture(Gdx.files.absolute(scene.getImage().getFile()
+                    new Texture(Gdx.files.absolute(sceneToDisplay.getImage().getFile()
                             .getAbsolutePath()))));
 
             sceneBackgroundImage.setDrawable(tile);
         } else {
             sceneBackgroundImage.setDrawable(null);
         }
-        Tab tab = new Tab(name, uiSkin);
-        tab.addClickListener(this);
-        tab.setHeight(upperBorder.getHeight());
-        Tab oldTab = tabs.getKey(scene);
-        if (oldTab != null) {
-            tabs.removeByKey(oldTab);
-            overflowingTabs.remove(oldTab);
-            sceneButtonGroup.addActorBefore(oldTab, tab);
-            sceneButtonGroup.removeActor(oldTab);
-        } else {
-            sceneButtonGroup.addActorBefore(tabExtraButtons, tab);
-        }
-        tabs.put(tab, scene);
-        hideOverFlowingScenes();
 
-        String[] actorNames = new String[scene.getActorsInScene().size()];
-        for (int i = 0; i < scene.getActorsInScene().size(); i++) {
-            Gdx.app.log("actorName", ""+scene.getActorsInScene().get(i).getName());
-            actorNames[i] = scene.getActorsInScene().get(i).getName();
+        // Debugging code //
+        String[] actorNames = new String[sceneToDisplay.getActorsInScene().size()];
+        for (int i = 0; i < sceneToDisplay.getActorsInScene().size(); i++) {
+            Gdx.app.log("actorName", ""+sceneToDisplay.getActorsInScene().get(i).getName());
+            actorNames[i] = sceneToDisplay.getActorsInScene().get(i).getName();
         }
-        actorNameList = scene.getActorsInScene();
-        actorList.setItems(actorNames);
-
+        // End debugging code //
     }
-
+    
+    private void updateTextInBorder(Border borderToUpdate, String storyText, float fontScale){
+        borderToUpdate.clear();
+        Label label = new Label(storyText, BASE_SKIN);
+        label.setFontScale(fontScale);
+        borderToUpdate.setActor(label);
+    }
+    
     private static float horizontalDistanceBetween(
             com.badlogic.gdx.scenes.scene2d.Actor actor1,
             com.badlogic.gdx.scenes.scene2d.Actor actor2) {
@@ -455,116 +375,6 @@ public class PlayerView implements ApplicationListener, IVisualistaView,
             return distance;
         } else {
             return 0;
-        }
-    }
-
-    @Override
-    public void removeScene(IGetScene scene) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void changeActiveScene(IGetScene scene) {
-        updateScene(scene);
-        String name = scene.getName();
-        if (name == null) {
-            name = "";
-        }
-        while (name.length() < 5) {
-            name += " ";
-        }
-        Tab tab = new Tab(name, uiSkin);
-        tab.addClickListener(this);
-        tab.setHeight(upperBorder.getHeight());
-        Tab oldTab = tabs.getKey(scene);
-        if (oldTab != null) {
-            tabs.removeByKey(oldTab);
-            overflowingTabs.remove(oldTab);
-            sceneButtonGroup.addActorAt(0, tab);
-            sceneButtonGroup.removeActor(oldTab);
-        } else {
-            sceneButtonGroup.addActorAt(0, tab);
-        }
-        tabs.put(tab, scene);
-        hideOverFlowingScenes();
-        fillGridFromScene(scene);
-        activeScene = scene;
-
-    }
-
-    @Override
-    public void changeActiveNovel(IGetNovel updatedNovel) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void fileOpened(File selectedFile) {
-        eventManager.fireViewEvent(this, Type.FILE_OPEN, null, selectedFile);
-    }
-
-    @Override
-    public void fileSaved(File selectedFile) {
-        eventManager.fireViewEvent(this, Type.FILE_SAVE, null, selectedFile);
-
-    }
-
-    @Override
-    public void clearModel() {
-        clearSceneTabs();
-        clearActorList();
-        clearActionList();
-    }
-
-    private void clearActionList() {
-        actionList.setItems(new String[] {});
-    }
-
-    private void clearActorList() {
-        actorList.setItems(new String[] {});
-
-    }
-
-    private void clearSceneTabs() {
-        overflowingTabs.clear();
-        sceneButtonGroup.clearChildren();
-        sceneButtonGroup.addActor(tabExtraButtons);
-        tabs.clear();
-    }
-
-    @Override
-    public void tabEvent(Tab source,
-            io.github.visualista.visualista.view.Tab.Type type) {
-        if (type == Tab.Type.SELECT) {
-            if (activeScene == tabs.getValue(source)) {
-                source.makeNameEditable();
-                editingTab = source;
-            } else {
-                eventManager.fireViewEvent(this, Type.SELECT_SCENE,
-                        tabs.getValue(source));
-            }
-        }
-
-    }
-
-    @Override
-    public void selectActor(IGetActor targetObject) {
-        selectedActor = targetObject;
-        if (targetObject != null) {
-            rightVerticalGroup.setVisible(true);
-            actorField.setText(targetObject.getName());
-        } else {
-            rightVerticalGroup.setVisible(false);
-        }
-
-    }
-
-    @Override
-    public void updateActor(IGetActor updatedActor) {
-        // TODO Make better
-        if(selectedActor==updatedActor){
-            changeActiveScene(this.activeScene);
         }
     }
 }

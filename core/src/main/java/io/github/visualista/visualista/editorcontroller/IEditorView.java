@@ -6,7 +6,7 @@ import io.github.visualista.visualista.model.IGetNovel;
 import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.model.Scene;
 
-public interface IVisualistaView {
+public interface IEditorView {
     void addScene(IGetScene newScene);
 
     void removeViewEventListener(ViewEventListener eventListener);

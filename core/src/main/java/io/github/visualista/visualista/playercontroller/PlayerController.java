@@ -2,7 +2,7 @@ package io.github.visualista.visualista.playercontroller;
 
 import io.github.visualista.visualista.core.Visualista;
 import io.github.visualista.visualista.editorcontroller.EditorViewEvent;
-import io.github.visualista.visualista.editorcontroller.IVisualistaView;
+import io.github.visualista.visualista.editorcontroller.IEditorView;
 import io.github.visualista.visualista.editorcontroller.ViewEventListener;
 import io.github.visualista.visualista.model.Actor;
 import io.github.visualista.visualista.model.IGetActor;
@@ -20,10 +20,10 @@ import com.badlogic.gdx.Gdx;
 
 public class PlayerController implements ViewEventListener, ActionEventListener{
     private Visualista visualista;
-    private IVisualistaView view;
+    private IEditorView view;
 
     public PlayerController(final Visualista visualista,
-            final IVisualistaView view) {
+            final IEditorView view) {
         this.visualista = visualista;
         this.view = view;
         addEventHandlersToView();
