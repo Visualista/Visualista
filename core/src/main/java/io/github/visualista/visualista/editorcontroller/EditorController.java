@@ -79,7 +79,8 @@ public class EditorController implements ViewEventListener {
             case CHANGE_ACTOR_IMAGE:
                 updatedActor = visualista.changeActorImage(
                         (Actor) (event.getTargetObject()),
-                        (Image) (event.getExtraData()));
+                        new Image((File) (event.getExtraData())));
+                view.updateActor(updatedActor);
                 // TODO view needs to do something to update actor list
                 break;
             case CHANGE_SCENE_IMAGE:

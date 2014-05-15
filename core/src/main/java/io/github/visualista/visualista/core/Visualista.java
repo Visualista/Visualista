@@ -59,8 +59,7 @@ public class Visualista {
     }
 
     public Novel openNovel(File file) {
-        FileLoader<Novel> fileLoader = new FileLoader<Novel>(
-                new ObjectFactory<Novel>(xstreamManager.getMainXStream()));
+        FileLoader<Novel> fileLoader = new FileLoader<Novel>();
         try {
             setCurrentNovel(fileLoader.getObjectFromFile(file));
         } catch (FileNotFoundException e) {

@@ -59,6 +59,10 @@ public class PlayerController implements ViewEventListener, ActionEventListener{
 
         }
     }
+    
+    public void actorClicked(Actor actor){
+        actor.getActions();
+    }
 
     @Override
     public void handleActionEvent(ActionEvent ae) {
