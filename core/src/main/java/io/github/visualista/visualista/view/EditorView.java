@@ -4,13 +4,11 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -38,15 +36,12 @@ import io.github.visualista.visualista.editorcontroller.IEditorView;
 import io.github.visualista.visualista.editorcontroller.ViewEventListener;
 import io.github.visualista.visualista.editorcontroller.ViewEventManager;
 import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
-import io.github.visualista.visualista.model.Grid;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetNovel;
 import io.github.visualista.visualista.model.IGetScene;
-import io.github.visualista.visualista.model.Scene;
 import io.github.visualista.visualista.util.BiDiMap;
 import io.github.visualista.visualista.util.Dimension;
 import io.github.visualista.visualista.util.IMatrixGet;
-import io.github.visualista.visualista.util.IObjectCreator;
 import io.github.visualista.visualista.util.Matrix;
 import io.github.visualista.visualista.util.Point;
 
@@ -69,13 +64,12 @@ public class EditorView implements ApplicationListener, IEditorView,
 
     private Image actorImage;
 
-    private TextButton newActorButton;
     private TextButton addActorButton;
     private TextButton removeActorButton;
     private TextButton newSceneButton;
     private TextButton modifyButton;
     private TextButton addActionButton;
-    private TextButton addSceneBackgroundButton;
+    private TextButton setSceneBackgroundButton;
 
     private Label actionLabel;
 
@@ -408,19 +402,8 @@ public class EditorView implements ApplicationListener, IEditorView,
 
     private void createLeftBorderContent() {
         createLeftBorder();
-        createLeftVerticalGroup();        
-        createOpenButton();
-        createOpenButtonBorder();
-        createSaveButton();
-        createSaveButtonBorder();
-        createCursorButton();
-        createCursorButtonBorder();
-        createHandButton();
-        createHandButtonBorder();
-        createArrowButton();
-        createArrowButtonBorder();
-        resizeButtonGroup1Buttons();
-        createButtonContainer1();
+        createLeftVerticalGroup();
+        Actor buttonGroup1 = createButtonGroup1Buttons();
         createActorList();
         final ScrollPane scroll = createScrollPane();
         createScrollBorder(scroll);
@@ -433,10 +416,29 @@ public class EditorView implements ApplicationListener, IEditorView,
 
         leftVerticalGroup.addActor(buttonContainer2);
 
-        addSceneBackgroundButton = new TextButton("Set background", uiSkin);
-        leftVerticalGroup.addActor(addSceneBackgroundButton);
+        createSetSceneBackgroundButton();
+    }
 
-        addSceneBackgroundButton.addListener(new ClickListener() {
+    private Actor createButtonGroup1Buttons() {        
+        createOpenButton();
+        createOpenButtonBorder();
+        createSaveButton();
+        createSaveButtonBorder();
+        createCursorButton();
+        createCursorButtonBorder();
+        createHandButton();
+        createHandButtonBorder();
+        createArrowButton();
+        createArrowButtonBorder();
+        resizeButtonGroup1Buttons();
+        return createButtonContainer1();
+    }
+
+    private void createSetSceneBackgroundButton() {
+        setSceneBackgroundButton = new TextButton("Set background", uiSkin);
+        leftVerticalGroup.addActor(setSceneBackgroundButton);
+
+        setSceneBackgroundButton.addListener(new ClickListener() {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -522,7 +524,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         });
     }
 
-    private void createButtonContainer1() {
+    private Actor createButtonContainer1() {
         HorizontalGroup buttonContainer1 = new HorizontalGroup();
         buttonContainer1.addActor(saveButtonBorder);
         buttonContainer1.addActor(openButtonBorder);
@@ -530,6 +532,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         buttonContainer1.addActor(handButtonBorder);
         buttonContainer1.addActor(arrowButtonBorder);
         leftVerticalGroup.addActor(buttonContainer1);
+        return buttonContainer1;
     }
 
     private void resizeButtonGroup1Buttons() {
