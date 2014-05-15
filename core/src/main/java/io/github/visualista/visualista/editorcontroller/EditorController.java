@@ -17,10 +17,10 @@ import io.github.visualista.visualista.view.EditorView;
 public class EditorController implements ViewEventListener {
 
     private Visualista visualista;
-    private IVisualistaView view;
+    private IEditorView view;
 
     public EditorController(final Visualista visualista,
-            final IVisualistaView view) {
+            final IEditorView view) {
         this.visualista = visualista;
         this.view = view;
         addEventHandlersToView();

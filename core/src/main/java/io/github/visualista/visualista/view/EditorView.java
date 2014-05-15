@@ -34,7 +34,7 @@ import com.badlogic.gdx.utils.SnapshotArray;
 
 import io.github.visualista.visualista.core.FilePickerListener;
 import io.github.visualista.visualista.core.IFilePicker;
-import io.github.visualista.visualista.editorcontroller.IVisualistaView;
+import io.github.visualista.visualista.editorcontroller.IEditorView;
 import io.github.visualista.visualista.editorcontroller.ViewEventListener;
 import io.github.visualista.visualista.editorcontroller.ViewEventManager;
 import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
@@ -55,7 +55,7 @@ import java.util.ArrayList;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class EditorView implements ApplicationListener, IVisualistaView,
+public class EditorView implements ApplicationListener, IEditorView,
         FilePickerListener, TabClickListener {
     private static final float SIDE_BORDERS_WIDTH_EDITOR_RATIO = 2.0f / 9;
     private static final float SIDE_BORDERS_WIDTH_PLAYER_RATIO = 1.5f / 9;
