@@ -106,7 +106,7 @@ public class EditorController implements ViewEventListener {
                 updatedNovel = visualista.createNewNovel();
                 // TODO require any parameters?
                 view.changeActiveNovel(updatedNovel);
-            case VIEW_READY:
+            case EDITOR_VIEW_READY:
                 fillViewFromModel();
                 break;
             case FILE_OPEN:
@@ -129,6 +129,8 @@ public class EditorController implements ViewEventListener {
                 break;
             case SELECT_SCENE:
                 view.changeActiveScene((IGetScene) event.getTargetObject());
+                break;
+            case PLAYER_VIEW_READY:
                 break;
             default:
                 break;
