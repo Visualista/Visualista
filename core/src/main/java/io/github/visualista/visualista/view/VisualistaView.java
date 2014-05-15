@@ -28,6 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -136,6 +137,14 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
     private java.util.List<IGetActor> actorNameList;
     private Tab editingTab;
 
+    protected IGetActor selectedActor;
+
+    protected boolean actorFieldHasFocus;
+
+    private ImageButton saveButton;
+
+    private Border saveButtonBorder;
+
     public VisualistaView(Dimension dimension, IFilePicker filePicker) {
         this.configDimension = dimension;
         tabs = new BiDiMap<Tab, IGetScene>();
@@ -243,7 +252,18 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
                     }
                     editingTab = null;
                 }
-                return contextMenuClicked;
+                Gdx.app.log("", ""+actorFieldHasFocus+" "+selectedActor);
+                if (actorFieldHasFocus && selectedActor != null
+                        && hitObject != actorField) {
+
+                    actorFieldHasFocus = false;
+                    String renameActorTo = actorField.getText();
+
+                    eventManager.fireViewEvent(this, Type.CHANGE_ACTOR_NAME,
+                            actorNameList.get(actorList.getSelectedIndex()),
+                            renameActorTo);
+                }
+                return false;
             }
 
         });
@@ -271,23 +291,15 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         rightBorder.setPosition(
                 stage.getWidth() - rightVerticalGroup.getWidth(), 0);
 
-        // actorLabel = new Label("Hej", uiSkin);
-        // actorLabel.setSize(50, 50);
-        // actorLabel.setColor(Color.BLACK);
-        // rightVerticalGroup.addActor(actorLabel);
         actorField = new TextField("", uiSkin);
         rightVerticalGroup.addActor(actorField);
+        rightVerticalGroup.setVisible(false);
 
         actorField.addCaptureListener(new ClickListener() {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("list size", actorNameList.size() + "");
-                renameActor = actorField.getMessageText();
-
-                eventManager.fireViewEvent(this, Type.CHANGE_ACTOR_NAME,
-                        actorNameList.get(actorList.getSelectedIndex()),
-                        renameActor);
+                actorFieldHasFocus = true;
                 super.clicked(event, x, y);
             }
 
@@ -411,6 +423,22 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         openButtonBorder = new Border();
         openButtonBorder.setLineSize(0);
         openButtonBorder.setActor(openButton);
+        
+        final Drawable save = new TextureRegionDrawable(new TextureRegion(
+                new Texture(Gdx.files.internal("icons/save.png"))));
+        saveButton = new ImageButton(save);
+        saveButton.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                saveNovel();
+                super.clicked(event, x, y);
+            }
+
+        });
+        saveButtonBorder = new Border();
+        saveButtonBorder.setLineSize(0);
+        saveButtonBorder.setActor(saveButton);
 
         final Drawable cursor = new TextureRegionDrawable(new TextureRegion(
                 new Texture(Gdx.files.internal("icons/cursor.png"))));
@@ -441,10 +469,12 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         HorizontalGroup buttonContainer1 = new HorizontalGroup();
 
         openButtonBorder.setSize(50, 40);
+        saveButtonBorder.setSize(50,40);
         cursorButtonBorder.setSize(50, 40);
         handButtonBorder.setSize(50, 40);
         arrowButtonBorder.setSize(50, 40);
 
+        buttonContainer1.addActor(saveButtonBorder);
         buttonContainer1.addActor(openButtonBorder);
         buttonContainer1.addActor(cursorButtonBorder);
         buttonContainer1.addActor(handButtonBorder);
@@ -464,13 +494,15 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
                 leftBorder.getHeight() * 0.7f);
         scrollBorder.setActor(scroll);
         leftVerticalGroup.addActor(scrollBorder);
-        actorList.addCaptureListener(new EventListener() {
-            @Override
-            public boolean handle(Event event) {
-                if (event instanceof InputEvent) {
+        actorList.addListener(new ChangeListener() {
 
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                int index = actorList.getSelectedIndex();
+                if (index != -1) {
+                    eventManager.fireViewEvent(this, Type.SELECT_ACTOR,
+                            actorNameList.get(index));
                 }
-                return false;
             }
 
         });
@@ -520,8 +552,13 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         });
     }
 
+    protected void saveNovel() {
+        filePicker.saveFileDialog(this,
+                new FileNameExtensionFilter("Visualista Novel", "vis"));
+    }
+
     protected void openNovel() {
-        filePicker.openFileDialog(VisualistaView.this,
+        filePicker.openFileDialog(this,
                 new FileNameExtensionFilter("Visualista Novel", "vis"));
     }
 
@@ -667,11 +704,12 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
 
         String[] actorNames = new String[scene.getActorsInScene().size()];
         for (int i = 0; i < scene.getActorsInScene().size(); i++) {
+            Gdx.app.log("actorName", ""+scene.getActorsInScene().get(i).getName());
             actorNames[i] = scene.getActorsInScene().get(i).getName();
         }
-
-        actorList.setItems(actorNames);
         actorNameList = scene.getActorsInScene();
+        actorList.setItems(actorNames);
+
     }
 
     private static float horizontalDistanceBetween(
@@ -778,5 +816,25 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
             }
         }
 
+    }
+
+    @Override
+    public void selectActor(IGetActor targetObject) {
+        selectedActor = targetObject;
+        if (targetObject != null) {
+            rightVerticalGroup.setVisible(true);
+            actorField.setText(targetObject.getName());
+        } else {
+            rightVerticalGroup.setVisible(false);
+        }
+
+    }
+
+    @Override
+    public void updateActor(IGetActor updatedActor) {
+        // TODO Make better
+        if(selectedActor==updatedActor){
+            changeActiveScene(this.activeScene);
+        }
     }
 }
