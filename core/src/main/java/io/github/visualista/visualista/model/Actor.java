@@ -55,7 +55,7 @@ public class Actor extends ActorEventSource implements Nameable, IGetActor,
 
     @Override
     public String toString() {
-        return "Actor [Actions=" + actions + ", Name=" + name + "]";
+        return name;
     }
 
     @Override

@@ -75,7 +75,7 @@ public class EditorView implements ApplicationListener, IEditorView,
 
     private Matrix<Image> gridButtons;
 
-    private List actorList;
+    private List <IGetActor>actorList;
     private List actionList;
 
     private Border leftBorder;
@@ -262,7 +262,7 @@ public class EditorView implements ApplicationListener, IEditorView,
                     String renameActorTo = actorField.getText();
 
                     eventManager.fireViewEvent(this, Type.CHANGE_ACTOR_NAME,
-                            actorNameList.get(actorList.getSelectedIndex()),
+                            actorList.getSelected(),
                             renameActorTo);
                 }
                 return false;
@@ -517,7 +517,7 @@ public class EditorView implements ApplicationListener, IEditorView,
                 int index = actorList.getSelectedIndex();
                 if (index != -1) {
                     eventManager.fireViewEvent(this, Type.SELECT_ACTOR,
-                            actorNameList.get(index));
+                            actorList.getSelected());
                 }
             }
 
@@ -920,8 +920,8 @@ public class EditorView implements ApplicationListener, IEditorView,
                     + scene.getActorsInScene().get(i).getName());
             actorNames[i] = scene.getActorsInScene().get(i).getName();
         }
-        actorNameList = scene.getActorsInScene();
-        actorList.setItems(actorNames);
+        IGetActor[] temp = new IGetActor[scene.getActorsInScene().size()];
+        actorList.setItems(scene.getActorsInScene().toArray(temp));
 
     }
 
@@ -1005,7 +1005,7 @@ public class EditorView implements ApplicationListener, IEditorView,
     }
 
     private void clearActorList() {
-        actorList.setItems(new String[] {});
+        //actorList.setItems(new String[] {});
 
     }
 
