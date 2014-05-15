@@ -1,6 +1,9 @@
-package io.github.visualista.visualista.editorcontroller;
+package io.github.visualista.visualista.playercontroller;
 
 import io.github.visualista.visualista.core.Visualista;
+import io.github.visualista.visualista.editorcontroller.EditorViewEvent;
+import io.github.visualista.visualista.editorcontroller.IVisualistaView;
+import io.github.visualista.visualista.editorcontroller.ViewEventListener;
 import io.github.visualista.visualista.model.Actor;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetNovel;

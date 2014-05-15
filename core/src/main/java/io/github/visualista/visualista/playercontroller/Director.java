@@ -1,4 +1,4 @@
-package io.github.visualista.visualista.editorcontroller;
+package io.github.visualista.visualista.playercontroller;
 
 import io.github.visualista.visualista.model.*;
 import io.github.visualista.visualista.model.IGetActor;

@@ -1,4 +1,4 @@
-package io.github.visualista.visualista.editorcontroller;
+package io.github.visualista.visualista.playercontroller;
 
 import java.util.ArrayList;
 import java.util.List;

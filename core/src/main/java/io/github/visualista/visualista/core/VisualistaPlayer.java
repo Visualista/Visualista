@@ -1,7 +1,7 @@
 package io.github.visualista.visualista.core;
 
-import io.github.visualista.visualista.editorcontroller.Director;
 import io.github.visualista.visualista.model.Novel;
+import io.github.visualista.visualista.playercontroller.Director;
 
 public class VisualistaPlayer {
 
