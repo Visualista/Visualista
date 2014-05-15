@@ -1,7 +1,5 @@
 package io.github.visualista.visualista.io;
 
-import io.github.visualista.visualista.util.Nameable;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -12,6 +10,10 @@ public class FileLoader<E> {
 
     public FileLoader(ObjectFactory<E> objectFactory) {
         this.objectFactory = objectFactory;
+    }
+
+    public FileLoader() {
+        objectFactory = new ObjectFactory<E>(new XStreamManager().getMainXStream());
     }
 
     public E getObjectFromFile(File file) throws FileNotFoundException {
