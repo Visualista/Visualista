@@ -583,6 +583,10 @@ public class VisualistaView implements ApplicationListener, IVisualistaView,
         leftBorder = new Border();
         // End defining variables //
         
+        // Declare local variables //
+        
+        // End declare local variables //
+        
         // Reference actor to stage //
         stage.addActor(leftBorder);
         leftBorder.setActor(leftVerticalGroup);
