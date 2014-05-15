@@ -8,19 +8,24 @@ import java.util.List;
 
 import com.badlogic.gdx.graphics.g3d.utils.FirstPersonCameraController;
 
-public class Actor extends ActorEventSource implements Nameable, IGetActor, IPlayActor {
+public class Actor extends ActorEventSource implements Nameable, IGetActor,
+        IPlayActor {
 
     public static final Actor EMPTY_ACTOR = new Actor();
     private Image image;
     private final List<IAction> actions;
-    private String name ="";
+    private String name = "";
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(final String name) {
+        if (name == null) {
+            this.name = "";
+        } else {
+            this.name = name;
+        }
     }
 
     public Actor() {
@@ -55,10 +60,10 @@ public class Actor extends ActorEventSource implements Nameable, IGetActor, IPla
 
     @Override
     public void playActor() {
-        if (!this.equals(EMPTY_ACTOR)){
+        if (!this.equals(EMPTY_ACTOR)) {
             fireActorEvent();
         }
-        
+
     }
 
 }
