@@ -4,8 +4,8 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
-import io.github.visualista.visualista.controller.EditorController;
 import io.github.visualista.visualista.core.Visualista;
+import io.github.visualista.visualista.editorcontroller.EditorController;
 import io.github.visualista.visualista.util.Dimension;
 import io.github.visualista.visualista.view.EditorView;
 

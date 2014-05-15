@@ -1,6 +1,6 @@
-package io.github.visualista.visualista.controller;
+package io.github.visualista.visualista.editorcontroller;
 
-import io.github.visualista.visualista.controller.ViewEventListener;
+import io.github.visualista.visualista.editorcontroller.ViewEventListener;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetNovel;
 import io.github.visualista.visualista.model.IGetScene;

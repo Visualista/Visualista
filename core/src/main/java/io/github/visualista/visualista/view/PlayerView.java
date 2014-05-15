@@ -1,7 +1,5 @@
 package io.github.visualista.visualista.view;
 
-import io.github.visualista.visualista.controller.EditorViewEvent.Type;
-
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -34,11 +32,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.SnapshotArray;
 
-import io.github.visualista.visualista.controller.IVisualistaView;
-import io.github.visualista.visualista.controller.ViewEventListener;
-import io.github.visualista.visualista.controller.ViewEventManager;
 import io.github.visualista.visualista.core.FilePickerListener;
 import io.github.visualista.visualista.core.IFilePicker;
+import io.github.visualista.visualista.editorcontroller.IVisualistaView;
+import io.github.visualista.visualista.editorcontroller.ViewEventListener;
+import io.github.visualista.visualista.editorcontroller.ViewEventManager;
+import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
 import io.github.visualista.visualista.model.Grid;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetNovel;

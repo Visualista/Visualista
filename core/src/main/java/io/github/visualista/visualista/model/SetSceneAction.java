@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import io.github.visualista.visualista.controller.ActionEvent;
-import io.github.visualista.visualista.controller.ActionEventListener;
-import io.github.visualista.visualista.controller.ActionEventSource;
-import io.github.visualista.visualista.controller.ActionEventType;
+import io.github.visualista.visualista.playercontroller.ActionEvent;
+import io.github.visualista.visualista.playercontroller.ActionEventListener;
+import io.github.visualista.visualista.playercontroller.ActionEventSource;
+import io.github.visualista.visualista.playercontroller.ActionEventType;
 
 public class SetSceneAction extends ActionEventSource implements IPlayAction {
 
