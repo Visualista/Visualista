@@ -1,6 +1,7 @@
 package io.github.visualista.visualista.core;
 
 import io.github.visualista.visualista.io.FileLoader;
+import io.github.visualista.visualista.io.FileSaveException;
 import io.github.visualista.visualista.io.FileSaver;
 import io.github.visualista.visualista.model.Actor;
 import io.github.visualista.visualista.model.ActorFactory;
@@ -46,16 +47,21 @@ public final class Visualista {
     }
 
     public void saveNovel(final File file) {
-        FileSaver<Novel> saver = new FileSaver<Novel>();
-        saver.saveObjectToFile(file, currentNovel);
+        final FileSaver<Novel> saver = new FileSaver<Novel>();
+        try {
+            saver.saveObjectToFile(file, currentNovel);
+        } catch (final FileSaveException e) {
+            //TODO error message
+            e.printStackTrace();
+        }
     }
 
     public Novel openNovel(final File file) {
-        FileLoader<Novel> fileLoader = new FileLoader<Novel>();
+        final FileLoader<Novel> fileLoader = new FileLoader<Novel>();
         try {
             setCurrentNovel(fileLoader.getObjectFromFile(file));
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
+        } catch (final FileNotFoundException e) {
+            // TODO error message
             e.printStackTrace();
         }
         return currentNovel;
@@ -63,17 +69,18 @@ public final class Visualista {
     }
 
     public Novel createNewNovel() {
-        Novel newNovel = novelFactory.createNovel();
+        final Novel newNovel = novelFactory.createNovel();
         setCurrentNovel(newNovel);
         return newNovel;
     }
 
     /**
-     * Adds a new scene to the counts of scenes, and selects it if the parameter is true.
+     * Adds a new scene to the counts of scenes, and selects 
+     * it if the parameter is true.
      * @param setCurrent decides if the new scene is selected.
      */
-    public Scene addNewScene(boolean setCurrent) {
-        Scene newScene = sceneFactory.createScene();
+    public Scene addNewScene(final boolean setCurrent) {
+        final Scene newScene = sceneFactory.createScene();
         currentNovel.addScene(newScene);
         if (setCurrent){
             currentNovel.setCurrentScene(newScene);
@@ -81,51 +88,52 @@ public final class Visualista {
         return newScene;
     }
 
-    public void addNewActor(Scene scene) {   
+    public void addNewActor(final Scene scene) {
         scene.addActor(actorFactory.createActor());
-       
+
     }
-    
-    public void removeActor(Actor selectedActor){
+
+    public void removeActor(final Actor selectedActor){
         currentNovel.getCurrentScene().removeActor(selectedActor);
     }
 
-    public String changeCurrentSceneName(String name) {
+    public String changeCurrentSceneName(final String name) {
         currentNovel.getCurrentScene().setName(name);
         return currentNovel.getCurrentScene().getName();
     }
 
-    public Scene changeSceneName(Scene scene, String newName) {
+    public Scene changeSceneName(final Scene scene, final String newName) {
         scene.setName(newName);
         return scene;
     }
 
-    public Actor changeActorName(Actor actor, String newName) {
+    public Actor changeActorName(final Actor actor, final String newName) {
         actor.setName(newName);
         return actor;
     }
 
-    public Actor changeActorImage(Actor actor, Image image) {
+    public Actor changeActorImage(final Actor actor, final Image image) {
         actor.setImage(image);
         return actor;
     }
 
-    public Scene changeSceneImage(Scene scene, Image image) {
+    public Scene changeSceneImage(final Scene scene, final Image image) {
         scene.setImage(image);
         return scene;
     }
 
-    public Scene changeSceneText(Scene scene, String string) {
+    public Scene changeSceneText( final Scene scene, final String string) {
         scene.setStoryText(string);
         return scene;
     }
 
-    public Scene removeScene(Scene scene) {
+    public Scene removeScene(final Scene scene) {
         currentNovel.getScenes().remove(scene);
         return scene;
     }
-    
-    public Actor getActorFromPosition(Point position){
-        return currentNovel.getCurrentScene().getGrid().getAt(position).getActor();
+
+    public Actor getActorFromPosition(final Point position){
+        return currentNovel.getCurrentScene().getGrid().getAt(position)
+                .getActor();
     }
 }

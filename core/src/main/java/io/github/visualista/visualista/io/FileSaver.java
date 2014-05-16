@@ -1,12 +1,12 @@
 package io.github.visualista.visualista.io;
 
+import com.thoughtworks.xstream.XStream;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import com.thoughtworks.xstream.XStream;
-
-public class FileSaver<E> {
+public final class FileSaver<E> {
 
     private final XStream xstream;
 
@@ -14,15 +14,17 @@ public class FileSaver<E> {
         this.xstream = new XStreamManager().getMainXStream();
     }
 
-    public void saveObjectToFile(File outputFile, E object) {
+    public void saveObjectToFile(final File outputFile, final E object)
+            throws FileSaveException {
         try {
-            FileOutputStream fos = new FileOutputStream(outputFile);
+            final FileOutputStream fos = new FileOutputStream(outputFile);
             try {
                 xstream.toXML(object, fos);
             } finally {
                 fos.close();
             }
-        } catch (IOException e) {
+        } catch (final IOException e) {
+            throw new FileSaveException();
         }
     }
 
