@@ -75,6 +75,7 @@ public class EditorController implements ViewEventListener {
                         (String) (event.getExtraData()));
                 Gdx.app.log("CHANGE_SCENE_NAME", "");
                 view.updateScene(updatedScene);
+                view.changeActiveScene(updatedScene);
                 break;
             case CHANGE_ACTOR_IMAGE:
                 updatedActor = visualista.changeActorImage(
