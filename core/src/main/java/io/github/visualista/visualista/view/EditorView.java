@@ -36,9 +36,7 @@ import io.github.visualista.visualista.editorcontroller.IEditorView;
 import io.github.visualista.visualista.editorcontroller.ViewEventListener;
 import io.github.visualista.visualista.editorcontroller.ViewEventManager;
 import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
-
 import io.github.visualista.visualista.model.IAction;
-
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetNovel;
 import io.github.visualista.visualista.model.IGetScene;
@@ -94,11 +92,10 @@ public class EditorView implements ApplicationListener, IEditorView,
 
     private Dimension configDimension;
 
-    private ArrayList<Tab> overflowingTabs;
     private BiDiMap<Tab, IGetScene> tabs;
 
     private Actor overflowDropdownButton;
-    private List contextMenu;
+    private List<Tab> contextMenu;
     private ScrollPane contextMenuScroll;
 
     private HorizontalGroup tabExtraButtons;
@@ -156,7 +153,6 @@ public class EditorView implements ApplicationListener, IEditorView,
 
 
     private void createUpperEditorBorderContent() {
-        overflowingTabs = new ArrayList<Tab>();
         newSceneButton = new TextButton("+", uiSkin);
         overflowDropdownButton = new TextButton(">", uiSkin);
         tabExtraButtons = new HorizontalGroup();
@@ -720,29 +716,26 @@ public class EditorView implements ApplicationListener, IEditorView,
         if (children.size > 0) {
             firstChild = children.get(0);
         }
-        for (Actor overflowedTab : overflowingTabs) {
+        for (Actor overflowedTab : contextMenu.getItems()) {
             sceneButtonGroup.addActorBefore(firstChild, overflowedTab);
         }
-        overflowingTabs.clear();
+        contextMenu.setItems();
 
         for (com.badlogic.gdx.scenes.scene2d.Actor child : children) {
             totalWidth += child.getWidth();
         }
+        ArrayList<Tab> temp = new ArrayList<Tab>();
         while (totalWidth > sceneButtonGroup.getWidth()
                 && sceneButtonGroup.getChildren().size > 1) {
             Actor currentlyFirstChild = sceneButtonGroup.getChildren().get(0);
             totalWidth -= currentlyFirstChild.getWidth();
             sceneButtonGroup.removeActor(currentlyFirstChild);
             overflowDropdownButton.setVisible(true);
-            overflowingTabs.add((Tab) currentlyFirstChild);
+            temp.add((Tab) currentlyFirstChild);
         }
+        Tab[] temp2 = new Tab[temp.size()];
+        contextMenu.setItems(temp.toArray(temp2));
         contextMenu.setVisible(true);
-        ArrayList<String> objects = new ArrayList<String>(
-                overflowingTabs.size());
-        for (Tab removedTab : overflowingTabs) {
-            objects.add(removedTab.getText().toString());
-        }
-        contextMenu.setItems(objects.toArray());
     }
 
     @Override
@@ -768,12 +761,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         tab.addClickListener(this);
         tab.setHeight(upperBorder.getHeight());
         Tab oldTab = tabs.getKey(scene);
-        if (oldTab != null) {
-            tabs.removeByKey(oldTab);
-            overflowingTabs.remove(oldTab);
-            sceneButtonGroup.addActorBefore(oldTab, tab);
-            sceneButtonGroup.removeActor(oldTab);
-        } else {
+        if (oldTab == null) {
             sceneButtonGroup.addActorBefore(tabExtraButtons, tab);
         }
         tabs.put(tab, scene);
@@ -825,10 +813,10 @@ public class EditorView implements ApplicationListener, IEditorView,
         tab.setHeight(upperBorder.getHeight());
         Tab oldTab = tabs.getKey(scene);
         if (oldTab != null) {
-            tabs.removeByKey(oldTab);
-            overflowingTabs.remove(oldTab);
-            sceneButtonGroup.addActorAt(0, tab);
-            sceneButtonGroup.removeActor(oldTab);
+            if (contextMenu.getItems().contains(oldTab, true)){
+                sceneButtonGroup.addActorAt(0,tab);
+                contextMenu.getItems().removeValue(oldTab, true);
+            }
         } else {
             sceneButtonGroup.addActorAt(0, tab);
         }
@@ -873,7 +861,7 @@ public class EditorView implements ApplicationListener, IEditorView,
     }
 
     private void clearSceneTabs() {
-        overflowingTabs.clear();
+        contextMenu.getItems().clear();
         sceneButtonGroup.clearChildren();
         sceneButtonGroup.addActor(tabExtraButtons);
         tabs.clear();
