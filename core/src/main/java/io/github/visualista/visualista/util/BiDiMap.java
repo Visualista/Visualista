@@ -3,15 +3,13 @@ package io.github.visualista.visualista.util;
 import java.util.HashMap;
 import java.util.Set;
 
-public class BiDiMap<K, V>{
+public class BiDiMap<K, V> {
 
     private HashMap<K, V> keyToValue;
 
     private HashMap<V, K> valueToKey;
 
-    public BiDiMap()
-
-    {
+    public BiDiMap() {
 
         keyToValue = new HashMap<K, V>();
 
@@ -19,9 +17,7 @@ public class BiDiMap<K, V>{
 
     }
 
-    public void clear()
-
-    {
+    public void clear() {
 
         keyToValue.clear();
 
@@ -29,25 +25,19 @@ public class BiDiMap<K, V>{
 
     }
 
-    public int size()
-
-    {
+    public int size() {
 
         return keyToValue.size();
 
     }
 
-    public V put(K key, V val)
-
-    {
+    public V put(K key, V val) {
         valueToKey.put(val, key);
         return keyToValue.put(key, val);
 
     }
 
-    public V getValue(K key)
-
-    {
+    public V getValue(K key) {
         return keyToValue.get(key);
 
     }
@@ -77,8 +67,8 @@ public class BiDiMap<K, V>{
     public Set<K> getAllKeys() {
         return keyToValue.keySet();
     }
-    
-    public Set<V> getAllValues(){
+
+    public Set<V> getAllValues() {
         return valueToKey.keySet();
     }
 
