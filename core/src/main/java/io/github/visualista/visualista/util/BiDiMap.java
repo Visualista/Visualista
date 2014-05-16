@@ -1,6 +1,7 @@
 package io.github.visualista.visualista.util;
 
 import java.util.HashMap;
+import java.util.Set;
 
 public class BiDiMap<K, V>
 
@@ -73,6 +74,14 @@ public class BiDiMap<K, V>
             valueToKey.remove(value);
         }
         return key;
+    }
+
+    public Set<K> getAllKeys() {
+        return keyToValue.keySet();
+    }
+    
+    public Set<V> getAllValues(){
+        return valueToKey.keySet();
     }
 
 }
