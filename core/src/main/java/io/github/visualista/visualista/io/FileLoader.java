@@ -8,17 +8,19 @@ public class FileLoader<E> {
 
     private final ObjectFactory<E> objectFactory;
 
-    public FileLoader(ObjectFactory<E> objectFactory) {
+    public FileLoader(final ObjectFactory<E> objectFactory) {
         this.objectFactory = objectFactory;
     }
 
     public FileLoader() {
-        objectFactory = new ObjectFactory<E>(new XStreamManager().getMainXStream());
+        objectFactory = new ObjectFactory<E>(
+                new XStreamManager().getMainXStream());
     }
 
-    public E getObjectFromFile(File file) throws FileNotFoundException {
-        Scanner sc = new Scanner(file);
-        StringBuilder sb = new StringBuilder();
+    public final E getObjectFromFile(final File file)
+            throws FileNotFoundException {
+        final Scanner sc = new Scanner(file);
+        final StringBuilder sb = new StringBuilder();
         while (sc.hasNext()) {
             sb.append(sc.nextLine());
         }
