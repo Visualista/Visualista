@@ -10,8 +10,8 @@ public class FileSaver<E> {
 
     private final XStream xstream;
 
-    public FileSaver(XStream xstream) {
-        this.xstream = xstream;
+    public FileSaver() {
+        this.xstream = new XStreamManager().getMainXStream();
     }
 
     public void saveObjectToFile(File outputFile, E object) {

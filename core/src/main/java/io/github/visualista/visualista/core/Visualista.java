@@ -24,7 +24,6 @@ import io.github.visualista.visualista.util.Point;
 public class Visualista {
 
     private Novel currentNovel;
-    private final XStreamManager xstreamManager;
     private final TileFactory tileFactory;
     private final GridFactory gridFactory;
     private final SceneFactory sceneFactory;
@@ -32,7 +31,6 @@ public class Visualista {
     private final ActorFactory actorFactory;
 
     public Visualista() {
-        xstreamManager = new XStreamManager();
         tileFactory = new TileFactory();
         gridFactory = new GridFactory();
         sceneFactory = new SceneFactory(gridFactory);
@@ -54,7 +52,7 @@ public class Visualista {
     }
 
     public void saveNovel(File file) {
-        FileSaver<Novel> saver = new FileSaver<Novel>(xstreamManager.getMainXStream());
+        FileSaver<Novel> saver = new FileSaver<Novel>();
         saver.saveObjectToFile(file, currentNovel);
     }
 
