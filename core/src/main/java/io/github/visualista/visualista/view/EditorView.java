@@ -151,7 +151,6 @@ public class EditorView implements ApplicationListener, IEditorView,
         eventManager.fireViewEvent(this, Type.VIEW_READY);
     }
 
-
     private void createUpperEditorBorderContent() {
         newSceneButton = new TextButton("+", uiSkin);
         overflowDropdownButton = new TextButton(">", uiSkin);
@@ -224,7 +223,6 @@ public class EditorView implements ApplicationListener, IEditorView,
                                 tabs.getValue(editingTab), newName);
                     } else {
                         editingTab.stopEditing();
-
                     }
                     editingTab = null;
                 }
@@ -475,7 +473,7 @@ public class EditorView implements ApplicationListener, IEditorView,
     }
 
     private void createActorList() {
-        actorList = new List(uiSkin);
+        actorList = new List<IGetActor>(uiSkin);
 
         actorList
                 .setWidth(leftBorder.getWidth() - leftBorder.getLineSize() * 4);
@@ -488,10 +486,8 @@ public class EditorView implements ApplicationListener, IEditorView,
                 if (index != -1) {
                     eventManager.fireViewEvent(this, Type.SELECT_ACTOR,
                             actorList.getSelected());
-                    
                 }
             }
-
         });
     }
 
@@ -600,8 +596,6 @@ public class EditorView implements ApplicationListener, IEditorView,
         filePicker.saveFileDialog(this, new FileNameExtensionFilter(
                 "Visualista Novel", "vis"));
     }
-
-
 
     private void fillGridFromScene(IGetScene scene) {
         gridButtons = new Matrix<Image>(scene.getGrid().getSize());
@@ -763,6 +757,9 @@ public class EditorView implements ApplicationListener, IEditorView,
         Tab oldTab = tabs.getKey(scene);
         if (oldTab == null) {
             sceneButtonGroup.addActorBefore(tabExtraButtons, tab);
+        } else {
+            sceneButtonGroup.addActorBefore(oldTab, tab);
+            sceneButtonGroup.removeActor(oldTab);
         }
         tabs.put(tab, scene);
         hideOverFlowingScenes();
@@ -813,14 +810,17 @@ public class EditorView implements ApplicationListener, IEditorView,
         tab.setHeight(upperBorder.getHeight());
         Tab oldTab = tabs.getKey(scene);
         if (oldTab != null) {
-            if (contextMenu.getItems().contains(oldTab, true)){
-                sceneButtonGroup.addActorAt(0,tab);
+            if (contextMenu.getItems().contains(oldTab, true)) {
+                sceneButtonGroup.addActorAt(0, tab);
                 contextMenu.getItems().removeValue(oldTab, true);
+            } else {
+                sceneButtonGroup.addActorBefore(oldTab, tab);
+                sceneButtonGroup.removeActor(oldTab);
             }
         } else {
             sceneButtonGroup.addActorAt(0, tab);
         }
-        for(Tab aTab : tabs.getAllKeys()){
+        for (Tab aTab : tabs.getAllKeys()) {
             aTab.useSelectStyle(false);
         }
         tab.useSelectStyle(true);
@@ -892,7 +892,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         if (targetObject != null) {
             rightVerticalGroup.setVisible(true);
             actorField.setText(targetObject.getName());
-            
+
         } else {
             rightVerticalGroup.setVisible(false);
         }
