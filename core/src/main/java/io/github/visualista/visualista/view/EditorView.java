@@ -133,14 +133,6 @@ public class EditorView implements ApplicationListener, IEditorView,
 
     @Override
     public final void create() {
-        // TODO: A non-state way of deciding if we are playing or editing the
-        // Visual Novel
-        createEditorView();
-    }
-
-    // Start Create Editor //
-
-    private void createEditorView() {
         stage = new Stage();
         stage.getViewport().setWorldHeight(configDimension.getHeight());
         stage.getViewport().setWorldWidth(configDimension.getWidth());
@@ -161,8 +153,8 @@ public class EditorView implements ApplicationListener, IEditorView,
         Gdx.graphics.setContinuousRendering(false);
         isReady = true;
         eventManager.fireViewEvent(this, Type.VIEW_READY);
-
     }
+
 
     private void createUpperEditorBorderContent() {
         overflowingTabs = new ArrayList<Tab>();
@@ -615,104 +607,7 @@ public class EditorView implements ApplicationListener, IEditorView,
                 "Visualista Novel", "vis"));
     }
 
-    // End Create Editor //
 
-    // Start Create Player //
-
-    private void createPlayerView() {
-        stage = new Stage();
-        stage.getViewport().setWorldHeight(configDimension.getHeight());
-        stage.getViewport().setWorldWidth(configDimension.getWidth());
-        stage.clear();
-
-        uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
-
-        createLeftPlayerBorderContent();
-        createRightPlayerBorderContent();
-        createCenterPlayerBorderContent();
-
-        Gdx.input.setInputProcessor(stage);
-        Gdx.graphics.setContinuousRendering(false);
-        isReady = true;
-        eventManager.fireViewEvent(this, Type.VIEW_READY);
-    }
-
-    private void createCenterPlayerBorderContent() {
-
-        // Defining the necessary variables //
-        centerVerticalGroup = new VerticalGroup();
-        centerBorder = new Border();
-        sceneBackgroundImage = new Image();
-        centerVerticalGroupBorder = new Border();
-        gridButtons = new Matrix<Image>(new Dimension(5, 5));
-        // End defining variables //
-
-        // Declaring local variables //
-        Stack stack = new Stack();
-        // End declaring local variables //
-
-        stage.addActor(centerBorder);
-        centerVerticalGroupBorder.setActor(centerVerticalGroup);
-
-        // Adding actors in the right order to the stack //
-        stack.add(sceneBackgroundImage);
-        stack.add(centerVerticalGroupBorder);
-        // End adding actors to stack //
-
-        centerBorder.setActor(stack);
-
-    }
-
-    private void createRightPlayerBorderContent() {
-        // Defining the necessary variables //
-        rightVerticalGroup = new VerticalGroup();
-        rightBorder = new Border();
-        // End defining variables //
-
-        // Declaring local variables //
-
-        // End declaring local variables //
-
-        // Reference actor to stage //
-        stage.addActor(rightBorder);
-        rightBorder.setActor(rightVerticalGroup);
-        // End referencing //
-
-        // Define appearance of right border //
-        rightBorder.setSize(stage.getWidth() * SIDE_BORDERS_WIDTH_PLAYER_RATIO,
-                stage.getHeight());
-        rightBorder.setPosition(
-                stage.getWidth() - rightVerticalGroup.getWidth(), 0);
-        rightBorder.setColor(Color.BLACK);
-        // End defining appearance //
-
-    }
-
-    private void createLeftPlayerBorderContent() {
-        // Defining the necessary variables //
-        leftVerticalGroup = new VerticalGroup();
-        leftBorder = new Border();
-        // End defining variables //
-
-        // Declare local variables //
-
-        // End declare local variables //
-
-        // Reference actor to stage //
-        stage.addActor(leftBorder);
-        leftBorder.setActor(leftVerticalGroup);
-        // End referencing //
-
-        // Define appearance of left border //¨
-        leftBorder.setSize(stage.getWidth() * SIDE_BORDERS_WIDTH_PLAYER_RATIO,
-                stage.getHeight());
-        leftBorder.setPosition(0, 0);
-        leftBorder.setColor(Color.BLACK);
-        // End defining appearance //
-
-    }
-
-    // End Create Player //
 
     private void fillGridFromScene(IGetScene scene) {
         gridButtons = new Matrix<Image>(scene.getGrid().getSize());
