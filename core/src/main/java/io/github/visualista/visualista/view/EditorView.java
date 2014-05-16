@@ -813,6 +813,9 @@ public class EditorView implements ApplicationListener, IEditorView,
 
     @Override
     public void changeActiveScene(IGetScene scene) {
+        if(activeScene!=null){
+            tabs.getKey(scene).useSelectStyle(false);
+        }
         updateScene(scene);
         String name = scene.getName();
         if (name == null) {
@@ -833,6 +836,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         } else {
             sceneButtonGroup.addActorAt(0, tab);
         }
+        tab.useSelectStyle(true);
         tabs.put(tab, scene);
         hideOverFlowingScenes();
         fillGridFromScene(scene);
