@@ -233,7 +233,6 @@ public class EditorView implements ApplicationListener, IEditorView,
                     }
                     editingTab = null;
                 }
-                Gdx.app.log("", "" + actorFieldHasFocus + " " + selectedActor);
                 if (actorFieldHasFocus && selectedActor != null
                         && hitObject != actorField) {
 
@@ -783,8 +782,6 @@ public class EditorView implements ApplicationListener, IEditorView,
 
         String[] actorNames = new String[scene.getActorsInScene().size()];
         for (int i = 0; i < scene.getActorsInScene().size(); i++) {
-            Gdx.app.log("actorName", ""
-                    + scene.getActorsInScene().get(i).getName());
             actorNames[i] = scene.getActorsInScene().get(i).getName();
         }
         IGetActor[] temp = new IGetActor[scene.getActorsInScene().size()];
