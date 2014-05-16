@@ -820,6 +820,10 @@ public class EditorView implements ApplicationListener, IEditorView,
         } else {
             sceneButtonGroup.addActorAt(0, tab);
         }
+        for(Tab aTab : tabs.getAllKeys()){
+            aTab.useSelectStyle(false);
+        }
+        tab.useSelectStyle(true);
         tabs.put(tab, scene);
         hideOverFlowingScenes();
         fillGridFromScene(scene);

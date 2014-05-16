@@ -89,6 +89,7 @@ public class Tab extends Stack {
     public void setHeight(float height) {
         if (label != null && closeImageBorder != null) {
             label.setFontScale((height * FONT_SCALE_RATIO));
+            
             closeImageBorder.setSize(height * CLOSE_IMAGE_RATIO, height
                     * CLOSE_IMAGE_RATIO);
         }
@@ -110,6 +111,15 @@ public class Tab extends Stack {
     public void makeNameEditable() {
         hGroup.addActorBefore(label, labelTextField);
         hGroup.removeActor(label);
+    }
+    
+    public void useSelectStyle(boolean isTabSelected){
+        if(isTabSelected){
+            background.setColor(Color.LIGHT_GRAY);
+        }else{
+            background.setColor(Color.GRAY);
+        }
+        
     }
 
     public boolean nameWasChanged() {

@@ -27,6 +27,18 @@ public class Rectangle extends Actor {
 
     }
 
+    @Override
+    public void setColor(Color color) {
+        borderTexture = createTexture(color);
+        super.setColor(color);
+    }
+
+    @Override
+    public void setColor(float r, float g, float b, float a) {
+        this.setColor(new Color(r,g,b,a));
+        super.setColor(r, g, b, a);
+    }
+
     private static Texture createTexture(Color color) {
         Pixmap pixmap = new Pixmap(1, 1, Format.RGBA4444);
         pixmap.setColor(color);
