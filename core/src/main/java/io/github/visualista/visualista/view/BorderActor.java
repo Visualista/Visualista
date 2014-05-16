@@ -14,6 +14,10 @@ public class BorderActor extends Actor {
     private int lineSize = 3;
 
     private boolean log = false;
+    
+    public BorderActor(Color borderColor) {
+        borderTexture = createTexture(borderColor);
+    }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
@@ -50,9 +54,7 @@ public class BorderActor extends Actor {
 
     }
 
-    public BorderActor(Color borderColor) {
-        borderTexture = createTexture(borderColor);
-    }
+    
 
     public int getLineSize() {
         return lineSize;

@@ -9,17 +9,17 @@ public class Novel implements Nameable, IGetNovel {
     private String name;
     private Scene currentScene;
 
+    public Novel(List<Scene> scenes) {
+        setName("NewNovel");
+        this.scenes = scenes;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Novel(List<Scene> scenes) {
-        setName("NewNovel");
-        this.scenes = scenes;
     }
 
     public int getSceneCount() {
@@ -35,10 +35,10 @@ public class Novel implements Nameable, IGetNovel {
         return scenes;
     }
 
-    public void setCurrentScene(Scene newCurrentScene){
+    public void setCurrentScene(Scene newCurrentScene) {
         currentScene = newCurrentScene;
     }
-    
+
     public Scene getCurrentScene() {
         return currentScene;
     }

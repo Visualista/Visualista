@@ -12,6 +12,11 @@ public class Scene implements Nameable, IGetScene {
     private String storyText;
 
     private Image image;
+    
+    public Scene(Grid grid, List<Actor> actorsInScene) {
+        this.grid = grid;
+        this.actorsInScene = new ArrayList<Actor>(actorsInScene);
+    }
 
     public String getStoryText() {
         return storyText;
@@ -29,10 +34,6 @@ public class Scene implements Nameable, IGetScene {
         this.name = name;
     }
 
-    public Scene(Grid grid, List<Actor> actorsInScene) {
-        this.grid = grid;
-        this.actorsInScene = new ArrayList<Actor>(actorsInScene);
-    }
 
     public Grid getGrid() {
         return grid;
