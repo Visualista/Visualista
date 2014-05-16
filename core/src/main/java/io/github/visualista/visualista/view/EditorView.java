@@ -37,7 +37,6 @@ import io.github.visualista.visualista.editorcontroller.ViewEventListener;
 import io.github.visualista.visualista.editorcontroller.ViewEventManager;
 import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
 
-import io.github.visualista.visualista.model.Grid;
 import io.github.visualista.visualista.model.IAction;
 
 import io.github.visualista.visualista.model.IGetActor;
