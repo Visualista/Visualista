@@ -1,18 +1,10 @@
 package io.github.visualista.visualista.core;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-
-import io.github.visualista.visualista.model.*;
 import io.github.visualista.visualista.io.FileLoader;
 import io.github.visualista.visualista.io.FileSaver;
-import io.github.visualista.visualista.io.ObjectFactory;
-import io.github.visualista.visualista.io.XStreamManager;
 import io.github.visualista.visualista.model.Actor;
 import io.github.visualista.visualista.model.ActorFactory;
 import io.github.visualista.visualista.model.GridFactory;
-import io.github.visualista.visualista.model.IGetNovel;
-import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.model.Image;
 import io.github.visualista.visualista.model.Novel;
 import io.github.visualista.visualista.model.NovelFactory;
@@ -21,17 +13,19 @@ import io.github.visualista.visualista.model.SceneFactory;
 import io.github.visualista.visualista.model.TileFactory;
 import io.github.visualista.visualista.util.Point;
 
-public class Visualista {
+import java.io.File;
+import java.io.FileNotFoundException;
+
+public final class Visualista {
 
     private Novel currentNovel;
-    private final TileFactory tileFactory;
     private final GridFactory gridFactory;
     private final SceneFactory sceneFactory;
     private final NovelFactory novelFactory;
     private final ActorFactory actorFactory;
 
     public Visualista() {
-        tileFactory = new TileFactory();
+        new TileFactory();
         gridFactory = new GridFactory();
         sceneFactory = new SceneFactory(gridFactory);
         novelFactory = new NovelFactory(sceneFactory);
@@ -43,7 +37,7 @@ public class Visualista {
         return currentNovel;
     }
 
-    public void setCurrentNovel(Novel currentNovel) {
+    public void setCurrentNovel(final Novel currentNovel) {
         this.currentNovel = currentNovel;
     }
 
@@ -51,12 +45,12 @@ public class Visualista {
 
     }
 
-    public void saveNovel(File file) {
+    public void saveNovel(final File file) {
         FileSaver<Novel> saver = new FileSaver<Novel>();
         saver.saveObjectToFile(file, currentNovel);
     }
 
-    public Novel openNovel(File file) {
+    public Novel openNovel(final File file) {
         FileLoader<Novel> fileLoader = new FileLoader<Novel>();
         try {
             setCurrentNovel(fileLoader.getObjectFromFile(file));
