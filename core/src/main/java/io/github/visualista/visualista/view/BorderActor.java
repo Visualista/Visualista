@@ -1,19 +1,15 @@
 package io.github.visualista.visualista.view;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class BorderActor extends Actor {
     private Texture borderTexture;
     private int lineSize = 3;
-
-    private boolean log = false;
     
     public BorderActor(Color borderColor) {
         borderTexture = createTexture(borderColor);
@@ -26,15 +22,6 @@ public class BorderActor extends Actor {
         float y = getY();
         float width = getWidth();
         float height = getHeight();
-        Actor current = this;
-        if (log) {
-            float worldY = 0;
-            while (current != null) {
-                worldY += current.getY();
-                current = current.getParent();
-            }
-            Gdx.app.log("worldY ", worldY + "");
-        }
         if (width > getLineSize() * 2 && height > getLineSize() * 2) {
             batch.draw(borderTexture, x, y, width, getLineSize());
             batch.draw(borderTexture, x, y + height - getLineSize(), width,
@@ -49,12 +36,6 @@ public class BorderActor extends Actor {
         }
     }
 
-    public void makeLog() {
-        log = true;
-
-    }
-
-    
 
     public int getLineSize() {
         return lineSize;
