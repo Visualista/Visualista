@@ -1,9 +1,9 @@
 package io.github.visualista.visualista.model;
 
-public class Tile {
+public final class Tile {
     private Actor tileActor;
 
-    public Tile(Actor tileActor) {
+    public Tile(final Actor tileActor) {
         this.tileActor = tileActor;
     }
 
@@ -11,7 +11,7 @@ public class Tile {
         return tileActor;
     }
 
-    public void setActor(Actor tileActor) {
-        this.tileActor = tileActor;
+    public void setActor(final Actor actor) {
+        this.tileActor = actor;
     }
 }

@@ -2,9 +2,7 @@ package io.github.visualista.visualista.util;
 
 import java.util.HashMap;
 
-public class BiDiMap<K, V>
-
-{
+public class BiDiMap<K, V>{
 
     private HashMap<K, V> keyToValue;
 
