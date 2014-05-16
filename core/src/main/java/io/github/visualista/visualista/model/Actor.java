@@ -15,6 +15,11 @@ public class Actor extends ActorEventSource implements Nameable, IGetActor,
     private Image image;
     private final List<IAction> actions;
     private String name = "";
+    
+    public Actor() {
+        actions = new ArrayList<IAction>();
+        image = new Image(null);
+    }
 
     public String getName() {
         return name;
@@ -26,11 +31,6 @@ public class Actor extends ActorEventSource implements Nameable, IGetActor,
         } else {
             this.name = name;
         }
-    }
-
-    public Actor() {
-        actions = new ArrayList<IAction>();
-        image = new Image(null);
     }
 
     public List<IAction> getActions() {

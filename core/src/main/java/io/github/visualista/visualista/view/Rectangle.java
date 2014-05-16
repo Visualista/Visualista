@@ -12,6 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 public class Rectangle extends Actor {
     private Texture borderTexture;
 
+    public Rectangle(Color borderColor) {
+        borderTexture = createTexture(borderColor);
+    }
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
@@ -21,10 +25,6 @@ public class Rectangle extends Actor {
         float height = getHeight();
         batch.draw(borderTexture, x, y, width, height);
 
-    }
-
-    public Rectangle(Color borderColor) {
-        borderTexture = createTexture(borderColor);
     }
 
     private static Texture createTexture(Color color) {
