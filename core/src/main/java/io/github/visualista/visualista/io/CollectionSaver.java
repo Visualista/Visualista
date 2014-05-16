@@ -1,17 +1,19 @@
 package io.github.visualista.visualista.io;
 
-import java.io.File;
-import java.util.Collection;
-
 import com.thoughtworks.xstream.XStream;
 
 import io.github.visualista.visualista.util.Nameable;
 
-public class CollectionSaver<E extends Nameable> {
+import java.io.File;
+import java.util.Collection;
+
+
+
+public final class CollectionSaver<E extends Nameable> {
 
     private File folder;
 
-    public CollectionSaver(XStream xstream, File folder) {
+    public CollectionSaver(final XStream xstream,final File folder) {
         if (!folder.exists()) {
             folder.mkdirs();
         } else if (!folder.isDirectory()) {
@@ -20,10 +22,10 @@ public class CollectionSaver<E extends Nameable> {
         this.folder = folder;
     }
 
-    public void saveCollection(Collection<E> objects) {
-        FileSaver<E> fileSaver = new FileSaver<E>();
+    public void saveCollection(final Collection<E> objects) {
+        final FileSaver<E> fileSaver = new FileSaver<E>();
         for (E object : objects) {
-            File outputFile = new File(folder.getAbsolutePath(),
+            final File outputFile = new File(folder.getAbsolutePath(),
                     object.getName() + ".vis");
             fileSaver.saveObjectToFile(outputFile, object);
 
