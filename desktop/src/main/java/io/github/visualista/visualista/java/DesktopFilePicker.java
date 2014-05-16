@@ -22,13 +22,7 @@ public class DesktopFilePicker implements IFilePicker {
         
         chooser.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (e.getActionCommand().equals(JFileChooser.APPROVE_SELECTION)) {
-                    fileIsChoosen = true;
-
-                } else if (e.getActionCommand().equals(
-                        JFileChooser.CANCEL_SELECTION)) {
-                }
-
+                fileIsChoosen = true;
             }
         });
         chooser.setFileFilter(fileFilter);
