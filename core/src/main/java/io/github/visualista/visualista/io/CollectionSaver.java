@@ -27,7 +27,11 @@ public final class CollectionSaver<E extends Nameable> {
         for (E object : objects) {
             final File outputFile = new File(folder.getAbsolutePath(),
                     object.getName() + ".vis");
-            fileSaver.saveObjectToFile(outputFile, object);
+            try {
+                fileSaver.saveObjectToFile(outputFile, object);
+            } catch (FileSaveException e) {
+                e.printStackTrace();
+            }
 
         }
     }
