@@ -724,6 +724,7 @@ public class EditorView implements ApplicationListener, IEditorView,
                 gridButtons.setAt(new Point(i, j), new Image(tile));
             }
         }
+        centerVerticalGroup.clearChildren();
         fillGrid(centerVerticalGroup, gridButtons);
     }
 
