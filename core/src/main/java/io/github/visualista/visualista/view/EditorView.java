@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -147,6 +148,7 @@ public class EditorView implements ApplicationListener, IEditorView,
 
         Gdx.input.setInputProcessor(stage);
         Gdx.graphics.setContinuousRendering(false);
+        
         isReady = true;
         eventManager.fireViewEvent(this, Type.VIEW_READY);
     }
@@ -643,8 +645,9 @@ public class EditorView implements ApplicationListener, IEditorView,
                 / data.getSize().getHeight();
         float prefferedButtonWidth = group.getWidth()
                 / data.getSize().getWidth();
-        float buttonLength = Math.min(prefferedButtonWidth,
-                prefferedButtonHeight);
+        float buttonLength = (float) Math.floor(Math.min(prefferedButtonWidth,
+                prefferedButtonHeight));
+        
         for (int i = 0; i < data.getSize().getHeight(); i++) {
             HorizontalGroup row = new HorizontalGroup();
             group.addActor(row);
