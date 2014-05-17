@@ -37,10 +37,12 @@ import io.github.visualista.visualista.editorcontroller.IEditorView;
 import io.github.visualista.visualista.editorcontroller.ViewEventListener;
 import io.github.visualista.visualista.editorcontroller.ViewEventManager;
 import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
+import io.github.visualista.visualista.model.Grid;
 import io.github.visualista.visualista.model.IAction;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetNovel;
 import io.github.visualista.visualista.model.IGetScene;
+import io.github.visualista.visualista.model.Tile;
 import io.github.visualista.visualista.util.BiDiMap;
 import io.github.visualista.visualista.util.Dimension;
 import io.github.visualista.visualista.util.IMatrixGet;
@@ -55,7 +57,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class EditorView implements ApplicationListener, IEditorView,
         FilePickerListener, TabClickListener {
     private static final float SIDE_BORDERS_WIDTH_EDITOR_RATIO = 2.0f / 9;
-    private static final float SIDE_BORDERS_WIDTH_PLAYER_RATIO = 1.5f / 9;
 
     private Stage stage;
 
@@ -101,7 +102,7 @@ public class EditorView implements ApplicationListener, IEditorView,
 
     private HorizontalGroup tabExtraButtons;
 
-    private boolean isReady = false;
+    private boolean isReady;
 
     private IFilePicker filePicker;
 
@@ -115,12 +116,11 @@ public class EditorView implements ApplicationListener, IEditorView,
 
     private TextField actorField;
 
-    private java.util.List<IGetActor> actorNameList;
     private Tab editingTab;
 
-    protected IGetActor selectedActor;
+    private IGetActor selectedActor;
 
-    protected boolean actorFieldHasFocus;
+    private boolean actorFieldHasFocus;
 
     public EditorView(Dimension dimension, IFilePicker filePicker) {
         this.configDimension = dimension;
@@ -148,7 +148,7 @@ public class EditorView implements ApplicationListener, IEditorView,
 
         Gdx.input.setInputProcessor(stage);
         Gdx.graphics.setContinuousRendering(false);
-        
+
         isReady = true;
         eventManager.fireViewEvent(this, Type.VIEW_READY);
     }
@@ -601,12 +601,27 @@ public class EditorView implements ApplicationListener, IEditorView,
 
     private void fillGridFromScene(IGetScene scene) {
         gridButtons = new Matrix<Image>(scene.getGrid().getSize());
-        final Drawable tile = new TextureRegionDrawable(new TextureRegion(
-                new Texture(Gdx.files.internal("icons/transparent.png"))));
+        Grid grid = scene.getGrid();
+        int gridWidth = grid.getSize().getWidth();
+        int gridHeight = grid.getSize().getHeight();
+        
 
-        for (int i = 0; i < scene.getGrid().getSize().getHeight(); ++i) {
-            for (int j = 0; j < scene.getGrid().getSize().getWidth(); ++j) {
-                gridButtons.setAt(new Point(i, j), new Image(tile));
+        for (int y = 0; y < gridHeight; ++y) {
+            for (int x = 0; x < gridWidth; ++x) {
+                final Tile tileAtCurrentPosition = grid.getAt(new Point(x,y));
+                Image imageForCurrentTile = ModelToGdxHelper.createImageFor(tileAtCurrentPosition);
+                imageForCurrentTile.addCaptureListener(new ClickListener(){
+
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        if(selectedActor!=null){
+                            eventManager.fireViewEvent(this, Type.TILE_SET_ACTOR, tileAtCurrentPosition, selectedActor);
+                        }
+                        super.clicked(event, x, y);
+                    }
+                    
+                });
+                gridButtons.setAt(new Point(x, y), imageForCurrentTile);
             }
         }
         centerVerticalGroup.clearChildren();
@@ -772,6 +787,7 @@ public class EditorView implements ApplicationListener, IEditorView,
             actorNames[i] = scene.getActorsInScene().get(i).getName();
         }
         IGetActor[] temp = new IGetActor[scene.getActorsInScene().size()];
+        selectedActor = null;
         actorList.setItems(scene.getActorsInScene().toArray(temp));
 
     }
@@ -831,6 +847,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         hideOverFlowingScenes();
         fillGridFromScene(scene);
         activeScene = scene;
+        
 
     }
 
