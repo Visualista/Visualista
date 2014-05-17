@@ -66,4 +66,8 @@ public class Actor extends ActorEventSource implements Nameable, IGetActor,
 
     }
 
+    public boolean hasNoImage() {
+        return image==null || image.getFile()==null;
+    }
+
 }
