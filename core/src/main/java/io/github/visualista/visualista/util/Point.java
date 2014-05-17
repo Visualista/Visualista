@@ -4,9 +4,9 @@ public class Point {
     private final int x;
     private final int y;
 
-    public Point(int width, int height) {
-        this.x = width;
-        this.y = height;
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
     public int getX() {
