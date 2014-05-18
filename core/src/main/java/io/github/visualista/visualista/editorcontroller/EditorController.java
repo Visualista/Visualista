@@ -57,8 +57,8 @@ public class EditorController implements ViewEventListener {
                 view.addScene(newScene);
                 break;
             case NEW_ACTOR:
-                visualista.addNewActor((Scene)event.getTargetObject());
-                view.updateScene((IGetScene)event.getTargetObject());
+                updatedActor = visualista.addNewActor((Scene)event.getTargetObject());
+                view.addActor(updatedActor);
                 break;
             case REMOVE_ACTOR:
                 visualista.removeActor((Actor) (event.getTargetObject()));
