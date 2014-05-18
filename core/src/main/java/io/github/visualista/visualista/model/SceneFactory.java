@@ -11,7 +11,8 @@ public class SceneFactory {
 
     public Scene createScene() {
         Grid grid = gridFactory.createGrid();
-
-        return new Scene(grid, new ArrayList<Actor>());
+        Scene newScene = new Scene(grid, new ArrayList<Actor>());
+        newScene.setName("Unnamed");
+        return newScene;
     }
 }
