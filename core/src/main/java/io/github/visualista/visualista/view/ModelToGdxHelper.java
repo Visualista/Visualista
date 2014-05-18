@@ -3,6 +3,8 @@ package io.github.visualista.visualista.view;
 import java.io.File;
 
 import io.github.visualista.visualista.model.Actor;
+import io.github.visualista.visualista.model.IGetActor;
+import io.github.visualista.visualista.model.IGetTile;
 import io.github.visualista.visualista.model.Tile;
 
 import com.badlogic.gdx.Gdx;
@@ -15,8 +17,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 public enum ModelToGdxHelper {
     ;
 
-    public static Image createImageFor(Tile tile) {
-        Actor tileActor = tile.getActor();
+    public static Image createImageFor(IGetTile tileAtCurrentPosition) {
+        IGetActor tileActor = tileAtCurrentPosition.getActor();
         if (tileActor.hasNoImage()) {
             return new Image((TextureRegionDrawable)null);
         }

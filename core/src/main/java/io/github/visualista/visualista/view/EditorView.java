@@ -40,8 +40,10 @@ import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
 import io.github.visualista.visualista.model.Grid;
 import io.github.visualista.visualista.model.IAction;
 import io.github.visualista.visualista.model.IGetActor;
+import io.github.visualista.visualista.model.IGetGrid;
 import io.github.visualista.visualista.model.IGetNovel;
 import io.github.visualista.visualista.model.IGetScene;
+import io.github.visualista.visualista.model.IGetTile;
 import io.github.visualista.visualista.model.Tile;
 import io.github.visualista.visualista.util.BiDiMap;
 import io.github.visualista.visualista.util.Dimension;
@@ -600,15 +602,15 @@ public class EditorView implements ApplicationListener, IEditorView,
     }
 
     private void fillGridFromScene(IGetScene scene) {
-        gridButtons = new Matrix<Image>(scene.getGrid().getSize());
-        Grid grid = scene.getGrid();
+        gridButtons = new Matrix<Image>(scene.getIGetGrid().getSize());
+        IGetGrid grid = scene.getIGetGrid();
         int gridWidth = grid.getSize().getWidth();
         int gridHeight = grid.getSize().getHeight();
         
 
         for (int y = 0; y < gridHeight; ++y) {
             for (int x = 0; x < gridWidth; ++x) {
-                final Tile tileAtCurrentPosition = grid.getAt(new Point(x,y));
+                final IGetTile tileAtCurrentPosition = grid.getAt(new Point(x,y));
                 Image imageForCurrentTile = ModelToGdxHelper.createImageFor(tileAtCurrentPosition);
                 imageForCurrentTile.addCaptureListener(new ClickListener(){
 
@@ -936,5 +938,11 @@ public class EditorView implements ApplicationListener, IEditorView,
                     new Texture(Gdx.files.internal("icons/tile.png"))));
             actorImage.setDrawable(tile);
         }
+    }
+
+    @Override
+    public void updateTile(IGetTile updatedTile) {
+        // TODO Auto-generated method stub
+        
     }
 }

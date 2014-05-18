@@ -235,11 +235,11 @@ public class PlayerView implements ApplicationListener, IPlayerView{
     
     
     private void fillGridFromScene(IGetScene scene) {
-        gridButtons = new Matrix<IGetActor>(scene.getGrid().getSize());
+        gridButtons = new Matrix<IGetActor>(scene.getIGetGrid().getSize());
         
-        for (int i = 0; i < scene.getGrid().getSize().getHeight(); ++i) {
-            for (int j = 0; j < scene.getGrid().getSize().getWidth(); ++j) {
-                gridButtons.setAt(new Point( i, j ), scene.getGrid().getAt( 
+        for (int i = 0; i < scene.getIGetGrid().getSize().getHeight(); ++i) {
+            for (int j = 0; j < scene.getIGetGrid().getSize().getWidth(); ++j) {
+                gridButtons.setAt(new Point( i, j ), scene.getIGetGrid().getAt( 
                         new Point (i, j) ).getActor() );
             }
         }
