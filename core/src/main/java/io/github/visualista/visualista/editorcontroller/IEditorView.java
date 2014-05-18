@@ -4,7 +4,7 @@ import io.github.visualista.visualista.editorcontroller.ViewEventListener;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetNovel;
 import io.github.visualista.visualista.model.IGetScene;
-import io.github.visualista.visualista.model.Scene;
+import io.github.visualista.visualista.model.IGetTile;
 
 public interface IEditorView {
     void addScene(IGetScene newScene);
@@ -28,6 +28,8 @@ public interface IEditorView {
     void selectActor(IGetActor targetObject);
 
     void updateActor(IGetActor updatedActor);
+
+    void updateTile(IGetTile updatedTile);
 
     
 
