@@ -10,6 +10,7 @@ import io.github.visualista.visualista.model.Tile;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -17,15 +18,28 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 public enum ModelToGdxHelper {
     ;
 
-    public static Image createImageFor(IGetTile tileAtCurrentPosition) {
-        IGetActor tileActor = tileAtCurrentPosition.getActor();
-        if (tileActor.hasNoImage()) {
-            return new Image((TextureRegionDrawable)null);
+    public static Image createImageFor(IGetTile tile) {
+
+        return new Image(createDrawableFor(tile));
+    }
+
+    public static Image createImageFor(IGetActor actor) {
+        return new Image(createDrawableFor(actor));
+    }
+
+    public static TextureRegionDrawable createDrawableFor(IGetTile tile) {
+        return createDrawableFor(tile.getActor());
+    }
+    
+    public static TextureRegionDrawable createDrawableFor(IGetActor actor) {
+        if (actor.hasNoImage()) {
+            return (TextureRegionDrawable) null;
         }
-        File javaFile = tileActor.getImage().getFile();
+        File javaFile = actor.getImage().getFile();
         FileHandle fileFromModel = Gdx.files.absolute(javaFile
                 .getAbsolutePath());
-        return new Image(new TextureRegionDrawable(new TextureRegion(
-                new Texture(fileFromModel))));
+        return new TextureRegionDrawable(new TextureRegion(new Texture(
+                fileFromModel)));
     }
+
 }
