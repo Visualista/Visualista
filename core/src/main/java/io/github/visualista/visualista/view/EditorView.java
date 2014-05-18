@@ -912,12 +912,12 @@ public class EditorView implements ApplicationListener, IEditorView,
     }
 
     @Override
-    public void selectActor(IGetActor targetObject) {
-        selectedActor = targetObject;
-        if (targetObject != null) {
+    public void selectActor(IGetActor actor) {
+        selectedActor = actor;
+        if (actor != null) {
             rightVerticalGroup.setVisible(true);
-            actorField.setText(targetObject.getName());
-
+            actorField.setText(actor.getName());
+            actorImage.setDrawable(ModelToGdxHelper.createDrawableFor(actor));
         } else {
             rightVerticalGroup.setVisible(false);
         }
@@ -936,5 +936,11 @@ public class EditorView implements ApplicationListener, IEditorView,
         ((Image) updatedObject).setDrawable(ModelToGdxHelper
                 .createDrawableFor(updatedTile));
 
+    }
+
+    @Override
+    public void addActor(IGetActor updatedActor) {
+        actorList.getItems().add(updatedActor);
+        actorList.setSelectedIndex((actorList.getItems().indexOf(updatedActor, true)));
     }
 }
