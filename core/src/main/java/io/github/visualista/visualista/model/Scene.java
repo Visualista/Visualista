@@ -67,5 +67,10 @@ public class Scene implements Nameable, IGetScene {
         return image;
     }
 
+    @Override
+    public IGetGrid getIGetGrid() {
+        return grid;
+    }
+
 
 }
