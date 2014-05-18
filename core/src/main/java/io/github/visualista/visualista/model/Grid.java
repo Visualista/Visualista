@@ -3,7 +3,7 @@ package io.github.visualista.visualista.model;
 import io.github.visualista.visualista.util.Dimension;
 import io.github.visualista.visualista.util.Matrix;
 
-public class Grid extends Matrix<Tile> {
+public class Grid extends Matrix<Tile> implements IGetGrid {
 
     public Grid(Dimension gridSize) {
         super(gridSize);
