@@ -9,7 +9,7 @@ public interface IGetScene {
     
     List<IGetActor> getActorsInScene();
     
-    Grid getGrid();
+    IGetGrid getIGetGrid();
 
     Image getImage();
 
