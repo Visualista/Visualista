@@ -12,6 +12,7 @@ import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.model.Image;
 import io.github.visualista.visualista.model.Novel;
 import io.github.visualista.visualista.model.Scene;
+import io.github.visualista.visualista.model.Tile;
 import io.github.visualista.visualista.view.EditorView;
 
 public class EditorController implements ViewEventListener {
@@ -134,6 +135,10 @@ public class EditorController implements ViewEventListener {
             case SELECT_ACTOR:
                 view.selectActor((IGetActor)event.getTargetObject());
                 break;
+            case TILE_SET_ACTOR:
+                Tile updatedTile =(Tile) event.getTargetObject(); 
+                updatedTile.setActor((Actor)event.getExtraData());
+                view.updateTile(updatedTile);
             default:
                 break;
 
