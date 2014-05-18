@@ -29,7 +29,7 @@ public interface IEditorView {
 
     void updateActor(IGetActor updatedActor);
 
-    void updateTile(IGetTile updatedTile);
+    void updateTile(Object updatedObject, IGetTile updatedTile);
 
     
 
