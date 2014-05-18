@@ -280,12 +280,13 @@ public class EditorView implements ApplicationListener, IEditorView,
             }
 
         });
-
-        final Drawable actorDraw = new TextureRegionDrawable(new TextureRegion(
-                new Texture(Gdx.files.internal("icons/cursor.png"))));
-        actorImage = new Image(actorDraw);
-        actorImage.setSize(70, 70);
-        rightVerticalGroup.addActor(actorImage);
+        actorImage = new Image((TextureRegionDrawable)null);
+        Border actorImageBorder = new Border();
+        actorImageBorder.setSize(70, 70);
+        actorImageBorder.setLineSize(1);
+        actorImageBorder.setLineOutsideActor(true);
+        actorImageBorder.setActor(actorImage);
+        rightVerticalGroup.addActor(actorImageBorder);
 
         actorImage.addListener(new ClickListener() {
 
@@ -606,22 +607,25 @@ public class EditorView implements ApplicationListener, IEditorView,
         IGetGrid grid = scene.getIGetGrid();
         int gridWidth = grid.getSize().getWidth();
         int gridHeight = grid.getSize().getHeight();
-        
 
         for (int y = 0; y < gridHeight; ++y) {
             for (int x = 0; x < gridWidth; ++x) {
-                final IGetTile tileAtCurrentPosition = grid.getAt(new Point(x,y));
-                Image imageForCurrentTile = ModelToGdxHelper.createImageFor(tileAtCurrentPosition);
-                imageForCurrentTile.addCaptureListener(new ClickListener(){
+                final IGetTile tileAtCurrentPosition = grid.getAt(new Point(x,
+                        y));
+                final Image imageForCurrentTile = ModelToGdxHelper
+                        .createImageFor(tileAtCurrentPosition);
+                imageForCurrentTile.addCaptureListener(new ClickListener() {
 
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        if(selectedActor!=null){
-                            eventManager.fireViewEvent(this, Type.TILE_SET_ACTOR, tileAtCurrentPosition, selectedActor);
+                        if (selectedActor != null) {
+                            eventManager.fireViewEvent(imageForCurrentTile,
+                                    Type.TILE_SET_ACTOR, tileAtCurrentPosition,
+                                    selectedActor);
                         }
                         super.clicked(event, x, y);
                     }
-                    
+
                 });
                 gridButtons.setAt(new Point(x, y), imageForCurrentTile);
             }
@@ -664,7 +668,7 @@ public class EditorView implements ApplicationListener, IEditorView,
                 / data.getSize().getWidth();
         float buttonLength = (float) Math.floor(Math.min(prefferedButtonWidth,
                 prefferedButtonHeight));
-        
+
         for (int i = 0; i < data.getSize().getHeight(); i++) {
             HorizontalGroup row = new HorizontalGroup();
             group.addActor(row);
@@ -849,7 +853,6 @@ public class EditorView implements ApplicationListener, IEditorView,
         hideOverFlowingScenes();
         fillGridFromScene(scene);
         activeScene = scene;
-        
 
     }
 
@@ -918,31 +921,20 @@ public class EditorView implements ApplicationListener, IEditorView,
         } else {
             rightVerticalGroup.setVisible(false);
         }
-
     }
 
     @Override
     public void updateActor(IGetActor updatedActor) {
-        // TODO Make better
-        if (selectedActor == updatedActor) {
-            changeActiveScene(this.activeScene);
-        }
-        if (updatedActor.getImage().getFile() != null) {
-            final Drawable tile = new TextureRegionDrawable(new TextureRegion(
-                    new Texture(Gdx.files.absolute(updatedActor.getImage()
-                            .getFile().getAbsolutePath()))));
-
-            actorImage.setDrawable(tile);
-        } else {
-            final Drawable tile = new TextureRegionDrawable(new TextureRegion(
-                    new Texture(Gdx.files.internal("icons/tile.png"))));
-            actorImage.setDrawable(tile);
+        if (updatedActor == selectedActor) {
+            actorImage.setDrawable(ModelToGdxHelper
+                    .createDrawableFor(updatedActor));
         }
     }
 
     @Override
-    public void updateTile(IGetTile updatedTile) {
-        // TODO Auto-generated method stub
-        
+    public void updateTile(Object updatedObject, IGetTile updatedTile) {
+        ((Image) updatedObject).setDrawable(ModelToGdxHelper
+                .createDrawableFor(updatedTile));
+
     }
 }
