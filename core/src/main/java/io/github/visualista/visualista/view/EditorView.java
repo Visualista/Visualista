@@ -80,7 +80,6 @@ public class EditorView implements ApplicationListener, IEditorView,
     private List<IGetActor> actorList;
     private List<IAction> actionList;
 
-    
     private Border rightBorder;
     private Border upperBorder;
     private Border lowerBorder;
@@ -143,7 +142,7 @@ public class EditorView implements ApplicationListener, IEditorView,
 
         stage.clear();
         uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
-        leftBorder  = new LeftBorder();
+        leftBorder = new LeftBorder();
         stage.addActor(leftBorder);
         createRightEditorBorderContent();
         creatLowerEditorBorderContent();
@@ -381,12 +380,6 @@ public class EditorView implements ApplicationListener, IEditorView,
         gridButtons = new Matrix<Image>(new Dimension(5, 5));
     }
 
-    
-
-    
-
-    
-
     private void createRemoveActorButton() {
         removeActorButton = new TextButton("Remove actor", uiSkin);
         removeActorButton.setSize(150, 20);
@@ -413,19 +406,11 @@ public class EditorView implements ApplicationListener, IEditorView,
         });
     }
 
-    
-
     private ScrollPane createScrollPane() {
         final ScrollPane scroll = new ScrollPane(actorList, uiSkin);
         scroll.setFadeScrollBars(false);
         return scroll;
     }
-
-    
-
-    
-
-    
 
     private Border surroundWithInvisibleBorder(Actor actor) {
         Border surroundingBorder = new Border();
@@ -433,10 +418,6 @@ public class EditorView implements ApplicationListener, IEditorView,
         surroundingBorder.setActor(actor);// TODO Auto-generated method stub
         return surroundingBorder;
     }
-
-    
-
-    
 
     protected void saveNovel() {
         filePicker.saveFileDialog(this, new FileNameExtensionFilter(
@@ -460,9 +441,15 @@ public class EditorView implements ApplicationListener, IEditorView,
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         if (selectedActor != null) {
-                            eventManager.fireViewEvent(imageForCurrentTile,
-                                    Type.TILE_SET_ACTOR, tileAtCurrentPosition,
-                                    selectedActor);
+                            if (selectedTool == EditorTool.ARROW) {
+
+                                eventManager.fireViewEvent(imageForCurrentTile,
+                                        Type.TILE_SET_ACTOR,
+                                        tileAtCurrentPosition, selectedActor);
+
+                            }else if(selectedTool == EditorTool.CURSOR){
+                                eventManager.fireViewEvent(this, Type.SELECT_TILE, tileAtCurrentPosition);
+                            }
                         }
                         super.clicked(event, x, y);
                     }
@@ -785,24 +772,22 @@ public class EditorView implements ApplicationListener, IEditorView,
         actorList.setSelectedIndex((actorList.getItems().indexOf(updatedActor,
                 true)));
     }
-    
-    private class LeftBorder extends Border{
-        
+
+    private class LeftBorder extends Border {
+
         private VerticalGroup leftVerticalGroup;
 
-        public LeftBorder(){
+        public LeftBorder() {
             setSize(stage.getWidth() * SIDE_BORDERS_WIDTH_EDITOR_RATIO,
                     stage.getHeight());
             setPosition(0, 0);
             createLeftBorderContent();
         }
-        
-        
+
         private void createActorList() {
             actorList = new List<IGetActor>(uiSkin);
 
-            actorList
-                    .setWidth(getWidth() - getLineSize() * 4);
+            actorList.setWidth(getWidth() - getLineSize() * 4);
             actorList.setColor(Color.BLACK);
             actorList.addListener(new ChangeListener() {
 
@@ -816,12 +801,12 @@ public class EditorView implements ApplicationListener, IEditorView,
                 }
             });
         }
-        
+
         private void createLeftVerticalGroup() {
             leftVerticalGroup = new VerticalGroup();
             setActor(leftVerticalGroup);
         }
-        
+
         private Actor createButtonContainer1(Actor saveButtonBorder,
                 Actor openButtonBorder, Actor cursorButtonBorder,
                 Actor arrowButtonBorder) {
@@ -832,15 +817,14 @@ public class EditorView implements ApplicationListener, IEditorView,
             buttonContainer1.addActor(arrowButtonBorder);
             return buttonContainer1;
         }
-        
+
         private void createScrollBorder(final ScrollPane scroll) {
             Border scrollBorder = new Border();
-            scrollBorder.setSize(actorList.getWidth(),
-                    getHeight() * 0.7f);
+            scrollBorder.setSize(actorList.getWidth(), getHeight() * 0.7f);
             scrollBorder.setActor(scroll);
             leftVerticalGroup.addActor(scrollBorder);
         }
-        
+
         private void createLeftBorderContent() {
             createLeftVerticalGroup();
             Actor buttonGroup1 = createButtonGroup1Buttons();
@@ -859,7 +843,7 @@ public class EditorView implements ApplicationListener, IEditorView,
 
             createSetSceneBackgroundButton();
         }
-        
+
         private Actor createButtonGroup1Buttons() {
             Actor openButton = createOpenButton();
             Actor saveButton = createSaveButton();
@@ -870,7 +854,7 @@ public class EditorView implements ApplicationListener, IEditorView,
             return createButtonContainer1(openButton, saveButton, cursorButton,
                     arrowButton);
         }
-        
+
         private void resizeButtonGroup1Buttons(Actor saveButtonBorder,
                 Actor openButtonBorder, Actor cursorButtonBorder,
                 Actor arrowButtonBorder) {
@@ -904,14 +888,15 @@ public class EditorView implements ApplicationListener, IEditorView,
         }
 
         protected void hideButtonBorders() {
-            for(Border border : toolButtonBorders){
+            for (Border border : toolButtonBorders) {
                 border.setLineSize(0);
             }
         }
 
         private Actor createCursorButton() {
-            final Drawable cursor = new TextureRegionDrawable(new TextureRegion(
-                    new Texture(Gdx.files.internal("icons/cursor.png"))));
+            final Drawable cursor = new TextureRegionDrawable(
+                    new TextureRegion(new Texture(
+                            Gdx.files.internal("icons/cursor.png"))));
             ImageButton cursorButton = new ImageButton(cursor);
             final Border border = surroundWithInvisibleBorder(cursorButton);
             border.setLineOutsideActor(true);
@@ -960,7 +945,7 @@ public class EditorView implements ApplicationListener, IEditorView,
             });
             return surroundWithInvisibleBorder(openButton);
         }
-        
+
         private void createSetSceneBackgroundButton() {
             setSceneBackgroundButton = new TextButton("Set background", uiSkin);
             leftVerticalGroup.addActor(setSceneBackgroundButton);
@@ -991,6 +976,6 @@ public class EditorView implements ApplicationListener, IEditorView,
 
             });
         }
-        
+
     }
 }
