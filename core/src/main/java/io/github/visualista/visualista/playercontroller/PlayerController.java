@@ -1,9 +1,10 @@
 package io.github.visualista.visualista.playercontroller;
 
 import io.github.visualista.visualista.core.Visualista;
-import io.github.visualista.visualista.model.Actor;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IAction;
+import io.github.visualista.visualista.model.PositionedActor;
+import io.github.visualista.visualista.model.Scene;
 import io.github.visualista.visualista.view.IGetPlayerController;
 
 import java.util.Iterator;
@@ -17,11 +18,7 @@ public class PlayerController implements IGetPlayerController{
             final IPlayerView view) {
         this.visualista = visualista;
         this.view = view;
-
-    }
-    
-    public void actorClicked(Actor actor){
-        actor.getActions();
+        view.addController(this);
     }
 
     @Override
@@ -37,12 +34,36 @@ public class PlayerController implements IGetPlayerController{
         List<IAction> actorActions = actor.getActions();
         Iterator<IAction> it = actorActions.iterator();
         while (it.hasNext()){
-            performAction(it.next());
+            Object objectsToModify = it.next().getActionData();
+            changeData(objectsToModify);
         }
         
     }
     
-    private void performAction(IAction actionToPerform){
-        
+    private boolean changeData(Object dataToModify){
+        if (dataToModify instanceof String){
+            return changeText((String) dataToModify);
+        } else if (dataToModify instanceof Scene){
+            return changeScene((Scene) dataToModify);
+        } else if (dataToModify instanceof PositionedActor){
+            return changeActor((PositionedActor) dataToModify);
+        } else {
+            return false;
+        }
+    }
+    
+    private boolean changeScene(Scene newScene){
+        visualista.getCurrentNovel().setCurrentScene(newScene);
+        return view.getIsReady();
+    }
+    
+    private boolean changeText(String newText){
+        visualista.getCurrentNovel().getCurrentScene().setStoryText(newText);
+        return view.getIsReady();
+    }
+    
+    private boolean changeActor(PositionedActor newActor){
+        visualista.getCurrentNovel().getCurrentScene().getGrid().getAt(newActor.getPosition()).setActor(newActor.getActor());
+        return view.getIsReady();
     }
 }
