@@ -904,7 +904,7 @@ public class EditorView implements ApplicationListener, IEditorView,
 
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    selectedTool = EditorTool.ARROW;
+                    selectedTool = EditorTool.CURSOR;
                     hideButtonBorders();
                     border.setLineSize(1);
                 }
