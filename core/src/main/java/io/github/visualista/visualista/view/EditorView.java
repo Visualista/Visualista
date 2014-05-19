@@ -961,9 +961,11 @@ public class EditorView implements ApplicationListener, IEditorView,
 
                         @Override
                         public void fileOpened(File selectedFile) {
-                            eventManager.fireViewEvent(this,
-                                    Type.CHANGE_SCENE_IMAGE, activeScene,
-                                    selectedFile);
+                            if (selectedFile != null) {
+                                eventManager.fireViewEvent(this,
+                                        Type.CHANGE_SCENE_IMAGE, activeScene,
+                                        selectedFile);
+                            }
                         }
 
                         @Override
