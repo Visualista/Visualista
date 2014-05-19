@@ -4,7 +4,7 @@ import java.io.File;
 
 import com.badlogic.gdx.Gdx;
 
-import io.github.visualista.visualista.core.Visualista;
+import io.github.visualista.visualista.core.VisualistaEditor;
 import io.github.visualista.visualista.model.Actor;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetNovel;
@@ -17,10 +17,10 @@ import io.github.visualista.visualista.view.EditorView;
 
 public class EditorController implements ViewEventListener {
 
-    private Visualista visualista;
+    private VisualistaEditor visualista;
     private IEditorView view;
 
-    public EditorController(final Visualista visualista,
+    public EditorController(final VisualistaEditor visualista,
             final IEditorView view) {
         this.visualista = visualista;
         this.view = view;

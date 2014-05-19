@@ -18,7 +18,7 @@ import io.github.visualista.visualista.util.Point;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-public final class Visualista {
+public final class VisualistaEditor {
 
     private Novel currentNovel;
     private final GridFactory gridFactory;
@@ -26,7 +26,7 @@ public final class Visualista {
     private final NovelFactory novelFactory;
     private final ActorFactory actorFactory;
 
-    public Visualista() {
+    public VisualistaEditor() {
         new TileFactory();
         gridFactory = new GridFactory();
         sceneFactory = new SceneFactory(gridFactory);
