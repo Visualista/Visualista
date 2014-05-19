@@ -1,25 +1,44 @@
 package io.github.visualista.visualista.playercontroller;
 
+import io.github.visualista.visualista.core.FilePickerListener;
+import io.github.visualista.visualista.core.IFilePicker;
 import io.github.visualista.visualista.core.VisualistaPlayer;
+import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IAction;
+import io.github.visualista.visualista.model.Novel;
 import io.github.visualista.visualista.model.PositionedActor;
 import io.github.visualista.visualista.model.Scene;
 import io.github.visualista.visualista.view.IGetPlayerController;
 
+import java.io.File;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class PlayerController implements IGetPlayerController{
     
     private VisualistaPlayer visualista;
     private IPlayerView view;
+    private final IFilePicker filePicker;
 
     public PlayerController(final VisualistaPlayer visualista,
-            final IPlayerView view) {
+            final IPlayerView view, IFilePicker filePicker) {
         this.visualista = visualista;
         this.view = view;
+        this.filePicker = filePicker;
         view.setController(this);
+        openNovelFile();
+        updateView();
+    }
+
+    private void updateView() {
+        if (visualista.getCurrentNovel() != null){
+            view.updateScene(visualista.getCurrentNovel().getCurrentScene());
+            view.removeFileLoadListeners();
+        }
+        
     }
 
     @Override
@@ -29,7 +48,26 @@ public class PlayerController implements IGetPlayerController{
         }
         
     }
+    
+    @Override
+    public void openNovelFile(){
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "Choose Visual Novel (*.vis)", "vis");
+        filePicker.openFileDialog(new FilePickerListener() {
 
+            @Override
+            public void fileOpened(File selectedFile) {
+                visualista.openNovel(selectedFile);
+            }
+
+            @Override
+            public void fileSaved(File selectedFile) {
+                // Unreachable as it is
+            }
+        }, filter);
+
+    }
+    
     @Override
     public void tileClicked(IGetActor actor) {
         boolean needUpdate = false;
@@ -67,7 +105,8 @@ public class PlayerController implements IGetPlayerController{
     }
     
     private boolean changeActor(PositionedActor newActor){
-        visualista.getCurrentNovel().getCurrentScene().getGrid().getAt(newActor.getPosition()).setActor(newActor.getActor());
+        visualista.getCurrentNovel().getCurrentScene().getGrid().getAt(
+                newActor.getPosition()).setActor(newActor.getActor());
         return view.getIsReady();
     }
 }

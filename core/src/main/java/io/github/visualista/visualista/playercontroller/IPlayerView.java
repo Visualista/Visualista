@@ -10,4 +10,6 @@ public interface IPlayerView {
     public boolean getIsReady();
     
     public void setController(IGetPlayerController controller);
+    
+    public void removeFileLoadListeners();
 }
