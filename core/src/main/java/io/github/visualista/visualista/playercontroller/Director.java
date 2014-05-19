@@ -27,10 +27,10 @@ public class Director implements ActorListener {
 
     @Override
     public void actorCalled(ActorEvent ae) {
-        List<IPlayAction> actorActions = new ArrayList<IPlayAction>(ae.getActor().getActions());
+        List<IPlayAction> actorActions = new ArrayList<IPlayAction>(ae.getActor().getEditActions());
         Iterator<IPlayAction> it = actorActions.iterator();
         while (it.hasNext()){
-            it.next().callAction();
+            it.next().getActionData();
         }
     }
     
