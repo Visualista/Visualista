@@ -105,7 +105,7 @@ public class EditorView implements ApplicationListener, IEditorView,
 
     private IGetScene activeScene;
 
-    private TextArea textInput;
+    private TextArea sceneTextArea;
 
     private Image sceneBackgroundImage;
 
@@ -124,6 +124,8 @@ public class EditorView implements ApplicationListener, IEditorView,
     private final ArrayList<Border> toolButtonBorders;
 
     private LeftBorder leftBorder;
+
+    protected boolean sceneTextAreaHasFocus;
 
     public EditorView(Dimension dimension, IFilePicker filePicker) {
         this.configDimension = dimension;
@@ -242,6 +244,9 @@ public class EditorView implements ApplicationListener, IEditorView,
                     eventManager.fireViewEvent(this, Type.CHANGE_ACTOR_NAME,
                             actorList.getSelected(), renameActorTo);
                 }
+                if (sceneTextAreaHasFocus && hitObject == sceneTextArea){
+                    eventManager.fireViewEvent(this, Type.CHANGE_SCENE_TEXT, activeScene, sceneTextArea.getText());
+                }
                 return false;
             }
 
@@ -253,8 +258,19 @@ public class EditorView implements ApplicationListener, IEditorView,
         lowerBorder.setSize(horizontalDistanceBetween(leftBorder, rightBorder),
                 100);
         lowerBorder.setPosition(rightSideOf(leftBorder), 0);
-        textInput = new TextArea("", uiSkin);
-        lowerBorder.setActor(textInput);
+        sceneTextArea = new TextArea("", uiSkin);
+        
+        sceneTextArea.addCaptureListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                sceneTextAreaHasFocus = true;
+                super.clicked(event, x, y);
+            }
+
+        });
+        
+        lowerBorder.setActor(sceneTextArea);
         stage.addActor(lowerBorder);
     }
 
