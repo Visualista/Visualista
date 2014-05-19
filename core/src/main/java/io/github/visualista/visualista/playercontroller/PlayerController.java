@@ -29,11 +29,9 @@ public class PlayerController implements IGetPlayerController{
         this.view = view;
         this.filePicker = filePicker;
         view.setController(this);
-        openNovelFile();
-        updateView();
     }
 
-    private void updateView() {
+    public void updateView() {
         if (visualista.getCurrentNovel() != null){
             view.updateScene(visualista.getCurrentNovel().getCurrentScene());
             view.removeFileLoadListeners();
@@ -58,6 +56,7 @@ public class PlayerController implements IGetPlayerController{
             @Override
             public void fileOpened(File selectedFile) {
                 visualista.openNovel(selectedFile);
+                updateView();
             }
 
             @Override

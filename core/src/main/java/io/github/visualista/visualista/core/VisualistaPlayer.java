@@ -30,6 +30,7 @@ public class VisualistaPlayer {
         final FileLoader<Novel> fileLoader = new FileLoader<Novel>();
         try {
             setCurrentNovel(fileLoader.getObjectFromFile(file));
+            currentNovel.setCurrentScene(currentNovel.getScenes().get(0));
         } catch (final FileNotFoundException e) {
             // TODO error message
             e.printStackTrace();
