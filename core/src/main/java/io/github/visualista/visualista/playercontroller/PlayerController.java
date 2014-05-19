@@ -1,63 +1,23 @@
 package io.github.visualista.visualista.playercontroller;
 
 import io.github.visualista.visualista.core.Visualista;
-import io.github.visualista.visualista.editorcontroller.EditorViewEvent;
-import io.github.visualista.visualista.editorcontroller.IEditorView;
-import io.github.visualista.visualista.editorcontroller.ViewEventListener;
 import io.github.visualista.visualista.model.Actor;
 import io.github.visualista.visualista.model.IGetActor;
-import io.github.visualista.visualista.model.IGetNovel;
-import io.github.visualista.visualista.model.IGetScene;
-import io.github.visualista.visualista.model.Image;
-import io.github.visualista.visualista.model.Scene;
-import io.github.visualista.visualista.model.SetActorAction;
-import io.github.visualista.visualista.model.SetSceneAction;
-import io.github.visualista.visualista.util.Point;
+import io.github.visualista.visualista.model.IAction;
+import io.github.visualista.visualista.view.IGetPlayerController;
 
-import java.io.File;
+import java.util.Iterator;
+import java.util.List;
 
-import com.badlogic.gdx.Gdx;
-
-public class PlayerController implements ViewEventListener, ActionEventListener{
+public class PlayerController implements IGetPlayerController{
     private Visualista visualista;
-    private IEditorView view;
+    private IPlayerView view;
 
     public PlayerController(final Visualista visualista,
-            final IEditorView view) {
+            final IPlayerView view) {
         this.visualista = visualista;
         this.view = view;
-        addEventHandlersToView();
 
-        fillViewFromModel();
-
-    }
-
-    private void fillViewFromModel() {
-        if (view.getIsReady()) {
-            view.clearModel();
-            for (Scene scene : visualista.getCurrentNovel().getScenes()) {
-                view.addScene(scene);
-            }
-        }
-
-    }
-
-    private void addEventHandlersToView() {
-        view.addViewEventListener(this);
-    }
-
-    @Override
-    public final void handleViewEvent(final EditorViewEvent event) {
-        switch (event.getEventType()) {
-            case CLICK_TILE:
-                Point tilePoint = ((Point)event.getExtraData());
-                Actor selectedActor = visualista.getActorFromPosition(tilePoint);
-                selectedActor.playActor();
-                break;
-            default:
-                break;
-
-        }
     }
     
     public void actorClicked(Actor actor){
@@ -65,18 +25,24 @@ public class PlayerController implements ViewEventListener, ActionEventListener{
     }
 
     @Override
-    public void handleActionEvent(ActionEvent ae) {
-        switch (ae.getAeType()){
-            case SET_ACTOR:
-                break;
-            case SET_SCENE:
-                break;
-            case SET_TEXT:
-                
-                break;
-            default:
-                break;
+    public void addDataToView() {
+        if (view.getIsReady()){
+            view.updateScene(visualista.getCurrentNovel().getCurrentScene());
         }
+        
+    }
+
+    @Override
+    public void tileClicked(IGetActor actor) {
+        List<IAction> actorActions = actor.getActions();
+        Iterator<IAction> it = actorActions.iterator();
+        while (it.hasNext()){
+            performAction(it.next());
+        }
+        
+    }
+    
+    private void performAction(IAction actionToPerform){
         
     }
 }
