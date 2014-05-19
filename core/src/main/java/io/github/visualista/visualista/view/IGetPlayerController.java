@@ -7,4 +7,6 @@ public interface IGetPlayerController {
     public void addDataToView();
     
     public void tileClicked(IGetActor actor);
+    
+    public void openNovelFile();
 }
