@@ -12,7 +12,7 @@ public class Scene implements Nameable, IGetScene {
     private String storyText;
 
     private Image image;
-    
+
     public Scene(Grid grid, List<Actor> actorsInScene) {
         this.grid = grid;
         this.actorsInScene = new ArrayList<Actor>(actorsInScene);
@@ -53,14 +53,13 @@ public class Scene implements Nameable, IGetScene {
     public List<IGetActor> getActorsInScene() {
         return new ArrayList<IGetActor>(actorsInScene);
     }
-    
+
     public void removeActor(Actor actor){
         actorsInScene.remove(actor);
     }
 
     public void setImage(Image image) {
         this.image = image;
-        
     }
     @Override
     public Image getImage (){

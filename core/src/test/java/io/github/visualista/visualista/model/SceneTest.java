@@ -12,6 +12,7 @@ public class SceneTest {
     private SceneFactory sceneFactory;
     private Scene scene;
     private String testString;
+    private Image testImage;
 
     @Before
     public void setUp() throws Exception {
@@ -19,6 +20,7 @@ public class SceneTest {
         sceneFactory = new SceneFactory(gridFactory);
         scene = sceneFactory.createScene();
         testString = "Something creative";
+        testImage = new Image(null);
     }
 
     @Test
@@ -43,6 +45,12 @@ public class SceneTest {
         Actor actor = new ActorFactory().createActor();
         scene.addActor(actor);
         assertThat(actor, equalTo(scene.getActorsInScene().get(0)));
+    }
+
+    @Test
+    public void testSetAndGetImage(){
+        scene.setImage(testImage);
+        assertThat(testImage, equalTo(scene.getImage()));
     }
 
 }
