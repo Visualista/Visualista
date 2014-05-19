@@ -120,7 +120,11 @@ public class EditorController implements ViewEventListener {
                 }
                 break;
             case FILE_SAVE:
-                visualista.saveNovel((File)event.getExtraData());
+                File file = (File)event.getExtraData();
+                if(!file.getName().toLowerCase().endsWith(".vis")){
+                    file = new File(file.getAbsoluteFile() + ".vis");
+                }
+                visualista.saveNovel(file);
                 break;
             case CHANGE_NOVEL_NAME:
                 ((Novel) (event.getSource())).setName((String) (event
