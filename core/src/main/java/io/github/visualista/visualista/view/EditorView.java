@@ -124,10 +124,15 @@ public class EditorView implements ApplicationListener, IEditorView,
 
     private boolean actorFieldHasFocus;
 
+    protected EditorTool selectedTool;
+
+    private final ArrayList<Border> toolButtonBorders;
+
     public EditorView(Dimension dimension, IFilePicker filePicker) {
         this.configDimension = dimension;
         tabs = new BiDiMap<Tab, IGetScene>();
         this.filePicker = filePicker;
+        toolButtonBorders = new ArrayList<Border>();
     }
 
     @Override
@@ -280,7 +285,7 @@ public class EditorView implements ApplicationListener, IEditorView,
             }
 
         });
-        actorImage = new Image((TextureRegionDrawable)null);
+        actorImage = new Image((TextureRegionDrawable) null);
         Border actorImageBorder = new Border();
         actorImageBorder.setSize(70, 70);
         actorImageBorder.setLineSize(1);
@@ -398,12 +403,11 @@ public class EditorView implements ApplicationListener, IEditorView,
         Actor openButton = createOpenButton();
         Actor saveButton = createSaveButton();
         Actor cursorButton = createCursorButton();
-        Actor handButton = createHandButton();
         Actor arrowButton = createArrowButton();
         resizeButtonGroup1Buttons(openButton, saveButton, cursorButton,
-                handButton, arrowButton);
+                arrowButton);
         return createButtonContainer1(openButton, saveButton, cursorButton,
-                handButton, arrowButton);
+                arrowButton);
     }
 
     private void createSetSceneBackgroundButton() {
@@ -498,12 +502,11 @@ public class EditorView implements ApplicationListener, IEditorView,
 
     private Actor createButtonContainer1(Actor saveButtonBorder,
             Actor openButtonBorder, Actor cursorButtonBorder,
-            Actor handButtonBorder, Actor arrowButtonBorder) {
+            Actor arrowButtonBorder) {
         HorizontalGroup buttonContainer1 = new HorizontalGroup();
         buttonContainer1.addActor(saveButtonBorder);
         buttonContainer1.addActor(openButtonBorder);
         buttonContainer1.addActor(cursorButtonBorder);
-        buttonContainer1.addActor(handButtonBorder);
         buttonContainer1.addActor(arrowButtonBorder);
         leftVerticalGroup.addActor(buttonContainer1);
         return buttonContainer1;
@@ -511,11 +514,10 @@ public class EditorView implements ApplicationListener, IEditorView,
 
     private void resizeButtonGroup1Buttons(Actor saveButtonBorder,
             Actor openButtonBorder, Actor cursorButtonBorder,
-            Actor handButtonBorder, Actor arrowButtonBorder) {
+            Actor arrowButtonBorder) {
         openButtonBorder.setSize(50, 40);
         saveButtonBorder.setSize(50, 40);
         cursorButtonBorder.setSize(50, 40);
-        handButtonBorder.setSize(50, 40);
         arrowButtonBorder.setSize(50, 40);
     }
 
@@ -524,25 +526,48 @@ public class EditorView implements ApplicationListener, IEditorView,
                 new Texture(Gdx.files.internal("icons/arrow.png"))));
 
         ImageButton arrowButton = new ImageButton(arrow);
-        arrowButton.addListener(new ClickListener());
-        return surroundWithInvisibleBorder(arrowButton);
+        final Border border = surroundWithInvisibleBorder(arrowButton);
+        border.setLineOutsideActor(true);
+        border.setLineSize(1);
+        selectedTool = EditorTool.ARROW;
+        arrowButton.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                selectedTool = EditorTool.ARROW;
+                hideButtonBorders();
+                border.setLineSize(1);
+            }
+
+        });
+        toolButtonBorders.add(border);
+        return border;
     }
 
-    private Actor createHandButton() {
-        final Drawable hand = new TextureRegionDrawable(new TextureRegion(
-                new Texture(Gdx.files.internal("icons/hand.png"))));
-
-        ImageButton handButton = new ImageButton(hand);
-        handButton.addListener(new ClickListener());
-        return surroundWithInvisibleBorder(handButton);
+    protected void hideButtonBorders() {
+        for(Border border : toolButtonBorders){
+            border.setLineSize(0);
+        }
     }
 
     private Actor createCursorButton() {
         final Drawable cursor = new TextureRegionDrawable(new TextureRegion(
                 new Texture(Gdx.files.internal("icons/cursor.png"))));
         ImageButton cursorButton = new ImageButton(cursor);
-        cursorButton.addListener(new ClickListener());
-        return surroundWithInvisibleBorder(cursorButton);
+        final Border border = surroundWithInvisibleBorder(cursorButton);
+        border.setLineOutsideActor(true);
+        cursorButton.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                selectedTool = EditorTool.ARROW;
+                hideButtonBorders();
+                border.setLineSize(1);
+            }
+
+        });
+        toolButtonBorders.add(border);
+        return border;
     }
 
     private Actor createSaveButton() {
@@ -941,6 +966,7 @@ public class EditorView implements ApplicationListener, IEditorView,
     @Override
     public void addActor(IGetActor updatedActor) {
         actorList.getItems().add(updatedActor);
-        actorList.setSelectedIndex((actorList.getItems().indexOf(updatedActor, true)));
+        actorList.setSelectedIndex((actorList.getItems().indexOf(updatedActor,
+                true)));
     }
 }

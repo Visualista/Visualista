@@ -8,7 +8,7 @@ import io.github.visualista.visualista.playercontroller.ActionEventListener;
 import io.github.visualista.visualista.playercontroller.ActionEventSource;
 import io.github.visualista.visualista.playercontroller.ActionEventType;
 
-public class SetSceneTextAction extends ActionEventSource implements IPlayAction {
+public class SetSceneTextAction implements IPlayAction {
 
     private String sceneText;
 
@@ -25,18 +25,9 @@ public class SetSceneTextAction extends ActionEventSource implements IPlayAction
     }
 
     @Override
-    public void callAction() {
-        fireActionEvent();
+    public Object getActionData() {
+        return sceneText;
 
-    }
-
-    @Override
-    public void fireActionEvent() {
-        final ActionEvent ae = new ActionEvent(this, ActionEventType.SET_TEXT, sceneText);
-        final Iterator<ActionEventListener> it = actorEventListeners.iterator();
-        while (it.hasNext()) {
-            it.next().handleActionEvent(ae);
-        }
     }
 
 }

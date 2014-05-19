@@ -4,58 +4,30 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.SnapshotArray;
 
-import io.github.visualista.visualista.core.FilePickerListener;
-import io.github.visualista.visualista.core.IFilePicker;
-import io.github.visualista.visualista.editorcontroller.IEditorView;
-import io.github.visualista.visualista.editorcontroller.ViewEventListener;
 import io.github.visualista.visualista.editorcontroller.ViewEventManager;
-import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
-import io.github.visualista.visualista.model.Grid;
 import io.github.visualista.visualista.model.IGetActor;
-import io.github.visualista.visualista.model.IGetNovel;
 import io.github.visualista.visualista.model.IGetScene;
-import io.github.visualista.visualista.model.Scene;
 import io.github.visualista.visualista.playercontroller.IPlayerView;
-import io.github.visualista.visualista.util.BiDiMap;
 import io.github.visualista.visualista.util.Dimension;
 import io.github.visualista.visualista.util.IMatrixGet;
-import io.github.visualista.visualista.util.IObjectCreator;
 import io.github.visualista.visualista.util.Matrix;
 import io.github.visualista.visualista.util.Point;
 
-import java.awt.Font;
-import java.io.File;
 import java.util.ArrayList;
-
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class PlayerView implements ApplicationListener, IPlayerView{
     
@@ -70,7 +42,7 @@ public class PlayerView implements ApplicationListener, IPlayerView{
     // End static objects and variables //
 
     // Reference variables //
-    
+    private IGetPlayerController controller;
     
     // End reference variables //
     private Stage stage;
@@ -97,6 +69,8 @@ public class PlayerView implements ApplicationListener, IPlayerView{
     protected IGetActor selectedActor;
 
     protected boolean actorFieldHasFocus;
+    
+    private boolean isReady = false;
 
     public PlayerView(Dimension dimension) {
         this.configDimension = dimension;
@@ -126,7 +100,7 @@ public class PlayerView implements ApplicationListener, IPlayerView{
         
         Gdx.input.setInputProcessor(stage);
         Gdx.graphics.setContinuousRendering(false);
-        eventManager.fireViewEvent(this, Type.VIEW_READY);
+        isReady = true;
     }
     
     private void createCenterBorderContent(){
@@ -233,7 +207,9 @@ public class PlayerView implements ApplicationListener, IPlayerView{
 
     // End Create Player //
     
+    // Update Player //
     
+    // End Update Player //
     private void fillGridFromScene(IGetScene scene) {
         gridButtons = new Matrix<IGetActor>(scene.getIGetGrid().getSize());
         
@@ -259,10 +235,6 @@ public class PlayerView implements ApplicationListener, IPlayerView{
 
     }
 
-    private float getRightSideOf(com.badlogic.gdx.scenes.scene2d.Actor viewActor) {
-        return viewActor.getX() + viewActor.getWidth();
-    }
-
     public final void fillGrid(VerticalGroup group, IMatrixGet<IGetActor> data) {
         // Declare local variables //
         float prefferedButtonHeight = group.getHeight()
@@ -276,21 +248,42 @@ public class PlayerView implements ApplicationListener, IPlayerView{
         for (int i = 0; i < data.getSize().getHeight(); i++) {
             HorizontalGroup row = new HorizontalGroup();
             group.addActor(row);
-            for (int j = 0; j < data.getSize().getWidth(); j++) {
+            for (int j = 0; j < data.getSize().getWidth(); j++) {               
                 row.addActor(createSingleTile(data.getAt(new Point(i, j)), buttonSide));
             }
         }
     }
 
-    private Border createSingleTile(IGetActor tileActor, float tileSize){
-        Drawable actorImage = new TextureRegionDrawable( new TextureRegion( 
-                new Texture ( Gdx.files.absolute( 
-                        tileActor.getImage().getFile().getAbsolutePath() ) ) ) );
+    private Border createSingleTile(final IGetActor tileActor, final float tileSize){
+        Drawable actorImage;
+        if (tileActor.getImage() != null){
+            actorImage = new TextureRegionDrawable( new TextureRegion( 
+                    new Texture ( Gdx.files.absolute( 
+                            tileActor.getImage().getFile().getAbsolutePath() ) ) ) );
+            
+        } else {
+            actorImage = TRANSPARENT_ICON;
+        }
         Image button = new Image(actorImage);
         Border tempBorder = new Border();
         tempBorder.setActor(button);
         tempBorder.setSize(tileSize, tileSize);
-        tempBorder.setLineSize(1);
+        tempBorder.setLineSize(0);
+        
+        // Add Listener to Tile //
+        
+        tempBorder.addCaptureListener(new ClickListener() {
+            @Override
+            public void clicked(final InputEvent event, final float x, float y) {
+                if (controller != null){
+                    controller.tileClicked(tileActor);
+                } else {
+                    System.out.println("Error: No controller found in PlayerView");
+                }
+                }
+        });
+        
+        // End add Listener //
         
         return tempBorder;
     }
@@ -319,23 +312,17 @@ public class PlayerView implements ApplicationListener, IPlayerView{
     public void dispose() {
     }
 
-    public void addViewEventListener(ViewEventListener eventListener) {
-        eventManager.addEventListener(eventListener);
-    }
-
-    public void removeViewEventListener(ViewEventListener eventListener) {
-        eventManager.removeEventListener(eventListener);
-    }
-
-    
+    // Update Methods //
     @Override
     public void updateScene(IGetScene sceneToDisplay) {
         // Declaring local variables //
         ArrayList<IGetActor> actorsInScene = new ArrayList<IGetActor>();
         actorsInScene.addAll(sceneToDisplay.getActorsInScene());
         String storyText = sceneToDisplay.getStoryText();
+        String titleText = sceneToDisplay.getName();
         // End local variables //
 
+        // Background Image //
         if (sceneToDisplay.getImage() != null) {
             final Drawable tile = new TextureRegionDrawable(new TextureRegion(
                     new Texture(Gdx.files.absolute(sceneToDisplay.getImage().getFile()
@@ -345,7 +332,17 @@ public class PlayerView implements ApplicationListener, IPlayerView{
         } else {
             sceneBackgroundImage.setDrawable(null);
         }
+        // End Background Image //
+        
+        // Scene Texts //
+        updateTextInBorder(upperBorder, titleText, TITLE_FONT_SCALE);
+        updateTextInBorder(lowerBorder, storyText, STORY_FONT_SCALE);
+        // End Scene Texts //
 
+        // Actor Grid //
+        fillGridFromScene(sceneToDisplay);
+        // End Actor Grid //
+        
         // Debugging code //
         String[] actorNames = new String[sceneToDisplay.getActorsInScene().size()];
         for (int i = 0; i < sceneToDisplay.getActorsInScene().size(); i++) {
@@ -360,6 +357,12 @@ public class PlayerView implements ApplicationListener, IPlayerView{
         Label label = new Label(storyText, BASE_SKIN);
         label.setFontScale(fontScale);
         borderToUpdate.setActor(label);
+    }
+    // End Update Methods //
+    
+    // Utility Methods //
+    private float getRightSideOf(com.badlogic.gdx.scenes.scene2d.Actor viewActor) {
+        return viewActor.getX() + viewActor.getWidth();
     }
     
     private static float horizontalDistanceBetween(
@@ -377,4 +380,15 @@ public class PlayerView implements ApplicationListener, IPlayerView{
             return 0;
         }
     }
+
+    @Override
+    public boolean getIsReady() {
+        return isReady;
+    }
+    
+    @Override
+    public void addController(IGetPlayerController controller){
+        this.controller = controller;
+    }
+    // End Utility Methods //
 }

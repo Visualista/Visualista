@@ -27,7 +27,7 @@ public class ActorFactoryTest {
     public void testCreateActor() {
         assertThat(actor, notNullValue());
         assertThat(actor.getImage(), notNullValue());
-        assertThat(actor.getActions(), notNullValue());
+        assertThat(actor.getEditActions(), notNullValue());
     }
 
 }
