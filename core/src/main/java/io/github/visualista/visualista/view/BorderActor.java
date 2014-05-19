@@ -8,6 +8,18 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class BorderActor extends Actor {
+    @Override
+    public void setColor(Color color) {
+        borderTexture = createTexture(color);
+        super.setColor(color);
+    }
+
+    @Override
+    public void setColor(float r, float g, float b, float a) {
+        setColor(new Color(r,g,b,a));
+        super.setColor(r, g, b, a);
+    }
+
     private Texture borderTexture;
     private int lineSize = 3;
     

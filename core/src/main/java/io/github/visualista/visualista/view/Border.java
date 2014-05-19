@@ -22,6 +22,17 @@ public class Border extends Group {
         borderActor.setTouchable(Touchable.disabled);
     }
 
+    @Override
+    public void setColor(Color color) {
+        borderActor.setColor(color);
+        super.setColor(color);
+    }
+
+    @Override
+    public void setColor(float r, float g, float b, float a) {
+        borderActor.setColor(r, g, b, a);
+        super.setColor(r, g, b, a);
+    }
 
     public void setActor(Actor actor) {
         if (actor == this)

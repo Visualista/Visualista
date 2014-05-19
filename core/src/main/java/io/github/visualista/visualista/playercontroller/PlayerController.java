@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class PlayerController implements IGetPlayerController{
+    
     private VisualistaPlayer visualista;
     private IPlayerView view;
 
