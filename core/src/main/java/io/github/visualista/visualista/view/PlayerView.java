@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
@@ -18,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
+import io.github.visualista.visualista.core.IFilePicker;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.playercontroller.IPlayerView;
@@ -27,6 +29,7 @@ import io.github.visualista.visualista.util.Matrix;
 import io.github.visualista.visualista.util.Point;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class PlayerView implements ApplicationListener, IPlayerView{
     
@@ -155,6 +158,19 @@ public class PlayerView implements ApplicationListener, IPlayerView{
        // End adding actors to stack //
         
         centerBorder.setActor(stack);
+        
+        centerBorder.addCaptureListener(new ClickListener() {
+            @Override
+            public void clicked(final InputEvent event, final float x, float y) {
+                if (controller != null){
+                    controller.openNovelFile();
+                } else {
+                    // Debug Code //
+                    System.out.println("Error: No controller found in PlayerView");
+                    // End Debug //
+                }
+                }
+        });
         
         
     }
@@ -431,6 +447,13 @@ public class PlayerView implements ApplicationListener, IPlayerView{
     @Override
     public void setController(IGetPlayerController controller){
         this.controller = controller;
+    }
+    
+    public void removeFileLoadListeners(){
+        Iterator<EventListener> it = centerBorder.getCaptureListeners().iterator();
+        while (it.hasNext()){
+            centerBorder.removeCaptureListener(it.next());
+        }
     }
     
     // End Utility Methods //
