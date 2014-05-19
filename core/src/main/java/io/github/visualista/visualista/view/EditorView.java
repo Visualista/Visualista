@@ -299,7 +299,7 @@ public class EditorView implements ApplicationListener, IEditorView,
             public void clicked(InputEvent event, float x, float y) {
                 // TODO selected scene and image
                 FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                        "Chose image", "png");
+                        "Select image (*.png)", "png");
                 filePicker.openFileDialog(new FilePickerListener() {
 
                     @Override
