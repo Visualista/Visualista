@@ -7,7 +7,6 @@ import io.github.visualista.visualista.playercontroller.ActionEventListener;
 import io.github.visualista.visualista.playercontroller.ActionEventSource;
 import io.github.visualista.visualista.playercontroller.ActionEventType;
 import io.github.visualista.visualista.util.Point;
-import io.github.visualista.visualista.util.PositionedActor;
 
 public class SetActorAction extends ActionEventSource implements IPlayAction {
 
