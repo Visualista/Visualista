@@ -57,18 +57,18 @@ public class PlayerView implements ApplicationListener, IPlayerView{
     private static final float RIGHT_BORDER_X_DISPLACEMENT_RATIO = 7.5f / 10;
     private static final float RIGHT_BORDER_Y_DISPLACEMENT_RATIO = 0;
     
-    private static final float CENTER_BORDER_WIDTH_RATIO = 7f / 10;
+    private static final float CENTER_BORDER_WIDTH_RATIO = 5f / 10;
     private static final float CENTER_BORDER_HEIGHT_RATIO = 6.5f / 10;
-    private static final float CENTER_BORDER_X_DISPLACEMENT_RATIO = 1.5f / 10;
+    private static final float CENTER_BORDER_X_DISPLACEMENT_RATIO = 2.5f / 10;
     private static final float CENTER_BORDER_Y_DISPLACEMENT_RATIO = 2f / 10;
     
     private static final Color RIGHT_BORDER_COLOR = Color.BLACK;
     private static final Color LEFT_BORDER_COLOR = Color.BLACK;
     private static final Color LOWER_BORDER_COLOR = Color.BLACK;
     private static final Color UPPER_BORDER_COLOR = Color.BLACK;
-    private static final Color CENTER_BORDER_COLOR = Color.BLACK;
+    private static final Color CENTER_BORDER_COLOR = Color.WHITE;
     
-    private static final int CENTER_BORDER_LINE_SIZE = 0;
+    private static final int CENTER_BORDER_LINE_SIZE = 1;
     // End static objects and variables //
 
     // Reference variables //
@@ -278,7 +278,8 @@ public class PlayerView implements ApplicationListener, IPlayerView{
         Border tempBorder = new Border();
         tempBorder.setActor(button);
         tempBorder.setSize(tileSize, tileSize);
-        tempBorder.setLineSize(0);
+        tempBorder.setLineSize(1);
+        tempBorder.setColor(CENTER_BORDER_COLOR);
         
         // Add Listener to Tile //
         
