@@ -1,5 +1,6 @@
 package io.github.visualista.visualista.view;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -51,6 +52,12 @@ public class Border extends Group {
             super.addActorBefore(borderActor, actor);
         }
 
+    }
+
+    @Override
+    public void clearChildren() {
+        setActor(null);
+        
     }
 
     @Override
