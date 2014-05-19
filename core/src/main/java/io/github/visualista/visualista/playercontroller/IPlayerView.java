@@ -9,5 +9,5 @@ public interface IPlayerView {
     
     public boolean getIsReady();
     
-    public void addController(IGetPlayerController controller);
+    public void setController(IGetPlayerController controller);
 }

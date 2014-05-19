@@ -18,7 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-import io.github.visualista.visualista.editorcontroller.ViewEventManager;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.playercontroller.IPlayerView;
@@ -57,9 +56,6 @@ public class PlayerView implements ApplicationListener, IPlayerView{
     private VerticalGroup leftVerticalGroup;
     private VerticalGroup rightVerticalGroup;
     private VerticalGroup centerVerticalGroup;
-
-
-    private final ViewEventManager eventManager = new ViewEventManager();
 
     private Dimension configDimension;
 
@@ -256,7 +252,7 @@ public class PlayerView implements ApplicationListener, IPlayerView{
 
     private Border createSingleTile(final IGetActor tileActor, final float tileSize){
         Drawable actorImage;
-        if (tileActor.getImage() != null){
+        if (!tileActor.hasNoImage()){
             actorImage = new TextureRegionDrawable( new TextureRegion( 
                     new Texture ( Gdx.files.absolute( 
                             tileActor.getImage().getFile().getAbsolutePath() ) ) ) );
@@ -278,7 +274,9 @@ public class PlayerView implements ApplicationListener, IPlayerView{
                 if (controller != null){
                     controller.tileClicked(tileActor);
                 } else {
+                    // Debug Code //
                     System.out.println("Error: No controller found in PlayerView");
+                    // End Debug //
                 }
                 }
         });
@@ -387,7 +385,7 @@ public class PlayerView implements ApplicationListener, IPlayerView{
     }
     
     @Override
-    public void addController(IGetPlayerController controller){
+    public void setController(IGetPlayerController controller){
         this.controller = controller;
     }
     // End Utility Methods //

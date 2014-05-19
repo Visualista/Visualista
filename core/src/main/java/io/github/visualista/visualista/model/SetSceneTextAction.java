@@ -1,13 +1,5 @@
 package io.github.visualista.visualista.model;
 
-import java.util.Iterator;
-
-import io.github.visualista.visualista.editorcontroller.*;
-import io.github.visualista.visualista.playercontroller.ActionEvent;
-import io.github.visualista.visualista.playercontroller.ActionEventListener;
-import io.github.visualista.visualista.playercontroller.ActionEventSource;
-import io.github.visualista.visualista.playercontroller.ActionEventType;
-
 public class SetSceneTextAction implements IPlayAction {
 
     private String sceneText;

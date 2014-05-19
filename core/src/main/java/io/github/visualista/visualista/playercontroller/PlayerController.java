@@ -1,6 +1,6 @@
 package io.github.visualista.visualista.playercontroller;
 
-import io.github.visualista.visualista.core.Visualista;
+import io.github.visualista.visualista.core.VisualistaPlayer;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IAction;
 import io.github.visualista.visualista.model.PositionedActor;
@@ -11,14 +11,14 @@ import java.util.Iterator;
 import java.util.List;
 
 public class PlayerController implements IGetPlayerController{
-    private Visualista visualista;
+    private VisualistaPlayer visualista;
     private IPlayerView view;
 
-    public PlayerController(final Visualista visualista,
+    public PlayerController(final VisualistaPlayer visualista,
             final IPlayerView view) {
         this.visualista = visualista;
         this.view = view;
-        view.addController(this);
+        view.setController(this);
     }
 
     @Override
@@ -31,13 +31,16 @@ public class PlayerController implements IGetPlayerController{
 
     @Override
     public void tileClicked(IGetActor actor) {
+        boolean needUpdate = false;
         List<IAction> actorActions = actor.getActions();
         Iterator<IAction> it = actorActions.iterator();
         while (it.hasNext()){
             Object objectsToModify = it.next().getActionData();
-            changeData(objectsToModify);
+            needUpdate = needUpdate || changeData(objectsToModify);
         }
-        
+        if (needUpdate){
+            view.updateScene(visualista.getCurrentNovel().getCurrentScene());
+        }
     }
     
     private boolean changeData(Object dataToModify){
