@@ -31,13 +31,46 @@ import java.util.ArrayList;
 public class PlayerView implements ApplicationListener, IPlayerView{
     
     //Defining static objects and variables //
-    private static final float SIDE_BORDER_RATIO = 1.5f / 9;
     private static final Skin BASE_SKIN = new Skin( Gdx.files.internal( "uiskin.json" ) );
     private static final Drawable TRANSPARENT_ICON = new TextureRegionDrawable(
             new TextureRegion( 
                     new Texture( Gdx.files.internal( "icons/transparent.png" ) ) ) );
+    
     private static final float TITLE_FONT_SCALE = 2.0f;
     private static final float STORY_FONT_SCALE = 1.0f;
+    
+    private static final float UPPER_BORDER_HEIGHT_RATIO = 1f / 7;
+    private static final float UPPER_BORDER_WIDTH_RATIO = 6f / 9;
+    private static final float UPPER_BORDER_X_DISPLACEMENT_RATIO = 1.5f / 9;
+    private static final float UPPER_BORDER_Y_DISPLACEMENT_RATIO = 6f / 7;
+    
+    private static final float LOWER_BORDER_HEIGHT_RATIO = 2f / 7;
+    private static final float LOWER_BORDER_WIDTH_RATIO = 6f / 7;
+    private static final float LOWER_BORDER_X_DISPLACEMENT_RATIO = 1.5f / 9;
+    private static final float LOWER_BORDER_Y_DISPLACEMENT_RATIO = 0;
+    
+    private static final float LEFT_BORDER_WIDTH_RATIO = 1.5f / 9;
+    private static final float LEFT_BORDER_HEIGHT_RATIO = 1f;
+    private static final float LEFT_BORDER_X_DISPLACEMENT_RATIO = 0;
+    private static final float LEFT_BORDER_Y_DISPLACEMENT_RATIO = 0;
+    
+    private static final float RIGHT_BORDER_WIDTH_RATIO = 1.5f / 9;
+    private static final float RIGHT_BORDER_HEIGHT_RATIO = 1f;
+    private static final float RIGHT_BORDER_X_DISPLACEMENT_RATIO = 7.5f / 9;
+    private static final float RIGHT_BORDER_Y_DISPLACEMENT_RATIO = 0;
+    
+    private static final float CENTER_BORDER_WIDTH_RATIO = 6f / 9;
+    private static final float CENTER_BORDER_HEIGHT_RATIO = 4f / 7;
+    private static final float CENTER_BORDER_X_DISPLACEMENT_RATIO = 1.5f / 9;
+    private static final float CENTER_BORDER_Y_DISPLACEMENT_RATIO = 2f / 7;
+    
+    private static final Color RIGHT_BORDER_COLOR = Color.BLACK;
+    private static final Color LEFT_BORDER_COLOR = Color.BLACK;
+    private static final Color LOWER_BORDER_COLOR = Color.BLACK;
+    private static final Color UPPER_BORDER_COLOR = Color.BLACK;
+    private static final Color CENTER_BORDER_COLOR = Color.BLACK;
+    
+    private static final int CENTER_BORDER_LINE_SIZE = 0;
     // End static objects and variables //
 
     // Reference variables //
@@ -92,7 +125,7 @@ public class PlayerView implements ApplicationListener, IPlayerView{
         createCenterBorderContent();
         createLowerBorderContent();
         createUppderBorderContent();
-        resizeCenterBorder();
+        resizeBorders();
         
         Gdx.input.setInputProcessor(stage);
         Gdx.graphics.setContinuousRendering(false);
@@ -141,12 +174,6 @@ public class PlayerView implements ApplicationListener, IPlayerView{
         rightBorder.setActor(rightVerticalGroup);
         // End referencing //
         
-        // Define appearance of right border //
-        rightBorder.setSize( stage.getWidth() * SIDE_BORDER_RATIO, stage.getHeight() );
-        rightBorder.setPosition( stage.getWidth() - rightVerticalGroup.getWidth(), 0 );
-        rightBorder.setColor(Color.BLACK);
-        // End defining appearance //
-        
     }
     
     private void createLeftBorderContent(){
@@ -164,23 +191,12 @@ public class PlayerView implements ApplicationListener, IPlayerView{
         leftBorder.setActor(leftVerticalGroup);
         // End referencing //
         
-        // Define appearance of left border //¨
-        leftBorder.setSize( stage.getWidth() * SIDE_BORDER_RATIO, stage.getHeight() );
-        leftBorder.setPosition(0, 0);
-        leftBorder.setColor(Color.BLACK);
-        // End defining appearance //
-        
     }
     
     private void createLowerBorderContent() {
         // Defining the necessary variables //
         lowerBorder = new Border();
         // End defining variables //
-        // Define appearance of lower border //
-        lowerBorder.setSize(horizontalDistanceBetween(leftBorder, rightBorder),
-                100);
-        lowerBorder.setPosition(getRightSideOf(leftBorder), 0);
-        // End defining appearance //
         stage.addActor(lowerBorder);
         
         updateTextInBorder(lowerBorder, "<<Test>>", TITLE_FONT_SCALE);
@@ -190,11 +206,6 @@ public class PlayerView implements ApplicationListener, IPlayerView{
         // Defining the necessary variables //
         upperBorder = new Border();
         // End defining variables //
-        // Define appearance of lower border //
-        upperBorder.setSize(horizontalDistanceBetween(leftBorder, rightBorder),
-                100);
-        upperBorder.setPosition(getRightSideOf(leftBorder), 0);
-        // End defining appearance //
         stage.addActor(upperBorder);
         
         updateTextInBorder(upperBorder, "<<Test>>", STORY_FONT_SCALE);
@@ -203,9 +214,7 @@ public class PlayerView implements ApplicationListener, IPlayerView{
 
     // End Create Player //
     
-    // Update Player //
-    
-    // End Update Player //
+    // Logic Methods //
     private void fillGridFromScene(IGetScene scene) {
         gridButtons = new Matrix<IGetActor>(scene.getIGetGrid().getSize());
         
@@ -216,19 +225,6 @@ public class PlayerView implements ApplicationListener, IPlayerView{
             }
         }
         fillGrid(centerVerticalGroup, gridButtons);
-    }
-
-    private void resizeCenterBorder() {
-        centerBorder.setSize(
-                horizontalDistanceBetween(leftBorder, rightBorder),
-                (upperBorder.getY() - lowerBorder.getY()
-                        - lowerBorder.getHeight()));
-        centerBorder.setPosition(getRightSideOf(leftBorder), lowerBorder.getY()
-                + lowerBorder.getHeight());
-        centerVerticalGroupBorder.setLineSize(0);
-        centerVerticalGroupBorder.setSize(centerBorder.getWidth(),
-                centerBorder.getHeight());
-
     }
 
     public final void fillGrid(VerticalGroup group, IMatrixGet<IGetActor> data) {
@@ -285,9 +281,71 @@ public class PlayerView implements ApplicationListener, IPlayerView{
         
         return tempBorder;
     }
+    
+    // End Logic Methods //
+    
+    // Resize Methods //
+    private void resizeUpperBorder(){
+        upperBorder.setSize(UPPER_BORDER_WIDTH_RATIO * stage.getHeight(),
+                UPPER_BORDER_HEIGHT_RATIO * stage.getHeight());
+        upperBorder.setPosition(UPPER_BORDER_X_DISPLACEMENT_RATIO * stage.getWidth(),
+                UPPER_BORDER_Y_DISPLACEMENT_RATIO * stage.getHeight());
+        upperBorder.setColor(UPPER_BORDER_COLOR);
+        
+    }
+    
+    private void resizeLowerBorder(){
+        lowerBorder.setSize(LOWER_BORDER_WIDTH_RATIO * stage.getWidth(),
+                LOWER_BORDER_HEIGHT_RATIO * stage.getHeight());
+        lowerBorder.setPosition(LOWER_BORDER_X_DISPLACEMENT_RATIO * stage.getWidth(),
+                LOWER_BORDER_Y_DISPLACEMENT_RATIO * stage.getHeight());
+        lowerBorder.setColor(LOWER_BORDER_COLOR);
+        
+    }
+    
+    private void resizeRightBorder(){
+        rightBorder.setSize(RIGHT_BORDER_WIDTH_RATIO * stage.getWidth(), 
+                RIGHT_BORDER_HEIGHT_RATIO * stage.getHeight());
+        rightBorder.setPosition(RIGHT_BORDER_X_DISPLACEMENT_RATIO * stage.getWidth(),
+                RIGHT_BORDER_Y_DISPLACEMENT_RATIO * stage.getHeight());
+        rightBorder.setColor(RIGHT_BORDER_COLOR);
+    }
+    
+    private void resizeLeftBorder(){
+        leftBorder.setSize(LEFT_BORDER_WIDTH_RATIO * stage.getWidth(), 
+                LEFT_BORDER_HEIGHT_RATIO * stage.getHeight());
+        leftBorder.setPosition(LEFT_BORDER_X_DISPLACEMENT_RATIO * stage.getWidth(),
+                LEFT_BORDER_Y_DISPLACEMENT_RATIO * stage.getHeight());
+        leftBorder.setColor(LEFT_BORDER_COLOR);
+        
+    }
+    
+    private void resizeCenterBorder() {
+        centerBorder.setSize( CENTER_BORDER_WIDTH_RATIO * stage.getWidth(),
+                CENTER_BORDER_HEIGHT_RATIO * stage.getHeight());
+        centerBorder.setPosition(CENTER_BORDER_X_DISPLACEMENT_RATIO * stage.getWidth(), 
+                CENTER_BORDER_Y_DISPLACEMENT_RATIO * stage.getHeight());
+        centerBorder.setColor(CENTER_BORDER_COLOR);
+        
+        centerVerticalGroupBorder.setLineSize(CENTER_BORDER_LINE_SIZE);
+        centerVerticalGroupBorder.setSize(centerBorder.getWidth(),
+                centerBorder.getHeight());
+
+    }
+    
+    private void resizeBorders(){
+        resizeCenterBorder();
+        resizeLeftBorder();
+        resizeRightBorder();
+        resizeLowerBorder();
+        resizeUpperBorder();
+    }
+    // End Resize Methods //
+    
+    // LibGDX Methods //
     @Override
     public void resize(final int width, final int height) {
-
+        resizeBorders();
     }
 
     @Override
@@ -300,16 +358,21 @@ public class PlayerView implements ApplicationListener, IPlayerView{
 
     @Override
     public void pause() {
+        // Unused method
     }
 
     @Override
     public void resume() {
+        // Unused method
     }
 
     @Override
     public void dispose() {
+        // Unused method
     }
 
+    // End LibGDX Methods //
+    
     // Update Methods //
     @Override
     public void updateScene(IGetScene sceneToDisplay) {
@@ -359,25 +422,6 @@ public class PlayerView implements ApplicationListener, IPlayerView{
     // End Update Methods //
     
     // Utility Methods //
-    private float getRightSideOf(com.badlogic.gdx.scenes.scene2d.Actor viewActor) {
-        return viewActor.getX() + viewActor.getWidth();
-    }
-    
-    private static float horizontalDistanceBetween(
-            com.badlogic.gdx.scenes.scene2d.Actor actor1,
-            com.badlogic.gdx.scenes.scene2d.Actor actor2) {
-        float distance = actor2.getX() - actor1.getX() - actor1.getWidth();
-        if (distance >= 0)
-            return distance;
-        {
-        }
-        distance = actor1.getX() - actor2.getX() - actor2.getWidth();
-        if (distance >= 0) {
-            return distance;
-        } else {
-            return 0;
-        }
-    }
 
     @Override
     public boolean getIsReady() {
@@ -388,5 +432,6 @@ public class PlayerView implements ApplicationListener, IPlayerView{
     public void setController(IGetPlayerController controller){
         this.controller = controller;
     }
+    
     // End Utility Methods //
 }
