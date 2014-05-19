@@ -235,16 +235,14 @@ public class EditorView implements ApplicationListener, IEditorView,
                     }
                     editingTab = null;
                 }
-                if (actorFieldHasFocus && selectedActor != null
-                        && hitObject != actorField) {
-
-                    actorFieldHasFocus = false;
+                if (stage.getKeyboardFocus()==actorField && hitObject != actorField) {
                     String renameActorTo = actorField.getText();
-
+                    stage.setKeyboardFocus(null);
                     eventManager.fireViewEvent(this, Type.CHANGE_ACTOR_NAME,
                             actorList.getSelected(), renameActorTo);
                 }
-                if (sceneTextAreaHasFocus && hitObject == sceneTextArea){
+                if (stage.getKeyboardFocus()==sceneTextArea && hitObject != sceneTextArea){
+                    stage.setKeyboardFocus(null);
                     eventManager.fireViewEvent(this, Type.CHANGE_SCENE_TEXT, activeScene, sceneTextArea.getText());
                 }
                 return false;
