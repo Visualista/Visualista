@@ -19,7 +19,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-import io.github.visualista.visualista.core.IFilePicker;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.playercontroller.IPlayerView;
@@ -34,46 +33,42 @@ import java.util.Iterator;
 public class PlayerView implements ApplicationListener, IPlayerView{
     
     //Defining static objects and variables //
-    private static final Skin BASE_SKIN = new Skin( Gdx.files.internal( "uiskin.json" ) );
-    private static final Drawable TRANSPARENT_ICON = new TextureRegionDrawable(
-            new TextureRegion( 
-                    new Texture( Gdx.files.internal( "icons/transparent.png" ) ) ) );
     
     private static final float TITLE_FONT_SCALE = 2.0f;
     private static final float STORY_FONT_SCALE = 1.0f;
     
-    private static final float UPPER_BORDER_HEIGHT_RATIO = 1f / 7;
-    private static final float UPPER_BORDER_WIDTH_RATIO = 6f / 9;
-    private static final float UPPER_BORDER_X_DISPLACEMENT_RATIO = 1.5f / 9;
-    private static final float UPPER_BORDER_Y_DISPLACEMENT_RATIO = 6f / 7;
+    private static final float UPPER_BORDER_HEIGHT_RATIO = 1.5f / 10;
+    private static final float UPPER_BORDER_WIDTH_RATIO = 2f / 10;
+    private static final float UPPER_BORDER_X_DISPLACEMENT_RATIO = 4f / 10;
+    private static final float UPPER_BORDER_Y_DISPLACEMENT_RATIO = 8.5f / 10;
     
-    private static final float LOWER_BORDER_HEIGHT_RATIO = 2f / 7;
-    private static final float LOWER_BORDER_WIDTH_RATIO = 6f / 7;
-    private static final float LOWER_BORDER_X_DISPLACEMENT_RATIO = 1.5f / 9;
+    private static final float LOWER_BORDER_HEIGHT_RATIO = 2f / 10;
+    private static final float LOWER_BORDER_WIDTH_RATIO = 5f / 10;
+    private static final float LOWER_BORDER_X_DISPLACEMENT_RATIO = 2.5f / 10;
     private static final float LOWER_BORDER_Y_DISPLACEMENT_RATIO = 0;
     
-    private static final float LEFT_BORDER_WIDTH_RATIO = 1.5f / 9;
+    private static final float LEFT_BORDER_WIDTH_RATIO = 1.5f / 10;
     private static final float LEFT_BORDER_HEIGHT_RATIO = 1f;
     private static final float LEFT_BORDER_X_DISPLACEMENT_RATIO = 0;
     private static final float LEFT_BORDER_Y_DISPLACEMENT_RATIO = 0;
     
-    private static final float RIGHT_BORDER_WIDTH_RATIO = 1.5f / 9;
+    private static final float RIGHT_BORDER_WIDTH_RATIO = 1.5f / 10;
     private static final float RIGHT_BORDER_HEIGHT_RATIO = 1f;
-    private static final float RIGHT_BORDER_X_DISPLACEMENT_RATIO = 7.5f / 9;
+    private static final float RIGHT_BORDER_X_DISPLACEMENT_RATIO = 7.5f / 10;
     private static final float RIGHT_BORDER_Y_DISPLACEMENT_RATIO = 0;
     
-    private static final float CENTER_BORDER_WIDTH_RATIO = 6f / 9;
-    private static final float CENTER_BORDER_HEIGHT_RATIO = 4f / 7;
-    private static final float CENTER_BORDER_X_DISPLACEMENT_RATIO = 1.5f / 9;
-    private static final float CENTER_BORDER_Y_DISPLACEMENT_RATIO = 2f / 7;
+    private static final float CENTER_BORDER_WIDTH_RATIO = 5f / 10;
+    private static final float CENTER_BORDER_HEIGHT_RATIO = 6.5f / 10;
+    private static final float CENTER_BORDER_X_DISPLACEMENT_RATIO = 2.5f / 10;
+    private static final float CENTER_BORDER_Y_DISPLACEMENT_RATIO = 2f / 10;
     
     private static final Color RIGHT_BORDER_COLOR = Color.BLACK;
     private static final Color LEFT_BORDER_COLOR = Color.BLACK;
     private static final Color LOWER_BORDER_COLOR = Color.BLACK;
     private static final Color UPPER_BORDER_COLOR = Color.BLACK;
-    private static final Color CENTER_BORDER_COLOR = Color.BLACK;
+    private static final Color CENTER_BORDER_COLOR = Color.WHITE;
     
-    private static final int CENTER_BORDER_LINE_SIZE = 0;
+    private static final int CENTER_BORDER_LINE_SIZE = 1;
     // End static objects and variables //
 
     // Reference variables //
@@ -82,6 +77,9 @@ public class PlayerView implements ApplicationListener, IPlayerView{
     // End reference variables //
     private Stage stage;
     private Matrix<IGetActor> gridButtons;
+
+    private Skin baseSkin;
+    private Drawable transparentIcon;
 
     private Border leftBorder;
     private Border rightBorder;
@@ -110,6 +108,10 @@ public class PlayerView implements ApplicationListener, IPlayerView{
 
     @Override
     public final void create() {
+        baseSkin = new Skin( Gdx.files.internal( "uiskin.json" ) );
+        transparentIcon = new TextureRegionDrawable(
+                new TextureRegion( 
+                        new Texture( Gdx.files.internal( "icons/transparent.png" ) ) ) );
         createPlayerView();
     }
     
@@ -132,7 +134,7 @@ public class PlayerView implements ApplicationListener, IPlayerView{
         
         Gdx.input.setInputProcessor(stage);
         Gdx.graphics.setContinuousRendering(false);
-        isReady = true;
+        controller.openNovelFile();
     }
     
     private void createCenterBorderContent(){
@@ -270,13 +272,14 @@ public class PlayerView implements ApplicationListener, IPlayerView{
                             tileActor.getImage().getFile().getAbsolutePath() ) ) ) );
             
         } else {
-            actorImage = TRANSPARENT_ICON;
+            actorImage = transparentIcon;
         }
         Image button = new Image(actorImage);
         Border tempBorder = new Border();
         tempBorder.setActor(button);
         tempBorder.setSize(tileSize, tileSize);
-        tempBorder.setLineSize(0);
+        tempBorder.setLineSize(1);
+        tempBorder.setColor(CENTER_BORDER_COLOR);
         
         // Add Listener to Tile //
         
@@ -302,7 +305,7 @@ public class PlayerView implements ApplicationListener, IPlayerView{
     
     // Resize Methods //
     private void resizeUpperBorder(){
-        upperBorder.setSize(UPPER_BORDER_WIDTH_RATIO * stage.getHeight(),
+        upperBorder.setSize(UPPER_BORDER_WIDTH_RATIO * stage.getWidth(),
                 UPPER_BORDER_HEIGHT_RATIO * stage.getHeight());
         upperBorder.setPosition(UPPER_BORDER_X_DISPLACEMENT_RATIO * stage.getWidth(),
                 UPPER_BORDER_Y_DISPLACEMENT_RATIO * stage.getHeight());
@@ -366,7 +369,7 @@ public class PlayerView implements ApplicationListener, IPlayerView{
 
     @Override
     public final void render() {
-        Gdx.gl.glClearColor(1, 1, 1, 2);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
@@ -430,8 +433,8 @@ public class PlayerView implements ApplicationListener, IPlayerView{
     }
     
     private void updateTextInBorder(Border borderToUpdate, String storyText, float fontScale){
-        borderToUpdate.clear();
-        Label label = new Label(storyText, BASE_SKIN);
+        borderToUpdate.clearChildren();
+        Label label = new Label(storyText, baseSkin);
         label.setFontScale(fontScale);
         borderToUpdate.setActor(label);
     }
