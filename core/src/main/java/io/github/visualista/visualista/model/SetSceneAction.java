@@ -9,7 +9,7 @@ import io.github.visualista.visualista.playercontroller.ActionEventListener;
 import io.github.visualista.visualista.playercontroller.ActionEventSource;
 import io.github.visualista.visualista.playercontroller.ActionEventType;
 
-public class SetSceneAction extends ActionEventSource implements IPlayAction {
+public class SetSceneAction implements IPlayAction {
 
     private Scene targetScene;
 
@@ -30,19 +30,9 @@ public class SetSceneAction extends ActionEventSource implements IPlayAction {
     }
 
     @Override
-    public void callAction() {
-       fireActionEvent();
+    public Object getActionData() {
+       return targetScene;
 
-    }
-
-    @Override
-    public void fireActionEvent() {
-        final ActionEvent ae = new ActionEvent(this, ActionEventType.SET_SCENE, targetScene);
-        final Iterator<ActionEventListener> it = actorEventListeners.iterator();
-        while (it.hasNext()) {
-            it.next().handleActionEvent(ae);
-        }
-        
     }
 
 }
