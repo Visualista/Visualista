@@ -139,6 +139,8 @@ public class EditorController implements ViewEventListener {
                 Tile updatedTile =(Tile) event.getTargetObject(); 
                 updatedTile.setActor((Actor)event.getExtraData());
                 view.updateTile(event.getSource(), updatedTile);
+            case SELECT_TILE:
+                view.selectActor(((Tile)(event.getTargetObject())).getActor());
             default:
                 break;
 
