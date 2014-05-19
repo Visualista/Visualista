@@ -297,7 +297,7 @@ public class EditorView implements ApplicationListener, IEditorView,
             public void clicked(InputEvent event, float x, float y) {
                 // TODO selected scene and image
                 FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                        "Chose image", "png");
+                        "Select image (*.png)", "png");
                 filePicker.openFileDialog(new FilePickerListener() {
 
                     @Override
@@ -902,7 +902,7 @@ public class EditorView implements ApplicationListener, IEditorView,
 
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    selectedTool = EditorTool.ARROW;
+                    selectedTool = EditorTool.CURSOR;
                     hideButtonBorders();
                     border.setLineSize(1);
                 }
@@ -959,9 +959,11 @@ public class EditorView implements ApplicationListener, IEditorView,
 
                         @Override
                         public void fileOpened(File selectedFile) {
-                            eventManager.fireViewEvent(this,
-                                    Type.CHANGE_SCENE_IMAGE, activeScene,
-                                    selectedFile);
+                            if (selectedFile != null) {
+                                eventManager.fireViewEvent(this,
+                                        Type.CHANGE_SCENE_IMAGE, activeScene,
+                                        selectedFile);
+                            }
                         }
 
                         @Override
