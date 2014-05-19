@@ -601,12 +601,17 @@ public class EditorView implements ApplicationListener, IEditorView,
     @Override
     public void updateScene(IGetScene scene) {
         String name = scene.getName();
+        String text = scene.getStoryText();
         if (name == null) {
             name = "";
         }
         while (name.length() < 5) {
             name += " ";
         }
+        if (text == null){
+            text = "";
+        }
+        Gdx.app.log("Scene text", text);
 
         if (scene.getImage() != null) {
             final Drawable tile = new TextureRegionDrawable(new TextureRegion(
@@ -637,6 +642,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         IGetActor[] temp = new IGetActor[scene.getActorsInScene().size()];
         selectedActor = null;
         actorList.setItems(scene.getActorsInScene().toArray(temp));
+        sceneTextArea.setText(text);
 
     }
 
