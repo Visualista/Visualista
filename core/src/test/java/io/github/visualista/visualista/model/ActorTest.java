@@ -30,16 +30,16 @@ public class ActorTest {
             }
 
             @Override
-            public void callAction() {
+            public void getActionData() {
                 // TODO Auto-generated method stub
 
             }
 
         };
         actor2.addAction(action);
-        assertEquals(1, actor2.getActions().size());
+        assertEquals(1, actor2.getEditActions().size());
         actor2.removeAction(action);
-        assertEquals(0, actor2.getActions().size());
+        assertEquals(0, actor2.getEditActions().size());
     }
 
     @Test
