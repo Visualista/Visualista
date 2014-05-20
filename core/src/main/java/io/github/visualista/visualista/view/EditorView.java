@@ -58,10 +58,10 @@ public class EditorView implements ApplicationListener, IEditorView,
         FilePickerListener, TabClickListener {
 
     // Declaring static variables //
-    private static final float UPPER_BORDER_HEIGHT_RATIO = 1.5f / 10;
-    private static final float UPPER_BORDER_WIDTH_RATIO = 2f / 10;
-    private static final float UPPER_BORDER_X_DISPLACEMENT_RATIO = 4f / 10;
-    private static final float UPPER_BORDER_Y_DISPLACEMENT_RATIO = 8.5f / 10;
+    private static final float UPPER_BORDER_HEIGHT_RATIO = 2f / 10;
+    private static final float UPPER_BORDER_WIDTH_RATIO = 5f / 10;
+    private static final float UPPER_BORDER_X_DISPLACEMENT_RATIO = 2.5f / 10;
+    private static final float UPPER_BORDER_Y_DISPLACEMENT_RATIO = 8f / 10;
     private static final Color UPPER_BORDER_COLOR = Color.BLACK;
     private static final int UPPER_BORDER_LINE_SIZE = 1;
 
@@ -72,14 +72,14 @@ public class EditorView implements ApplicationListener, IEditorView,
     private static final Color LOWER_BORDER_COLOR = Color.BLACK;
     private static final int LOWER_BORDER_LINE_SIZE = 1;
 
-    private static final float LEFT_BORDER_WIDTH_RATIO = 1.5f / 10;
+    private static final float LEFT_BORDER_WIDTH_RATIO = 2.5f / 10;
     private static final float LEFT_BORDER_HEIGHT_RATIO = 1f;
     private static final float LEFT_BORDER_X_DISPLACEMENT_RATIO = 0;
     private static final float LEFT_BORDER_Y_DISPLACEMENT_RATIO = 0;
     private static final Color LEFT_BORDER_COLOR = Color.BLACK;
     private static final int LEFT_BORDER_LINE_SIZE = 1;
 
-    private static final float RIGHT_BORDER_WIDTH_RATIO = 1.5f / 10;
+    private static final float RIGHT_BORDER_WIDTH_RATIO = 2.5f / 10;
     private static final float RIGHT_BORDER_HEIGHT_RATIO = 1f;
     private static final float RIGHT_BORDER_X_DISPLACEMENT_RATIO = 7.5f / 10;
     private static final float RIGHT_BORDER_Y_DISPLACEMENT_RATIO = 0;
@@ -87,7 +87,7 @@ public class EditorView implements ApplicationListener, IEditorView,
     private static final int RIGHT_BORDER_LINE_SIZE = 1;
 
     private static final float CENTER_BORDER_WIDTH_RATIO = 5f / 10;
-    private static final float CENTER_BORDER_HEIGHT_RATIO = 6.5f / 10;
+    private static final float CENTER_BORDER_HEIGHT_RATIO = 6f / 10;
     private static final float CENTER_BORDER_X_DISPLACEMENT_RATIO = 2.5f / 10;
     private static final float CENTER_BORDER_Y_DISPLACEMENT_RATIO = 2f / 10;
     private static final Color CENTER_BORDER_COLOR = Color.BLACK;
@@ -126,7 +126,7 @@ public class EditorView implements ApplicationListener, IEditorView,
     private List<Tab> contextMenu;
     private ScrollPane contextMenuScroll;
 
-    private HorizontalGroup tabExtraButtons;
+    private HorizontalGroup tabUtilityButtons;
 
     private boolean isReady;
 
@@ -338,7 +338,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         tab.setHeight(upperBorder.getHeight());
         Tab oldTab = tabs.getKey(scene);
         if (oldTab == null || true) {
-            sceneButtonGroup.addActorBefore(tabExtraButtons, tab);
+            sceneButtonGroup.addActorBefore(tabUtilityButtons, tab);
         } else {
             sceneButtonGroup.addActorBefore(oldTab, tab);
             sceneButtonGroup.removeActor(oldTab);
@@ -451,7 +451,7 @@ public class EditorView implements ApplicationListener, IEditorView,
     private void clearSceneTabs() {
         contextMenu.getItems().clear();
         sceneButtonGroup.clearChildren();
-        sceneButtonGroup.addActor(tabExtraButtons);
+        sceneButtonGroup.addActor(tabUtilityButtons);
         tabs.clear();
     }
 
@@ -507,10 +507,10 @@ public class EditorView implements ApplicationListener, IEditorView,
 
     private class LowerBorder extends Border {
 
-        private HorizontalGroup lowerBorder;
-
         public void LowerBorder() {
+            createLowerBorderContent();
             resizeLowerBorder();
+            stage.addActor(this);
         }
 
         private void resizeLowerBorder() {
@@ -522,10 +522,8 @@ public class EditorView implements ApplicationListener, IEditorView,
             setColor(LOWER_BORDER_COLOR);
 
         }
-        private void creatLowerEditorBorderContent() {
-            lowerBorder.setSize(horizontalDistanceBetween(leftBorder, rightBorder),
-                    100);
-            lowerBorder.setPosition(rightSideOf(leftBorder), 0);
+        
+        private void createLowerBorderContent() {
             sceneTextArea = new TextArea("", uiSkin);
 
             sceneTextArea.addCaptureListener(new ClickListener() {
@@ -539,29 +537,26 @@ public class EditorView implements ApplicationListener, IEditorView,
             });
 
             this.setActor(sceneTextArea);
-            stage.addActor(lowerBorder);
-        }
-
-        private void createLowerBorderContent() {
-
         }
     }
 
     private class UpperBorder extends Border {
-
-        private Border upperBorder;
+        
         private TextButton newSceneButton;
+        private TextButton overflowDropdownButton;
 
         public void UpperBorder() {
+            createUpperBorderContent();
             resizeUpperBorder();
+            stage.addActor(this);
         }
         
-        void createUpperEditorBorderContent() {
-            newSceneButton = new TextButton("+", uiSkin);
-            overflowDropdownButton = new TextButton(">", uiSkin);
-            tabExtraButtons = new HorizontalGroup();
-            tabExtraButtons.addActor(newSceneButton);
-            tabExtraButtons.addActor(overflowDropdownButton);
+        void createUpperBorderContent() {
+            newSceneButton = createNewSceneButton();
+            overflowDropdownButton = createSceneOverflowButton();
+            tabUtilityButtons = createTabUtilityButtons();
+            tabUtilityButtons.addActor(newSceneButton);
+            tabUtilityButtons.addActor(overflowDropdownButton);
             overflowDropdownButton.setVisible(false);
             overflowDropdownButton.addCaptureListener(new ClickListener() {
                 @Override
@@ -569,26 +564,13 @@ public class EditorView implements ApplicationListener, IEditorView,
                     contextMenuScroll.setVisible(true);
                 }
             });
-            newSceneButton.addCaptureListener(new ClickListener() {
-                @Override
-                public void clicked(final InputEvent event, final float x, float y) {
-                    eventManager.fireViewEvent(this, Type.NEW_SCENE);
-                }
-            });
 
-            upperBorder = new UpperBorder();
-            upperBorder.setSize(horizontalDistanceBetween(leftBorder, rightBorder),
-                    stage.getHeight() * (1 / 25f));
-            upperBorder.setPosition(rightSideOf(leftBorder), stage.getHeight()
-                    - upperBorder.getHeight());
             sceneButtonGroup = new HorizontalGroup();
-            sceneButtonGroup.addActor(tabExtraButtons);
+            sceneButtonGroup.addActor(tabUtilityButtons);
 
-            upperBorder.setActor(sceneButtonGroup);
+            this.setActor(sceneButtonGroup);
             sceneButtonGroup.setX(3);
-            stage.addActor(upperBorder);
 
-            final String[] actors = {};
             contextMenu = new List(uiSkin);
             contextMenu.setWidth(150);
             contextMenu.setColor(Color.BLACK);
@@ -650,6 +632,34 @@ public class EditorView implements ApplicationListener, IEditorView,
             });
         }
 
+        private TextButton createNewSceneButton(){
+            TextButton newButton = new TextButton("+", uiSkin);
+            newButton.addCaptureListener(new ClickListener() {
+                @Override
+                public void clicked(final InputEvent event, final float x, float y) {
+                    eventManager.fireViewEvent(this, Type.NEW_SCENE);
+                }
+            });
+            return newButton;
+        }
+        
+        private TextButton createSceneOverflowButton(){
+            TextButton newButton = new TextButton(">", uiSkin);
+            
+            return newButton;
+        }
+        
+        private HorizontalGroup createTabUtilityButtons(TextButton... utility){
+            HorizontalGroup newGroup = new HorizontalGroup();
+            for (TextButton button : utility){
+                newGroup.addActor(button);
+            }
+            
+            return newGroup;
+            
+            
+        }
+        
         private void resizeUpperBorder() {
             setSize(UPPER_BORDER_WIDTH_RATIO * stage.getWidth(),
                     UPPER_BORDER_HEIGHT_RATIO * stage.getHeight());
