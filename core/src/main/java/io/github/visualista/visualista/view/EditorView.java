@@ -64,50 +64,41 @@ public class EditorView implements ApplicationListener, IEditorView,
     private static final float UPPER_BORDER_Y_DISPLACEMENT_RATIO = 8.5f / 10;
     private static final Color UPPER_BORDER_COLOR = Color.BLACK;
     private static final int UPPER_BORDER_LINE_SIZE = 1;
-    
+
     private static final float LOWER_BORDER_HEIGHT_RATIO = 2f / 10;
     private static final float LOWER_BORDER_WIDTH_RATIO = 5f / 10;
     private static final float LOWER_BORDER_X_DISPLACEMENT_RATIO = 2.5f / 10;
     private static final float LOWER_BORDER_Y_DISPLACEMENT_RATIO = 0;
     private static final Color LOWER_BORDER_COLOR = Color.BLACK;
     private static final int LOWER_BORDER_LINE_SIZE = 1;
-    
+
     private static final float LEFT_BORDER_WIDTH_RATIO = 1.5f / 10;
     private static final float LEFT_BORDER_HEIGHT_RATIO = 1f;
     private static final float LEFT_BORDER_X_DISPLACEMENT_RATIO = 0;
     private static final float LEFT_BORDER_Y_DISPLACEMENT_RATIO = 0;
     private static final Color LEFT_BORDER_COLOR = Color.BLACK;
     private static final int LEFT_BORDER_LINE_SIZE = 1;
-    
+
     private static final float RIGHT_BORDER_WIDTH_RATIO = 1.5f / 10;
     private static final float RIGHT_BORDER_HEIGHT_RATIO = 1f;
     private static final float RIGHT_BORDER_X_DISPLACEMENT_RATIO = 7.5f / 10;
     private static final float RIGHT_BORDER_Y_DISPLACEMENT_RATIO = 0;
     private static final Color RIGHT_BORDER_COLOR = Color.BLACK;
     private static final int RIGHT_BORDER_LINE_SIZE = 1;
-    
+
     private static final float CENTER_BORDER_WIDTH_RATIO = 5f / 10;
     private static final float CENTER_BORDER_HEIGHT_RATIO = 6.5f / 10;
     private static final float CENTER_BORDER_X_DISPLACEMENT_RATIO = 2.5f / 10;
     private static final float CENTER_BORDER_Y_DISPLACEMENT_RATIO = 2f / 10;
     private static final Color CENTER_BORDER_COLOR = Color.BLACK;
     private static final int CENTER_BORDER_LINE_SIZE = 1;
-    
-    
 
-    
     // End static variables //
     private Stage stage;
 
     private Skin uiSkin;
 
-
-    private TextButton addActorButton;
-    private TextButton removeActorButton;
-    private TextButton newSceneButton;
-    private TextButton modifyButton;
-    private TextButton addActionButton;
-    private TextButton setSceneBackgroundButton;
+    
 
     private Label actionLabel;
 
@@ -149,7 +140,6 @@ public class EditorView implements ApplicationListener, IEditorView,
 
     private Border centerVerticalGroupBorder;
 
-    private TextField actorField;
 
     private Tab editingTab;
 
@@ -187,7 +177,8 @@ public class EditorView implements ApplicationListener, IEditorView,
         creatLowerEditorBorderContent();
         centerBorder = new CenterBorder();
         stage.addActor(centerBorder);
-        createUpperEditorBorderContent();
+        upperBorder = new UpperBorder();
+        stage.addActor(upperBorder);
 
         // Use if you need to zoom out a bit
         // ((OrthographicCamera) stage.getCamera()).zoom = 2;
@@ -199,98 +190,8 @@ public class EditorView implements ApplicationListener, IEditorView,
         eventManager.fireViewEvent(this, Type.VIEW_READY);
     }
 
-        
-     // Create Editor //
-        void createUpperEditorBorderContent() {
-        newSceneButton = new TextButton("+", uiSkin);
-        overflowDropdownButton = new TextButton(">", uiSkin);
-        tabExtraButtons = new HorizontalGroup();
-        tabExtraButtons.addActor(newSceneButton);
-        tabExtraButtons.addActor(overflowDropdownButton);
-        overflowDropdownButton.setVisible(false);
-        overflowDropdownButton.addCaptureListener(new ClickListener() {
-            @Override
-            public void clicked(final InputEvent event, final float x, float y) {
-                contextMenuScroll.setVisible(true);
-            }
-        });
-        newSceneButton.addCaptureListener(new ClickListener() {
-            @Override
-            public void clicked(final InputEvent event, final float x, float y) {
-                eventManager.fireViewEvent(this, Type.NEW_SCENE);
-            }
-        });
-
-        upperBorder = new Border();
-        upperBorder.setSize(horizontalDistanceBetween(leftBorder, rightBorder),
-                stage.getHeight() * (1 / 25f));
-        upperBorder.setPosition(rightSideOf(leftBorder), stage.getHeight()
-                - upperBorder.getHeight());
-        sceneButtonGroup = new HorizontalGroup();
-        sceneButtonGroup.addActor(tabExtraButtons);
-
-        upperBorder.setActor(sceneButtonGroup);
-        sceneButtonGroup.setX(3);
-        stage.addActor(upperBorder);
-
-        final String[] actors = {};
-        contextMenu = new List(uiSkin);
-        contextMenu.setWidth(150);
-        contextMenu.setColor(Color.BLACK);
-        contextMenuScroll = new ScrollPane(contextMenu, uiSkin);
-        contextMenuScroll.setFadeScrollBars(false);
-        contextMenuScroll.setWidth(100);//actionList.getWidth());
-        contextMenuScroll.setPosition(
-                rightBorder.getX() - contextMenuScroll.getWidth(),
-                upperBorder.getY() - contextMenuScroll.getHeight());
-
-        contextMenu.addCaptureListener(new ClickListener() {
-            @Override
-            public void clicked(final InputEvent event, final float x, float y) {
-                Gdx.app.log("contextMenu", "clicked");
-            }
-        });
-        contextMenuScroll.setVisible(false);
-        stage.addActor(contextMenuScroll);
-        stage.addListener(new InputListener() {
-
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y,
-                    int pointer, int button) {
-                Actor hitObject = stage.hit(x, y, true);
-                boolean contextMenuClicked = hitObject == contextMenuScroll
-                        || hitObject == contextMenu;
-                if (!contextMenuClicked) {
-                    contextMenuScroll.setVisible(false);
-                }
-                if (editingTab != null
-                        && (hitObject != editingTab && hitObject != editingTab
-                                .getTextField())) {
-                    String newName = editingTab.newName();
-                    if (editingTab.nameWasChanged()) {
-                        eventManager.fireViewEvent(this,
-                                Type.CHANGE_SCENE_NAME,
-                                tabs.getValue(editingTab), newName);
-                    } else {
-                        editingTab.stopEditing();
-                    }
-                    editingTab = null;
-                }
-                if (stage.getKeyboardFocus()==actorField && hitObject != actorField) {
-                    String renameActorTo = actorField.getText();
-                    stage.setKeyboardFocus(null);
-                    eventManager.fireViewEvent(this, Type.CHANGE_ACTOR_NAME,
-                            actorList.getSelected(), renameActorTo);
-                }
-                if (stage.getKeyboardFocus()==sceneTextArea && hitObject != sceneTextArea){
-                    stage.setKeyboardFocus(null);
-                    eventManager.fireViewEvent(this, Type.CHANGE_SCENE_TEXT, activeScene, sceneTextArea.getText());
-                }
-                return false;
-            }
-
-        });
-    }
+    // Create Editor //
+    
 
     private void creatLowerEditorBorderContent() {
         lowerBorder = new Border();
@@ -298,7 +199,7 @@ public class EditorView implements ApplicationListener, IEditorView,
                 100);
         lowerBorder.setPosition(rightSideOf(leftBorder), 0);
         sceneTextArea = new TextArea("", uiSkin);
-        
+
         sceneTextArea.addCaptureListener(new ClickListener() {
 
             @Override
@@ -308,42 +209,12 @@ public class EditorView implements ApplicationListener, IEditorView,
             }
 
         });
-        
+
         lowerBorder.setActor(sceneTextArea);
         stage.addActor(lowerBorder);
     }
 
     
-
-    
-
-    private void createRemoveActorButton() {
-        removeActorButton = new TextButton("Remove actor", uiSkin);
-        removeActorButton.setSize(150, 20);
-
-        removeActorButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                // TODO list linking
-                eventManager
-                        .fireViewEvent(this, Type.REMOVE_ACTOR, activeScene);
-            }
-        });
-    }
-
-    // End create Editor //
-    
-    private void createAddActorButton() {
-        addActorButton = new TextButton("Add actor", uiSkin);
-        addActorButton.setSize(150, 20);
-
-        addActorButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                eventManager.fireViewEvent(this, Type.NEW_ACTOR, activeScene);
-            }
-        });
-    }
 
     private ScrollPane createScrollPane() {
         final ScrollPane scroll = new ScrollPane(actorList, uiSkin);
@@ -369,8 +240,6 @@ public class EditorView implements ApplicationListener, IEditorView,
         centerBorder.fillGrid(centerVerticalGroup, gridButtons);
     }
 
-    
-
     protected void openNovel() {
         filePicker.openFileDialog(EditorView.this, new FileNameExtensionFilter(
                 "Visualista Novel", "vis"));
@@ -384,8 +253,6 @@ public class EditorView implements ApplicationListener, IEditorView,
     private float rightSideOf(com.badlogic.gdx.scenes.scene2d.Actor actor) {
         return actor.getX() + actor.getWidth();
     }
-
-    
 
     @Override
     public void resize(final int width, final int height) {
@@ -470,7 +337,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         while (name.length() < 5) {
             name += " ";
         }
-        if (text == null){
+        if (text == null) {
             text = "";
         }
         Gdx.app.log("Scene text", text);
@@ -626,8 +493,9 @@ public class EditorView implements ApplicationListener, IEditorView,
         selectedActor = actor;
         if (actor != null) {
             rightVerticalGroup.setVisible(true);
-            actorField.setText(actor.getName());
-            rightBorder.setActorImage(ModelToGdxHelper.createDrawableFor(actor));
+            rightBorder.actorField.setText(actor.getName());
+            rightBorder
+                    .setActorImage(ModelToGdxHelper.createDrawableFor(actor));
         } else {
             rightVerticalGroup.setVisible(false);
         }
@@ -655,38 +523,133 @@ public class EditorView implements ApplicationListener, IEditorView,
                 true)));
     }
 
-    private class LowerBorder extends Border{
-        
+    private class LowerBorder extends Border {
+
         private HorizontalGroup lowerBorder;
-        
-        public void LowerBorder(){
+
+        public void LowerBorder() {
             resizeLowerBorder();
         }
-        
-        private void resizeLowerBorder(){
+
+        private void resizeLowerBorder() {
             setSize(LOWER_BORDER_WIDTH_RATIO * stage.getWidth(),
                     LOWER_BORDER_HEIGHT_RATIO * stage.getHeight());
             setPosition(LOWER_BORDER_X_DISPLACEMENT_RATIO * stage.getWidth(),
                     LOWER_BORDER_Y_DISPLACEMENT_RATIO * stage.getHeight());
             setLineSize(LOWER_BORDER_LINE_SIZE);
             setColor(LOWER_BORDER_COLOR);
-            
+
         }
-        
-        private void createLowerBorderContent(){
-            
+
+        private void createLowerBorderContent() {
+
         }
     }
-    
-    private class UpperBorder extends Border{
-        
-        private HorizontalGroup upperBorder;
-        
-        public void UpperBorder(){
+
+    private class UpperBorder extends Border {
+
+        private Border upperBorder;
+        private TextButton newSceneButton;
+
+        public void UpperBorder() {
             resizeUpperBorder();
         }
         
-        private void resizeUpperBorder(){
+        void createUpperEditorBorderContent() {
+            newSceneButton = new TextButton("+", uiSkin);
+            overflowDropdownButton = new TextButton(">", uiSkin);
+            tabExtraButtons = new HorizontalGroup();
+            tabExtraButtons.addActor(newSceneButton);
+            tabExtraButtons.addActor(overflowDropdownButton);
+            overflowDropdownButton.setVisible(false);
+            overflowDropdownButton.addCaptureListener(new ClickListener() {
+                @Override
+                public void clicked(final InputEvent event, final float x, float y) {
+                    contextMenuScroll.setVisible(true);
+                }
+            });
+            newSceneButton.addCaptureListener(new ClickListener() {
+                @Override
+                public void clicked(final InputEvent event, final float x, float y) {
+                    eventManager.fireViewEvent(this, Type.NEW_SCENE);
+                }
+            });
+
+            upperBorder = new UpperBorder();
+            upperBorder.setSize(horizontalDistanceBetween(leftBorder, rightBorder),
+                    stage.getHeight() * (1 / 25f));
+            upperBorder.setPosition(rightSideOf(leftBorder), stage.getHeight()
+                    - upperBorder.getHeight());
+            sceneButtonGroup = new HorizontalGroup();
+            sceneButtonGroup.addActor(tabExtraButtons);
+
+            upperBorder.setActor(sceneButtonGroup);
+            sceneButtonGroup.setX(3);
+            stage.addActor(upperBorder);
+
+            final String[] actors = {};
+            contextMenu = new List(uiSkin);
+            contextMenu.setWidth(150);
+            contextMenu.setColor(Color.BLACK);
+            contextMenuScroll = new ScrollPane(contextMenu, uiSkin);
+            contextMenuScroll.setFadeScrollBars(false);
+            contextMenuScroll.setWidth(100);// actionList.getWidth());
+            contextMenuScroll.setPosition(
+                    rightBorder.getX() - contextMenuScroll.getWidth(),
+                    upperBorder.getY() - contextMenuScroll.getHeight());
+
+            contextMenu.addCaptureListener(new ClickListener() {
+                @Override
+                public void clicked(final InputEvent event, final float x, float y) {
+                    Gdx.app.log("contextMenu", "clicked");
+                }
+            });
+            contextMenuScroll.setVisible(false);
+            stage.addActor(contextMenuScroll);
+            stage.addListener(new InputListener() {
+
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y,
+                        int pointer, int button) {
+                    Actor hitObject = stage.hit(x, y, true);
+                    boolean contextMenuClicked = hitObject == contextMenuScroll
+                            || hitObject == contextMenu;
+                    if (!contextMenuClicked) {
+                        contextMenuScroll.setVisible(false);
+                    }
+                    if (editingTab != null
+                            && (hitObject != editingTab && hitObject != editingTab
+                                    .getTextField())) {
+                        String newName = editingTab.newName();
+                        if (editingTab.nameWasChanged()) {
+                            eventManager.fireViewEvent(this,
+                                    Type.CHANGE_SCENE_NAME,
+                                    tabs.getValue(editingTab), newName);
+                        } else {
+                            editingTab.stopEditing();
+                        }
+                        editingTab = null;
+                    }
+                    if (stage.getKeyboardFocus() == rightBorder.actorField
+                            && hitObject != rightBorder.actorField) {
+                        String renameActorTo = rightBorder.actorField.getText();
+                        stage.setKeyboardFocus(null);
+                        eventManager.fireViewEvent(this, Type.CHANGE_ACTOR_NAME,
+                                actorList.getSelected(), renameActorTo);
+                    }
+                    if (stage.getKeyboardFocus() == sceneTextArea
+                            && hitObject != sceneTextArea) {
+                        stage.setKeyboardFocus(null);
+                        eventManager.fireViewEvent(this, Type.CHANGE_SCENE_TEXT,
+                                activeScene, sceneTextArea.getText());
+                    }
+                    return false;
+                }
+
+            });
+        }
+
+        private void resizeUpperBorder() {
             setSize(UPPER_BORDER_WIDTH_RATIO * stage.getWidth(),
                     UPPER_BORDER_HEIGHT_RATIO * stage.getHeight());
             setPosition(UPPER_BORDER_X_DISPLACEMENT_RATIO * stage.getWidth(),
@@ -694,17 +657,17 @@ public class EditorView implements ApplicationListener, IEditorView,
             setLineSize(UPPER_BORDER_LINE_SIZE);
             setColor(UPPER_BORDER_COLOR);
         }
-        
+
     }
-    
-    private class CenterBorder extends Border{
-        
+
+    private class CenterBorder extends Border {
+
         private HorizontalGroup centerBorder;
-        
-        public void CenterBorder(){
+
+        public void CenterBorder() {
             resizeCenterBorder();
         }
-        
+
         private void createCenterEditorBorderContent() {
             centerVerticalGroup = new VerticalGroup();
             stage.addActor(centerBorder);
@@ -720,7 +683,7 @@ public class EditorView implements ApplicationListener, IEditorView,
             this.setActor(stack);
             gridButtons = new Matrix<Image>(new Dimension(5, 5));
         }
-        
+
         private void createImagesForGrid(IGetScene scene) {
             gridButtons = new Matrix<Image>(scene.getIGetGrid().getSize());
             IGetGrid grid = scene.getIGetGrid();
@@ -729,8 +692,8 @@ public class EditorView implements ApplicationListener, IEditorView,
 
             for (int y = 0; y < gridHeight; ++y) {
                 for (int x = 0; x < gridWidth; ++x) {
-                    final IGetTile tileAtCurrentPosition = grid.getAt(new Point(x,
-                            y));
+                    final IGetTile tileAtCurrentPosition = grid
+                            .getAt(new Point(x, y));
                     final Image imageForCurrentTile = ModelToGdxHelper
                             .createImageFor(tileAtCurrentPosition);
                     imageForCurrentTile.addCaptureListener(new ClickListener() {
@@ -740,12 +703,16 @@ public class EditorView implements ApplicationListener, IEditorView,
                             if (selectedActor != null) {
                                 if (selectedTool == EditorTool.ARROW) {
 
-                                    eventManager.fireViewEvent(imageForCurrentTile,
+                                    eventManager.fireViewEvent(
+                                            imageForCurrentTile,
                                             Type.TILE_SET_ACTOR,
-                                            tileAtCurrentPosition, selectedActor);
+                                            tileAtCurrentPosition,
+                                            selectedActor);
 
-                                }else if(selectedTool == EditorTool.CURSOR){
-                                    eventManager.fireViewEvent(this, Type.SELECT_TILE, tileAtCurrentPosition);
+                                } else if (selectedTool == EditorTool.CURSOR) {
+                                    eventManager.fireViewEvent(this,
+                                            Type.SELECT_TILE,
+                                            tileAtCurrentPosition);
                                 }
                             }
                             super.clicked(event, x, y);
@@ -756,27 +723,27 @@ public class EditorView implements ApplicationListener, IEditorView,
                 }
             }
         }
-        /*Old resizeCenterBorder
-        private void resizeCenterBorder() {
-            centerBorder.setSize(
-                    horizontalDistanceBetween(leftBorder, rightBorder),
-                    (upperBorder.getY() - lowerBorder.getY() - lowerBorder
-                            .getHeight()));
-            centerBorder.setPosition(rightSideOf(leftBorder), lowerBorder.getY()
-                    + lowerBorder.getHeight());
-            centerVerticalGroupBorder.setLineSize(0);
-            centerVerticalGroupBorder.setSize(centerBorder.getWidth(),
-                    centerBorder.getHeight());
 
-        }*/
-        
+        /*
+         * Old resizeCenterBorder private void resizeCenterBorder() {
+         * centerBorder.setSize( horizontalDistanceBetween(leftBorder,
+         * rightBorder), (upperBorder.getY() - lowerBorder.getY() - lowerBorder
+         * .getHeight())); centerBorder.setPosition(rightSideOf(leftBorder),
+         * lowerBorder.getY() + lowerBorder.getHeight());
+         * centerVerticalGroupBorder.setLineSize(0);
+         * centerVerticalGroupBorder.setSize(centerBorder.getWidth(),
+         * centerBorder.getHeight());
+         * 
+         * }
+         */
+
         public final void fillGrid(VerticalGroup group, IMatrixGet<Image> data) {
             float prefferedButtonHeight = group.getHeight()
                     / data.getSize().getHeight();
             float prefferedButtonWidth = group.getWidth()
                     / data.getSize().getWidth();
-            float buttonLength = (float) Math.floor(Math.min(prefferedButtonWidth,
-                    prefferedButtonHeight));
+            float buttonLength = (float) Math.floor(Math.min(
+                    prefferedButtonWidth, prefferedButtonHeight));
 
             for (int i = 0; i < data.getSize().getHeight(); i++) {
                 HorizontalGroup row = new HorizontalGroup();
@@ -791,8 +758,8 @@ public class EditorView implements ApplicationListener, IEditorView,
                 }
             }
         }
-        
-        private void resizeCenterBorder(){
+
+        private void resizeCenterBorder() {
             setSize(CENTER_BORDER_WIDTH_RATIO * stage.getWidth(),
                     CENTER_BORDER_HEIGHT_RATIO * stage.getHeight());
             setPosition(CENTER_BORDER_X_DISPLACEMENT_RATIO * stage.getWidth(),
@@ -800,24 +767,27 @@ public class EditorView implements ApplicationListener, IEditorView,
             setLineSize(CENTER_BORDER_LINE_SIZE);
             setColor(CENTER_BORDER_COLOR);
         }
-        
+
     }
-    
-    private class RightBorder extends Border{
+
+    private class RightBorder extends Border {
         private Image actorImage;
-        
+        private TextField actorField;
+        private TextButton modifyButton;
+        private TextButton addActionButton;
+
         private Border rightBorder;
-        
-        public void  RightBorder(){
+
+        public void RightBorder() {
             resizeRightBorder();
         }
-        
+
         public void setActorImage(TextureRegionDrawable createDrawableFor) {
             actorImage.setDrawable(createDrawableFor);
-            
+
         }
 
-        private void resizeRightBorder(){
+        private void resizeRightBorder() {
             setSize(RIGHT_BORDER_WIDTH_RATIO * stage.getWidth(),
                     RIGHT_BORDER_HEIGHT_RATIO * stage.getHeight());
             setPosition(RIGHT_BORDER_X_DISPLACEMENT_RATIO * stage.getWidth(),
@@ -825,7 +795,7 @@ public class EditorView implements ApplicationListener, IEditorView,
             setLineSize(RIGHT_BORDER_LINE_SIZE);
             setColor(RIGHT_BORDER_COLOR);
         }
-        
+
         private void createRightEditorBorderContent() {
 
             rightVerticalGroup = new VerticalGroup();
@@ -892,8 +862,8 @@ public class EditorView implements ApplicationListener, IEditorView,
 
             actionList = new List(uiSkin);
 
-            actionList.setWidth(rightBorder.getWidth() - rightBorder.getLineSize()
-                    * 4);
+            actionList.setWidth(rightBorder.getWidth()
+                    - rightBorder.getLineSize() * 4);
             actionList.setColor(Color.BLACK);
 
             final ScrollPane scroll = new ScrollPane(actionList, uiSkin);
@@ -929,8 +899,15 @@ public class EditorView implements ApplicationListener, IEditorView,
             rightVerticalGroup.addActor(buttonContainer);
         }
     }
-    
+
     private class LeftBorder extends Border {
+        
+        private TextButton addActorButton;
+        private TextButton removeActorButton;
+        
+        
+        
+        private TextButton setSceneBackgroundButton;
 
         private VerticalGroup leftVerticalGroup;
 
@@ -939,7 +916,7 @@ public class EditorView implements ApplicationListener, IEditorView,
             createLeftBorderContent();
         }
 
-        private void resizeLeftBorder(){
+        private void resizeLeftBorder() {
             setSize(LEFT_BORDER_WIDTH_RATIO * stage.getWidth(),
                     LEFT_BORDER_HEIGHT_RATIO * stage.getHeight());
             setPosition(LEFT_BORDER_X_DISPLACEMENT_RATIO * stage.getWidth(),
@@ -947,6 +924,7 @@ public class EditorView implements ApplicationListener, IEditorView,
             setLineSize(LEFT_BORDER_LINE_SIZE);
             setColor(LEFT_BORDER_COLOR);
         }
+
         private void createActorList() {
             actorList = new List<IGetActor>(uiSkin);
 
@@ -1005,6 +983,34 @@ public class EditorView implements ApplicationListener, IEditorView,
             leftVerticalGroup.addActor(buttonContainer2);
 
             createSetSceneBackgroundButton();
+        }
+        
+        private void createRemoveActorButton() {
+            removeActorButton = new TextButton("Remove actor", uiSkin);
+            removeActorButton.setSize(150, 20);
+
+            removeActorButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    // TODO list linking
+                    eventManager
+                            .fireViewEvent(this, Type.REMOVE_ACTOR, activeScene);
+                }
+            });
+        }
+
+        // End create Editor //
+
+        private void createAddActorButton() {
+            addActorButton = new TextButton("Add actor", uiSkin);
+            addActorButton.setSize(150, 20);
+
+            addActorButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    eventManager.fireViewEvent(this, Type.NEW_ACTOR, activeScene);
+                }
+            });
         }
 
         private Actor createButtonGroup1Buttons() {
