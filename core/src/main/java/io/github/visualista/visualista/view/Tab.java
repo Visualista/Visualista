@@ -139,4 +139,9 @@ public class Tab extends Stack {
         hGroup.removeActor(labelTextField);
         
     }
+    
+    public void setText(String text){
+        label.setText(text);
+        labelTextField.setText(text);
+    }
 }
