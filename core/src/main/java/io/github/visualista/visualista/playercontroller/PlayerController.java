@@ -10,6 +10,7 @@ import io.github.visualista.visualista.model.Novel;
 import io.github.visualista.visualista.model.PositionedActor;
 import io.github.visualista.visualista.model.Scene;
 import io.github.visualista.visualista.view.IGetPlayerController;
+import io.github.visualista.visualista.view.IPlayerView;
 
 import java.io.File;
 import java.util.Iterator;

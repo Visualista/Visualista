@@ -1,7 +1,6 @@
-package io.github.visualista.visualista.playercontroller;
+package io.github.visualista.visualista.view;
 
 import io.github.visualista.visualista.model.IGetScene;
-import io.github.visualista.visualista.view.IGetPlayerController;
 
 public interface IPlayerView {
 
