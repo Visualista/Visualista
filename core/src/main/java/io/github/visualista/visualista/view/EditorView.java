@@ -104,12 +104,12 @@ public class EditorView implements ApplicationListener, IEditorView,
 
     private Matrix<Image> gridButtons;
 
-    private List<IGetActor> actorList;
+    
     private List<IAction> actionList;
 
     private RightBorder rightBorder;
-    private Border upperBorder;
-    private Border lowerBorder;
+    private UpperBorder upperBorder;
+    private LowerBorder lowerBorder;
     private CenterBorder centerBorder;
     private VerticalGroup rightVerticalGroup;
     private VerticalGroup centerVerticalGroup;
@@ -174,7 +174,8 @@ public class EditorView implements ApplicationListener, IEditorView,
         stage.addActor(leftBorder);
         rightBorder = new RightBorder();
         stage.addActor(rightBorder);
-        creatLowerEditorBorderContent();
+        lowerBorder = new LowerBorder();
+        stage.addActor(lowerBorder);
         centerBorder = new CenterBorder();
         stage.addActor(centerBorder);
         upperBorder = new UpperBorder();
@@ -193,31 +194,12 @@ public class EditorView implements ApplicationListener, IEditorView,
     // Create Editor //
     
 
-    private void creatLowerEditorBorderContent() {
-        lowerBorder = new Border();
-        lowerBorder.setSize(horizontalDistanceBetween(leftBorder, rightBorder),
-                100);
-        lowerBorder.setPosition(rightSideOf(leftBorder), 0);
-        sceneTextArea = new TextArea("", uiSkin);
-
-        sceneTextArea.addCaptureListener(new ClickListener() {
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                sceneTextAreaHasFocus = true;
-                super.clicked(event, x, y);
-            }
-
-        });
-
-        lowerBorder.setActor(sceneTextArea);
-        stage.addActor(lowerBorder);
-    }
+    
 
     
 
     private ScrollPane createScrollPane() {
-        final ScrollPane scroll = new ScrollPane(actorList, uiSkin);
+        final ScrollPane scroll = new ScrollPane(leftBorder.actorList, uiSkin);
         scroll.setFadeScrollBars(false);
         return scroll;
     }
@@ -370,7 +352,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         }
         IGetActor[] temp = new IGetActor[scene.getActorsInScene().size()];
         selectedActor = null;
-        actorList.setItems(scene.getActorsInScene().toArray(temp));
+        leftBorder.actorList.setItems(scene.getActorsInScene().toArray(temp));
         sceneTextArea.setText(text);
 
     }
@@ -518,8 +500,8 @@ public class EditorView implements ApplicationListener, IEditorView,
 
     @Override
     public void addActor(IGetActor updatedActor) {
-        actorList.getItems().add(updatedActor);
-        actorList.setSelectedIndex((actorList.getItems().indexOf(updatedActor,
+        leftBorder.actorList.getItems().add(updatedActor);
+        leftBorder.actorList.setSelectedIndex((leftBorder.actorList.getItems().indexOf(updatedActor,
                 true)));
     }
 
@@ -539,6 +521,25 @@ public class EditorView implements ApplicationListener, IEditorView,
             setLineSize(LOWER_BORDER_LINE_SIZE);
             setColor(LOWER_BORDER_COLOR);
 
+        }
+        private void creatLowerEditorBorderContent() {
+            lowerBorder.setSize(horizontalDistanceBetween(leftBorder, rightBorder),
+                    100);
+            lowerBorder.setPosition(rightSideOf(leftBorder), 0);
+            sceneTextArea = new TextArea("", uiSkin);
+
+            sceneTextArea.addCaptureListener(new ClickListener() {
+
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    sceneTextAreaHasFocus = true;
+                    super.clicked(event, x, y);
+                }
+
+            });
+
+            this.setActor(sceneTextArea);
+            stage.addActor(lowerBorder);
         }
 
         private void createLowerBorderContent() {
@@ -635,7 +636,7 @@ public class EditorView implements ApplicationListener, IEditorView,
                         String renameActorTo = rightBorder.actorField.getText();
                         stage.setKeyboardFocus(null);
                         eventManager.fireViewEvent(this, Type.CHANGE_ACTOR_NAME,
-                                actorList.getSelected(), renameActorTo);
+                                leftBorder.actorList.getSelected(), renameActorTo);
                     }
                     if (stage.getKeyboardFocus() == sceneTextArea
                             && hitObject != sceneTextArea) {
@@ -905,7 +906,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         private TextButton addActorButton;
         private TextButton removeActorButton;
         
-        
+        private List<IGetActor> actorList;
         
         private TextButton setSceneBackgroundButton;
 
