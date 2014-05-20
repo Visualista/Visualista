@@ -55,15 +55,19 @@ import java.util.Iterator;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class EditorView implements ApplicationListener, IEditorView,
-FilePickerListener, TabClickListener {
+        FilePickerListener {
 
     // Declaring static variables //
-    private static final float UPPER_BORDER_HEIGHT_RATIO = 2f / 10;
-    private static final float UPPER_BORDER_WIDTH_RATIO = 5f / 10;
-    private static final float UPPER_BORDER_X_DISPLACEMENT_RATIO = 2.5f / 10;
-    private static final float UPPER_BORDER_Y_DISPLACEMENT_RATIO = 8f / 10;
+    private static final float UPPER_BORDER_HEIGHT_RATIO = 0.2f;
+    private static final float UPPER_BORDER_WIDTH_RATIO = 0.5f;
+    private static final float UPPER_BORDER_X_DISPLACEMENT_RATIO = 0.25f;
+    private static final float UPPER_BORDER_Y_DISPLACEMENT_RATIO = 0.8f;
     private static final Color UPPER_BORDER_COLOR = Color.BLACK;
     private static final int UPPER_BORDER_LINE_SIZE = 1;
+    private static final float HIDDEN_SCENE_HEIGHT_RATIO = 0.2f;
+    private static final float HIDDEN_SCENE_WIDTH_RATIO = 0.2f;
+    private static final float HIDDEN_SCENE_X_DISPLACEMENT_RATIO = 0.7f;
+    private static final float HIDDEN_SCENE_Y_DISPLACEMENT_RATIO = 0.7f;
 
     private static final float LOWER_BORDER_HEIGHT_RATIO = 2f / 10;
     private static final float LOWER_BORDER_WIDTH_RATIO = 5f / 10;
@@ -93,7 +97,7 @@ FilePickerListener, TabClickListener {
     private static final Color CENTER_BORDER_COLOR = Color.BLACK;
     private static final int CENTER_BORDER_LINE_SIZE = 1;
     // End static variables //
-    
+
     private Stage stage;
 
     private Skin uiSkin;
@@ -104,7 +108,6 @@ FilePickerListener, TabClickListener {
 
     private Matrix<Image> gridButtons;
 
-
     private List<IAction> actionList;
 
     private RightBorder rightBorder;
@@ -114,16 +117,11 @@ FilePickerListener, TabClickListener {
     private VerticalGroup rightVerticalGroup;
     private VerticalGroup centerVerticalGroup;
 
-    private HorizontalGroup sceneButtonGroup;
-
     private final ViewEventManager eventManager = new ViewEventManager();
 
     private Dimension configDimension;
 
-    private BiDiMap<Tab, IGetScene> tabs;
-
-
-    private HorizontalGroup tabUtilityButtons;
+    
 
     private boolean isReady;
 
@@ -136,7 +134,6 @@ FilePickerListener, TabClickListener {
     private Image sceneBackgroundImage;
 
     private Border centerVerticalGroupBorder;
-
 
     private Tab editingTab;
 
@@ -154,7 +151,7 @@ FilePickerListener, TabClickListener {
 
     public EditorView(Dimension dimension, IFilePicker filePicker) {
         this.configDimension = dimension;
-        tabs = new BiDiMap<Tab, IGetScene>();
+
         this.filePicker = filePicker;
         toolButtonBorders = new ArrayList<Border>();
     }
@@ -176,16 +173,16 @@ FilePickerListener, TabClickListener {
         stage.addActor(lowerBorder);
         centerBorder = new CenterBorder();
         stage.addActor(centerBorder);
-        upperBorder = new UpperBorder();
+        upperBorder = new UpperBorder(stage);
         stage.addActor(upperBorder);
-        
+
         focusableActors = new java.util.ArrayList<Actor>();
         stage.addListener(new InputListener() {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y,
                     int pointer, int button) {
-                self.objectHit( stage.hit(x, y, true) );                
+                self.objectHit(stage.hit(x, y, true));
                 return false;
             }
 
@@ -203,28 +200,17 @@ FilePickerListener, TabClickListener {
 
     // Create Editor //
 
-
-
-
-
-
-
     private void objectHit(Actor hitObject) {
-        for (Actor actor : focusableActors){
-            if (hitObject != actor){
+        for (Actor actor : focusableActors) {
+            if (hitObject != actor) {
                 hitObject.setVisible(false);
             }
         }
-        
+
     }
-    
-    private void addFocusableActorField(Actor actorField){
+
+    private void addFocusableActorField(Actor actorField) {
         focusableActors.add(actorField);
-    }
-    private ScrollPane createScrollPane() {
-        final ScrollPane scroll = new ScrollPane(leftBorder.actorList, uiSkin);
-        scroll.setFadeScrollBars(false);
-        return scroll;
     }
 
     private Border surroundWithInvisibleBorder(Actor actor) {
@@ -298,57 +284,42 @@ FilePickerListener, TabClickListener {
 
     @Override
     public void addScene(IGetScene newScene) {
-        updateScene(newScene);
+        upperBorder.addNewScene(newScene);
 
     }
 
-    
     @Override
     public void updateScene(IGetScene scene) {
-        String name = scene.getName();
-        String text = scene.getStoryText();
-        if (name == null) {
-            name = "";
-        }
-        while (name.length() < 5) {
-            name += " ";
-        }
-        if (text == null) {
-            text = "";
-        }
-        Gdx.app.log("Scene text", text);
-
-        if (scene.getImage() != null) {
-            final Drawable tile = new TextureRegionDrawable(new TextureRegion(
-                    new Texture(Gdx.files.absolute(scene.getImage().getFile()
-                            .getAbsolutePath()))));
-
-            sceneBackgroundImage.setDrawable(tile);
-        } else {
-            sceneBackgroundImage.setDrawable(null);
-        }
-        Tab tab = new Tab(name, uiSkin);
-        tab.addClickListener(this);
-        tab.setHeight(upperBorder.getHeight());
-        Tab oldTab = tabs.getKey(scene);
-        if (oldTab == null || true) {
-            sceneButtonGroup.addActorBefore(tabUtilityButtons, tab);
-        } else {
-            sceneButtonGroup.addActorBefore(oldTab, tab);
-            sceneButtonGroup.removeActor(oldTab);
-        }
-        tabs.put(tab, scene);
-        hideOverFlowingScenes();
-
-        String[] actorNames = new String[scene.getActorsInScene().size()];
-        for (int i = 0; i < scene.getActorsInScene().size(); i++) {
-            actorNames[i] = scene.getActorsInScene().get(i).getName();
-        }
-        IGetActor[] temp = new IGetActor[scene.getActorsInScene().size()];
-        selectedActor = null;
-        leftBorder.actorList.setItems(scene.getActorsInScene().toArray(temp));
-        sceneTextArea.setText(text);
-
+        upperBorder.updateScene(scene);
+        /*
+         * String name = scene.getName(); String text = scene.getStoryText(); if
+         * (name == null) { name = ""; } while (name.length() < 5) { name +=
+         * " "; } if (text == null) { text = ""; } Gdx.app.log("Scene text",
+         * text);
+         * 
+         * if (scene.getImage() != null) { final Drawable tile = new
+         * TextureRegionDrawable(new TextureRegion( new
+         * Texture(Gdx.files.absolute(scene.getImage().getFile()
+         * .getAbsolutePath()))));
+         * 
+         * sceneBackgroundImage.setDrawable(tile); } else {
+         * sceneBackgroundImage.setDrawable(null); } Tab tab = new Tab(name,
+         * uiSkin); tab.addClickListener(this);
+         * tab.setHeight(upperBorder.getHeight()); Tab oldTab =
+         * tabs.getKey(scene); if (oldTab == null || true) {
+         * sceneButtonGroup.addActorBefore(tabUtilityButtons, tab); } else {
+         * sceneButtonGroup.addActorBefore(oldTab, tab);
+         * sceneButtonGroup.removeActor(oldTab); } tabs.put(tab, scene);
+         * hideOverFlowingScenes();
+         * 
+         * String[] actorNames = new String[scene.getActorsInScene().size()];
+         * for (int i = 0; i < scene.getActorsInScene().size(); i++) {
+         * actorNames[i] = scene.getActorsInScene().get(i).getName(); }
+         * IGetActor[] temp = new IGetActor[scene.getActorsInScene().size()];
+         * selectedActor = null;
+         * leftBorder.actorList.setItems(scene.getActorsInScene
+         * ().toArray(temp)); sceneTextArea.setText(text);
+         */
     }
 
     private static float horizontalDistanceBetween(
@@ -375,36 +346,22 @@ FilePickerListener, TabClickListener {
 
     @Override
     public void changeActiveScene(IGetScene scene) {
-        updateScene(scene);
-        String name = scene.getName();
-        if (name == null) {
-            name = "";
-        }
-        while (name.length() < 5) {
-            name += " ";
-        }
-        Tab tab = new Tab(name, uiSkin);
-        tab.addClickListener(this);
-        tab.setHeight(upperBorder.getHeight());
-        Tab oldTab = tabs.getKey(scene);
-        if (oldTab != null) {
-            if (hiddenSceneList.getItems().contains(oldTab, true)) {
-                sceneButtonGroup.addActorAt(0, tab);
-                hiddenSceneList.getItems().removeValue(oldTab, true);
-            } else {
-                sceneButtonGroup.addActorBefore(oldTab, tab);
-                sceneButtonGroup.removeActor(oldTab);
-            }
-        } else {
-            sceneButtonGroup.addActorAt(0, tab);
-        }
-        for (Tab aTab : tabs.getAllKeys()) {
-            aTab.useSelectStyle(false);
-        }
-        tab.useSelectStyle(true);
-        tabs.put(tab, scene);
-        hideOverFlowingScenes();
-        fillGridFromScene(scene);
+        /*
+         * updateScene(scene); String name = scene.getName(); if (name == null)
+         * { name = ""; } while (name.length() < 5) { name += " "; } Tab tab =
+         * new Tab(name, uiSkin); tab.addClickListener(this);
+         * tab.setHeight(upperBorder.getHeight()); Tab oldTab =
+         * tabs.getKey(scene); if (oldTab != null) { if
+         * (hiddenSceneList.getItems().contains(oldTab, true)) {
+         * sceneButtonGroup.addActorAt(0, tab);
+         * hiddenSceneList.getItems().removeValue(oldTab, true); } else {
+         * sceneButtonGroup.addActorBefore(oldTab, tab);
+         * sceneButtonGroup.removeActor(oldTab); } } else {
+         * sceneButtonGroup.addActorAt(0, tab); } for (Tab aTab :
+         * tabs.getAllKeys()) { aTab.useSelectStyle(false); }
+         * tab.useSelectStyle(true); tabs.put(tab, scene);
+         * hideOverFlowingScenes(); fillGridFromScene(scene);
+         */
         activeScene = scene;
 
     }
@@ -443,24 +400,7 @@ FilePickerListener, TabClickListener {
     }
 
     private void clearSceneTabs() {
-        hiddenSceneList.getItems().clear();
-        sceneButtonGroup.clearChildren();
-        sceneButtonGroup.addActor(tabUtilityButtons);
-        tabs.clear();
-    }
-
-    @Override
-    public void tabEvent(Tab source,
-            io.github.visualista.visualista.view.Tab.Type type) {
-        if (type == Tab.Type.SELECT) {
-            if (activeScene == tabs.getValue(source)) {
-                source.makeNameEditable();
-                editingTab = source;
-            } else {
-                eventManager.fireViewEvent(this, Type.SELECT_SCENE,
-                        tabs.getValue(source));
-            }
-        }
+        upperBorder.clearSceneTabs();
 
     }
 
@@ -471,7 +411,7 @@ FilePickerListener, TabClickListener {
             rightVerticalGroup.setVisible(true);
             rightBorder.actorField.setText(actor.getName());
             rightBorder
-            .setActorImage(ModelToGdxHelper.createDrawableFor(actor));
+                    .setActorImage(ModelToGdxHelper.createDrawableFor(actor));
         } else {
             rightVerticalGroup.setVisible(false);
         }
@@ -494,15 +434,13 @@ FilePickerListener, TabClickListener {
 
     @Override
     public void addActor(IGetActor updatedActor) {
-        leftBorder.actorList.getItems().add(updatedActor);
-        leftBorder.actorList.setSelectedIndex((leftBorder.actorList.getItems().indexOf(updatedActor,
-                true)));
+        leftBorder.addNewActor(updatedActor);
     }
 
     private class LowerBorder extends Border implements Updateable {
 
         private ViewEventManager eventManeger;
-        
+
         public void LowerBorder(Stage stage, ViewEventManager eventManeger) {
             createLowerBorderContent();
             resizeLowerBorder();
@@ -528,12 +466,13 @@ FilePickerListener, TabClickListener {
                 @Override
                 public void keyboardFocusChanged(FocusEvent event, Actor actor,
                         boolean focused) {
-                    if (!focused){
-                        eventManager.fireViewEvent(this, Type.CHANGE_SCENE_TEXT, activeScene, newTextArea.getText());
+                    if (!focused) {
+                        eventManager.fireViewEvent(this,
+                                Type.CHANGE_SCENE_TEXT, activeScene,
+                                newTextArea.getText());
                     }
                     super.keyboardFocusChanged(event, actor, focused);
                 }
-
 
             });
             return newTextArea;
@@ -542,85 +481,153 @@ FilePickerListener, TabClickListener {
         @Override
         public void update() {
             // TODO Auto-generated method stub
-            
+
         }
     }
 
-    private class UpperBorder extends Border implements Updateable{
+    private class UpperBorder extends Border implements Updateable,
+            TabClickListener {
+
+        private List<Tab> hiddenSceneList;
+
+        private BiDiMap<Tab, IGetScene> tabs;
+
+        private HorizontalGroup sceneButtonGroup;
         
-        public void UpperBorder(Stage stage) {
+        private HorizontalGroup tabUtilityButtons;
+
+        public UpperBorder(Stage stage) {
+            tabs = new BiDiMap<Tab, IGetScene>();
             this.setActor(createUpperBorderContent());
             resizeUpperBorder();
             stage.addActor(this);
         }
 
+        public void addNewScene(IGetScene scene) {
+            String name = getPaddedSceneName(scene);
+            Tab tab = new Tab(name, uiSkin);
+            tab.addClickListener(this);
+            tab.setHeight(upperBorder.getHeight());
+            sceneButtonGroup.addActorBefore(tabUtilityButtons, tab);
+            tabs.put(tab, scene);
+
+        }
+
+        public void updateScene(IGetScene scene) {
+
+            String name = getPaddedSceneName(scene);
+            tabs.getKey(scene).setText(name);
+        }
+
+        private String getPaddedSceneName(IGetScene scene) {
+            String name = scene.getName();
+            if (name == null) {
+                name = "";
+            }
+            while (name.length() < 5) {
+                name += " ";
+            }
+            return name;
+        }
+
+        public void clearSceneTabs() {
+            if (tabs != null) {
+                tabs.clear();
+            }
+            if (hiddenSceneList != null) {
+                hiddenSceneList.getItems().clear();
+            }
+        }
+
+        @Override
+        public void tabEvent(Tab source,
+                io.github.visualista.visualista.view.Tab.Type type) {
+            if (type == Tab.Type.SELECT) {
+                if (activeScene == tabs.getValue(source)) {
+                    source.makeNameEditable();
+                    editingTab = source;
+                } else {
+                    eventManager.fireViewEvent(this, Type.SELECT_SCENE,
+                            tabs.getValue(source));
+                }
+            }
+
+        }
+
         private HorizontalGroup createUpperBorderContent() {
-            
+
             // Declaring and defining local variables //
             final HorizontalGroup upperBorderContentWrapper = new HorizontalGroup();
-            final List<Tab> hiddenSceneList = createHiddenSceneList();
+            hiddenSceneList = createHiddenSceneList();
             final ScrollPane hiddenSceneDropDown = createHiddenSceneDropDown(hiddenSceneList);
             final TextButton newSceneButton = createNewSceneButton();
             final TextButton overflowDropdownButton = createSceneOverflowButton(hiddenSceneDropDown);
-            final HorizontalGroup tabUtilityButtons = createTabUtilityButtons(newSceneButton, overflowDropdownButton);
-            final HorizontalGroup sceneButtonGroup = new HorizontalGroup();
+            tabUtilityButtons = createTabUtilityButtons(
+                    newSceneButton, overflowDropdownButton);
+            sceneButtonGroup = new HorizontalGroup();
             // End defining local variables //
-            
+
             sceneButtonGroup.addActor(tabUtilityButtons);
 
             upperBorderContentWrapper.addActor(sceneButtonGroup);
-            sceneButtonGroup.setX(this.getLineSize()); // Makes sure the border lines does not collide!
+            sceneButtonGroup.setX(this.getLineSize()); // Makes sure the border
+                                                       // lines does not
+                                                       // collide!
 
             upperBorderContentWrapper.addActor(hiddenSceneDropDown);
             return upperBorderContentWrapper;
         }
 
-        private TextButton createNewSceneButton(){
+        private TextButton createNewSceneButton() {
             TextButton newButton = new TextButton("+", uiSkin);
             newButton.addCaptureListener(new ClickListener() {
                 @Override
-                public void clicked(final InputEvent event, final float x, float y) {
+                public void clicked(final InputEvent event, final float x,
+                        float y) {
                     eventManager.fireViewEvent(this, Type.NEW_SCENE);
                 }
             });
             return newButton;
         }
 
-        private TextButton createSceneOverflowButton(final ScrollPane dropDownScenes){
+        private TextButton createSceneOverflowButton(
+                final ScrollPane dropDownScenes) {
             TextButton newButton = new TextButton(">", uiSkin);
             newButton.setVisible(false);
             newButton.addCaptureListener(new ClickListener() {
                 @Override
-                public void clicked(final InputEvent event, final float x, float y) {
+                public void clicked(final InputEvent event, final float x,
+                        float y) {
                     dropDownScenes.setVisible(true);
                 }
             });
             return newButton;
         }
 
-        private HorizontalGroup createTabUtilityButtons(final TextButton... utilityButtons){
+        private HorizontalGroup createTabUtilityButtons(
+                final TextButton... utilityButtons) {
             HorizontalGroup newGroup = new HorizontalGroup();
-            for (TextButton button : utilityButtons){
+            for (TextButton button : utilityButtons) {
                 newGroup.addActor(button);
             }
 
             return newGroup;
 
-
         }
 
-        private ScrollPane createHiddenSceneDropDown(List<Tab> hiddenScenes){
+        private ScrollPane createHiddenSceneDropDown(List<Tab> hiddenScenes) {
             ScrollPane newScrollPane = new ScrollPane(hiddenScenes, uiSkin);
             newScrollPane = new ScrollPane(hiddenScenes, uiSkin);
             newScrollPane.setFadeScrollBars(false);
             newScrollPane.setWidth(100);// actionList.getWidth());
-            newScrollPane.setPosition(
-                    rightBorder.getX() - hiddenSceneDropDown.getWidth(),
-                    upperBorder.getY() - hiddenSceneDropDown.getHeight());
+            newScrollPane.setPosition(stage.getWidth()
+                    * HIDDEN_SCENE_X_DISPLACEMENT_RATIO, stage.getHeight()
+                    * HIDDEN_SCENE_Y_DISPLACEMENT_RATIO);
 
             newScrollPane.addCaptureListener(new ClickListener() {
                 @Override
-                public void clicked(final InputEvent event, final float x, float y) {
+                public void clicked(final InputEvent event, final float x,
+                        float y) {
                     // Debug Code //
                     Gdx.app.log("Hidden Scenes Dropdown", "Clicked");
                     // End Debug //
@@ -630,39 +637,40 @@ FilePickerListener, TabClickListener {
             return newScrollPane;
         }
 
-        private ArrayList<Tab> fixOverFlowingScenes(HorizontalGroup sceneButtonGroup,
-                List<Tab> currentlyHiddenScenes){
+        private ArrayList<Tab> fixOverFlowingScenes(
+                HorizontalGroup sceneButtonGroup,
+                List<Tab> currentlyHiddenScenes) {
             ArrayList<Tab> newTablist = new ArrayList<Tab>();
             ArrayList<Tab> removedActors = new ArrayList<Tab>();
-            for (Actor tab : currentlyHiddenScenes.getItems()){
+            for (Actor tab : currentlyHiddenScenes.getItems()) {
                 sceneButtonGroup.addActor(tab);
             }
             SnapshotArray<Actor> children = sceneButtonGroup.getChildren();
-            if (children.size <= 0){
+            if (children.size <= 0) {
                 return newTablist;
             }
-            
+
             float currentWidthOfTabs = 0;
-            Tab tabToRemove = (Tab) children.get(children.size -1);
-            
+            Tab tabToRemove = (Tab) children.get(children.size - 1);
+
             Iterator<Actor> it = children.iterator();
-            while (it.hasNext()){
+            while (it.hasNext()) {
                 currentWidthOfTabs += it.next().getWidth();
             }
-            
+
             while (currentWidthOfTabs > sceneButtonGroup.getWidth()
-                    && children.size > 1){
+                    && children.size > 1) {
                 sceneButtonGroup.removeActor(tabToRemove);
                 removedActors.add(tabToRemove);
-                tabToRemove = (Tab) children.get(children.size -1);
+                tabToRemove = (Tab) children.get(children.size - 1);
             }
             currentlyHiddenScenes.setItems((Tab[]) removedActors.toArray());
-            
+
             return newTablist;
-            
+
         }
-        
-        private List<Tab> createHiddenSceneList(){
+
+        private List<Tab> createHiddenSceneList() {
             List<Tab> newList = new List<Tab>(uiSkin);
             newList.setWidth(150);
             newList.setColor(Color.BLACK);
@@ -681,12 +689,12 @@ FilePickerListener, TabClickListener {
         @Override
         public void update() {
             // TODO Auto-generated method stub
-            
+
         }
 
     }
 
-    private class CenterBorder extends Border implements Updateable{
+    private class CenterBorder extends Border implements Updateable {
 
         private HorizontalGroup centerBorder;
 
@@ -797,12 +805,12 @@ FilePickerListener, TabClickListener {
         @Override
         public void update() {
             // TODO Auto-generated method stub
-            
+
         }
 
     }
 
-    private class RightBorder extends Border implements Updateable{
+    private class RightBorder extends Border implements Updateable {
         private Image actorImage;
         private TextField actorField;
         private TextButton modifyButton;
@@ -934,24 +942,30 @@ FilePickerListener, TabClickListener {
         @Override
         public void update() {
             // TODO Auto-generated method stub
-            
+
         }
     }
 
-    private class LeftBorder extends Border implements Updateable{
+    private class LeftBorder extends Border implements Updateable {
 
         private TextButton addActorButton;
         private TextButton removeActorButton;
 
-        private List<IGetActor> actorList;
-
         private TextButton setSceneBackgroundButton;
 
         private VerticalGroup leftVerticalGroup;
+        private List<IGetActor> actorList;
 
         public LeftBorder() {
             resizeLeftBorder();
             createLeftBorderContent();
+        }
+
+        public void addNewActor(IGetActor updatedActor) {
+            actorList.getItems().add(updatedActor);
+            actorList.setSelectedIndex((leftBorder.actorList.getItems()
+                    .indexOf(updatedActor, true)));
+
         }
 
         private void resizeLeftBorder() {
@@ -963,22 +977,23 @@ FilePickerListener, TabClickListener {
             setColor(LEFT_BORDER_COLOR);
         }
 
-        private void createActorList() {
-            actorList = new List<IGetActor>(uiSkin);
+        private List<IGetActor> createActorList() {
+            final List<IGetActor> list = new List<IGetActor>(uiSkin);
 
-            actorList.setWidth(getWidth() - getLineSize() * 4);
-            actorList.setColor(Color.BLACK);
-            actorList.addListener(new ChangeListener() {
+            list.setWidth(getWidth() - getLineSize() * 4);
+            list.setColor(Color.BLACK);
+            list.addListener(new ChangeListener() {
 
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    int index = actorList.getSelectedIndex();
+                    int index = list.getSelectedIndex();
                     if (index != -1) {
                         eventManager.fireViewEvent(this, Type.SELECT_ACTOR,
-                                actorList.getSelected());
+                                list.getSelected());
                     }
                 }
             });
+            return list;
         }
 
         private void createLeftVerticalGroup() {
@@ -1008,8 +1023,9 @@ FilePickerListener, TabClickListener {
             createLeftVerticalGroup();
             Actor buttonGroup1 = createButtonGroup1Buttons();
             leftVerticalGroup.addActor(buttonGroup1);
-            createActorList();
-            final ScrollPane scroll = createScrollPane();
+            actorList = createActorList();
+            final ScrollPane scroll = new ScrollPane(actorList, uiSkin);
+            scroll.setFadeScrollBars(false);
             createScrollBorder(scroll);
             createAddActorButton();
             createRemoveActorButton();
@@ -1031,8 +1047,8 @@ FilePickerListener, TabClickListener {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     // TODO list linking
-                    eventManager
-                    .fireViewEvent(this, Type.REMOVE_ACTOR, activeScene);
+                    eventManager.fireViewEvent(this, Type.REMOVE_ACTOR,
+                            activeScene);
                 }
             });
         }
@@ -1046,7 +1062,8 @@ FilePickerListener, TabClickListener {
             addActorButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    eventManager.fireViewEvent(this, Type.NEW_ACTOR, activeScene);
+                    eventManager.fireViewEvent(this, Type.NEW_ACTOR,
+                            activeScene);
                 }
             });
         }
@@ -1189,7 +1206,7 @@ FilePickerListener, TabClickListener {
         @Override
         public void update() {
             // TODO Auto-generated method stub
-            
+
         }
 
     }
