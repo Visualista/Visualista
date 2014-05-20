@@ -50,6 +50,7 @@ import io.github.visualista.visualista.util.Point;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -103,8 +104,7 @@ FilePickerListener, TabClickListener {
 
     private Matrix<Image> gridButtons;
 
-    private java.util.List<Border> contents;
-    
+
     private List<IAction> actionList;
 
     private RightBorder rightBorder;
@@ -161,6 +161,7 @@ FilePickerListener, TabClickListener {
 
     @Override
     public final void create() {
+        final EditorView self = this;
         stage = new Stage();
         stage.getViewport().setWorldHeight(configDimension.getHeight());
         stage.getViewport().setWorldWidth(configDimension.getWidth());
@@ -168,17 +169,27 @@ FilePickerListener, TabClickListener {
         stage.clear();
         uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
         leftBorder = new LeftBorder();
+        stage.addActor(leftBorder);
         rightBorder = new RightBorder();
+        stage.addActor(rightBorder);
         lowerBorder = new LowerBorder();
+        stage.addActor(lowerBorder);
         centerBorder = new CenterBorder();
+        stage.addActor(centerBorder);
         upperBorder = new UpperBorder();
-        contents.add(leftBorder);
-        contents.add(rightBorder);
-        contents.add(lowerBorder);
-        contents.add(centerBorder);
-        contents.add(upperBorder);
+        stage.addActor(upperBorder);
         
         focusableActors = new java.util.ArrayList<Actor>();
+        stage.addListener(new InputListener() {
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y,
+                    int pointer, int button) {
+                self.objectHit( stage.hit(x, y, true) );                
+                return false;
+            }
+
+        });
 
         // Use if you need to zoom out a bit
         // ((OrthographicCamera) stage.getCamera()).zoom = 2;
@@ -191,6 +202,25 @@ FilePickerListener, TabClickListener {
     }
 
     // Create Editor //
+
+
+
+
+
+
+
+    private void objectHit(Actor hitObject) {
+        for (Actor actor : focusableActors){
+            if (hitObject != actor){
+                hitObject.setVisible(false);
+            }
+        }
+        
+    }
+    
+    private void addFocusableActorField(Actor actorField){
+        focusableActors.add(actorField);
+    }
     private ScrollPane createScrollPane() {
         final ScrollPane scroll = new ScrollPane(leftBorder.actorList, uiSkin);
         scroll.setFadeScrollBars(false);
@@ -272,36 +302,7 @@ FilePickerListener, TabClickListener {
 
     }
 
-    private void hideOverFlowingScenes() {
-        SnapshotArray<Actor> children = sceneButtonGroup.getChildren();
-        overflowDropdownButton.setVisible(false);
-        float totalWidth = 0;
-        Actor firstChild = null;
-        if (children.size > 0) {
-            firstChild = children.get(0);
-        }
-        for (Actor overflowedTab : hiddenSceneList.getItems()) {
-            sceneButtonGroup.addActorBefore(firstChild, overflowedTab);
-        }
-        hiddenSceneList.setItems();
-
-        for (com.badlogic.gdx.scenes.scene2d.Actor child : children) {
-            totalWidth += child.getWidth();
-        }
-        ArrayList<Tab> temp = new ArrayList<Tab>();
-        while (totalWidth > sceneButtonGroup.getWidth()
-                && sceneButtonGroup.getChildren().size > 1) {
-            Actor currentlyFirstChild = sceneButtonGroup.getChildren().get(0);
-            totalWidth -= currentlyFirstChild.getWidth();
-            sceneButtonGroup.removeActor(currentlyFirstChild);
-            overflowDropdownButton.setVisible(true);
-            temp.add((Tab) currentlyFirstChild);
-        }
-        Tab[] temp2 = new Tab[temp.size()];
-        hiddenSceneList.setItems(temp.toArray(temp2));
-        hiddenSceneList.setVisible(true);
-    }
-
+    
     @Override
     public void updateScene(IGetScene scene) {
         String name = scene.getName();
@@ -541,6 +542,7 @@ FilePickerListener, TabClickListener {
 
     private class UpperBorder extends Border {
 
+        private A
         public void UpperBorder(Stage stage) {
             this.setActor(createUpperBorderContent());
             resizeUpperBorder();
@@ -623,6 +625,70 @@ FilePickerListener, TabClickListener {
             return newScrollPane;
         }
 
+        private ArrayList<Tab> fixOverFlowingScenes(HorizontalGroup sceneButtonGroup,
+                List<Tab> currentlyHiddenScenes){
+            ArrayList<Tab> newTablist = new ArrayList<Tab>();
+            ArrayList<Actor> removedActors = new ArrayList<Actor>();
+            for (Actor tab : currentlyHiddenScenes.getItems()){
+                sceneButtonGroup.addActor(tab);
+            }
+            SnapshotArray<Actor> children = sceneButtonGroup.getChildren();
+            if (children.size <= 0){
+                return newTablist;
+            }
+            
+            float currentWidthOfTabs = 0;
+            Actor tabToRemove = children.get(children.size -1);
+            
+            Iterator<Actor> it = children.iterator();
+            while (it.hasNext()){
+                currentWidthOfTabs += it.next().getWidth();
+            }
+            
+            while (currentWidthOfTabs > sceneButtonGroup.getWidth()
+                    && children.size > 1){
+                sceneButtonGroup.removeActor(tabToRemove);
+                removedActors.add(tabToRemove);
+                tabToRemove = children.get(children.size -1);
+            }
+            
+            return newTablist;
+            
+        }
+        
+        private void hideOverFlowingScenes(ArrayList<Tab> actorsToRemove) {
+            
+            
+            
+            
+            overflowDropdownButton.setVisible(false);
+            float totalWidth = 0;
+            Actor firstChild = null;
+            if (children.size > 0) {
+                firstChild = children.get(0);
+            }
+            for (Actor overflowedTab : hiddenSceneList.getItems()) {
+                sceneButtonGroup.addActorBefore(firstChild, overflowedTab);
+            }
+            hiddenSceneList.setItems();
+
+            for (com.badlogic.gdx.scenes.scene2d.Actor child : children) {
+                totalWidth += child.getWidth();
+            }
+            ArrayList<Tab> temp = new ArrayList<Tab>();
+            while (totalWidth > sceneButtonGroup.getWidth()
+                    && sceneButtonGroup.getChildren().size > 1) {
+                Actor currentlyFirstChild = sceneButtonGroup.getChildren().get(0);
+                totalWidth -= currentlyFirstChild.getWidth();
+                sceneButtonGroup.removeActor(currentlyFirstChild);
+                overflowDropdownButton.setVisible(true);
+                temp.add((Tab) currentlyFirstChild);
+            }
+            Tab[] temp2 = new Tab[temp.size()];
+            hiddenSceneList.setItems(temp.toArray(temp2));
+            hiddenSceneList.setVisible(true);
+        }
+        
         private List<Tab> createHiddenSceneList(){
             List<Tab> newList = new List<Tab>(uiSkin);
             newList.setWidth(150);
