@@ -119,7 +119,7 @@ public class EditorView implements ApplicationListener, IEditorView,
     private RightBorder rightBorder;
     private Border upperBorder;
     private Border lowerBorder;
-    private Border centerBorder;
+    private CenterBorder centerBorder;
     private VerticalGroup rightVerticalGroup;
     private VerticalGroup centerVerticalGroup;
 
@@ -185,9 +185,9 @@ public class EditorView implements ApplicationListener, IEditorView,
         rightBorder = new RightBorder();
         stage.addActor(rightBorder);
         creatLowerEditorBorderContent();
-        createCenterEditorBorderContent();
+        centerBorder = new CenterBorder();
+        stage.addActor(centerBorder);
         createUpperEditorBorderContent();
-        resizeCenterBorder();
 
         // Use if you need to zoom out a bit
         // ((OrthographicCamera) stage.getCamera()).zoom = 2;
@@ -315,22 +315,7 @@ public class EditorView implements ApplicationListener, IEditorView,
 
     
 
-    private void createCenterEditorBorderContent() {
-        centerVerticalGroup = new VerticalGroup();
-        centerBorder = new Border();
-        stage.addActor(centerBorder);
-
-        sceneBackgroundImage = new Image();
-        Stack stack = new Stack();
-        stack.add(sceneBackgroundImage);
-
-        centerVerticalGroupBorder = new Border();
-        centerVerticalGroupBorder.setActor(centerVerticalGroup);
-        stack.add(centerVerticalGroupBorder);
-
-        centerBorder.setActor(stack);
-        gridButtons = new Matrix<Image>(new Dimension(5, 5));
-    }
+    
 
     private void createRemoveActorButton() {
         removeActorButton = new TextButton("Remove actor", uiSkin);
@@ -379,55 +364,12 @@ public class EditorView implements ApplicationListener, IEditorView,
     }
 
     private void fillGridFromScene(IGetScene scene) {
-        gridButtons = new Matrix<Image>(scene.getIGetGrid().getSize());
-        IGetGrid grid = scene.getIGetGrid();
-        int gridWidth = grid.getSize().getWidth();
-        int gridHeight = grid.getSize().getHeight();
-
-        for (int y = 0; y < gridHeight; ++y) {
-            for (int x = 0; x < gridWidth; ++x) {
-                final IGetTile tileAtCurrentPosition = grid.getAt(new Point(x,
-                        y));
-                final Image imageForCurrentTile = ModelToGdxHelper
-                        .createImageFor(tileAtCurrentPosition);
-                imageForCurrentTile.addCaptureListener(new ClickListener() {
-
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        if (selectedActor != null) {
-                            if (selectedTool == EditorTool.ARROW) {
-
-                                eventManager.fireViewEvent(imageForCurrentTile,
-                                        Type.TILE_SET_ACTOR,
-                                        tileAtCurrentPosition, selectedActor);
-
-                            }else if(selectedTool == EditorTool.CURSOR){
-                                eventManager.fireViewEvent(this, Type.SELECT_TILE, tileAtCurrentPosition);
-                            }
-                        }
-                        super.clicked(event, x, y);
-                    }
-
-                });
-                gridButtons.setAt(new Point(x, y), imageForCurrentTile);
-            }
-        }
+        centerBorder.createImagesForGrid(scene);
         centerVerticalGroup.clearChildren();
-        fillGrid(centerVerticalGroup, gridButtons);
+        centerBorder.fillGrid(centerVerticalGroup, gridButtons);
     }
 
-    private void resizeCenterBorder() {
-        centerBorder.setSize(
-                horizontalDistanceBetween(leftBorder, rightBorder),
-                (upperBorder.getY() - lowerBorder.getY() - lowerBorder
-                        .getHeight()));
-        centerBorder.setPosition(rightSideOf(leftBorder), lowerBorder.getY()
-                + lowerBorder.getHeight());
-        centerVerticalGroupBorder.setLineSize(0);
-        centerVerticalGroupBorder.setSize(centerBorder.getWidth(),
-                centerBorder.getHeight());
-
-    }
+    
 
     protected void openNovel() {
         filePicker.openFileDialog(EditorView.this, new FileNameExtensionFilter(
@@ -443,27 +385,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         return actor.getX() + actor.getWidth();
     }
 
-    public final void fillGrid(VerticalGroup group, IMatrixGet<Image> data) {
-        float prefferedButtonHeight = group.getHeight()
-                / data.getSize().getHeight();
-        float prefferedButtonWidth = group.getWidth()
-                / data.getSize().getWidth();
-        float buttonLength = (float) Math.floor(Math.min(prefferedButtonWidth,
-                prefferedButtonHeight));
-
-        for (int i = 0; i < data.getSize().getHeight(); i++) {
-            HorizontalGroup row = new HorizontalGroup();
-            group.addActor(row);
-            for (int j = 0; j < data.getSize().getWidth(); j++) {
-                Image button = data.getAt(new Point(i, j));
-                Border border = new Border();
-                border.setActor(button);
-                border.setSize(buttonLength, buttonLength);
-                border.setLineSize(1);
-                row.addActor(border);
-            }
-        }
-    }
+    
 
     @Override
     public void resize(final int width, final int height) {
@@ -783,7 +705,94 @@ public class EditorView implements ApplicationListener, IEditorView,
             resizeCenterBorder();
         }
         
-        private void resizeCenterBoder(){
+        private void createCenterEditorBorderContent() {
+            centerVerticalGroup = new VerticalGroup();
+            stage.addActor(centerBorder);
+
+            sceneBackgroundImage = new Image();
+            Stack stack = new Stack();
+            stack.add(sceneBackgroundImage);
+
+            centerVerticalGroupBorder = new Border();
+            centerVerticalGroupBorder.setActor(centerVerticalGroup);
+            stack.add(centerVerticalGroupBorder);
+
+            this.setActor(stack);
+            gridButtons = new Matrix<Image>(new Dimension(5, 5));
+        }
+        
+        private void createImagesForGrid(IGetScene scene) {
+            gridButtons = new Matrix<Image>(scene.getIGetGrid().getSize());
+            IGetGrid grid = scene.getIGetGrid();
+            int gridWidth = grid.getSize().getWidth();
+            int gridHeight = grid.getSize().getHeight();
+
+            for (int y = 0; y < gridHeight; ++y) {
+                for (int x = 0; x < gridWidth; ++x) {
+                    final IGetTile tileAtCurrentPosition = grid.getAt(new Point(x,
+                            y));
+                    final Image imageForCurrentTile = ModelToGdxHelper
+                            .createImageFor(tileAtCurrentPosition);
+                    imageForCurrentTile.addCaptureListener(new ClickListener() {
+
+                        @Override
+                        public void clicked(InputEvent event, float x, float y) {
+                            if (selectedActor != null) {
+                                if (selectedTool == EditorTool.ARROW) {
+
+                                    eventManager.fireViewEvent(imageForCurrentTile,
+                                            Type.TILE_SET_ACTOR,
+                                            tileAtCurrentPosition, selectedActor);
+
+                                }else if(selectedTool == EditorTool.CURSOR){
+                                    eventManager.fireViewEvent(this, Type.SELECT_TILE, tileAtCurrentPosition);
+                                }
+                            }
+                            super.clicked(event, x, y);
+                        }
+
+                    });
+                    gridButtons.setAt(new Point(x, y), imageForCurrentTile);
+                }
+            }
+        }
+        /*Old resizeCenterBorder
+        private void resizeCenterBorder() {
+            centerBorder.setSize(
+                    horizontalDistanceBetween(leftBorder, rightBorder),
+                    (upperBorder.getY() - lowerBorder.getY() - lowerBorder
+                            .getHeight()));
+            centerBorder.setPosition(rightSideOf(leftBorder), lowerBorder.getY()
+                    + lowerBorder.getHeight());
+            centerVerticalGroupBorder.setLineSize(0);
+            centerVerticalGroupBorder.setSize(centerBorder.getWidth(),
+                    centerBorder.getHeight());
+
+        }*/
+        
+        public final void fillGrid(VerticalGroup group, IMatrixGet<Image> data) {
+            float prefferedButtonHeight = group.getHeight()
+                    / data.getSize().getHeight();
+            float prefferedButtonWidth = group.getWidth()
+                    / data.getSize().getWidth();
+            float buttonLength = (float) Math.floor(Math.min(prefferedButtonWidth,
+                    prefferedButtonHeight));
+
+            for (int i = 0; i < data.getSize().getHeight(); i++) {
+                HorizontalGroup row = new HorizontalGroup();
+                group.addActor(row);
+                for (int j = 0; j < data.getSize().getWidth(); j++) {
+                    Image button = data.getAt(new Point(i, j));
+                    Border border = new Border();
+                    border.setActor(button);
+                    border.setSize(buttonLength, buttonLength);
+                    border.setLineSize(1);
+                    row.addActor(border);
+                }
+            }
+        }
+        
+        private void resizeCenterBorder(){
             setSize(CENTER_BORDER_WIDTH_RATIO * stage.getWidth(),
                     CENTER_BORDER_HEIGHT_RATIO * stage.getHeight());
             setPosition(CENTER_BORDER_X_DISPLACEMENT_RATIO * stage.getWidth(),
