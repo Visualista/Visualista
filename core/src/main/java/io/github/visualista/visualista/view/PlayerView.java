@@ -258,12 +258,14 @@ public class PlayerView implements ApplicationListener, IPlayerView{
             HorizontalGroup row = new HorizontalGroup();
             group.addActor(row);
             for (int j = 0; j < data.getSize().getWidth(); j++) {               
-                row.addActor(createSingleTile(data.getAt(new Point(i, j)), buttonSide));
+                row.addActor(createSingleTile(data.getAt(new Point(i, j)), prefferedButtonHeight,
+                        prefferedButtonWidth));
             }
         }
     }
 
-    private Border createSingleTile(final IGetActor tileActor, final float tileSize){
+    private Border createSingleTile(final IGetActor tileActor, final float tileSizeHeight,
+            final float tileSizeWidth){
         Drawable actorImage;
         if (!tileActor.hasNoImage()){
             actorImage = new TextureRegionDrawable( new TextureRegion( 
@@ -276,8 +278,8 @@ public class PlayerView implements ApplicationListener, IPlayerView{
         Image button = new Image(actorImage);
         Border tempBorder = new Border();
         tempBorder.setActor(button);
-        tempBorder.setSize(tileSize, tileSize);
-        tempBorder.setLineSize(1);
+        tempBorder.setSize(tileSizeWidth, tileSizeHeight);
+        tempBorder.setLineSize(0);
         tempBorder.setColor(CENTER_BORDER_COLOR);
         
         // Add Listener to Tile //

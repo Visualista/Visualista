@@ -56,8 +56,47 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class EditorView implements ApplicationListener, IEditorView,
         FilePickerListener, TabClickListener {
-    private static final float SIDE_BORDERS_WIDTH_EDITOR_RATIO = 2.0f / 9;
 
+    // Declaring static variables //
+    private static final float UPPER_BORDER_HEIGHT_RATIO = 1.5f / 10;
+    private static final float UPPER_BORDER_WIDTH_RATIO = 2f / 10;
+    private static final float UPPER_BORDER_X_DISPLACEMENT_RATIO = 4f / 10;
+    private static final float UPPER_BORDER_Y_DISPLACEMENT_RATIO = 8.5f / 10;
+    private static final Color UPPER_BORDER_COLOR = Color.BLACK;
+    private static final int UPPER_BORDER_LINE_SIZE = 1;
+    
+    private static final float LOWER_BORDER_HEIGHT_RATIO = 2f / 10;
+    private static final float LOWER_BORDER_WIDTH_RATIO = 5f / 10;
+    private static final float LOWER_BORDER_X_DISPLACEMENT_RATIO = 2.5f / 10;
+    private static final float LOWER_BORDER_Y_DISPLACEMENT_RATIO = 0;
+    private static final Color LOWER_BORDER_COLOR = Color.BLACK;
+    private static final int LOWER_BORDER_LINE_SIZE = 1;
+    
+    private static final float LEFT_BORDER_WIDTH_RATIO = 1.5f / 10;
+    private static final float LEFT_BORDER_HEIGHT_RATIO = 1f;
+    private static final float LEFT_BORDER_X_DISPLACEMENT_RATIO = 0;
+    private static final float LEFT_BORDER_Y_DISPLACEMENT_RATIO = 0;
+    private static final Color LEFT_BORDER_COLOR = Color.BLACK;
+    private static final int LEFT_BORDER_LINE_SIZE = 1;
+    
+    private static final float RIGHT_BORDER_WIDTH_RATIO = 1.5f / 10;
+    private static final float RIGHT_BORDER_HEIGHT_RATIO = 1f;
+    private static final float RIGHT_BORDER_X_DISPLACEMENT_RATIO = 7.5f / 10;
+    private static final float RIGHT_BORDER_Y_DISPLACEMENT_RATIO = 0;
+    private static final Color RIGHT_BORDER_COLOR = Color.BLACK;
+    private static final int RIGHT_BORDER_LINE_SIZE = 1;
+    
+    private static final float CENTER_BORDER_WIDTH_RATIO = 5f / 10;
+    private static final float CENTER_BORDER_HEIGHT_RATIO = 6.5f / 10;
+    private static final float CENTER_BORDER_X_DISPLACEMENT_RATIO = 2.5f / 10;
+    private static final float CENTER_BORDER_Y_DISPLACEMENT_RATIO = 2f / 10;
+    private static final Color CENTER_BORDER_COLOR = Color.BLACK;
+    private static final int CENTER_BORDER_LINE_SIZE = 1;
+    
+    
+
+    
+    // End static variables //
     private Stage stage;
 
     private Skin uiSkin;
@@ -160,7 +199,9 @@ public class EditorView implements ApplicationListener, IEditorView,
         eventManager.fireViewEvent(this, Type.VIEW_READY);
     }
 
-    private void createUpperEditorBorderContent() {
+        
+     // Create Editor //
+        void createUpperEditorBorderContent() {
         newSceneButton = new TextButton("+", uiSkin);
         overflowDropdownButton = new TextButton(">", uiSkin);
         tabExtraButtons = new HorizontalGroup();
@@ -279,7 +320,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         stage.addActor(rightBorder);
         rightBorder.setActor(rightVerticalGroup);
 
-        rightBorder.setSize(stage.getWidth() * SIDE_BORDERS_WIDTH_EDITOR_RATIO,
+        rightBorder.setSize(stage.getWidth() * CENTER_BORDER_WIDTH_RATIO,
                 stage.getHeight());
         rightBorder.setPosition(
                 stage.getWidth() - rightVerticalGroup.getWidth(), 0);
@@ -406,6 +447,8 @@ public class EditorView implements ApplicationListener, IEditorView,
         });
     }
 
+    // End create Editor //
+    
     private void createAddActorButton() {
         addActorButton = new TextButton("Add actor", uiSkin);
         addActorButton.setSize(150, 20);
@@ -791,17 +834,102 @@ public class EditorView implements ApplicationListener, IEditorView,
                 true)));
     }
 
+    private class LowerBorder extends Border{
+        
+        private HorizontalGroup lowerBorder;
+        
+        public void LowerBorder(){
+            resizeLowerBorder();
+        }
+        
+        private void resizeLowerBorder(){
+            setSize(LOWER_BORDER_WIDTH_RATIO * stage.getWidth(),
+                    LOWER_BORDER_HEIGHT_RATIO * stage.getHeight());
+            setPosition(LOWER_BORDER_X_DISPLACEMENT_RATIO * stage.getWidth(),
+                    LOWER_BORDER_Y_DISPLACEMENT_RATIO * stage.getHeight());
+            setLineSize(LOWER_BORDER_LINE_SIZE);
+            setColor(LOWER_BORDER_COLOR);
+            
+        }
+        
+        private void createLowerBorderContent(){
+            
+        }
+    }
+    
+    private class UpperBorder extends Border{
+        
+        private HorizontalGroup upperBorder;
+        
+        public void UpperBorder(){
+            resizeUpperBorder();
+        }
+        
+        private void resizeUpperBorder(){
+            setSize(UPPER_BORDER_WIDTH_RATIO * stage.getWidth(),
+                    UPPER_BORDER_HEIGHT_RATIO * stage.getHeight());
+            setPosition(UPPER_BORDER_X_DISPLACEMENT_RATIO * stage.getWidth(),
+                    UPPER_BORDER_Y_DISPLACEMENT_RATIO * stage.getHeight());
+            setLineSize(UPPER_BORDER_LINE_SIZE);
+            setColor(UPPER_BORDER_COLOR);
+        }
+        
+    }
+    
+    private class CenterBorder extends Border{
+        
+        private HorizontalGroup centerBorder;
+        
+        public void CenterBorder(){
+            resizeCenterBorder();
+        }
+        
+        private void resizeCenterBoder(){
+            setSize(CENTER_BORDER_WIDTH_RATIO * stage.getWidth(),
+                    CENTER_BORDER_HEIGHT_RATIO * stage.getHeight());
+            setPosition(CENTER_BORDER_X_DISPLACEMENT_RATIO * stage.getWidth(),
+                    CENTER_BORDER_Y_DISPLACEMENT_RATIO * stage.getHeight());
+            setLineSize(CENTER_BORDER_LINE_SIZE);
+            setColor(CENTER_BORDER_COLOR);
+        }
+        
+    }
+    
+    private class RightBorder extends Border{
+        
+        private VerticalGroup rightBorder;
+        
+        public void  RightBorder(){
+            resizeRightBorder();
+        }
+        
+        private void resizeRightBorder(){
+            setSize(RIGHT_BORDER_WIDTH_RATIO * stage.getWidth(),
+                    RIGHT_BORDER_HEIGHT_RATIO * stage.getHeight());
+            setPosition(RIGHT_BORDER_X_DISPLACEMENT_RATIO * stage.getWidth(),
+                    RIGHT_BORDER_Y_DISPLACEMENT_RATIO * stage.getHeight());
+            setLineSize(RIGHT_BORDER_LINE_SIZE);
+            setColor(RIGHT_BORDER_COLOR);
+        }
+    }
+    
     private class LeftBorder extends Border {
 
         private VerticalGroup leftVerticalGroup;
 
         public LeftBorder() {
-            setSize(stage.getWidth() * SIDE_BORDERS_WIDTH_EDITOR_RATIO,
-                    stage.getHeight());
-            setPosition(0, 0);
+            resizeLeftBorder();
             createLeftBorderContent();
         }
 
+        private void resizeLeftBorder(){
+            setSize(LEFT_BORDER_WIDTH_RATIO * stage.getWidth(),
+                    LEFT_BORDER_HEIGHT_RATIO * stage.getHeight());
+            setPosition(LEFT_BORDER_X_DISPLACEMENT_RATIO * stage.getWidth(),
+                    LEFT_BORDER_Y_DISPLACEMENT_RATIO * stage.getHeight());
+            setLineSize(LEFT_BORDER_LINE_SIZE);
+            setColor(LEFT_BORDER_COLOR);
+        }
         private void createActorList() {
             actorList = new List<IGetActor>(uiSkin);
 
