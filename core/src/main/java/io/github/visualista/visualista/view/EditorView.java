@@ -239,7 +239,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         contextMenu.setColor(Color.BLACK);
         contextMenuScroll = new ScrollPane(contextMenu, uiSkin);
         contextMenuScroll.setFadeScrollBars(false);
-        contextMenuScroll.setWidth(actionList.getWidth());
+        contextMenuScroll.setWidth(100);//actionList.getWidth());
         contextMenuScroll.setPosition(
                 rightBorder.getX() - contextMenuScroll.getWidth(),
                 upperBorder.getY() - contextMenuScroll.getHeight());
@@ -566,7 +566,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         tab.addClickListener(this);
         tab.setHeight(upperBorder.getHeight());
         Tab oldTab = tabs.getKey(scene);
-        if (oldTab == null) {
+        if (oldTab == null || true) {
             sceneButtonGroup.addActorBefore(tabExtraButtons, tab);
         } else {
             sceneButtonGroup.addActorBefore(oldTab, tab);
