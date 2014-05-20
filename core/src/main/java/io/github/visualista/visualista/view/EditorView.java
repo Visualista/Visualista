@@ -58,10 +58,10 @@ public class EditorView implements ApplicationListener, IEditorView,
         FilePickerListener {
 
     // Declaring static variables //
-    private static final float UPPER_BORDER_HEIGHT_RATIO = 0.2f;
+    private static final float UPPER_BORDER_HEIGHT_RATIO = 0.05f;
     private static final float UPPER_BORDER_WIDTH_RATIO = 0.5f;
     private static final float UPPER_BORDER_X_DISPLACEMENT_RATIO = 0.25f;
-    private static final float UPPER_BORDER_Y_DISPLACEMENT_RATIO = 0.8f;
+    private static final float UPPER_BORDER_Y_DISPLACEMENT_RATIO = 0.95f;
     private static final Color UPPER_BORDER_COLOR = Color.BLACK;
     private static final int UPPER_BORDER_LINE_SIZE = 1;
     private static final float HIDDEN_SCENE_HEIGHT_RATIO = 0.2f;
@@ -120,8 +120,6 @@ public class EditorView implements ApplicationListener, IEditorView,
     private final ViewEventManager eventManager = new ViewEventManager();
 
     private Dimension configDimension;
-
-    
 
     private boolean isReady;
 
@@ -362,6 +360,7 @@ public class EditorView implements ApplicationListener, IEditorView,
          * tab.useSelectStyle(true); tabs.put(tab, scene);
          * hideOverFlowingScenes(); fillGridFromScene(scene);
          */
+        upperBorder.changeActiveScene(scene);
         activeScene = scene;
 
     }
@@ -493,7 +492,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         private BiDiMap<Tab, IGetScene> tabs;
 
         private HorizontalGroup sceneButtonGroup;
-        
+
         private HorizontalGroup tabUtilityButtons;
 
         public UpperBorder(Stage stage) {
@@ -501,6 +500,29 @@ public class EditorView implements ApplicationListener, IEditorView,
             this.setActor(createUpperBorderContent());
             resizeUpperBorder();
             stage.addActor(this);
+        }
+
+        public void changeActiveScene(IGetScene scene) {
+            Tab tab = tabs.getKey(scene);
+            bringTabToTabGroup(tab);
+            for (Tab aTab : tabs.getAllKeys()) {
+                aTab.useSelectStyle(false);
+            }
+            tab.useSelectStyle(true);
+            //tabs.put(tab, scene);
+            //hideOverFlowingScenes();
+            //fillGridFromScene(scene);
+
+        }
+
+
+        private void bringTabToTabGroup(Tab tab) {
+            int index =hiddenSceneList.getItems().indexOf(tab, true);
+            if(index!=-1){
+                hiddenSceneList.getItems().removeIndex(index);
+                sceneButtonGroup.addActorBefore(tabUtilityButtons, tab);
+            }
+            
         }
 
         public void addNewScene(IGetScene scene) {
@@ -562,8 +584,8 @@ public class EditorView implements ApplicationListener, IEditorView,
             final ScrollPane hiddenSceneDropDown = createHiddenSceneDropDown(hiddenSceneList);
             final TextButton newSceneButton = createNewSceneButton();
             final TextButton overflowDropdownButton = createSceneOverflowButton(hiddenSceneDropDown);
-            tabUtilityButtons = createTabUtilityButtons(
-                    newSceneButton, overflowDropdownButton);
+            tabUtilityButtons = createTabUtilityButtons(newSceneButton,
+                    overflowDropdownButton);
             sceneButtonGroup = new HorizontalGroup();
             // End defining local variables //
 
