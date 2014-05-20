@@ -499,7 +499,7 @@ FilePickerListener, TabClickListener {
                 true)));
     }
 
-    private class LowerBorder extends Border {
+    private class LowerBorder extends Border implements Updateable {
 
         private ViewEventManager eventManeger;
         
@@ -538,11 +538,16 @@ FilePickerListener, TabClickListener {
             });
             return newTextArea;
         }
+
+        @Override
+        public void update() {
+            // TODO Auto-generated method stub
+            
+        }
     }
 
-    private class UpperBorder extends Border {
-
-        private A
+    private class UpperBorder extends Border implements Updateable{
+        
         public void UpperBorder(Stage stage) {
             this.setActor(createUpperBorderContent());
             resizeUpperBorder();
@@ -628,7 +633,7 @@ FilePickerListener, TabClickListener {
         private ArrayList<Tab> fixOverFlowingScenes(HorizontalGroup sceneButtonGroup,
                 List<Tab> currentlyHiddenScenes){
             ArrayList<Tab> newTablist = new ArrayList<Tab>();
-            ArrayList<Actor> removedActors = new ArrayList<Actor>();
+            ArrayList<Tab> removedActors = new ArrayList<Tab>();
             for (Actor tab : currentlyHiddenScenes.getItems()){
                 sceneButtonGroup.addActor(tab);
             }
@@ -638,7 +643,7 @@ FilePickerListener, TabClickListener {
             }
             
             float currentWidthOfTabs = 0;
-            Actor tabToRemove = children.get(children.size -1);
+            Tab tabToRemove = (Tab) children.get(children.size -1);
             
             Iterator<Actor> it = children.iterator();
             while (it.hasNext()){
@@ -649,44 +654,12 @@ FilePickerListener, TabClickListener {
                     && children.size > 1){
                 sceneButtonGroup.removeActor(tabToRemove);
                 removedActors.add(tabToRemove);
-                tabToRemove = children.get(children.size -1);
+                tabToRemove = (Tab) children.get(children.size -1);
             }
+            currentlyHiddenScenes.setItems((Tab[]) removedActors.toArray());
             
             return newTablist;
             
-        }
-        
-        private void hideOverFlowingScenes(ArrayList<Tab> actorsToRemove) {
-            
-            
-            
-            
-            overflowDropdownButton.setVisible(false);
-            float totalWidth = 0;
-            Actor firstChild = null;
-            if (children.size > 0) {
-                firstChild = children.get(0);
-            }
-            for (Actor overflowedTab : hiddenSceneList.getItems()) {
-                sceneButtonGroup.addActorBefore(firstChild, overflowedTab);
-            }
-            hiddenSceneList.setItems();
-
-            for (com.badlogic.gdx.scenes.scene2d.Actor child : children) {
-                totalWidth += child.getWidth();
-            }
-            ArrayList<Tab> temp = new ArrayList<Tab>();
-            while (totalWidth > sceneButtonGroup.getWidth()
-                    && sceneButtonGroup.getChildren().size > 1) {
-                Actor currentlyFirstChild = sceneButtonGroup.getChildren().get(0);
-                totalWidth -= currentlyFirstChild.getWidth();
-                sceneButtonGroup.removeActor(currentlyFirstChild);
-                overflowDropdownButton.setVisible(true);
-                temp.add((Tab) currentlyFirstChild);
-            }
-            Tab[] temp2 = new Tab[temp.size()];
-            hiddenSceneList.setItems(temp.toArray(temp2));
-            hiddenSceneList.setVisible(true);
         }
         
         private List<Tab> createHiddenSceneList(){
@@ -705,9 +678,15 @@ FilePickerListener, TabClickListener {
             setColor(UPPER_BORDER_COLOR);
         }
 
+        @Override
+        public void update() {
+            // TODO Auto-generated method stub
+            
+        }
+
     }
 
-    private class CenterBorder extends Border {
+    private class CenterBorder extends Border implements Updateable{
 
         private HorizontalGroup centerBorder;
 
@@ -815,9 +794,15 @@ FilePickerListener, TabClickListener {
             setColor(CENTER_BORDER_COLOR);
         }
 
+        @Override
+        public void update() {
+            // TODO Auto-generated method stub
+            
+        }
+
     }
 
-    private class RightBorder extends Border {
+    private class RightBorder extends Border implements Updateable{
         private Image actorImage;
         private TextField actorField;
         private TextButton modifyButton;
@@ -945,9 +930,15 @@ FilePickerListener, TabClickListener {
 
             rightVerticalGroup.addActor(buttonContainer);
         }
+
+        @Override
+        public void update() {
+            // TODO Auto-generated method stub
+            
+        }
     }
 
-    private class LeftBorder extends Border {
+    private class LeftBorder extends Border implements Updateable{
 
         private TextButton addActorButton;
         private TextButton removeActorButton;
@@ -1193,6 +1184,12 @@ FilePickerListener, TabClickListener {
                 }
 
             });
+        }
+
+        @Override
+        public void update() {
+            // TODO Auto-generated method stub
+            
         }
 
     }
