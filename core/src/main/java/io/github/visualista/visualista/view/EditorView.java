@@ -101,7 +101,6 @@ public class EditorView implements ApplicationListener, IEditorView,
 
     private Skin uiSkin;
 
-    private Image actorImage;
 
     private TextButton addActorButton;
     private TextButton removeActorButton;
@@ -117,7 +116,7 @@ public class EditorView implements ApplicationListener, IEditorView,
     private List<IGetActor> actorList;
     private List<IAction> actionList;
 
-    private Border rightBorder;
+    private RightBorder rightBorder;
     private Border upperBorder;
     private Border lowerBorder;
     private Border centerBorder;
@@ -183,7 +182,8 @@ public class EditorView implements ApplicationListener, IEditorView,
         uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
         leftBorder = new LeftBorder();
         stage.addActor(leftBorder);
-        createRightEditorBorderContent();
+        rightBorder = new RightBorder();
+        stage.addActor(rightBorder);
         creatLowerEditorBorderContent();
         createCenterEditorBorderContent();
         createUpperEditorBorderContent();
@@ -313,108 +313,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         stage.addActor(lowerBorder);
     }
 
-    private void createRightEditorBorderContent() {
-
-        rightVerticalGroup = new VerticalGroup();
-        rightBorder = new Border();
-        stage.addActor(rightBorder);
-        rightBorder.setActor(rightVerticalGroup);
-
-        rightBorder.setSize(stage.getWidth() * CENTER_BORDER_WIDTH_RATIO,
-                stage.getHeight());
-        rightBorder.setPosition(
-                stage.getWidth() - rightVerticalGroup.getWidth(), 0);
-
-        actorField = new TextField("", uiSkin);
-        rightVerticalGroup.addActor(actorField);
-        rightVerticalGroup.setVisible(false);
-
-        actorField.addCaptureListener(new ClickListener() {
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                actorFieldHasFocus = true;
-                super.clicked(event, x, y);
-            }
-
-        });
-        actorImage = new Image((TextureRegionDrawable) null);
-        Border actorImageBorder = new Border();
-        actorImageBorder.setSize(70, 70);
-        actorImageBorder.setLineSize(1);
-        actorImageBorder.setLineOutsideActor(true);
-        actorImageBorder.setActor(actorImage);
-        rightVerticalGroup.addActor(actorImageBorder);
-
-        actorImage.addListener(new ClickListener() {
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                // TODO selected scene and image
-                FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                        "Select image (*.png)", "png");
-                filePicker.openFileDialog(new FilePickerListener() {
-
-                    @Override
-                    public void fileOpened(File selectedFile) {
-                        eventManager.fireViewEvent(this,
-                                Type.CHANGE_ACTOR_IMAGE, selectedActor,
-                                selectedFile);
-                    }
-
-                    @Override
-                    public void fileSaved(File selectedFile) {
-                    }
-                }, filter);
-
-                super.clicked(event, x, y);
-            }
-
-        });
-
-        actionLabel = new Label("Actions", uiSkin);
-        actionLabel.setSize(50, 50);
-        actionLabel.setColor(Color.BLACK);
-        rightVerticalGroup.addActor(actionLabel);
-
-        actionList = new List(uiSkin);
-
-        actionList.setWidth(rightBorder.getWidth() - rightBorder.getLineSize()
-                * 4);
-        actionList.setColor(Color.BLACK);
-
-        final ScrollPane scroll = new ScrollPane(actionList, uiSkin);
-        scroll.setFadeScrollBars(false);
-        Border scrollBorder = new Border();
-        scrollBorder.setLineOutsideActor(true);
-        scrollBorder.setLineSize(1);
-        scrollBorder.setSize(actionList.getWidth(),
-                rightBorder.getHeight() * 0.7f);
-        scrollBorder.setActor(scroll);
-        rightVerticalGroup.addActor(scrollBorder);
-
-        actionList.addCaptureListener(new EventListener() {
-
-            @Override
-            public boolean handle(Event event) {
-                if (event instanceof InputEvent) {
-                }
-                return false;
-            }
-
-        });
-
-        modifyButton = new TextButton("Modify", uiSkin);
-        modifyButton.setSize(150, 20);
-
-        addActionButton = new TextButton("Add", uiSkin);
-        addActionButton.setSize(150, 20);
-        HorizontalGroup buttonContainer = new HorizontalGroup();
-        buttonContainer.addActor(modifyButton);
-        buttonContainer.addActor(addActionButton);
-
-        rightVerticalGroup.addActor(buttonContainer);
-    }
+    
 
     private void createCenterEditorBorderContent() {
         centerVerticalGroup = new VerticalGroup();
@@ -806,7 +705,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         if (actor != null) {
             rightVerticalGroup.setVisible(true);
             actorField.setText(actor.getName());
-            actorImage.setDrawable(ModelToGdxHelper.createDrawableFor(actor));
+            rightBorder.setActorImage(ModelToGdxHelper.createDrawableFor(actor));
         } else {
             rightVerticalGroup.setVisible(false);
         }
@@ -815,7 +714,7 @@ public class EditorView implements ApplicationListener, IEditorView,
     @Override
     public void updateActor(IGetActor updatedActor) {
         if (updatedActor == selectedActor) {
-            actorImage.setDrawable(ModelToGdxHelper
+            rightBorder.setActorImage(ModelToGdxHelper
                     .createDrawableFor(updatedActor));
         }
     }
@@ -896,13 +795,19 @@ public class EditorView implements ApplicationListener, IEditorView,
     }
     
     private class RightBorder extends Border{
+        private Image actorImage;
         
-        private VerticalGroup rightBorder;
+        private Border rightBorder;
         
         public void  RightBorder(){
             resizeRightBorder();
         }
         
+        public void setActorImage(TextureRegionDrawable createDrawableFor) {
+            actorImage.setDrawable(createDrawableFor);
+            
+        }
+
         private void resizeRightBorder(){
             setSize(RIGHT_BORDER_WIDTH_RATIO * stage.getWidth(),
                     RIGHT_BORDER_HEIGHT_RATIO * stage.getHeight());
@@ -910,6 +815,109 @@ public class EditorView implements ApplicationListener, IEditorView,
                     RIGHT_BORDER_Y_DISPLACEMENT_RATIO * stage.getHeight());
             setLineSize(RIGHT_BORDER_LINE_SIZE);
             setColor(RIGHT_BORDER_COLOR);
+        }
+        
+        private void createRightEditorBorderContent() {
+
+            rightVerticalGroup = new VerticalGroup();
+            rightBorder = new Border();
+            stage.addActor(rightBorder);
+            rightBorder.setActor(rightVerticalGroup);
+
+            rightBorder.setSize(stage.getWidth() * CENTER_BORDER_WIDTH_RATIO,
+                    stage.getHeight());
+            rightBorder.setPosition(
+                    stage.getWidth() - rightVerticalGroup.getWidth(), 0);
+
+            actorField = new TextField("", uiSkin);
+            rightVerticalGroup.addActor(actorField);
+            rightVerticalGroup.setVisible(false);
+
+            actorField.addCaptureListener(new ClickListener() {
+
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    actorFieldHasFocus = true;
+                    super.clicked(event, x, y);
+                }
+
+            });
+            actorImage = new Image((TextureRegionDrawable) null);
+            Border actorImageBorder = new Border();
+            actorImageBorder.setSize(70, 70);
+            actorImageBorder.setLineSize(1);
+            actorImageBorder.setLineOutsideActor(true);
+            actorImageBorder.setActor(actorImage);
+            rightVerticalGroup.addActor(actorImageBorder);
+
+            actorImage.addListener(new ClickListener() {
+
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    // TODO selected scene and image
+                    FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                            "Select image (*.png)", "png");
+                    filePicker.openFileDialog(new FilePickerListener() {
+
+                        @Override
+                        public void fileOpened(File selectedFile) {
+                            eventManager.fireViewEvent(this,
+                                    Type.CHANGE_ACTOR_IMAGE, selectedActor,
+                                    selectedFile);
+                        }
+
+                        @Override
+                        public void fileSaved(File selectedFile) {
+                        }
+                    }, filter);
+
+                    super.clicked(event, x, y);
+                }
+
+            });
+
+            actionLabel = new Label("Actions", uiSkin);
+            actionLabel.setSize(50, 50);
+            actionLabel.setColor(Color.BLACK);
+            rightVerticalGroup.addActor(actionLabel);
+
+            actionList = new List(uiSkin);
+
+            actionList.setWidth(rightBorder.getWidth() - rightBorder.getLineSize()
+                    * 4);
+            actionList.setColor(Color.BLACK);
+
+            final ScrollPane scroll = new ScrollPane(actionList, uiSkin);
+            scroll.setFadeScrollBars(false);
+            Border scrollBorder = new Border();
+            scrollBorder.setLineOutsideActor(true);
+            scrollBorder.setLineSize(1);
+            scrollBorder.setSize(actionList.getWidth(),
+                    rightBorder.getHeight() * 0.7f);
+            scrollBorder.setActor(scroll);
+            rightVerticalGroup.addActor(scrollBorder);
+
+            actionList.addCaptureListener(new EventListener() {
+
+                @Override
+                public boolean handle(Event event) {
+                    if (event instanceof InputEvent) {
+                    }
+                    return false;
+                }
+
+            });
+
+            modifyButton = new TextButton("Modify", uiSkin);
+            modifyButton.setSize(150, 20);
+
+            addActionButton = new TextButton("Add", uiSkin);
+            addActionButton.setSize(150, 20);
+            HorizontalGroup buttonContainer = new HorizontalGroup();
+            buttonContainer.addActor(modifyButton);
+            buttonContainer.addActor(addActionButton);
+
+            rightVerticalGroup.addActor(buttonContainer);
         }
     }
     
