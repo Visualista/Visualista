@@ -12,6 +12,7 @@ import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.model.Image;
 import io.github.visualista.visualista.model.Novel;
 import io.github.visualista.visualista.model.Scene;
+import io.github.visualista.visualista.model.SetSceneAction;
 import io.github.visualista.visualista.model.SetSceneTextAction;
 import io.github.visualista.visualista.model.Tile;
 import io.github.visualista.visualista.view.EditorView;
@@ -154,6 +155,11 @@ public class EditorController implements ViewEventListener {
                                 ((String) (event.getExtraData()))));
                 view.updateActionList(updatedActor);
                 break;
+            case ADD_SET_SCENE_ACTION:
+                updatedActor = (Actor) (event.getTargetObject());
+                Scene scene = (Scene) event.getExtraData();
+                updatedActor.getActions().add(new SetSceneAction(scene));
+                view.updateActionList(updatedActor);
             default:
                 break;
 

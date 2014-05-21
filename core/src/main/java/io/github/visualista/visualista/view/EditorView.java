@@ -846,7 +846,7 @@ public class EditorView implements ApplicationListener, IEditorView,
 
         public void addNewScene(IGetScene newScene) {
             sceneList.add(newScene);
-            
+
         }
 
         public void updateActor(IGetActor updatedActor) {
@@ -980,7 +980,7 @@ public class EditorView implements ApplicationListener, IEditorView,
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     Dialog dialog = new ChangeSceneDialog(uiSkin,
-                            sceneList, eventManager);
+                            selectedActor, sceneList, eventManager);
                     dialog.invalidateHierarchy();
                     dialog.invalidate();
                     dialog.layout();
