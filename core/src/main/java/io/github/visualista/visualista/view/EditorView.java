@@ -471,7 +471,7 @@ public class EditorView implements ApplicationListener, IEditorView,
     }
 
     private class UpperBorder extends Border implements Updateable,
-            TabClickListener {
+            TabListener {
 
         private List<Tab> hiddenSceneList;
 
@@ -513,7 +513,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         public void addNewScene(IGetScene scene) {
             String name = getPaddedSceneName(scene);
             Tab tab = new Tab(name, uiSkin);
-            tab.addClickListener(this);
+            tab.addTabListener(this);
             tab.setHeight(upperBorder.getHeight());
             sceneButtonGroup.addActorBefore(tabUtilityButtons, tab);
             tabs.put(tab, scene);
@@ -548,15 +548,18 @@ public class EditorView implements ApplicationListener, IEditorView,
 
         @Override
         public void tabEvent(Tab source,
-                io.github.visualista.visualista.view.Tab.Type type) {
-            if (type == Tab.Type.SELECT) {
+                io.github.visualista.visualista.view.TabListener.EventType type) {
+            if (type == EventType.SELECT) {
                 if (activeScene == tabs.getValue(source)) {
                     source.makeNameEditable();
+                    stage.setKeyboardFocus(source);
                     editingTab = source;
                 } else {
                     eventManager.fireViewEvent(this, Type.SELECT_SCENE,
                             tabs.getValue(source));
                 }
+            }else if(type==EventType.NAME_CHANGE){
+                eventManager.fireViewEvent(this, Type.CHANGE_SCENE_NAME,tabs.getValue(source),source.newName());
             }
 
         }

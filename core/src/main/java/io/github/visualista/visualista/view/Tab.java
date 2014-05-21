@@ -1,4 +1,6 @@
-package io.github.visualista.visualista.view;
+ package io.github.visualista.visualista.view;
+
+import io.github.visualista.visualista.view.TabListener.EventType;
 
 import java.util.ArrayList;
 
@@ -6,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -14,6 +17,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
+import com.badlogic.gdx.scenes.scene2d.utils.FocusListener.FocusEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class Tab extends Stack {
@@ -26,7 +31,7 @@ public class Tab extends Stack {
     private final Border closeImageBorder;
     private final HorizontalGroup hGroup;
     private final Rectangle background;
-    ArrayList<TabClickListener> clickListeners = new ArrayList<TabClickListener>();
+    ArrayList<TabListener> tabListeners = new ArrayList<TabListener>();
     private TextField labelTextField;
 
     public Tab(String name, Skin uiSkin) {
@@ -41,13 +46,25 @@ public class Tab extends Stack {
         closeImage.addCaptureListener(new ClickListener() {
             @Override
             public void clicked(final InputEvent event, final float x, float y) {
-                for (TabClickListener listener : clickListeners) {
-                    listener.tabEvent(Tab.this, Type.CLOSE);
+                for (TabListener listener : tabListeners) {
+                    listener.tabEvent(Tab.this, EventType.CLOSE);
                 }
             }
         });
 
         labelTextField = new TextField(name, uiSkin);
+        labelTextField.addCaptureListener(new FocusListener(){
+
+            @Override
+            public void keyboardFocusChanged(FocusEvent event, Actor actor,
+                    boolean focused) {
+                if(!focused){
+                    stopEditing();
+                }
+                super.keyboardFocusChanged(event, actor, focused);
+            }
+            
+        });
 
         Rectangle padding1 = new Rectangle(new Color(0, 0, 0, 0));
         padding1.setWidth(5);
@@ -63,9 +80,8 @@ public class Tab extends Stack {
         ClickListener selectListener = new ClickListener() {
             @Override
             public void clicked(final InputEvent event, final float x, float y) {
-                for (TabClickListener listener : clickListeners) {
-                    Gdx.app.log("Tab", "Select");
-                    listener.tabEvent(Tab.this, Type.SELECT);
+                for (TabListener listener : tabListeners) {
+                    listener.tabEvent(Tab.this, EventType.SELECT);
                 }
             }
         };
@@ -98,13 +114,11 @@ public class Tab extends Stack {
         return label.getText();
     }
 
-    public void addClickListener(TabClickListener listener) {
-        clickListeners.add(listener);
+    public void addTabListener(TabListener listener) {
+        tabListeners.add(listener);
     }
 
-    public enum Type {
-        SELECT, CLOSE
-    }
+    
 
     public void makeNameEditable() {
         hGroup.addActorBefore(label, labelTextField);
@@ -135,8 +149,15 @@ public class Tab extends Stack {
     }
 
     public void stopEditing() {
+        if(nameWasChanged()){
+            for(TabListener listener : tabListeners){
+                listener.tabEvent(this, EventType.NAME_CHANGE);
+            }
+        }
+        background.setSize(0,0);
         hGroup.addActorBefore(labelTextField,label);
         hGroup.removeActor(labelTextField);
+        
         
     }
     
