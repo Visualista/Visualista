@@ -155,7 +155,6 @@ public class EditorView implements ApplicationListener, IEditorView,
 
     @Override
     public final void create() {
-        final EditorView self = this;
         stage = new Stage();
         stage.getViewport().setWorldHeight(configDimension.getHeight());
         stage.getViewport().setWorldWidth(configDimension.getWidth());
@@ -179,7 +178,7 @@ public class EditorView implements ApplicationListener, IEditorView,
             @Override
             public boolean touchDown(InputEvent event, float x, float y,
                     int pointer, int button) {
-                self.objectHit(stage.hit(x, y, true));
+                EditorView.this.objectHit(stage.hit(x, y, true));
                 return false;
             }
 
@@ -198,12 +197,9 @@ public class EditorView implements ApplicationListener, IEditorView,
     // Create Editor //
 
     private void objectHit(Actor hitObject) {
-        for (Actor actor : focusableActors) {
-            if (hitObject != actor) {
-                hitObject.setVisible(false);
-            }
-        }
-
+        stage.setKeyboardFocus(hitObject);
+        stage.setScrollFocus(hitObject);
+        //TODO hide objects that want that
     }
 
     private void addFocusableActorField(Actor actorField) {
@@ -222,11 +218,7 @@ public class EditorView implements ApplicationListener, IEditorView,
                 "Visualista Novel", "vis"));
     }
 
-    private void fillGridFromScene(IGetScene scene) {
-        centerBorder.createImagesForGrid(scene);
-        centerVerticalGroup.clearChildren();
-        centerBorder.fillGrid(centerVerticalGroup, gridButtons);
-    }
+    
 
     protected void openNovel() {
         filePicker.openFileDialog(EditorView.this, new FileNameExtensionFilter(
@@ -283,12 +275,14 @@ public class EditorView implements ApplicationListener, IEditorView,
     public void addScene(IGetScene newScene) {
         upperBorder.addNewScene(newScene);
         rightBorder.addNewScene(newScene);
+        centerBorder.addNewScene(newScene);
 
     }
 
     @Override
     public void updateScene(IGetScene scene) {
         upperBorder.updateScene(scene);
+        centerBorder.updateScene(scene);
         /*
          * String name = scene.getName(); String text = scene.getStoryText(); if
          * (name == null) { name = ""; } while (name.length() < 5) { name +=
@@ -361,6 +355,7 @@ public class EditorView implements ApplicationListener, IEditorView,
          * hideOverFlowingScenes(); fillGridFromScene(scene);
          */
         upperBorder.changeActiveScene(scene);
+        centerBorder.chaneActiveScene(scene);
         activeScene = scene;
 
     }
@@ -717,6 +712,18 @@ public class EditorView implements ApplicationListener, IEditorView,
             resizeCenterBorder();
         }
 
+        public void updateScene(IGetScene scene) {
+            fillGridFromScene(scene);
+        }
+
+        public void addNewScene(IGetScene newScene) {
+            fillGridFromScene(newScene);
+        }
+
+        public void chaneActiveScene(IGetScene scene) {
+            fillGridFromScene(scene);
+        }
+
         public void selectActor(IGetActor actor) {
             selectedActor = actor;
 
@@ -734,9 +741,14 @@ public class EditorView implements ApplicationListener, IEditorView,
             stack.add(centerVerticalGroupBorder);
 
             this.setActor(stack);
-            gridButtons = new Matrix<Image>(new Dimension(5, 5));
         }
 
+        private void fillGridFromScene(IGetScene scene) {
+            createImagesForGrid(scene);
+            centerVerticalGroup.clearChildren();
+            fillGrid(centerVerticalGroup, gridButtons);
+        }
+        
         private void createImagesForGrid(IGetScene scene) {
             gridButtons = new Matrix<Image>(scene.getIGetGrid().getSize());
             IGetGrid grid = scene.getIGetGrid();
@@ -979,8 +991,14 @@ public class EditorView implements ApplicationListener, IEditorView,
 
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    Dialog dialog = new ChangeSceneDialog(uiSkin,
-                            selectedActor, sceneList, eventManager);
+                    Dialog[] dialogs = {
+                            new ChangeSceneDialog(uiSkin, selectedActor,
+                                    sceneList, eventManager),
+                            new SetSceneTextDialog(uiSkin, selectedActor,
+                                    eventManager) };
+                    String[] dialogTexts = { "Set scene action" , "Set scene text action"};
+                    Dialog dialog = new SelectActionTypeDialog(uiSkin,
+                            selectedActor, dialogs, dialogTexts);
                     dialog.invalidateHierarchy();
                     dialog.invalidate();
                     dialog.layout();
