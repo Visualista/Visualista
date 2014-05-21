@@ -112,6 +112,7 @@ public class PlayerView implements ApplicationListener, IPlayerView{
                 new TextureRegion( 
                         new Texture( Gdx.files.internal( "icons/transparent.png" ) ) ) );
         createPlayerView();
+        isReady = true;
     }
     
     
