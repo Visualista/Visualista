@@ -3,7 +3,7 @@ package io.github.visualista.visualista.model;
 import io.github.visualista.visualista.util.Point;
 import io.github.visualista.visualista.model.PositionedActor;
 
-public class SetActorAction implements IPlayAction {
+public class SetActorAction implements IAction {
 
     private Point targetTile;
     private Actor replacementActor;

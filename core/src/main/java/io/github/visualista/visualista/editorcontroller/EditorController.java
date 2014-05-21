@@ -12,6 +12,7 @@ import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.model.Image;
 import io.github.visualista.visualista.model.Novel;
 import io.github.visualista.visualista.model.Scene;
+import io.github.visualista.visualista.model.SetSceneTextAction;
 import io.github.visualista.visualista.model.Tile;
 import io.github.visualista.visualista.view.EditorView;
 
@@ -57,7 +58,8 @@ public class EditorController implements ViewEventListener {
                 view.addScene(newScene);
                 break;
             case NEW_ACTOR:
-                updatedActor = visualista.addNewActor((Scene)event.getTargetObject());
+                updatedActor = visualista.addNewActor((Scene) event
+                        .getTargetObject());
                 view.addActor(updatedActor);
                 break;
             case REMOVE_ACTOR:
@@ -79,8 +81,8 @@ public class EditorController implements ViewEventListener {
                 view.changeActiveScene(updatedScene);
                 break;
             case CHANGE_ACTOR_IMAGE:
-                updatedActor = visualista.changeActorImage(
-                        (Actor) (event.getTargetObject()),
+                updatedActor = visualista.changeActorImage((Actor) (event
+                        .getTargetObject()),
                         new Image((File) (event.getExtraData())));
                 view.updateActor(updatedActor);
                 // TODO view needs to do something to update actor list
@@ -120,8 +122,8 @@ public class EditorController implements ViewEventListener {
                 }
                 break;
             case FILE_SAVE:
-                File file = (File)event.getExtraData();
-                if(!file.getName().toLowerCase().endsWith(".vis")){
+                File file = (File) event.getExtraData();
+                if (!file.getName().toLowerCase().endsWith(".vis")) {
                     file = new File(file.getAbsoluteFile() + ".vis");
                 }
                 visualista.saveNovel(file);
@@ -137,14 +139,20 @@ public class EditorController implements ViewEventListener {
                 view.changeActiveScene((IGetScene) event.getTargetObject());
                 break;
             case SELECT_ACTOR:
-                view.selectActor((IGetActor)event.getTargetObject());
+                view.selectActor((IGetActor) event.getTargetObject());
                 break;
             case TILE_SET_ACTOR:
-                Tile updatedTile =(Tile) event.getTargetObject(); 
-                updatedTile.setActor((Actor)event.getExtraData());
+                Tile updatedTile = (Tile) event.getTargetObject();
+                updatedTile.setActor((Actor) event.getExtraData());
                 view.updateTile(event.getSource(), updatedTile);
             case SELECT_TILE:
-                view.selectActor(((Tile)(event.getTargetObject())).getActor());
+                view.selectActor(((Tile) (event.getTargetObject())).getActor());
+            case ADD_SET_SCENE_TEXT_ACTION:
+                updatedActor = (Actor) (event.getTargetObject());
+                updatedActor.getActions().add(
+                        new SetSceneTextAction(
+                                ((String) (event.getExtraData()))));
+                break;
             default:
                 break;
 

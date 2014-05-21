@@ -1,6 +1,6 @@
 package io.github.visualista.visualista.model;
 
-public class SetSceneAction implements IPlayAction {
+public class SetSceneAction implements IAction {
 
     private Scene targetScene;
 

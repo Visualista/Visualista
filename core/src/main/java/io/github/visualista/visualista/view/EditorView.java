@@ -963,6 +963,19 @@ public class EditorView implements ApplicationListener, IEditorView,
 
             addActionButton = new TextButton("Add", uiSkin);
             addActionButton.setSize(150, 20);
+            addActionButton.addCaptureListener(new ClickListener(){
+
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    SetSceneTextDialog dialog = new SetSceneTextDialog(uiSkin, selectedActor, eventManager);
+                    dialog.invalidateHierarchy();
+                    dialog.invalidate();
+                    dialog.layout();
+                    dialog.show(stage);
+                    super.clicked(event, x, y);
+                }
+                
+            });
             HorizontalGroup buttonContainer = new HorizontalGroup();
             buttonContainer.addActor(modifyButton);
             buttonContainer.addActor(addActionButton);

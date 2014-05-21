@@ -1,7 +1,7 @@
 package io.github.visualista.visualista.io;
 
 import io.github.visualista.visualista.model.Actor;
-import io.github.visualista.visualista.model.IEditAction;
+import io.github.visualista.visualista.model.IAction;
 import io.github.visualista.visualista.model.Novel;
 import io.github.visualista.visualista.model.Scene;
 import io.github.visualista.visualista.model.Tile;
@@ -20,7 +20,7 @@ public class XStreamManager {
     }
 
     private void configureXStream() {
-        mainXStream.alias("Action", IEditAction.class);
+        mainXStream.alias("Action", IAction.class);
         mainXStream.alias("Actor", Actor.class);
         mainXStream.alias("Scene", Scene.class);
         mainXStream.alias("Novel", Novel.class);

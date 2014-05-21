@@ -24,14 +24,8 @@ public class ActorTest {
         IAction action = new IAction() {
 
             @Override
-            public String getExplainatoryName() {
-                // TODO Auto-generated method stub
-                return null;
-            }
-
-            @Override
             public Object getActionData() {
-                
+
                 return null;
 
             }
