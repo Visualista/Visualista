@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -281,6 +282,7 @@ public class EditorView implements ApplicationListener, IEditorView,
     @Override
     public void addScene(IGetScene newScene) {
         upperBorder.addNewScene(newScene);
+        rightBorder.addNewScene(newScene);
 
     }
 
@@ -833,12 +835,18 @@ public class EditorView implements ApplicationListener, IEditorView,
         private TextButton modifyButton;
         private TextButton addActionButton;
         private IGetActor selectedActor;
+        private ArrayList<IGetScene> sceneList = new ArrayList<IGetScene>();
 
         public RightBorder() {
             resizeRightBorder();
             createRightEditorBorderContent();
             resizeRightBorder();
 
+        }
+
+        public void addNewScene(IGetScene newScene) {
+            sceneList.add(newScene);
+            
         }
 
         public void updateActor(IGetActor updatedActor) {
@@ -971,8 +979,8 @@ public class EditorView implements ApplicationListener, IEditorView,
 
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    SetSceneTextDialog dialog = new SetSceneTextDialog(uiSkin,
-                            selectedActor, eventManager);
+                    Dialog dialog = new ChangeSceneDialog(uiSkin,
+                            sceneList, eventManager);
                     dialog.invalidateHierarchy();
                     dialog.invalidate();
                     dialog.layout();
