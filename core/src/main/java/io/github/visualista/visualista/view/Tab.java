@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -164,5 +165,9 @@ public class Tab extends Stack {
     public void setText(String text){
         label.setText(text);
         labelTextField.setText(text);
+    }
+
+    public void giveFocusFrom(Stage stage) {
+        stage.setKeyboardFocus(labelTextField);
     }
 }
