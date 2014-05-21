@@ -152,6 +152,7 @@ public class EditorController implements ViewEventListener {
                 updatedActor.getActions().add(
                         new SetSceneTextAction(
                                 ((String) (event.getExtraData()))));
+                view.updateActionList(updatedActor);
                 break;
             default:
                 break;

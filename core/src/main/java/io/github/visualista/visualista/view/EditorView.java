@@ -844,6 +844,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         public void updateActor(IGetActor updatedActor) {
             if (updatedActor == selectedActor) {
                 setActorImage(ModelToGdxHelper.createDrawableFor(updatedActor));
+                updateActionList(updatedActor);
             }
 
         }
@@ -854,6 +855,7 @@ public class EditorView implements ApplicationListener, IEditorView,
                 rightVerticalGroup.setVisible(true);
                 actorField.setText(actor.getName());
                 setActorImage(ModelToGdxHelper.createDrawableFor(actor));
+                updateActionList(actor);
             } else {
                 rightVerticalGroup.setVisible(false);
             }
@@ -888,7 +890,9 @@ public class EditorView implements ApplicationListener, IEditorView,
                 public void keyboardFocusChanged(FocusEvent event, Actor actor,
                         boolean focused) {
                     if (!focused) {
-                        eventManager.fireViewEvent(this, Type.CHANGE_ACTOR_NAME, selectedActor, actorField.getText());
+                        eventManager.fireViewEvent(this,
+                                Type.CHANGE_ACTOR_NAME, selectedActor,
+                                actorField.getText());
                     }
                     super.keyboardFocusChanged(event, actor, focused);
                 }
@@ -963,18 +967,19 @@ public class EditorView implements ApplicationListener, IEditorView,
 
             addActionButton = new TextButton("Add", uiSkin);
             addActionButton.setSize(150, 20);
-            addActionButton.addCaptureListener(new ClickListener(){
+            addActionButton.addCaptureListener(new ClickListener() {
 
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    SetSceneTextDialog dialog = new SetSceneTextDialog(uiSkin, selectedActor, eventManager);
+                    SetSceneTextDialog dialog = new SetSceneTextDialog(uiSkin,
+                            selectedActor, eventManager);
                     dialog.invalidateHierarchy();
                     dialog.invalidate();
                     dialog.layout();
                     dialog.show(stage);
                     super.clicked(event, x, y);
                 }
-                
+
             });
             HorizontalGroup buttonContainer = new HorizontalGroup();
             buttonContainer.addActor(modifyButton);
@@ -987,6 +992,13 @@ public class EditorView implements ApplicationListener, IEditorView,
         public void update() {
             // TODO Auto-generated method stub
 
+        }
+
+        public void updateActionList(IGetActor updatedActor) {
+            IAction[] updatedActionList = new IAction[updatedActor.getActions()
+                    .size()];
+            actionList.setItems(updatedActor.getActions().toArray(
+                    updatedActionList));
         }
     }
 
@@ -1252,6 +1264,12 @@ public class EditorView implements ApplicationListener, IEditorView,
             // TODO Auto-generated method stub
 
         }
+
+    }
+
+    @Override
+    public void updateActionList(IGetActor updatedActor) {
+        rightBorder.updateActionList(updatedActor);
 
     }
 }
