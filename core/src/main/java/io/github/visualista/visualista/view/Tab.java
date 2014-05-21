@@ -78,7 +78,7 @@ public class Tab extends Stack {
     @Override
     protected void sizeChanged() {
         if (background != null) {
-            background.setSize(hGroup.getHeight(), hGroup.getWidth());
+            background.setSize(hGroup.getWidth(), hGroup.getHeight());
         }
         super.sizeChanged();
     }
