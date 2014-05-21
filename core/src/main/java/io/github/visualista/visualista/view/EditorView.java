@@ -167,7 +167,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         stage.addActor(leftBorder);
         rightBorder = new RightBorder();
         stage.addActor(rightBorder);
-        lowerBorder = new LowerBorder();
+        lowerBorder = new LowerBorder(stage,eventManager);
         stage.addActor(lowerBorder);
         centerBorder = new CenterBorder();
         stage.addActor(centerBorder);
@@ -440,8 +440,9 @@ public class EditorView implements ApplicationListener, IEditorView,
 
         private ViewEventManager eventManeger;
 
-        public void LowerBorder(Stage stage, ViewEventManager eventManeger) {
-            createLowerBorderContent();
+        public LowerBorder(Stage stage, ViewEventManager eventManeger) {
+            resizeLowerBorder();
+            setActor(createLowerBorderContent());
             resizeLowerBorder();
             this.eventManeger = eventManeger;
             stage.addActor(this);
@@ -720,13 +721,14 @@ public class EditorView implements ApplicationListener, IEditorView,
 
         private HorizontalGroup centerBorder;
 
-        public void CenterBorder() {
+        public CenterBorder() {
+            resizeCenterBorder();
+            createCenterEditorBorderContent();
             resizeCenterBorder();
         }
 
         private void createCenterEditorBorderContent() {
             centerVerticalGroup = new VerticalGroup();
-            stage.addActor(centerBorder);
 
             sceneBackgroundImage = new Image();
             Stack stack = new Stack();
@@ -838,10 +840,12 @@ public class EditorView implements ApplicationListener, IEditorView,
         private TextButton modifyButton;
         private TextButton addActionButton;
 
-        private Border rightBorder;
 
-        public void RightBorder() {
+        public RightBorder() {
             resizeRightBorder();
+            createRightEditorBorderContent();
+            resizeRightBorder();
+            
         }
 
         public void setActorImage(TextureRegionDrawable createDrawableFor) {
@@ -861,14 +865,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         private void createRightEditorBorderContent() {
 
             rightVerticalGroup = new VerticalGroup();
-            rightBorder = new Border();
-            stage.addActor(rightBorder);
-            rightBorder.setActor(rightVerticalGroup);
-
-            rightBorder.setSize(stage.getWidth() * CENTER_BORDER_WIDTH_RATIO,
-                    stage.getHeight());
-            rightBorder.setPosition(
-                    stage.getWidth() - rightVerticalGroup.getWidth(), 0);
+            setActor(rightVerticalGroup);
 
             actorField = new TextField("", uiSkin);
             rightVerticalGroup.addActor(actorField);
@@ -922,10 +919,10 @@ public class EditorView implements ApplicationListener, IEditorView,
             actionLabel.setColor(Color.BLACK);
             rightVerticalGroup.addActor(actionLabel);
 
-            actionList = new List(uiSkin);
+            actionList = new List<IAction>(uiSkin);
 
-            actionList.setWidth(rightBorder.getWidth()
-                    - rightBorder.getLineSize() * 4);
+            actionList.setWidth(getWidth()
+                    - getLineSize() * 4);
             actionList.setColor(Color.BLACK);
 
             final ScrollPane scroll = new ScrollPane(actionList, uiSkin);
@@ -934,7 +931,7 @@ public class EditorView implements ApplicationListener, IEditorView,
             scrollBorder.setLineOutsideActor(true);
             scrollBorder.setLineSize(1);
             scrollBorder.setSize(actionList.getWidth(),
-                    rightBorder.getHeight() * 0.7f);
+                    getHeight() * 0.7f);
             scrollBorder.setActor(scroll);
             rightVerticalGroup.addActor(scrollBorder);
 
