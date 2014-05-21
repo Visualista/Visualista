@@ -146,8 +146,10 @@ public class EditorController implements ViewEventListener {
                 Tile updatedTile = (Tile) event.getTargetObject();
                 updatedTile.setActor((Actor) event.getExtraData());
                 view.updateTile(event.getSource(), updatedTile);
+                break;
             case SELECT_TILE:
                 view.selectActor(((Tile) (event.getTargetObject())).getActor());
+                break;
             case ADD_SET_SCENE_TEXT_ACTION:
                 updatedActor = (Actor) (event.getTargetObject());
                 updatedActor.getActions().add(
@@ -160,6 +162,7 @@ public class EditorController implements ViewEventListener {
                 Scene scene = (Scene) event.getExtraData();
                 updatedActor.getActions().add(new SetSceneAction(scene));
                 view.updateActionList(updatedActor);
+                break;
             default:
                 break;
 
