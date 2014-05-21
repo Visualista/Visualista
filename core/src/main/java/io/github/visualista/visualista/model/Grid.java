@@ -5,6 +5,11 @@ import io.github.visualista.visualista.util.Matrix;
 
 public class Grid extends Matrix<Tile> implements IGetGrid {
 
+    @Override
+    public String toString() {
+        return "Grid [Size=" + getSize() + "]";
+    }
+
     public Grid(Dimension gridSize) {
         super(gridSize);
         fillWith(new TileFactory());
