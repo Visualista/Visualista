@@ -135,8 +135,6 @@ public class EditorView implements ApplicationListener, IEditorView,
 
     private Tab editingTab;
 
-    private IGetActor selectedActor;
-
     private boolean actorFieldHasFocus;
 
     protected EditorTool selectedTool;
@@ -167,7 +165,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         stage.addActor(leftBorder);
         rightBorder = new RightBorder();
         stage.addActor(rightBorder);
-        lowerBorder = new LowerBorder(stage,eventManager);
+        lowerBorder = new LowerBorder(stage, eventManager);
         stage.addActor(lowerBorder);
         centerBorder = new CenterBorder();
         stage.addActor(centerBorder);
@@ -405,23 +403,13 @@ public class EditorView implements ApplicationListener, IEditorView,
 
     @Override
     public void selectActor(IGetActor actor) {
-        selectedActor = actor;
-        if (actor != null) {
-            rightVerticalGroup.setVisible(true);
-            rightBorder.actorField.setText(actor.getName());
-            rightBorder
-                    .setActorImage(ModelToGdxHelper.createDrawableFor(actor));
-        } else {
-            rightVerticalGroup.setVisible(false);
-        }
+        rightBorder.selectActor(actor);
+        centerBorder.selectActor(actor);
     }
 
     @Override
     public void updateActor(IGetActor updatedActor) {
-        if (updatedActor == selectedActor) {
-            rightBorder.setActorImage(ModelToGdxHelper
-                    .createDrawableFor(updatedActor));
-        }
+        rightBorder.updateActor(updatedActor);
     }
 
     @Override
@@ -510,20 +498,19 @@ public class EditorView implements ApplicationListener, IEditorView,
                 aTab.useSelectStyle(false);
             }
             tab.useSelectStyle(true);
-            //tabs.put(tab, scene);
-            //hideOverFlowingScenes();
-            //fillGridFromScene(scene);
+            // tabs.put(tab, scene);
+            // hideOverFlowingScenes();
+            // fillGridFromScene(scene);
 
         }
 
-
         private void bringTabToTabGroup(Tab tab) {
-            int index =hiddenSceneList.getItems().indexOf(tab, true);
-            if(index!=-1){
+            int index = hiddenSceneList.getItems().indexOf(tab, true);
+            if (index != -1) {
                 hiddenSceneList.getItems().removeIndex(index);
                 sceneButtonGroup.addActorBefore(tabUtilityButtons, tab);
             }
-            
+
         }
 
         public void addNewScene(IGetScene scene) {
@@ -720,11 +707,17 @@ public class EditorView implements ApplicationListener, IEditorView,
     private class CenterBorder extends Border implements Updateable {
 
         private HorizontalGroup centerBorder;
+        private IGetActor selectedActor;
 
         public CenterBorder() {
             resizeCenterBorder();
             createCenterEditorBorderContent();
             resizeCenterBorder();
+        }
+
+        public void selectActor(IGetActor actor) {
+            selectedActor = actor;
+
         }
 
         private void createCenterEditorBorderContent() {
@@ -839,13 +832,31 @@ public class EditorView implements ApplicationListener, IEditorView,
         private TextField actorField;
         private TextButton modifyButton;
         private TextButton addActionButton;
-
+        private IGetActor selectedActor;
 
         public RightBorder() {
             resizeRightBorder();
             createRightEditorBorderContent();
             resizeRightBorder();
-            
+
+        }
+
+        public void updateActor(IGetActor updatedActor) {
+            if (updatedActor == selectedActor) {
+                setActorImage(ModelToGdxHelper.createDrawableFor(updatedActor));
+            }
+
+        }
+
+        public void selectActor(IGetActor actor) {
+            selectedActor = actor;
+            if (actor != null) {
+                rightVerticalGroup.setVisible(true);
+                actorField.setText(actor.getName());
+                setActorImage(ModelToGdxHelper.createDrawableFor(actor));
+            } else {
+                rightVerticalGroup.setVisible(false);
+            }
         }
 
         public void setActorImage(TextureRegionDrawable createDrawableFor) {
@@ -871,12 +882,15 @@ public class EditorView implements ApplicationListener, IEditorView,
             rightVerticalGroup.addActor(actorField);
             rightVerticalGroup.setVisible(false);
 
-            actorField.addCaptureListener(new ClickListener() {
+            actorField.addCaptureListener(new FocusListener() {
 
                 @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    actorFieldHasFocus = true;
-                    super.clicked(event, x, y);
+                public void keyboardFocusChanged(FocusEvent event, Actor actor,
+                        boolean focused) {
+                    if (!focused) {
+                        eventManager.fireViewEvent(this, Type.CHANGE_ACTOR_NAME, selectedActor, actorField.getText());
+                    }
+                    super.keyboardFocusChanged(event, actor, focused);
                 }
 
             });
@@ -921,8 +935,7 @@ public class EditorView implements ApplicationListener, IEditorView,
 
             actionList = new List<IAction>(uiSkin);
 
-            actionList.setWidth(getWidth()
-                    - getLineSize() * 4);
+            actionList.setWidth(getWidth() - getLineSize() * 4);
             actionList.setColor(Color.BLACK);
 
             final ScrollPane scroll = new ScrollPane(actionList, uiSkin);
@@ -930,8 +943,7 @@ public class EditorView implements ApplicationListener, IEditorView,
             Border scrollBorder = new Border();
             scrollBorder.setLineOutsideActor(true);
             scrollBorder.setLineSize(1);
-            scrollBorder.setSize(actionList.getWidth(),
-                    getHeight() * 0.7f);
+            scrollBorder.setSize(actionList.getWidth(), getHeight() * 0.7f);
             scrollBorder.setActor(scroll);
             rightVerticalGroup.addActor(scrollBorder);
 
