@@ -107,8 +107,6 @@ public class EditorView implements ApplicationListener, IEditorView,
 
     private Label actionLabel;
 
-    private Matrix<Image> gridButtons;
-
     private List<IAction> actionList;
 
     private RightBorder rightBorder;
@@ -199,7 +197,7 @@ public class EditorView implements ApplicationListener, IEditorView,
     private void objectHit(Actor hitObject) {
         stage.setKeyboardFocus(hitObject);
         stage.setScrollFocus(hitObject);
-        //TODO hide objects that want that
+        // TODO hide objects that want that
     }
 
     private void addFocusableActorField(Actor actorField) {
@@ -217,8 +215,6 @@ public class EditorView implements ApplicationListener, IEditorView,
         filePicker.saveFileDialog(this, new FileNameExtensionFilter(
                 "Visualista Novel", "vis"));
     }
-
-    
 
     protected void openNovel() {
         filePicker.openFileDialog(EditorView.this, new FileNameExtensionFilter(
@@ -470,8 +466,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         }
     }
 
-    private class UpperBorder extends Border implements Updateable,
-            TabListener {
+    private class UpperBorder extends Border implements Updateable, TabListener {
 
         private List<Tab> hiddenSceneList;
 
@@ -552,14 +547,15 @@ public class EditorView implements ApplicationListener, IEditorView,
             if (type == EventType.SELECT) {
                 if (activeScene == tabs.getValue(source)) {
                     source.makeNameEditable();
-                    stage.setKeyboardFocus(source);
+                    source.giveFocusFrom(stage);
                     editingTab = source;
                 } else {
                     eventManager.fireViewEvent(this, Type.SELECT_SCENE,
                             tabs.getValue(source));
                 }
-            }else if(type==EventType.NAME_CHANGE){
-                eventManager.fireViewEvent(this, Type.CHANGE_SCENE_NAME,tabs.getValue(source),source.newName());
+            } else if (type == EventType.NAME_CHANGE) {
+                eventManager.fireViewEvent(this, Type.CHANGE_SCENE_NAME,
+                        tabs.getValue(source), source.newName());
             }
 
         }
@@ -705,9 +701,9 @@ public class EditorView implements ApplicationListener, IEditorView,
     }
 
     private class CenterBorder extends Border implements Updateable {
-
-        private HorizontalGroup centerBorder;
         private IGetActor selectedActor;
+        private ArrayList<Border> borders = new ArrayList<Border>();
+        private Dimension gridDimensions;
 
         public CenterBorder() {
             resizeCenterBorder();
@@ -716,14 +712,17 @@ public class EditorView implements ApplicationListener, IEditorView,
         }
 
         public void updateScene(IGetScene scene) {
+            System.out.println("updateScene");
             fillGridFromScene(scene);
         }
 
         public void addNewScene(IGetScene newScene) {
+            System.out.println("add new scene");
             fillGridFromScene(newScene);
         }
 
         public void chaneActiveScene(IGetScene scene) {
+            System.out.println("change active scene");
             fillGridFromScene(scene);
         }
 
@@ -747,13 +746,16 @@ public class EditorView implements ApplicationListener, IEditorView,
         }
 
         private void fillGridFromScene(IGetScene scene) {
-            createImagesForGrid(scene);
+            Gdx.app.log("Filing grid from scene", "" + scene);
+            Matrix<Image> gridButtons = createImagesForGrid(scene);
             centerVerticalGroup.clearChildren();
             fillGrid(centerVerticalGroup, gridButtons);
+            resizeCenterBorder();
         }
-        
-        private void createImagesForGrid(IGetScene scene) {
-            gridButtons = new Matrix<Image>(scene.getIGetGrid().getSize());
+
+        private Matrix<Image> createImagesForGrid(IGetScene scene) {
+            Matrix<Image> gridButtons = new Matrix<Image>(scene.getIGetGrid()
+                    .getSize());
             IGetGrid grid = scene.getIGetGrid();
             int gridWidth = grid.getSize().getWidth();
             int gridHeight = grid.getSize().getHeight();
@@ -790,6 +792,7 @@ public class EditorView implements ApplicationListener, IEditorView,
                     gridButtons.setAt(new Point(x, y), imageForCurrentTile);
                 }
             }
+            return gridButtons;
         }
 
         /*
@@ -806,12 +809,9 @@ public class EditorView implements ApplicationListener, IEditorView,
          */
 
         public final void fillGrid(VerticalGroup group, IMatrixGet<Image> data) {
-            float prefferedButtonHeight = group.getHeight()
-                    / data.getSize().getHeight();
-            float prefferedButtonWidth = group.getWidth()
-                    / data.getSize().getWidth();
-            float buttonLength = (float) Math.floor(Math.min(
-                    prefferedButtonWidth, prefferedButtonHeight));
+            float buttonLength = calculateBorderLength(group.getWidth(),
+                    group.getHeight(), data.getSize());
+            gridDimensions = data.getSize();
 
             for (int i = 0; i < data.getSize().getHeight(); i++) {
                 HorizontalGroup row = new HorizontalGroup();
@@ -822,9 +822,20 @@ public class EditorView implements ApplicationListener, IEditorView,
                     border.setActor(button);
                     border.setSize(buttonLength, buttonLength);
                     border.setLineSize(1);
+                    borders.add(border);
                     row.addActor(border);
                 }
             }
+        }
+
+        private float calculateBorderLength(float width, float height,
+                Dimension size) {
+            System.out.println("width"+width+"height"+height);
+            float prefferedButtonHeight = height / size.getHeight();
+            float prefferedButtonWidth = width / size.getWidth();
+            float buttonLength = (float) Math.floor(Math.min(
+                    prefferedButtonWidth, prefferedButtonHeight));
+            return buttonLength;
         }
 
         private void resizeCenterBorder() {
@@ -834,6 +845,13 @@ public class EditorView implements ApplicationListener, IEditorView,
                     CENTER_BORDER_Y_DISPLACEMENT_RATIO * stage.getHeight());
             setLineSize(CENTER_BORDER_LINE_SIZE);
             setColor(CENTER_BORDER_COLOR);
+            if (gridDimensions != null) {
+                float buttonLength = calculateBorderLength(getWidth(),
+                        getHeight(), gridDimensions);
+                for (Border border : borders) {
+                    border.setSize(buttonLength, buttonLength);
+                }
+            }
         }
 
         @Override
@@ -999,7 +1017,8 @@ public class EditorView implements ApplicationListener, IEditorView,
                                     sceneList, eventManager),
                             new SetSceneTextDialog(uiSkin, selectedActor,
                                     eventManager) };
-                    String[] dialogTexts = { "Set scene action" , "Set scene text action"};
+                    String[] dialogTexts = { "Set scene action",
+                            "Set scene text action" };
                     Dialog dialog = new SelectActionTypeDialog(uiSkin,
                             selectedActor, dialogs, dialogTexts);
                     dialog.invalidateHierarchy();
