@@ -30,7 +30,6 @@ public class VisualistaDesktop {
 //        final PlayerView view = new PlayerView(new Dimension(config.width, config.height));
 //        final VisualistaPlayer model = new VisualistaPlayer();
 //        new PlayerController(model, view, new DesktopFilePicker());
-//        new LwjglApplication(view, config);
         
         final EditorView view = new EditorView(new Dimension(config.width,config.height),new DesktopFilePicker());
         final VisualistaEditor model = new VisualistaEditor();

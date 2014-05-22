@@ -20,6 +20,9 @@ public class SetSceneAction implements IAction {
         return "Switch to the " + targetScene.getName() + " Scene";
     }
 
+    public String toString(){
+        return getExplainatoryName();
+    }
     @Override
     public Object getActionData() {
        return targetScene;

@@ -2,6 +2,12 @@ package io.github.visualista.visualista.editorcontroller;
 
 import java.util.EventObject;
 
+/** An EventObject tuned to the events that can happen in the Editor View.
+ * Carries work data.
+ * @author Markus Bergland, Erik Risfeltd, Pierre Krafft
+ *
+ */
+
 public class EditorViewEvent extends EventObject {
     private static final long serialVersionUID = -8033356189055577154L;
 

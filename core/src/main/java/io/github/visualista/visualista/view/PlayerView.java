@@ -29,6 +29,10 @@ import io.github.visualista.visualista.util.Point;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/** View class for the Player view, responsible for all the 
+ * visual logic and painting with help from libGdx. 
+ * @author Markus Bergland, Erik Risfeltd, Pierre Krafft
+ */
 public class PlayerView implements ApplicationListener, IPlayerView{
     
     //Defining static objects and variables //
@@ -133,7 +137,7 @@ public class PlayerView implements ApplicationListener, IPlayerView{
         resizeBorders();
         
         Gdx.input.setInputProcessor(stage);
-        Gdx.graphics.setContinuousRendering(false);
+        Gdx.graphics.setContinuousRendering(true);
         controller.openNovelFile();
     }
     
@@ -427,11 +431,11 @@ public class PlayerView implements ApplicationListener, IPlayerView{
         // End Actor Grid //
         
         // Debugging code //
-        String[] actorNames = new String[sceneToDisplay.getActorsInScene().size()];
-        for (int i = 0; i < sceneToDisplay.getActorsInScene().size(); i++) {
-            Gdx.app.log("actorName", ""+sceneToDisplay.getActorsInScene().get(i).getName());
-            actorNames[i] = sceneToDisplay.getActorsInScene().get(i).getName();
-        }
+       // String[] actorNames = new String[sceneToDisplay.getActorsInScene().size()];
+       // for (int i = 0; i < sceneToDisplay.getActorsInScene().size(); i++) {
+       //     Gdx.app.log("actorName", ""+sceneToDisplay.getActorsInScene().get(i).getName());
+       //     actorNames[i] = sceneToDisplay.getActorsInScene().get(i).getName();
+       // }
         // End debugging code //
     }
     

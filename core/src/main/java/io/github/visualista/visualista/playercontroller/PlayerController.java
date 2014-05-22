@@ -20,11 +20,16 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.badlogic.gdx.Gdx;
 
+/** The controller for the Player View, data gatherer from the Player Model.
+ * @author Markus Bergland, Erik Risfeltd, Pierre Krafft
+ *
+ */
 public class PlayerController implements IGetPlayerController{
     
     private VisualistaPlayer visualista;
     private IPlayerView view;
     private final IFilePicker filePicker;
+    private Scene currentSceneToChange;
 
     public PlayerController(final VisualistaPlayer visualista,
             final IPlayerView view, IFilePicker filePicker) {
@@ -72,19 +77,24 @@ public class PlayerController implements IGetPlayerController{
     
     @Override
     public void tileClicked(IGetActor actor) {
+        currentSceneToChange = visualista.getCurrentNovel().getCurrentScene();
         boolean needUpdate = false;
         List<IAction> actorActions = actor.getActions();
         Iterator<IAction> it = actorActions.iterator();
         while (it.hasNext()){
-            Object objectsToModify = it.next().getActionData();
-            needUpdate = needUpdate || changeData(objectsToModify);
+            IAction actionToCall = it.next();
+            Object objectsToModify = actionToCall.getActionData();
+            needUpdate = changeData(objectsToModify) || needUpdate;
+            Gdx.app.log("Action", actionToCall.toString());
         }
         if (needUpdate){
             view.updateScene(visualista.getCurrentNovel().getCurrentScene());
         }
+  
     }
     
     private boolean changeData(Object dataToModify){
+        Gdx.app.log("Wat", "Calling Action");
         if (dataToModify instanceof String){
             return changeText((String) dataToModify);
         } else if (dataToModify instanceof Scene){
@@ -97,17 +107,19 @@ public class PlayerController implements IGetPlayerController{
     }
     
     private boolean changeScene(Scene newScene){
+        Gdx.app.log("Change Scene", newScene.toString());
         visualista.getCurrentNovel().setCurrentScene(newScene);
         return view.getIsReady();
     }
     
     private boolean changeText(String newText){
-        visualista.getCurrentNovel().getCurrentScene().setStoryText(newText);
+        Gdx.app.log("Change Text", "In " + currentSceneToChange.toString());
+        currentSceneToChange.setStoryText(newText);
         return view.getIsReady();
     }
     
     private boolean changeActor(PositionedActor newActor){
-        visualista.getCurrentNovel().getCurrentScene().getGrid().getAt(
+        currentSceneToChange.getGrid().getAt(
                 newActor.getPosition()).setActor(newActor.getActor());
         return view.getIsReady();
     }

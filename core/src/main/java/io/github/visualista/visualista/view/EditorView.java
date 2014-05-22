@@ -53,8 +53,14 @@ import io.github.visualista.visualista.util.Point;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Set;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+/** View class for the Editor view, responsible for all the 
+ * visual logic and painting with help from libGdx. 
+ * @author Markus Bergland, Erik Risfeltd, Pierre Krafft
+ */
 
 public class EditorView implements ApplicationListener, IEditorView,
         FilePickerListener {
@@ -187,7 +193,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         // ((OrthographicCamera) stage.getCamera()).zoom = 2;
 
         Gdx.input.setInputProcessor(stage);
-        Gdx.graphics.setContinuousRendering(false);
+        Gdx.graphics.setContinuousRendering(true);
 
         isReady = true;
         eventManager.fireViewEvent(this, Type.VIEW_READY);
@@ -547,6 +553,8 @@ public class EditorView implements ApplicationListener, IEditorView,
         public void clearSceneTabs() {
             if (tabs != null) {
                 tabs.clear();
+                sceneButtonGroup.clearChildren();
+                sceneButtonGroup.addActor(tabUtilityButtons);
             }
             if (hiddenSceneList != null) {
                 hiddenSceneList.getItems().clear();

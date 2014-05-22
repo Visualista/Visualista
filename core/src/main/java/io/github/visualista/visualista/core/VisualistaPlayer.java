@@ -8,6 +8,10 @@ import io.github.visualista.visualista.model.Actor;
 import io.github.visualista.visualista.model.Novel;
 import io.github.visualista.visualista.util.Point;
 
+/** Data provider for the Player Controller, and responsible for creating 
+ * new Scenes and Actors.
+ * @author Markus Bergland, Erik Risfeltd, Pierre Krafft
+ */
 public class VisualistaPlayer {
     private Novel currentNovel;
 
