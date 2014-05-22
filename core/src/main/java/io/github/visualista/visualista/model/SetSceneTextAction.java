@@ -18,7 +18,7 @@ public class SetSceneTextAction implements IAction {
     }
 
     public String getExplainatoryName() {
-        return "SetText(\"" + sceneText + "\")";
+        return "Change Scene text to \"" + sceneText + "\"";
     }
 
     public String toString(){

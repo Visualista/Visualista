@@ -17,7 +17,7 @@ public class SetSceneAction implements IAction {
     }
 
     public String getExplainatoryName() {
-        return "SwitchScene(\"" + targetScene.getName() + "\")";
+        return "Switch to the " + targetScene.getName() + " Scene";
     }
 
     public String toString(){

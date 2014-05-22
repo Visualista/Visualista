@@ -31,8 +31,8 @@ public class SetActorAction implements IAction {
     }
 
     public String toString() {
-        return "SetTile(" + replacementActor.toString() + " | "
-                + targetTile.getX() + "," + targetTile.getY() + ")";
+        return "Place " + replacementActor.getName() + " on tile  "
+                + targetTile.getX() + "," + targetTile.getY();
     }
 
     public String getExplainatoryName() {
