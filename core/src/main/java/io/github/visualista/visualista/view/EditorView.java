@@ -49,6 +49,8 @@ import io.github.visualista.visualista.util.Dimension;
 import io.github.visualista.visualista.util.IMatrixGet;
 import io.github.visualista.visualista.util.Matrix;
 import io.github.visualista.visualista.util.Point;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 
 import java.io.File;
 import java.util.ArrayList;
