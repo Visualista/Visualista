@@ -242,6 +242,7 @@ public class PlayerView implements ApplicationListener, IPlayerView{
                         new Point (i, j) ).getActor() );
             }
         }
+        centerVerticalGroup.clearChildren();
         fillGrid(centerVerticalGroup, gridButtons);
     }
 
