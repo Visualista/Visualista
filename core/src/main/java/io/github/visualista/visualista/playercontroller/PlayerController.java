@@ -20,6 +20,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.badlogic.gdx.Gdx;
 
+/** The controller for the Player View, data gatherer from the Player Model.
+ * @author Markus Bergland, Erik Risfeltd, Pierre Krafft
+ *
+ */
 public class PlayerController implements IGetPlayerController{
     
     private VisualistaPlayer visualista;

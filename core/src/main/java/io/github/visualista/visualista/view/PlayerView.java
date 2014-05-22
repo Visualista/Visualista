@@ -29,6 +29,10 @@ import io.github.visualista.visualista.util.Point;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/** View class for the Player view, responsible for all the 
+ * visual logic and painting with help from libGdx. 
+ * @author Markus Bergland, Erik Risfeltd, Pierre Krafft
+ */
 public class PlayerView implements ApplicationListener, IPlayerView{
     
     //Defining static objects and variables //

@@ -18,6 +18,11 @@ import io.github.visualista.visualista.util.Point;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+/** Data provider for the Editor Controller, and responsible for creating 
+ * new Scenes and Actors.
+ * @author Markus Bergland, Erik Risfeltd, Pierre Krafft
+ */
+
 public final class VisualistaEditor {
 
     private Novel currentNovel;

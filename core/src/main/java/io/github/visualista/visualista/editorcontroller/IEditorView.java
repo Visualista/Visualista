@@ -6,6 +6,11 @@ import io.github.visualista.visualista.model.IGetNovel;
 import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.model.IGetTile;
 
+/** Interface responsible of communicating relevant methods to the EditorController.
+ * 
+ * @author Markus Bergland, Erik Risfeltd, Pierre Krafft
+ */
+
 public interface IEditorView {
     void addScene(IGetScene newScene);
 

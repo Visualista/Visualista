@@ -17,6 +17,11 @@ import io.github.visualista.visualista.model.SetSceneTextAction;
 import io.github.visualista.visualista.model.Tile;
 import io.github.visualista.visualista.view.EditorView;
 
+/** Controller responsible for handling events from the Editor
+ * view. Also sends data from the model to the view.
+ * @author Markus Bergland, Erik Risfeltd, Pierre Krafft
+ *
+ */
 public class EditorController implements ViewEventListener {
 
     private VisualistaEditor visualista;

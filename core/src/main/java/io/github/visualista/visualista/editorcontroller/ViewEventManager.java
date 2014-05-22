@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/** Class responsible for supplying basic needs to classes firing
+ * View Events.
+ * @author Markus Bergland, Erik Risfeltd, Pierre Krafft
+ */
 public class ViewEventManager {
     private final List<ViewEventListener> eventListeners = new ArrayList<ViewEventListener>();
 
