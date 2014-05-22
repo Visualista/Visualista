@@ -13,6 +13,11 @@ public class SetActorAction implements IAction {
         this.targetTile = targetTile;
         this.replacementActor = replacementActor;
     }
+    
+    public SetActorAction(PositionedActor positionedActor){
+        this.targetTile = positionedActor.getPosition();
+        this.replacementActor = positionedActor.getActor();
+    }
 
     public Point getTargetTile() {
         return targetTile;

@@ -2,7 +2,11 @@ package io.github.visualista.visualista.view;
 
 import io.github.visualista.visualista.editorcontroller.ViewEventManager;
 import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
+import io.github.visualista.visualista.model.Actor;
 import io.github.visualista.visualista.model.IGetActor;
+import io.github.visualista.visualista.model.PositionedActor;
+import io.github.visualista.visualista.util.Point;
+
 import java.util.ArrayList;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
@@ -20,12 +24,14 @@ public class AddActorDialog extends Dialog {
     private TextButton cancelButton;
     private ViewEventManager eventManager;
     private List<IGetActor> list;
-    private ArrayList<IGetActor> actorList;
+    private java.util.List<IGetActor> actorList;
     private IGetActor actor;
+    private Actor placeHolderActor = new Actor();
+    private int placeHolderX = 1;
+    private int placeHolderY = 1;
 
-    public AddActorDialog(Skin skin, String windowStyleName,
-            IGetActor actor, ArrayList<IGetActor> actorList,
-            ViewEventManager eventManager) {
+    public AddActorDialog(Skin skin, String windowStyleName, IGetActor actor,
+            java.util.List<IGetActor> actorList, ViewEventManager eventManager) {
         super(TITLE, skin, windowStyleName);
         this.actor = actor;
         this.actorList = actorList;
@@ -34,7 +40,7 @@ public class AddActorDialog extends Dialog {
     }
 
     public AddActorDialog(Skin skin, IGetActor actor,
-            ArrayList<IGetActor> actorList, ViewEventManager eventManager) {
+            java.util.List<IGetActor> actorList, ViewEventManager eventManager) {
         super(TITLE, skin);
         this.actor = actor;
         this.actorList = actorList;
@@ -51,8 +57,8 @@ public class AddActorDialog extends Dialog {
         list.setItems(actorList.toArray(actorListArray));
         ScrollPane scroll = new ScrollPane(list, skin);
         getContentTable().add(scroll);
-        
-        //TODO ngt sätt att välja tile
+
+        // TODO ngt sätt att välja tile
 
         okButton = new TextButton("OK", skin);
         button(okButton, true);
@@ -64,8 +70,9 @@ public class AddActorDialog extends Dialog {
     @Override
     protected void result(Object object) {
         if ((Boolean) object) {
-            eventManager.fireViewEvent(this, Type.ADD_SET_SCENE_ACTION, actor,
-                    list.getSelected());
+            eventManager.fireViewEvent(this, Type.ADD_SET_ACTOR_ACTION, actor,
+                    new PositionedActor(new Point(placeHolderX, placeHolderY),
+                            placeHolderActor));
         }
         super.result(object);
     }

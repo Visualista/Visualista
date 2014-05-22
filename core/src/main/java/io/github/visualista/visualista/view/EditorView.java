@@ -884,6 +884,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         private TextButton addActionButton;
         private IGetActor selectedActor;
         private ArrayList<IGetScene> sceneList = new ArrayList<IGetScene>();
+        private java.util.List<IGetActor> actorsInScene;
 
         public RightBorder() {
             resizeRightBorder();
@@ -894,6 +895,7 @@ public class EditorView implements ApplicationListener, IEditorView,
 
         public void changeActiveScene(IGetScene scene) {
             rightVerticalGroup.setVisible(false);
+            this.actorsInScene = scene.getActorsInScene();
 
         }
 
@@ -1035,9 +1037,11 @@ public class EditorView implements ApplicationListener, IEditorView,
                             new ChangeSceneDialog(uiSkin, selectedActor,
                                     sceneList, eventManager),
                             new SetSceneTextDialog(uiSkin, selectedActor,
-                                    eventManager) };
+                                    eventManager),
+                            new AddActorDialog(uiSkin, selectedActor,
+                                    actorsInScene, eventManager) };
                     String[] dialogTexts = { "Set scene action",
-                            "Set scene text action" };
+                            "Set scene text action", "Set actor action" };
                     Dialog dialog = new SelectActionTypeDialog(uiSkin,
                             selectedActor, dialogs, dialogTexts);
                     dialog.invalidateHierarchy();
