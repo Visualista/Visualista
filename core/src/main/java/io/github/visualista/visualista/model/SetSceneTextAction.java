@@ -21,6 +21,10 @@ public class SetSceneTextAction implements IAction {
         return "SetText(\"" + sceneText + "\")";
     }
 
+    public String toString(){
+        return getExplainatoryName();
+    }
+    
     @Override
     public Object getActionData() {
         return sceneText;

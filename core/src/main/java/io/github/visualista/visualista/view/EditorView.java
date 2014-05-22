@@ -187,7 +187,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         // ((OrthographicCamera) stage.getCamera()).zoom = 2;
 
         Gdx.input.setInputProcessor(stage);
-        Gdx.graphics.setContinuousRendering(false);
+        Gdx.graphics.setContinuousRendering(true);
 
         isReady = true;
         eventManager.fireViewEvent(this, Type.VIEW_READY);

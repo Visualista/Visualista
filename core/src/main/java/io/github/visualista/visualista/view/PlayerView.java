@@ -133,7 +133,7 @@ public class PlayerView implements ApplicationListener, IPlayerView{
         resizeBorders();
         
         Gdx.input.setInputProcessor(stage);
-        Gdx.graphics.setContinuousRendering(false);
+        Gdx.graphics.setContinuousRendering(true);
         controller.openNovelFile();
     }
     
@@ -427,11 +427,11 @@ public class PlayerView implements ApplicationListener, IPlayerView{
         // End Actor Grid //
         
         // Debugging code //
-        String[] actorNames = new String[sceneToDisplay.getActorsInScene().size()];
-        for (int i = 0; i < sceneToDisplay.getActorsInScene().size(); i++) {
-            Gdx.app.log("actorName", ""+sceneToDisplay.getActorsInScene().get(i).getName());
-            actorNames[i] = sceneToDisplay.getActorsInScene().get(i).getName();
-        }
+       // String[] actorNames = new String[sceneToDisplay.getActorsInScene().size()];
+       // for (int i = 0; i < sceneToDisplay.getActorsInScene().size(); i++) {
+       //     Gdx.app.log("actorName", ""+sceneToDisplay.getActorsInScene().get(i).getName());
+       //     actorNames[i] = sceneToDisplay.getActorsInScene().get(i).getName();
+       // }
         // End debugging code //
     }
     

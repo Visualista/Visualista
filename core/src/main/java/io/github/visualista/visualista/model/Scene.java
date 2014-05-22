@@ -44,8 +44,7 @@ public class Scene implements Nameable, IGetScene {
 
     @Override
     public String toString() {
-        return "Scene [grid=" + grid + ", actorsInScene=" + actorsInScene
-                + ", name=" + name + "]";
+        return name + " (" + grid.getSize() + ")";
     }
 
     public void addActor(Actor actor) {
