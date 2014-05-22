@@ -18,6 +18,8 @@ import java.util.List;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.badlogic.gdx.Gdx;
+
 public class PlayerController implements IGetPlayerController{
     
     private VisualistaPlayer visualista;
