@@ -9,7 +9,7 @@ public class Scene implements Nameable, IGetScene {
 
     private final List<Actor> actorsInScene;
     private String name;
-    private String storyText;
+    private String storyText = "";
 
     private Image image;
 
@@ -23,6 +23,9 @@ public class Scene implements Nameable, IGetScene {
     }
 
     public void setStoryText(String storyText) {
+        if(storyText==null){
+            storyText = "";
+        }
         this.storyText = storyText;
     }
 
