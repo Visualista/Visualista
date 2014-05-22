@@ -27,13 +27,13 @@ public class VisualistaDesktop {
         
         // Note that you will have to change what kind of view you want
         
-//        final PlayerView view = new PlayerView(new Dimension(config.width, config.height));
-//        final VisualistaPlayer model = new VisualistaPlayer();
-//        new PlayerController(model, view, new DesktopFilePicker());
+        final PlayerView view = new PlayerView(new Dimension(config.width, config.height));
+        final VisualistaPlayer model = new VisualistaPlayer();
+        new PlayerController(model, view, new DesktopFilePicker());
         
-        final EditorView view = new EditorView(new Dimension(config.width,config.height),new DesktopFilePicker());
-        final VisualistaEditor model = new VisualistaEditor();
-        new EditorController(model, view);
+//        final EditorView view = new EditorView(new Dimension(config.width,config.height),new DesktopFilePicker());
+//        final VisualistaEditor model = new VisualistaEditor();
+//        new EditorController(model, view);
         new LwjglApplication(view, config);
     }
 }
