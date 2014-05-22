@@ -49,6 +49,8 @@ import io.github.visualista.visualista.util.Dimension;
 import io.github.visualista.visualista.util.IMatrixGet;
 import io.github.visualista.visualista.util.Matrix;
 import io.github.visualista.visualista.util.Point;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -57,8 +59,10 @@ import java.util.Set;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-/** View class for the Editor view, responsible for all the 
- * visual logic and painting with help from libGdx. 
+/**
+ * View class for the Editor view, responsible for all the visual logic and
+ * painting with help from libGdx.
+ * 
  * @author Markus Bergland, Erik Risfeltd, Pierre Krafft
  */
 
@@ -286,6 +290,7 @@ public class EditorView implements ApplicationListener, IEditorView,
     public void updateScene(IGetScene scene) {
         upperBorder.updateScene(scene);
         centerBorder.updateScene(scene);
+        rightBorder.updateScene(scene);
         /*
          * String name = scene.getName(); String text = scene.getStoryText(); if
          * (name == null) { name = ""; } while (name.length() < 5) { name +=
@@ -426,8 +431,9 @@ public class EditorView implements ApplicationListener, IEditorView,
     }
 
     @Override
-    public void addActor(IGetActor updatedActor) {
-        leftBorder.addNewActor(updatedActor);
+    public void addNewActor(IGetActor actor) {
+        leftBorder.addNewActor(actor);
+        rightBorder.addNewActor(actor);
     }
 
     private class LowerBorder extends Border implements Updateable {
@@ -884,6 +890,8 @@ public class EditorView implements ApplicationListener, IEditorView,
         private TextButton addActionButton;
         private IGetActor selectedActor;
         private ArrayList<IGetScene> sceneList = new ArrayList<IGetScene>();
+        private java.util.List<IGetActor> actorsInScene;
+        protected Dimension gridSize;
 
         public RightBorder() {
             resizeRightBorder();
@@ -892,9 +900,19 @@ public class EditorView implements ApplicationListener, IEditorView,
 
         }
 
+        public void addNewActor(IGetActor actor) {
+            actorsInScene.add(actor);
+        }
+
+        public void updateScene(IGetScene scene) {
+            actorsInScene = scene.getActorsInScene();
+            this.gridSize = scene.getIGetGrid().getSize();
+        }
+
         public void changeActiveScene(IGetScene scene) {
             rightVerticalGroup.setVisible(false);
-
+            this.actorsInScene = scene.getActorsInScene();
+            this.gridSize = scene.getIGetGrid().getSize();
         }
 
         public void addNewScene(IGetScene newScene) {
@@ -1029,15 +1047,18 @@ public class EditorView implements ApplicationListener, IEditorView,
             addActionButton.setSize(150, 20);
             addActionButton.addCaptureListener(new ClickListener() {
 
+
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     Dialog[] dialogs = {
                             new ChangeSceneDialog(uiSkin, selectedActor,
                                     sceneList, eventManager),
                             new SetSceneTextDialog(uiSkin, selectedActor,
-                                    eventManager) };
+                                    eventManager),
+                            new AddActorDialog(uiSkin, selectedActor,
+                                    actorsInScene, gridSize, eventManager) };
                     String[] dialogTexts = { "Set scene action",
-                            "Set scene text action" };
+                            "Set scene text action", "Set actor action" };
                     Dialog dialog = new SelectActionTypeDialog(uiSkin,
                             selectedActor, dialogs, dialogTexts);
                     dialog.invalidateHierarchy();

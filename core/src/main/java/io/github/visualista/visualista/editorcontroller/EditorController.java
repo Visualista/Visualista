@@ -11,7 +11,9 @@ import io.github.visualista.visualista.model.IGetNovel;
 import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.model.Image;
 import io.github.visualista.visualista.model.Novel;
+import io.github.visualista.visualista.model.PositionedActor;
 import io.github.visualista.visualista.model.Scene;
+import io.github.visualista.visualista.model.SetActorAction;
 import io.github.visualista.visualista.model.SetSceneAction;
 import io.github.visualista.visualista.model.SetSceneTextAction;
 import io.github.visualista.visualista.model.Tile;
@@ -66,7 +68,7 @@ public class EditorController implements ViewEventListener {
             case NEW_ACTOR:
                 updatedActor = visualista.addNewActor((Scene) event
                         .getTargetObject());
-                view.addActor(updatedActor);
+                view.addNewActor(updatedActor);
                 break;
             case REMOVE_ACTOR:
                 visualista.removeActor((Actor) (event.getTargetObject()));
@@ -164,8 +166,15 @@ public class EditorController implements ViewEventListener {
                 break;
             case ADD_SET_SCENE_ACTION:
                 updatedActor = (Actor) (event.getTargetObject());
-                Scene scene = (Scene) event.getExtraData();
-                updatedActor.getActions().add(new SetSceneAction(scene));
+                Scene targetScene = (Scene) event.getExtraData();
+                updatedActor.getActions().add(new SetSceneAction(targetScene));
+                view.updateActionList(updatedActor);
+                break;
+            case ADD_SET_ACTOR_ACTION:
+                updatedActor = (Actor) (event.getTargetObject());
+                updatedActor.getActions().add(
+                        new SetActorAction((PositionedActor) (event
+                                .getExtraData())));
                 view.updateActionList(updatedActor);
                 break;
             default:
