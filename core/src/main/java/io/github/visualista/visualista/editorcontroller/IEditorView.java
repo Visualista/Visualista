@@ -36,7 +36,7 @@ public interface IEditorView {
 
     void updateTile(Object updatedObject, IGetTile updatedTile);
 
-    void addActor(IGetActor updatedActor);
+    void addNewActor(IGetActor updatedActor);
 
     void updateActionList(IGetActor updatedActor);
 }
