@@ -29,6 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 import com.badlogic.gdx.scenes.scene2d.utils.FocusListener.FocusEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.SnapshotArray;
 
 import io.github.visualista.visualista.core.FilePickerListener;
@@ -92,7 +93,7 @@ public class EditorView implements ApplicationListener, IEditorView,
     private static final int RIGHT_BORDER_LINE_SIZE = 1;
 
     private static final float CENTER_BORDER_WIDTH_RATIO = 5f / 10;
-    private static final float CENTER_BORDER_HEIGHT_RATIO = 6f / 10;
+    private static final float CENTER_BORDER_HEIGHT_RATIO = 0.75f;
     private static final float CENTER_BORDER_X_DISPLACEMENT_RATIO = 2.5f / 10;
     private static final float CENTER_BORDER_Y_DISPLACEMENT_RATIO = 2f / 10;
     private static final Color CENTER_BORDER_COLOR = Color.BLACK;
@@ -350,8 +351,14 @@ public class EditorView implements ApplicationListener, IEditorView,
          * tab.useSelectStyle(true); tabs.put(tab, scene);
          * hideOverFlowingScenes(); fillGridFromScene(scene);
          */
+        // TODO make sure that the order of operation does not matter. Right
+        // border will dissapear if its changeActive scene is called after left
+        // borders
         upperBorder.changeActiveScene(scene);
         centerBorder.chaneActiveScene(scene);
+        rightBorder.changeActiveScene(scene);
+        leftBorder.changeActiveScene(scene);
+        lowerBorder.changeActiveScene(scene);
         activeScene = scene;
 
     }
@@ -420,6 +427,7 @@ public class EditorView implements ApplicationListener, IEditorView,
     private class LowerBorder extends Border implements Updateable {
 
         private ViewEventManager eventManeger;
+        private TextArea textArea;
 
         public LowerBorder(Stage stage, ViewEventManager eventManeger) {
             resizeLowerBorder();
@@ -427,6 +435,10 @@ public class EditorView implements ApplicationListener, IEditorView,
             resizeLowerBorder();
             this.eventManeger = eventManeger;
             stage.addActor(this);
+        }
+
+        public void changeActiveScene(IGetScene scene) {
+            textArea.setText(scene.getStoryText());
         }
 
         private void resizeLowerBorder() {
@@ -440,9 +452,9 @@ public class EditorView implements ApplicationListener, IEditorView,
         }
 
         private TextArea createLowerBorderContent() {
-            final TextArea newTextArea = new TextArea("", uiSkin);
+            textArea = new TextArea("", uiSkin);
 
-            newTextArea.addCaptureListener(new FocusListener() {
+            textArea.addCaptureListener(new FocusListener() {
 
                 @Override
                 public void keyboardFocusChanged(FocusEvent event, Actor actor,
@@ -450,13 +462,13 @@ public class EditorView implements ApplicationListener, IEditorView,
                     if (!focused) {
                         eventManager.fireViewEvent(this,
                                 Type.CHANGE_SCENE_TEXT, activeScene,
-                                newTextArea.getText());
+                                textArea.getText());
                     }
                     super.keyboardFocusChanged(event, actor, focused);
                 }
 
             });
-            return newTextArea;
+            return textArea;
         }
 
         @Override
@@ -712,17 +724,14 @@ public class EditorView implements ApplicationListener, IEditorView,
         }
 
         public void updateScene(IGetScene scene) {
-            System.out.println("updateScene");
             fillGridFromScene(scene);
         }
 
         public void addNewScene(IGetScene newScene) {
-            System.out.println("add new scene");
             fillGridFromScene(newScene);
         }
 
         public void chaneActiveScene(IGetScene scene) {
-            System.out.println("change active scene");
             fillGridFromScene(scene);
         }
 
@@ -746,7 +755,6 @@ public class EditorView implements ApplicationListener, IEditorView,
         }
 
         private void fillGridFromScene(IGetScene scene) {
-            Gdx.app.log("Filing grid from scene", "" + scene);
             Matrix<Image> gridButtons = createImagesForGrid(scene);
             centerVerticalGroup.clearChildren();
             fillGrid(centerVerticalGroup, gridButtons);
@@ -830,7 +838,6 @@ public class EditorView implements ApplicationListener, IEditorView,
 
         private float calculateBorderLength(float width, float height,
                 Dimension size) {
-            System.out.println("width"+width+"height"+height);
             float prefferedButtonHeight = height / size.getHeight();
             float prefferedButtonWidth = width / size.getWidth();
             float buttonLength = (float) Math.floor(Math.min(
@@ -877,6 +884,11 @@ public class EditorView implements ApplicationListener, IEditorView,
 
         }
 
+        public void changeActiveScene(IGetScene scene) {
+            rightVerticalGroup.setVisible(false);
+
+        }
+
         public void addNewScene(IGetScene newScene) {
             sceneList.add(newScene);
 
@@ -917,7 +929,6 @@ public class EditorView implements ApplicationListener, IEditorView,
         }
 
         private void createRightEditorBorderContent() {
-
             rightVerticalGroup = new VerticalGroup();
             setActor(rightVerticalGroup);
 
@@ -1063,6 +1074,16 @@ public class EditorView implements ApplicationListener, IEditorView,
         public LeftBorder() {
             resizeLeftBorder();
             createLeftBorderContent();
+        }
+
+        public void changeActiveScene(IGetScene scene) {
+            IGetActor[] temp = new IGetActor[scene.getActorsInScene().size()];
+            actorList.setItems(new Array<IGetActor>(scene.getActorsInScene()
+                    .toArray(temp)));
+            if (actorList.getSelected() != null) {
+                eventManager.fireViewEvent(this, Type.SELECT_ACTOR,
+                        actorList.getSelected());
+            }
         }
 
         public void addNewActor(IGetActor updatedActor) {
