@@ -49,6 +49,7 @@ import io.github.visualista.visualista.util.Dimension;
 import io.github.visualista.visualista.util.IMatrixGet;
 import io.github.visualista.visualista.util.Matrix;
 import io.github.visualista.visualista.util.Point;
+
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 
@@ -138,8 +139,6 @@ public class EditorView implements ApplicationListener, IEditorView,
     private IGetScene activeScene;
 
     private TextArea sceneTextArea;
-
-    private Image sceneBackgroundImage;
 
     private Border centerVerticalGroupBorder;
 
@@ -730,6 +729,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         private IGetActor selectedActor;
         private ArrayList<Border> borders = new ArrayList<Border>();
         private Dimension gridDimensions;
+        private Image sceneBackgroundImage;
 
         public CenterBorder() {
             resizeCenterBorder();
@@ -739,14 +739,17 @@ public class EditorView implements ApplicationListener, IEditorView,
 
         public void updateScene(IGetScene scene) {
             fillGridFromScene(scene);
+            sceneBackgroundImage.setDrawable(ModelToGdxHelper
+                    .createDrawableFor(scene));
         }
 
         public void addNewScene(IGetScene newScene) {
-            fillGridFromScene(newScene);
         }
 
         public void chaneActiveScene(IGetScene scene) {
             fillGridFromScene(scene);
+            sceneBackgroundImage.setDrawable(ModelToGdxHelper
+                    .createDrawableFor(scene));
         }
 
         public void selectActor(IGetActor actor) {
@@ -1046,7 +1049,6 @@ public class EditorView implements ApplicationListener, IEditorView,
             addActionButton = new TextButton("Add", uiSkin);
             addActionButton.setSize(150, 20);
             addActionButton.addCaptureListener(new ClickListener() {
-
 
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
