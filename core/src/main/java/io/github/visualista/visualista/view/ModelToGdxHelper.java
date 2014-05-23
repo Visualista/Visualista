@@ -4,6 +4,7 @@ import java.io.File;
 
 import io.github.visualista.visualista.model.Actor;
 import io.github.visualista.visualista.model.IGetActor;
+import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.model.IGetTile;
 import io.github.visualista.visualista.model.Tile;
 
@@ -27,17 +28,45 @@ public enum ModelToGdxHelper {
         return new Image(createDrawableFor(actor));
     }
 
+    public static Image createImageFor(IGetScene scene) {
+        return new Image(createDrawableFor(scene));
+    }
+
+    public static TextureRegionDrawable createDrawableFor(IGetScene scene) {
+        if (scene == null) {
+            return null;
+        }
+        return createDrawableFor(scene.getImage());
+    }
+
     public static TextureRegionDrawable createDrawableFor(IGetTile tile) {
+        if (tile == null) {
+            return null;
+        }
         return createDrawableFor(tile.getActor());
     }
 
     public static TextureRegionDrawable createDrawableFor(IGetActor actor) {
-        if (actor.hasNoImage()) {
-            return (TextureRegionDrawable) null;
+        if (actor == null) {
+            return null;
         }
-        FileHandle fileFromModel = actor.getImage().getFileHandle();
+        return createDrawableFor(actor.getImage());
+    }
+
+    public static TextureRegionDrawable createDrawableFor(
+            io.github.visualista.visualista.model.Image image) {
+        if (image == null) {
+            return null;
+        }
+        return createDrawableFor(image.getFileHandle());
+    }
+
+    public static TextureRegionDrawable createDrawableFor(FileHandle fileHandle) {
+        if (fileHandle == null) {
+            return null;
+        }
         return new TextureRegionDrawable(new TextureRegion(new Texture(
-                fileFromModel)));
+                fileHandle)));
     }
 
 }
