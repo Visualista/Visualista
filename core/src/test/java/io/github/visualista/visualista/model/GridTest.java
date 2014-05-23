@@ -21,7 +21,7 @@ public class GridTest {
         Random rand = new Random();
         width = rand.nextInt(MAX_WIDTH) + 1;
         height = rand.nextInt(MAX_HEIGHT) + 1;
-        dim = new Dimension(width,height);
+        dim = new Dimension(width, height);
         dimensionGrid = new Grid(dim);
     }
 

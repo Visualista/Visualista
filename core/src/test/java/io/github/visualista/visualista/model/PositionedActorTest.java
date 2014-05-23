@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class PositionedActorTest {
-    
+
     private static final int MAX_HEIGHT = 150;
     private static final int MAX_WIDTH = 150;
     private int x;
@@ -21,22 +21,22 @@ public class PositionedActorTest {
     private PositionedActor positionedActor;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         Random rng = new Random();
         x = rng.nextInt(MAX_WIDTH);
         y = rng.nextInt(MAX_HEIGHT);
-        position = new Point(x,y);
+        position = new Point(x, y);
         actor = new Actor();
-        positionedActor = new PositionedActor(position,actor);
+        positionedActor = new PositionedActor(position, actor);
     }
 
     @Test
-    public void testGetPosition(){
+    public void testGetPosition() {
         assertThat(position, equalTo(positionedActor.getPosition()));
     }
 
     @Test
-    public void testGetActor(){
+    public void testGetActor() {
         assertThat(actor, equalTo(positionedActor.getActor()));
     }
 }
