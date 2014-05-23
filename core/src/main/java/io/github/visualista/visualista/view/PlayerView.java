@@ -271,15 +271,9 @@ public class PlayerView implements ApplicationListener, IPlayerView {
 
     private Border createSingleTile(final IGetActor tileActor,
             final float tileSizeHeight, final float tileSizeWidth) {
-        Drawable actorImage;
-        if (!tileActor.hasNoImage()) {
-            actorImage = new TextureRegionDrawable(new TextureRegion(
-                    new Texture(tileActor.getImage().getFileHandle())));
-
-        } else {
-            actorImage = transparentIcon;
-        }
-        Image button = new Image(actorImage);
+        Image actorImage;
+        actorImage = ModelToGdxHelper.createImageFor(tileActor);
+        Image button = actorImage;
         Border tempBorder = new Border();
         tempBorder.setActor(button);
         tempBorder.setSize(tileSizeWidth, tileSizeHeight);
