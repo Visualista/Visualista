@@ -10,6 +10,4 @@ public interface IGetActor {
 
     public Image getImage();
 
-    public boolean hasNoImage();
-
 }

@@ -55,8 +55,4 @@ public class Actor implements Nameable, IGetActor{
         return name;
     }
 
-    public boolean hasNoImage() {
-        return image==null || image.getFileHandle()==null;
-    }
-
 }
