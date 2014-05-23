@@ -5,6 +5,7 @@ import java.io.File;
 import com.badlogic.gdx.Gdx;
 
 import io.github.visualista.visualista.core.VisualistaEditor;
+import io.github.visualista.visualista.io.FileImporter;
 import io.github.visualista.visualista.model.Actor;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetNovel;
@@ -19,10 +20,12 @@ import io.github.visualista.visualista.model.SetSceneTextAction;
 import io.github.visualista.visualista.model.Tile;
 import io.github.visualista.visualista.view.EditorView;
 
-/** Controller responsible for handling events from the Editor
- * view. Also sends data from the model to the view.
+/**
+ * Controller responsible for handling events from the Editor view. Also sends
+ * data from the model to the view.
+ * 
  * @author Markus Bergland, Erik Risfeltd, Pierre Krafft
- *
+ * 
  */
 public class EditorController implements ViewEventListener {
 
@@ -89,16 +92,18 @@ public class EditorController implements ViewEventListener {
                 view.changeActiveScene(updatedScene);
                 break;
             case CHANGE_ACTOR_IMAGE:
-                updatedActor = visualista.changeActorImage((Actor) (event
-                        .getTargetObject()),
-                        new Image((File) (event.getExtraData())));
+                updatedActor = visualista.changeActorImage(
+                        (Actor) (event.getTargetObject()),
+                        new Image(FileImporter.importAndGetFile((File) (event
+                                .getExtraData()))));
                 view.updateActor(updatedActor);
                 // TODO view needs to do something to update actor list
                 break;
             case CHANGE_SCENE_IMAGE:
-                updatedScene = visualista.changeSceneImage((Scene) (event
-                        .getTargetObject()),
-                        new Image((File) (event.getExtraData())));
+                updatedScene = visualista.changeSceneImage(
+                        (Scene) (event.getTargetObject()),
+                        new Image(FileImporter.importAndGetFile((File) (event
+                                .getExtraData()))));
                 view.updateScene(updatedScene);
                 break;
             case CHANGE_SCENE_TEXT:

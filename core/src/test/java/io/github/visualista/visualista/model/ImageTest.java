@@ -16,6 +16,6 @@ public class ImageTest {
 
     @Test
     public void testGetFile(){
-        assertNull(image.getFile());
+        assertNull(image.getFileHandle());
     }
 }

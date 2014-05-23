@@ -2,14 +2,16 @@ package io.github.visualista.visualista.model;
 
 import java.io.File;
 
+import com.badlogic.gdx.files.FileHandle;
+
 public class Image {
-    private File file;
+    private FileHandle fileHandle;
     
-    public Image(File file) {
-        this.file = file;
+    public Image(FileHandle file) {
+        this.fileHandle = file;
     }
-    public File getFile() {
-        return file;
+    public FileHandle getFileHandle() {
+        return fileHandle;
     }
 
 }

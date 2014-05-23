@@ -30,14 +30,12 @@ public enum ModelToGdxHelper {
     public static TextureRegionDrawable createDrawableFor(IGetTile tile) {
         return createDrawableFor(tile.getActor());
     }
-    
+
     public static TextureRegionDrawable createDrawableFor(IGetActor actor) {
         if (actor.hasNoImage()) {
             return (TextureRegionDrawable) null;
         }
-        File javaFile = actor.getImage().getFile();
-        FileHandle fileFromModel = Gdx.files.absolute(javaFile
-                .getAbsolutePath());
+        FileHandle fileFromModel = actor.getImage().getFileHandle();
         return new TextureRegionDrawable(new TextureRegion(new Texture(
                 fileFromModel)));
     }
