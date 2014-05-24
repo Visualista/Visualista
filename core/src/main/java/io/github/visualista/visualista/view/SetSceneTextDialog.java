@@ -11,14 +11,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public class SetSceneTextDialog extends Dialog {
-    
+
     private static final String TITLE = "SetSceneTextAction";
     private Label instructions;
     private TextArea textArea;
     private TextButton okButton;
     private TextButton cancelButton;
-    private ViewEventManager eventManager;
-    private IGetActor actor;
+    private final ViewEventManager eventManager;
+    private final IGetActor actor;
 
     public SetSceneTextDialog(Skin skin, String windowStyleName, IGetActor actor, ViewEventManager eventManager) {
         super(TITLE, skin, windowStyleName);
@@ -55,6 +55,6 @@ public class SetSceneTextDialog extends Dialog {
         }
         super.result(object);
     }
-    
+
 
 }

@@ -3,10 +3,8 @@ package io.github.visualista.visualista.playercontroller;
 import io.github.visualista.visualista.core.FilePickerListener;
 import io.github.visualista.visualista.core.IFilePicker;
 import io.github.visualista.visualista.core.VisualistaPlayer;
-import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
-import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IAction;
-import io.github.visualista.visualista.model.Novel;
+import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.PositionedActor;
 import io.github.visualista.visualista.model.Scene;
 import io.github.visualista.visualista.view.IGetPlayerController;
@@ -25,9 +23,9 @@ import com.badlogic.gdx.Gdx;
  *
  */
 public class PlayerController implements IGetPlayerController{
-    
-    private VisualistaPlayer visualista;
-    private IPlayerView view;
+
+    private final VisualistaPlayer visualista;
+    private final IPlayerView view;
     private final IFilePicker filePicker;
     private Scene currentSceneToChange;
 
@@ -44,7 +42,7 @@ public class PlayerController implements IGetPlayerController{
             view.updateScene(visualista.getCurrentNovel().getCurrentScene());
             view.removeFileLoadListeners();
         }
-        
+
     }
 
     @Override
@@ -52,9 +50,9 @@ public class PlayerController implements IGetPlayerController{
         if (view.getIsReady()){
             view.updateScene(visualista.getCurrentNovel().getCurrentScene());
         }
-        
+
     }
-    
+
     @Override
     public void openNovelFile(){
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
@@ -74,7 +72,7 @@ public class PlayerController implements IGetPlayerController{
         }, filter);
 
     }
-    
+
     @Override
     public void tileClicked(IGetActor actor) {
         currentSceneToChange = visualista.getCurrentNovel().getCurrentScene();
@@ -90,9 +88,9 @@ public class PlayerController implements IGetPlayerController{
         if (needUpdate){
             view.updateScene(visualista.getCurrentNovel().getCurrentScene());
         }
-  
+
     }
-    
+
     private boolean changeData(Object dataToModify){
         Gdx.app.log("Wat", "Calling Action");
         if (dataToModify instanceof String){
@@ -105,19 +103,19 @@ public class PlayerController implements IGetPlayerController{
             return false;
         }
     }
-    
+
     private boolean changeScene(Scene newScene){
         Gdx.app.log("Change Scene", newScene.toString());
         visualista.getCurrentNovel().setCurrentScene(newScene);
         return view.getIsReady();
     }
-    
+
     private boolean changeText(String newText){
         Gdx.app.log("Change Text", "In " + currentSceneToChange.toString());
         currentSceneToChange.setStoryText(newText);
         return view.getIsReady();
     }
-    
+
     private boolean changeActor(PositionedActor newActor){
         currentSceneToChange.getGrid().getAt(
                 newActor.getPosition()).setActor(newActor.getActor());

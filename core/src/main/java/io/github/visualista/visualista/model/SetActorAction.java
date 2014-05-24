@@ -1,7 +1,6 @@
 package io.github.visualista.visualista.model;
 
 import io.github.visualista.visualista.util.Point;
-import io.github.visualista.visualista.model.PositionedActor;
 
 public class SetActorAction implements IAction {
 
@@ -13,10 +12,10 @@ public class SetActorAction implements IAction {
         this.targetTile = targetTile;
         this.replacementActor = replacementActor;
     }
-    
+
     public SetActorAction(PositionedActor positionedActor){
-        this.targetTile = positionedActor.getPosition();
-        this.replacementActor = positionedActor.getActor();
+        targetTile = positionedActor.getPosition();
+        replacementActor = positionedActor.getActor();
     }
 
     public Point getTargetTile() {
@@ -35,6 +34,7 @@ public class SetActorAction implements IAction {
         this.replacementActor = replacementActor;
     }
 
+    @Override
     public String toString() {
         return "Place " + replacementActor.getName() + " on tile  "
                 + targetTile.getX() + "," + targetTile.getY();
@@ -48,12 +48,12 @@ public class SetActorAction implements IAction {
     public PositionedActor getWrappedData(){
         return wrappedData;
     }
-    
+
     private PositionedActor wrapData(){
         wrappedData = new PositionedActor(targetTile, replacementActor);
         return wrappedData;
     }
-    
+
     @Override
     public Object getActionData() {
         return wrapData();

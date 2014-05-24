@@ -1,11 +1,11 @@
 package io.github.visualista.visualista.io;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
-
 import java.io.File;
 import java.util.Date;
 import java.util.Random;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 
 public enum FileImporter {
     ;
@@ -46,7 +46,7 @@ public enum FileImporter {
         return sdf.format(new Date());
 
     }
-    
+
     private static String folderString(){
         return "files"+File.separator;
     }

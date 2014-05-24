@@ -1,18 +1,13 @@
 package io.github.visualista.visualista.java;
 
-import java.awt.Component;
+import io.github.visualista.visualista.core.FilePickerListener;
+import io.github.visualista.visualista.core.IFilePicker;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.filechooser.FileFilter;
-
-import com.badlogic.gdx.Gdx;
-
-import io.github.visualista.visualista.core.IFilePicker;
-import io.github.visualista.visualista.core.FilePickerListener;
 
 public class DesktopFilePicker implements IFilePicker {
     private static final int SLEEP_TIME = 10;
@@ -20,8 +15,9 @@ public class DesktopFilePicker implements IFilePicker {
     private synchronized void showChooser(final FilePickerListener listener, final boolean fileOpen,
             FileFilter fileFilter) {
         final JFileChooser chooser = new JFileChooser();
-        
+
         chooser.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 fileIsChoosen = true;
             }

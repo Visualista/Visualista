@@ -14,7 +14,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -26,7 +25,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.Array;
 
 class LeftBorder extends Border implements Updateable {
@@ -66,20 +64,20 @@ class LeftBorder extends Border implements Updateable {
 
     public void addNewActor(IGetActor updatedActor) {
         actorList.getItems().add(updatedActor);
-        actorList.setSelectedIndex((leftView.leftBorder.actorList.getItems()
-                .indexOf(updatedActor, true)));
+        actorList.setSelectedIndex(leftView.leftBorder.actorList.getItems()
+                .indexOf(updatedActor, true));
 
     }
 
     private void resizeLeftBorder() {
         setSize(LeftBorder.LEFT_BORDER_WIDTH_RATIO * leftView.stage.getWidth(),
                 LeftBorder.LEFT_BORDER_HEIGHT_RATIO
-                        * leftView.stage.getHeight());
+                * leftView.stage.getHeight());
         setPosition(
                 LeftBorder.LEFT_BORDER_X_DISPLACEMENT_RATIO
-                        * leftView.stage.getWidth(),
+                * leftView.stage.getWidth(),
                 LeftBorder.LEFT_BORDER_Y_DISPLACEMENT_RATIO
-                        * leftView.stage.getHeight());
+                * leftView.stage.getHeight());
         setLineSize(LeftBorder.LEFT_BORDER_LINE_SIZE);
         setColor(LeftBorder.LEFT_BORDER_COLOR);
     }
@@ -95,7 +93,7 @@ class LeftBorder extends Border implements Updateable {
             public void changed(ChangeEvent event, Actor actor) {
                 int index = list.getSelectedIndex();
                 if (index != -1) {
-                    LeftBorder.this.leftView.eventManager.fireViewEvent(this,
+                    leftView.eventManager.fireViewEvent(this,
                             Type.SELECT_ACTOR, list.getSelected());
                 }
             }
@@ -148,7 +146,7 @@ class LeftBorder extends Border implements Updateable {
         createSetSceneBackgroundButton();
     }
 
-    
+
 
     private TextButton createRemoveActorButton() {
         TextButton removeActorButton = new TextButton("Remove actor",
@@ -159,9 +157,9 @@ class LeftBorder extends Border implements Updateable {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // TODO list linking
-                LeftBorder.this.leftView.eventManager
-                        .fireViewEvent(this, Type.REMOVE_ACTOR,
-                                LeftBorder.this.leftView.activeScene);
+                leftView.eventManager
+                .fireViewEvent(this, Type.REMOVE_ACTOR,
+                        leftView.activeScene);
             }
         });
         return removeActorButton;
@@ -176,8 +174,8 @@ class LeftBorder extends Border implements Updateable {
         addActorButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                LeftBorder.this.leftView.eventManager.fireViewEvent(this,
-                        Type.NEW_ACTOR, LeftBorder.this.leftView.activeScene);
+                leftView.eventManager.fireViewEvent(this,
+                        Type.NEW_ACTOR, leftView.activeScene);
             }
         });
         return addActorButton;
@@ -216,7 +214,7 @@ class LeftBorder extends Border implements Updateable {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                LeftBorder.this.leftView.selectedTool = EditorTool.ARROW;
+                leftView.selectedTool = EditorTool.ARROW;
                 hideButtonBorders();
                 border.setLineSize(1);
             }
@@ -243,7 +241,7 @@ class LeftBorder extends Border implements Updateable {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                LeftBorder.this.leftView.selectedTool = EditorTool.CURSOR;
+                leftView.selectedTool = EditorTool.CURSOR;
                 hideButtonBorders();
                 border.setLineSize(1);
             }
@@ -261,7 +259,7 @@ class LeftBorder extends Border implements Updateable {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                LeftBorder.this.leftView.saveNovel();
+                leftView.saveNovel();
                 super.clicked(event, x, y);
             }
 
@@ -277,7 +275,7 @@ class LeftBorder extends Border implements Updateable {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                LeftBorder.this.leftView.openNovel();
+                leftView.openNovel();
                 super.clicked(event, x, y);
             }
 
@@ -297,18 +295,18 @@ class LeftBorder extends Border implements Updateable {
                 // TODO selected scene and image
                 FileNameExtensionFilter filter = new FileNameExtensionFilter(
                         "Chose image", "png");
-                LeftBorder.this.leftView.filePicker.openFileDialog(
+                leftView.filePicker.openFileDialog(
                         new FilePickerListener() {
 
                             @Override
                             public void fileOpened(File selectedFile) {
                                 if (selectedFile != null) {
-                                    LeftBorder.this.leftView.eventManager
-                                            .fireViewEvent(
-                                                    this,
-                                                    Type.CHANGE_SCENE_IMAGE,
-                                                    LeftBorder.this.leftView.activeScene,
-                                                    selectedFile);
+                                    leftView.eventManager
+                                    .fireViewEvent(
+                                            this,
+                                            Type.CHANGE_SCENE_IMAGE,
+                                            leftView.activeScene,
+                                            selectedFile);
                                 }
                             }
 

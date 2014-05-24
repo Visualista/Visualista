@@ -22,7 +22,7 @@ public class BorderActor extends Actor {
 
     private Texture borderTexture;
     private int lineSize = 3;
-    
+
     public BorderActor(Color borderColor) {
         borderTexture = createTexture(borderColor);
     }
@@ -56,7 +56,7 @@ public class BorderActor extends Actor {
     public void setLineSize(int lineSize) {
         this.lineSize = lineSize;
     }
-    
+
     private static Texture createTexture(Color color) {
         Pixmap pixmap = new Pixmap(1, 1, Format.RGBA4444);
         pixmap.setColor(color);

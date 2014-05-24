@@ -1,4 +1,4 @@
- package io.github.visualista.visualista.view;
+package io.github.visualista.visualista.view;
 
 import io.github.visualista.visualista.view.TabListener.EventType;
 
@@ -20,7 +20,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
-import com.badlogic.gdx.scenes.scene2d.utils.FocusListener.FocusEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class Tab extends Stack {
@@ -34,7 +33,7 @@ public class Tab extends Stack {
     private final HorizontalGroup hGroup;
     private final Rectangle background;
     java.util.List<TabListener> tabListeners = new ArrayList<TabListener>();
-    private TextField labelTextField;
+    private final TextField labelTextField;
 
     public Tab(String name, Skin uiSkin) {
         label = new Label(name, uiSkin);
@@ -65,7 +64,7 @@ public class Tab extends Stack {
                 }
                 super.keyboardFocusChanged(event, actor, focused);
             }
-            
+
         });
 
         Rectangle padding1 = new Rectangle(new Color(0, 0, 0, 0));
@@ -77,8 +76,8 @@ public class Tab extends Stack {
         hGroup.addActor(padding2);
 
         hGroup.addActor(closeImageBorder);
-        this.add(background);
-        this.add(hGroup);
+        add(background);
+        add(hGroup);
         ClickListener selectListener = new ClickListener() {
             @Override
             public void clicked(final InputEvent event, final float x, float y) {
@@ -104,8 +103,8 @@ public class Tab extends Stack {
     @Override
     public void setHeight(float height) {
         if (label != null && closeImageBorder != null) {
-            label.setFontScale((height * FONT_SCALE_RATIO));
-            
+            label.setFontScale(height * FONT_SCALE_RATIO);
+
             closeImageBorder.setSize(height * CLOSE_IMAGE_RATIO, height
                     * CLOSE_IMAGE_RATIO);
         }
@@ -120,20 +119,20 @@ public class Tab extends Stack {
         tabListeners.add(listener);
     }
 
-    
+
 
     public void makeNameEditable() {
         hGroup.addActorBefore(label, labelTextField);
         hGroup.removeActor(label);
     }
-    
+
     public void useSelectStyle(boolean isTabSelected){
         if(isTabSelected){
             background.setColor(Color.LIGHT_GRAY);
         }else{
             background.setColor(Color.GRAY);
         }
-        
+
     }
 
     public boolean nameWasChanged() {
@@ -159,10 +158,10 @@ public class Tab extends Stack {
         background.setSize(0,0);
         hGroup.addActorBefore(labelTextField,label);
         hGroup.removeActor(labelTextField);
-        
-        
+
+
     }
-    
+
     public void setText(String text){
         label.setText(text);
         labelTextField.setText(text);
