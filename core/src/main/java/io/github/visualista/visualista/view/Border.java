@@ -122,6 +122,8 @@ public class Border extends Group {
      * @deprecated Border may have only a single child.
      * @see #setActor(Actor)
      */
+    @Deprecated
+    @Override
     public void addActor(Actor actor) {
         throw new UnsupportedOperationException("Use Border#setActor.");
     }
@@ -130,6 +132,8 @@ public class Border extends Group {
      * @deprecated Border may have only a single child.
      * @see #setActor(Actor)
      */
+    @Deprecated
+    @Override
     public void addActorAt(int index, Actor actor) {
         throw new UnsupportedOperationException("Use Border#setActor.");
     }
@@ -138,6 +142,8 @@ public class Border extends Group {
      * @deprecated Border may have only a single child.
      * @see #setActor(Actor)
      */
+    @Deprecated
+    @Override
     public void addActorBefore(Actor actorBefore, Actor actor) {
         throw new UnsupportedOperationException("Use Border#setActor.");
     }
@@ -146,10 +152,13 @@ public class Border extends Group {
      * @deprecated Border may have only a single child.
      * @see #setActor(Actor)
      */
+    @Deprecated
+    @Override
     public void addActorAfter(Actor actorAfter, Actor actor) {
         throw new UnsupportedOperationException("Use Border#setActor.");
     }
 
+    @Override
     public boolean removeActor(Actor actor) {
         if (actor != this.actor) {
             return false;
