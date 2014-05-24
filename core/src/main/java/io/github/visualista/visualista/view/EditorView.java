@@ -25,9 +25,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 
 /**
  * View class for the Editor view, responsible for all the visual logic and
@@ -48,16 +46,16 @@ FilePickerListener {
 
     private java.util.List<Actor> focusableActors;
 
-    Label actionLabel;
+
 
 
 
     private RightBorder rightBorder;
-    UpperBorder upperBorder;
+    private UpperBorder upperBorder;
     private LowerBorder lowerBorder;
     private CenterBorder centerBorder;
-    VerticalGroup rightVerticalGroup;
-    VerticalGroup centerVerticalGroup;
+
+
 
     final ViewEventManager eventManager = new ViewEventManager();
 
@@ -68,8 +66,6 @@ FilePickerListener {
     IFilePicker filePicker;
 
     IGetScene activeScene;
-
-    Border centerVerticalGroupBorder;
 
     protected EditorTool selectedTool;
 

@@ -46,7 +46,9 @@ class RightBorder extends Border implements Updateable {
     private final java.util.List<IGetScene> sceneList = new ArrayList<IGetScene>();
     private java.util.List<IGetActor> actorsInScene;
     protected Dimension gridSize;
-    List<IAction> actionList;
+    private List<IAction> actionList;
+    private Label actionLabel;
+    private VerticalGroup rightVerticalGroup;
 
     public RightBorder(final EditorView editorView) {
         rightBorder = editorView;
@@ -66,7 +68,7 @@ class RightBorder extends Border implements Updateable {
     }
 
     public void changeActiveScene(final IGetScene scene) {
-        rightBorder.rightVerticalGroup.setVisible(false);
+        rightVerticalGroup.setVisible(false);
         actorsInScene = scene.getActorsInScene();
         gridSize = scene.getIGetGrid().getSize();
     }
@@ -87,12 +89,12 @@ class RightBorder extends Border implements Updateable {
     public void selectActor(final IGetActor actor) {
         selectedActor = actor;
         if (actor != null) {
-            rightBorder.rightVerticalGroup.setVisible(true);
+            rightVerticalGroup.setVisible(true);
             actorField.setText(actor.getName());
             setActorImage(ModelToGdxHelper.createDrawableFor(actor));
             updateActionList(actor);
         } else {
-            rightBorder.rightVerticalGroup.setVisible(false);
+            rightVerticalGroup.setVisible(false);
         }
     }
 
@@ -115,12 +117,12 @@ class RightBorder extends Border implements Updateable {
     }
 
     private void createRightEditorBorderContent() {
-        rightBorder.rightVerticalGroup = new VerticalGroup();
-        setActor(rightBorder.rightVerticalGroup);
+        rightVerticalGroup = new VerticalGroup();
+        setActor(rightVerticalGroup);
 
         actorField = new TextField("", rightBorder.uiSkin);
-        rightBorder.rightVerticalGroup.addActor(actorField);
-        rightBorder.rightVerticalGroup.setVisible(false);
+        rightVerticalGroup.addActor(actorField);
+        rightVerticalGroup.setVisible(false);
 
         actorField.addCaptureListener(new FocusListener() {
 
@@ -142,7 +144,7 @@ class RightBorder extends Border implements Updateable {
         actorImageBorder.setLineSize(1);
         actorImageBorder.setLineOutsideActor(true);
         actorImageBorder.setActor(actorImage);
-        rightBorder.rightVerticalGroup.addActor(actorImageBorder);
+        rightVerticalGroup.addActor(actorImageBorder);
 
         actorImage.addListener(new ClickListener() {
 
@@ -171,10 +173,10 @@ class RightBorder extends Border implements Updateable {
 
         });
 
-        rightBorder.actionLabel = new Label("Actions", rightBorder.uiSkin);
-        rightBorder.actionLabel.setSize(50, 50);
-        rightBorder.actionLabel.setColor(Color.BLACK);
-        rightBorder.rightVerticalGroup.addActor(rightBorder.actionLabel);
+        actionLabel = new Label("Actions", rightBorder.uiSkin);
+        actionLabel.setSize(50, 50);
+        actionLabel.setColor(Color.BLACK);
+        rightVerticalGroup.addActor(actionLabel);
 
         actionList = new List<IAction>(rightBorder.uiSkin);
 
@@ -189,7 +191,7 @@ class RightBorder extends Border implements Updateable {
         scrollBorder.setSize(actionList.getWidth(), getHeight()
                 * SCROLL_BORDER_HEIGHT_RATIO);
         scrollBorder.setActor(scroll);
-        rightBorder.rightVerticalGroup.addActor(scrollBorder);
+        rightVerticalGroup.addActor(scrollBorder);
 
         modifyButton = new TextButton("Modify", rightBorder.uiSkin);
 
@@ -224,7 +226,7 @@ class RightBorder extends Border implements Updateable {
         buttonContainer.addActor(modifyButton);
         buttonContainer.addActor(addActionButton);
 
-        rightBorder.rightVerticalGroup.addActor(buttonContainer);
+        rightVerticalGroup.addActor(buttonContainer);
     }
 
     @Override

@@ -27,16 +27,18 @@ class CenterBorder extends Border implements Updateable {
     private static final float CENTER_BORDER_X_DISPLACEMENT_RATIO = 0.25f;
     private static final float CENTER_BORDER_HEIGHT_RATIO = 0.75f;
     private static final float CENTER_BORDER_WIDTH_RATIO = 0.5f;
-    private final EditorView centralBorder;
+    private final EditorView editorView;
     private IGetActor selectedActor;
     private final java.util.List<Border> borders = new ArrayList<Border>();
     private Dimension gridDimensions;
     private Image sceneBackgroundImage;
+    VerticalGroup centerVerticalGroup;
+    Border centerVerticalGroupBorder;
 
 
     // End static variables //
     public CenterBorder(final EditorView editorView) {
-        centralBorder = editorView;
+        this.editorView = editorView;
         resizeCenterBorder();
         createCenterEditorBorderContent();
         resizeCenterBorder();
@@ -63,24 +65,24 @@ class CenterBorder extends Border implements Updateable {
     }
 
     private void createCenterEditorBorderContent() {
-        centralBorder.centerVerticalGroup = new VerticalGroup();
+        centerVerticalGroup = new VerticalGroup();
 
         sceneBackgroundImage = new Image();
         Stack stack = new Stack();
         stack.add(sceneBackgroundImage);
 
-        centralBorder.centerVerticalGroupBorder = new Border();
-        centralBorder.centerVerticalGroupBorder
-        .setActor(centralBorder.centerVerticalGroup);
-        stack.add(centralBorder.centerVerticalGroupBorder);
+        centerVerticalGroupBorder = new Border();
+        centerVerticalGroupBorder
+        .setActor(centerVerticalGroup);
+        stack.add(centerVerticalGroupBorder);
 
         setActor(stack);
     }
 
     private void fillGridFromScene(final IGetScene scene) {
         Matrix<Image> gridButtons = createImagesForGrid(scene);
-        centralBorder.centerVerticalGroup.clearChildren();
-        fillGrid(centralBorder.centerVerticalGroup, gridButtons);
+        centerVerticalGroup.clearChildren();
+        fillGrid(centerVerticalGroup, gridButtons);
         resizeCenterBorder();
     }
 
@@ -102,16 +104,16 @@ class CenterBorder extends Border implements Updateable {
                     @Override
                     public void clicked(final InputEvent event, final float x, final float y) {
                         if (selectedActor != null) {
-                            if (centralBorder.selectedTool == EditorTool.ARROW) {
+                            if (editorView.selectedTool == EditorTool.ARROW) {
 
-                                centralBorder.eventManager
+                                editorView.eventManager
                                 .fireViewEvent(imageForCurrentTile,
                                         Type.TILE_SET_ACTOR,
                                         tileAtCurrentPosition,
                                         selectedActor);
 
-                            } else if (centralBorder.selectedTool == EditorTool.CURSOR) {
-                                centralBorder.eventManager
+                            } else if (editorView.selectedTool == EditorTool.CURSOR) {
+                                editorView.eventManager
                                 .fireViewEvent(this, Type.SELECT_TILE,
                                         tileAtCurrentPosition);
                             }
@@ -169,13 +171,13 @@ class CenterBorder extends Border implements Updateable {
 
     private void resizeCenterBorder() {
         setSize(CenterBorder.CENTER_BORDER_WIDTH_RATIO
-                * centralBorder.stage.getWidth(),
+                * editorView.stage.getWidth(),
                 CenterBorder.CENTER_BORDER_HEIGHT_RATIO
-                * centralBorder.stage.getHeight());
+                * editorView.stage.getHeight());
         setPosition(CenterBorder.CENTER_BORDER_X_DISPLACEMENT_RATIO
-                * centralBorder.stage.getWidth(),
+                * editorView.stage.getWidth(),
                 CenterBorder.CENTER_BORDER_Y_DISPLACEMENT_RATIO
-                * centralBorder.stage.getHeight());
+                * editorView.stage.getHeight());
         setLineSize(CenterBorder.CENTER_BORDER_LINE_SIZE);
         setColor(CenterBorder.CENTER_BORDER_COLOR);
         if (gridDimensions != null) {
