@@ -26,7 +26,6 @@ public enum FolderZipper {
             throws IOException {
         File[] files = dirObj.listFiles();
         byte[] tmpBuf = new byte[BUFFER_SIZE];
-        System.out.println(dirObj.getAbsolutePath()+" has: "+files);
 
         for (File file : files) {
             if (file.isDirectory()) {

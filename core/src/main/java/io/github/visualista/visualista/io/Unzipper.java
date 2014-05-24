@@ -36,7 +36,6 @@ public enum Unzipper {
             String folderPath) throws IOException {
         ZipEntry entry = zipIn.getNextEntry();
         while (entry != null) {
-            System.out.println("" + entry);
             File filePath = new File(outputFolder + File.separator
                     + entry.getName());
             filePath.getParentFile().mkdirs();

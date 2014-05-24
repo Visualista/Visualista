@@ -127,7 +127,6 @@ public class EditorController implements ViewEventListener {
                 fillViewFromModel();
                 break;
             case FILE_OPEN:
-                Gdx.app.log("File open", "" + event.getExtraData());
                 if (event.getExtraData() instanceof File) {
                     updatedNovel = visualista.openNovel((File) event
                             .getExtraData());
