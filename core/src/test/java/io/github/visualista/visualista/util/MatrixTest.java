@@ -1,6 +1,8 @@
 package io.github.visualista.visualista.util;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.Random;
 
@@ -11,6 +13,7 @@ import org.junit.Test;
 
 public class MatrixTest {
 
+    private static final int SOME_INTEGER = 42;
     private static final int MATRIX_MAX_WIDTH = 140;
     private static final int MATRIX_MAX_HEIGHT = 130;
     private Dimension dim;
@@ -47,8 +50,8 @@ public class MatrixTest {
         Point point = new Point(rand.nextInt(dim.getWidth()), rand.nextInt(dim
                 .getHeight()));
         assertNull(matrix.getAt(point));
-        matrix.setAt(point, 42);
-        assertEquals(new Integer(42), matrix.getAt(point));
+        matrix.setAt(point, SOME_INTEGER);
+        assertEquals(new Integer(SOME_INTEGER), matrix.getAt(point));
     }
 
     @Test

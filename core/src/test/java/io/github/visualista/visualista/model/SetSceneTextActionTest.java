@@ -8,6 +8,7 @@ import org.junit.Test;
 
 public class SetSceneTextActionTest {
 
+    private static final int SCENE_TEXT_MAX_LENGTH_BEFORE_OVERFLOW = 5;
     private SetSceneTextAction action;
     private String firstString;
     private String secondString;
@@ -29,7 +30,7 @@ public class SetSceneTextActionTest {
 
     @Test
     public void testToStringAndGetExplainatoryName() {
-        assertThat("Change Scene text to\"" + secondString.substring(0, 5)
+        assertThat("Change Scene text to\"" + secondString.substring(0, SCENE_TEXT_MAX_LENGTH_BEFORE_OVERFLOW)
                 + "...\"", equalTo(action.toString()));
         action.setSceneText(shortString);
         assertThat("Change Scene text to \"" + shortString + "\"",

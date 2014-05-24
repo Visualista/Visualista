@@ -145,7 +145,6 @@ public class PlayerView implements ApplicationListener, IPlayerView {
         centerBorder = new Border();
         sceneBackgroundImage = new Image();
         centerVerticalGroupBorder = new Border();
-        gridButtons = new Matrix<IGetActor>(new Dimension(5, 5));
         // End defining variables //
 
         // Declaring local variables //

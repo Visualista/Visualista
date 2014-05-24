@@ -22,6 +22,8 @@ import com.badlogic.gdx.utils.SnapshotArray;
 
 class UpperBorder extends Border implements Updateable, TabListener {
 
+    private static final int TAB_MINIMUM_TEXT_LENGTH = 5;
+
     // Declaring static variables //
     private static final float HIDDEN_SCENE_X_DISPLACEMENT_RATIO = 0.7f;
 
@@ -109,7 +111,7 @@ class UpperBorder extends Border implements Updateable, TabListener {
         if (name == null) {
             name = "";
         }
-        while (name.length() < 5) {
+        while (name.length() < TAB_MINIMUM_TEXT_LENGTH) {
             name += " ";
         }
         return name;

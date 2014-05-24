@@ -37,6 +37,7 @@ class RightBorder extends Border implements Updateable {
     private static final float RIGHT_BORDER_HEIGHT_RATIO = 1f;
     private static final float RIGHT_BORDER_WIDTH_RATIO = 0.25f;
     private static final float ACTION_LIST_WIDTH_RATIO = 0.9f;
+    private static final float ACTOR_IMAGE_SIZE_RATIO = 0.1f;
     private final EditorView rightBorder;
     private Image actorImage;
     private TextField actorField;
@@ -49,12 +50,13 @@ class RightBorder extends Border implements Updateable {
     private List<IAction> actionList;
     private Label actionLabel;
     private VerticalGroup rightVerticalGroup;
+    private Border actorImageBorder;
 
     public RightBorder(final EditorView editorView) {
         rightBorder = editorView;
-        resizeRightBorder();
+        resize();
         createRightEditorBorderContent();
-        resizeRightBorder();
+        resize();
 
     }
 
@@ -103,7 +105,7 @@ class RightBorder extends Border implements Updateable {
 
     }
 
-    private void resizeRightBorder() {
+    public void resize() {
         setSize(RightBorder.RIGHT_BORDER_WIDTH_RATIO
                 * rightBorder.stage.getWidth(),
                 RightBorder.RIGHT_BORDER_HEIGHT_RATIO
@@ -114,6 +116,11 @@ class RightBorder extends Border implements Updateable {
                 * rightBorder.stage.getHeight());
         setLineSize(RightBorder.RIGHT_BORDER_LINE_SIZE);
         setColor(RightBorder.RIGHT_BORDER_COLOR);
+        if (actorImageBorder != null) {
+            actorImageBorder.setSize(rightBorder.stage.getWidth()
+                    * ACTOR_IMAGE_SIZE_RATIO, rightBorder.stage.getWidth()
+                    * ACTOR_IMAGE_SIZE_RATIO);
+        }
     }
 
     private void createRightEditorBorderContent() {
@@ -139,8 +146,8 @@ class RightBorder extends Border implements Updateable {
 
         });
         actorImage = new Image((TextureRegionDrawable) null);
-        Border actorImageBorder = new Border();
-        actorImageBorder.setSize(70, 70);
+        actorImageBorder = new Border();
+
         actorImageBorder.setLineSize(1);
         actorImageBorder.setLineOutsideActor(true);
         actorImageBorder.setActor(actorImage);

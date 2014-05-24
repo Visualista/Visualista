@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class Tab extends Stack {
+    private static final int PADDING_SIZE = 5;
     private static final float FONT_SCALE_RATIO = 0.033f;
     private static final float CLOSE_IMAGE_RATIO = 0.8f;
     static final Drawable closeDrawable = new TextureRegionDrawable(
@@ -68,11 +69,11 @@ public class Tab extends Stack {
         });
 
         Rectangle padding1 = new Rectangle(new Color(0, 0, 0, 0));
-        padding1.setWidth(5);
+        padding1.setWidth(PADDING_SIZE);
         hGroup.addActor(padding1);
         hGroup.addActor(label);
         Rectangle padding2 = new Rectangle(new Color(0, 0, 0, 0));
-        padding2.setWidth(5);
+        padding2.setWidth(PADDING_SIZE);
         hGroup.addActor(padding2);
 
         hGroup.addActor(closeImageBorder);

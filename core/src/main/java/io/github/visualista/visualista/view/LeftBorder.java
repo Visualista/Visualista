@@ -29,6 +29,7 @@ import com.badlogic.gdx.utils.Array;
 
 class LeftBorder extends Border implements Updateable {
 
+    private static final int BUTTON_DIMENSION = 40;
     private static final float SCROLL_BORDER_HEIGHT_RATIO = 0.7f;
     static final int LEFT_BORDER_LINE_SIZE = 1;
     static final Color LEFT_BORDER_COLOR = Color.BLACK;
@@ -37,6 +38,7 @@ class LeftBorder extends Border implements Updateable {
     static final float LEFT_BORDER_HEIGHT_RATIO = 1f;
     static final float LEFT_BORDER_WIDTH_RATIO = 0.25f;
     private static final float LIST_WIDTH_RATIO = 0.9f;
+    private static final int BUTTON_EXTRA_WIDTH = 10;
     private final EditorView leftView;
 
     private TextButton setSceneBackgroundButton;
@@ -192,10 +194,10 @@ class LeftBorder extends Border implements Updateable {
     private void resizeButtonGroup1Buttons(final Actor saveButtonBorder,
             final Actor openButtonBorder, final Actor cursorButtonBorder,
             final Actor arrowButtonBorder) {
-        openButtonBorder.setSize(50, 40);
-        saveButtonBorder.setSize(50, 40);
-        cursorButtonBorder.setSize(50, 40);
-        arrowButtonBorder.setSize(50, 40);
+        openButtonBorder.setSize(BUTTON_DIMENSION+BUTTON_EXTRA_WIDTH, BUTTON_DIMENSION);
+        saveButtonBorder.setSize(BUTTON_DIMENSION+BUTTON_EXTRA_WIDTH, BUTTON_DIMENSION);
+        cursorButtonBorder.setSize(BUTTON_DIMENSION+BUTTON_EXTRA_WIDTH, BUTTON_DIMENSION);
+        arrowButtonBorder.setSize(BUTTON_DIMENSION+BUTTON_EXTRA_WIDTH, BUTTON_DIMENSION);
     }
 
     private Actor createArrowButton() {

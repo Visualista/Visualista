@@ -2,6 +2,7 @@ package io.github.visualista.visualista.model;
 
 public class SetSceneTextAction implements IAction {
 
+    private static final int SCENE_TEXT_MAX_LENGTH_BEFORE_OVERFLOW = 5;
     private String sceneText;
 
     public SetSceneTextAction(final String sceneText) {
@@ -18,8 +19,8 @@ public class SetSceneTextAction implements IAction {
     }
 
     public String getExplainatoryName() {
-        if (sceneText.length() > 5){
-            return "Change Scene text to\"" + sceneText.substring(0, 5) + "...\"";
+        if (sceneText.length() > SCENE_TEXT_MAX_LENGTH_BEFORE_OVERFLOW){
+            return "Change Scene text to\"" + sceneText.substring(0, SCENE_TEXT_MAX_LENGTH_BEFORE_OVERFLOW) + "...\"";
         }
         return "Change Scene text to \"" + sceneText + "\"";
     }

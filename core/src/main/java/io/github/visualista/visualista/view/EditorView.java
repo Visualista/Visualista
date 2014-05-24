@@ -168,6 +168,7 @@ FilePickerListener {
         // stage.getCamera().translate(-stage.getGutterWidth(),
         // -stage.getGutterHeight(), 0);
         upperBorder.resize();
+        rightBorder.resize();
 
     }
 
