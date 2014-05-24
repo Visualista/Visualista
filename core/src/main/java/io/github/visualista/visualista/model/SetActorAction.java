@@ -11,11 +11,11 @@ public class SetActorAction implements IAction {
     public SetActorAction(final Point targetTile, final Actor replacementActor) {
         this.targetTile = targetTile;
         this.replacementActor = replacementActor;
+        wrappedData = new PositionedActor(targetTile, replacementActor);
     }
 
-    public SetActorAction(final PositionedActor positionedActor){
-        targetTile = positionedActor.getPosition();
-        replacementActor = positionedActor.getActor();
+    public SetActorAction(final PositionedActor positionedActor) {
+        this(positionedActor.getPosition(), positionedActor.getActor());
     }
 
     public Point getTargetTile() {
@@ -45,17 +45,12 @@ public class SetActorAction implements IAction {
                 + targetTile.getX() + "," + targetTile.getY() + ")";
     }
 
-    public PositionedActor getWrappedData(){
-        return wrappedData;
-    }
-
-    private PositionedActor wrapData(){
-        wrappedData = new PositionedActor(targetTile, replacementActor);
+    public PositionedActor getWrappedData() {
         return wrappedData;
     }
 
     @Override
     public Object getActionData() {
-        return wrapData();
+        return wrappedData;
     }
 }
