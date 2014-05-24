@@ -92,7 +92,6 @@ public class PlayerController implements IGetPlayerController{
     }
 
     private boolean changeData(final Object dataToModify){
-        Gdx.app.log("Wat", "Calling Action");
         if (dataToModify instanceof String){
             return changeText((String) dataToModify);
         } else if (dataToModify instanceof Scene){

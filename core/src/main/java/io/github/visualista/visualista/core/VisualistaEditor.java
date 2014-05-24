@@ -91,7 +91,7 @@ public final class VisualistaEditor {
                     "files" + File.separator + "novel.xml").file()));
         } catch (final FileNotFoundException e) {
             // TODO error message
-            // e.printStackTrace();
+            e.printStackTrace();
         }
 
         return currentNovel;

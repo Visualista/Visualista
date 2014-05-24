@@ -9,28 +9,29 @@ import com.badlogic.gdx.files.FileHandle;
 
 public enum FileImporter {
     ;
+    private static final String DATE_FORMAT = "yyyyMMdd_HHmmss-SSS";
 
     public static FileHandle importAndGetFile(final File file) {
-        if (file == null || file.isDirectory()) {
-            return null;
-        }
-        String fileName = file.getName();
-        String fileExtension = "";
+        if (file != null && !file.isDirectory()) {
 
-        int i = fileName.lastIndexOf('.');
-        if (i > 0) {
-            fileExtension = fileName.substring(i + 1);
-        } else {
-            return null;
-        }
+            String fileName = file.getName();
+            String fileExtension = "";
 
-        FileHandle newPosition = Gdx.files.local(folderString() + fileName);
-        while (newPosition.exists()) {
-            newPosition = Gdx.files.local(folderString()
-                    + generateRandomFileName(fileExtension));
+            int i = fileName.lastIndexOf('.');
+            if (i > 0) {
+                fileExtension = fileName.substring(i + 1);
+
+                FileHandle newPosition = Gdx.files.local(folderString()
+                        + fileName);
+                while (newPosition.exists()) {
+                    newPosition = Gdx.files.local(folderString()
+                            + generateRandomFileName(fileExtension));
+                }
+                Gdx.files.absolute(file.getAbsolutePath()).copyTo(newPosition);
+                return newPosition;
+            }
         }
-        Gdx.files.absolute(file.getAbsolutePath()).copyTo(newPosition);
-        return newPosition;
+        return null;
     }
 
     private static String generateRandomFileName(final String fileExtension) {
@@ -40,8 +41,6 @@ public enum FileImporter {
     }
 
     private static String generateTimeStamp() {
-
-        String DATE_FORMAT = "yyyyMMdd_HHmmss-SSS";
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(
                 DATE_FORMAT);
         return sdf.format(new Date());

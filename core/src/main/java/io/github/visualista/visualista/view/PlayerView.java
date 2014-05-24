@@ -39,6 +39,7 @@ public class PlayerView implements ApplicationListener, IPlayerView {
 
     // Defining static objects and variables //
 
+    private static final String PLACEHOLDER_STRING = "<<Test>>";
     private static final float TITLE_FONT_SCALE = 2.0f;
     private static final float STORY_FONT_SCALE = 1.0f;
 
@@ -84,7 +85,6 @@ public class PlayerView implements ApplicationListener, IPlayerView {
     private Matrix<IGetActor> gridButtons;
 
     private Skin baseSkin;
-    private Drawable transparentIcon;
 
     private Border leftBorder;
     private Border rightBorder;
@@ -114,8 +114,6 @@ public class PlayerView implements ApplicationListener, IPlayerView {
     @Override
     public final void create() {
         baseSkin = new Skin(Gdx.files.internal("uiskin.json"));
-        transparentIcon = new TextureRegionDrawable(new TextureRegion(
-                new Texture(Gdx.files.internal("icons/transparent.png"))));
         createPlayerView();
         isReady = true;
     }
@@ -220,7 +218,7 @@ public class PlayerView implements ApplicationListener, IPlayerView {
         // End defining variables //
         stage.addActor(lowerBorder);
 
-        updateTextInBorder(lowerBorder, "<<Test>>", TITLE_FONT_SCALE);
+        updateTextInBorder(lowerBorder, PLACEHOLDER_STRING, TITLE_FONT_SCALE);
     }
 
     private void createUppderBorderContent() {
@@ -229,7 +227,7 @@ public class PlayerView implements ApplicationListener, IPlayerView {
         // End defining variables //
         stage.addActor(upperBorder);
 
-        updateTextInBorder(upperBorder, "<<Test>>", STORY_FONT_SCALE);
+        updateTextInBorder(upperBorder, PLACEHOLDER_STRING, STORY_FONT_SCALE);
 
     }
 
@@ -259,10 +257,10 @@ public class PlayerView implements ApplicationListener, IPlayerView {
                 .min(prefferedButtonWidth, prefferedButtonHeight);
         // End declare local variables //
 
-        for (int i = 0; i < data.getSize().getHeight(); i++) {
+        for (int i = 0; i < data.getSize().getHeight(); ++i) {
             HorizontalGroup row = new HorizontalGroup();
             group.addActor(row);
-            for (int j = 0; j < data.getSize().getWidth(); j++) {
+            for (int j = 0; j < data.getSize().getWidth(); ++j) {
                 row.addActor(createSingleTile(data.getAt(new Point(i, j)),
                         prefferedButtonHeight, prefferedButtonWidth));
             }

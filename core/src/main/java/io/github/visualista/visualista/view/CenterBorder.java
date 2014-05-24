@@ -143,10 +143,10 @@ class CenterBorder extends Border implements Updateable {
                 group.getHeight(), data.getSize());
         gridDimensions = data.getSize();
 
-        for (int i = 0; i < data.getSize().getHeight(); i++) {
+        for (int i = 0; i < data.getSize().getHeight(); ++i) {
             HorizontalGroup row = new HorizontalGroup();
             group.addActor(row);
-            for (int j = 0; j < data.getSize().getWidth(); j++) {
+            for (int j = 0; j < data.getSize().getWidth(); ++j) {
                 Image button = data.getAt(new Point(i, j));
                 Border border = new Border();
                 border.setActor(button);

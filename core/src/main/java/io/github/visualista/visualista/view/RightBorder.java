@@ -14,8 +14,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
@@ -191,17 +189,6 @@ class RightBorder extends Border implements Updateable {
                 * SCROLL_BORDER_HEIGHT_RATIO);
         scrollBorder.setActor(scroll);
         rightBorder.rightVerticalGroup.addActor(scrollBorder);
-
-        rightBorder.actionList.addCaptureListener(new EventListener() {
-
-            @Override
-            public boolean handle(final Event event) {
-                if (event instanceof InputEvent) {
-                }
-                return false;
-            }
-
-        });
 
         modifyButton = new TextButton("Modify", rightBorder.uiSkin);
         modifyButton.setSize(150, 20);

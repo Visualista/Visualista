@@ -29,7 +29,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 
 /**
@@ -42,6 +41,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 public class EditorView implements ApplicationListener, IEditorView,
 FilePickerListener {
 
+    private static final String VISUALISTA_FILE_FORMAT_WITHOUT_DOT = "vis";
+    private static final String VISUALISTA_FILE_DESCRIPTION = "Visualista Novel";
     private static final float HIDDEN_SCENE_WIDTH_RATIO = 0.2f;
     Stage stage;
 
@@ -70,11 +71,7 @@ FilePickerListener {
 
     IGetScene activeScene;
 
-    private TextArea sceneTextArea;
-
     Border centerVerticalGroupBorder;
-
-    private boolean actorFieldHasFocus;
 
     protected EditorTool selectedTool;
 
@@ -107,15 +104,15 @@ FilePickerListener {
         stage.addActor(lowerBorder);
         centerBorder = new CenterBorder(this);
         stage.addActor(centerBorder);
-        upperBorder = new UpperBorder(uiSkin,eventManager);
+        upperBorder = new UpperBorder(uiSkin, eventManager);
         stage.addActor(upperBorder);
 
         focusableActors = new java.util.ArrayList<Actor>();
         stage.addListener(new InputListener() {
 
             @Override
-            public boolean touchDown(final InputEvent event, final float x, final float y,
-                    final int pointer, final int button) {
+            public boolean touchDown(final InputEvent event, final float x,
+                    final float y, final int pointer, final int button) {
                 EditorView.this.objectHit(stage.hit(x, y, true));
                 return false;
             }
@@ -127,7 +124,7 @@ FilePickerListener {
 
         Gdx.input.setInputProcessor(stage);
         Gdx.graphics.setContinuousRendering(true);
-        resize((int)stage.getWidth(),(int)stage.getHeight());
+        resize((int) stage.getWidth(), (int) stage.getHeight());
         isReady = true;
         eventManager.fireViewEvent(this, Type.VIEW_READY);
     }
@@ -153,12 +150,12 @@ FilePickerListener {
 
     protected void saveNovel() {
         filePicker.saveFileDialog(this, new FileNameExtensionFilter(
-                "Visualista Novel", "vis"));
+                VISUALISTA_FILE_DESCRIPTION, VISUALISTA_FILE_FORMAT_WITHOUT_DOT));
     }
 
     protected void openNovel() {
         filePicker.openFileDialog(EditorView.this, new FileNameExtensionFilter(
-                "Visualista Novel", "vis"));
+                VISUALISTA_FILE_DESCRIPTION, VISUALISTA_FILE_FORMAT_WITHOUT_DOT));
     }
 
     @Override
@@ -254,21 +251,6 @@ FilePickerListener {
          */
     }
 
-    private static float horizontalDistanceBetween(
-            final com.badlogic.gdx.scenes.scene2d.Actor actor1,
-            final com.badlogic.gdx.scenes.scene2d.Actor actor2) {
-        float distance = actor2.getX() - actor1.getX() - actor1.getWidth();
-        if (distance >= 0) {
-            return distance;
-        }
-        distance = actor1.getX() - actor2.getX() - actor2.getWidth();
-        if (distance >= 0) {
-            return distance;
-        } else {
-            return 0;
-        }
-    }
-
     @Override
     public void removeScene(final IGetScene scene) {
         // TODO Auto-generated method stub
@@ -355,7 +337,8 @@ FilePickerListener {
     }
 
     @Override
-    public void updateTile(final Object updatedObject, final IGetTile updatedTile) {
+    public void updateTile(final Object updatedObject,
+            final IGetTile updatedTile) {
         ((Image) updatedObject).setDrawable(ModelToGdxHelper
                 .createDrawableFor(updatedTile));
 

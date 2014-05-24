@@ -7,11 +7,12 @@ public final class Tile implements IGetTile {
         this.tileActor = tileActor;
     }
 
+    @Override
     public Actor getActor() {
         return tileActor;
     }
 
     public void setActor(final Actor actor) {
-        this.tileActor = actor;
+        tileActor = actor;
     }
 }

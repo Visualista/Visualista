@@ -31,9 +31,9 @@ public class AddActorDialog extends Dialog {
     private TextField rowInput;
     private final Dimension gridSize;
 
-    public AddActorDialog(final Skin skin, final String windowStyleName, final IGetActor actor,
-            final java.util.List<IGetActor> actorList, final Dimension gridSize,
-            final ViewEventManager eventManager) {
+    public AddActorDialog(final Skin skin, final String windowStyleName,
+            final IGetActor actor, final java.util.List<IGetActor> actorList,
+            final Dimension gridSize, final ViewEventManager eventManager) {
         super(TITLE, skin, windowStyleName);
         this.actor = actor;
         this.actorList = actorList;
@@ -43,8 +43,8 @@ public class AddActorDialog extends Dialog {
     }
 
     public AddActorDialog(final Skin skin, final IGetActor actor,
-            final java.util.List<IGetActor> actorList, final Dimension gridSize,
-            final ViewEventManager eventManager) {
+            final java.util.List<IGetActor> actorList,
+            final Dimension gridSize, final ViewEventManager eventManager) {
         super(TITLE, skin);
         this.actor = actor;
         this.actorList = actorList;
@@ -62,13 +62,13 @@ public class AddActorDialog extends Dialog {
         ScrollPane scroll = new ScrollPane(list, skin);
         getContentTable().add(scroll).row();
         getContentTable().add(
-                new Label("Column (1-" + gridSize.getWidth() + "):", skin));
+                new Label(labelFormat("Column", gridSize.getWidth()), skin));
         columnInput = new TextField("1", skin);
         columnInput
         .setTextFieldFilter(createInputFilter(1, gridSize.getWidth()));
         getContentTable().add(columnInput).row();
         getContentTable().add(
-                new Label("Row (1-" + gridSize.getHeight() + "):", skin));
+                new Label(labelFormat("Row", gridSize.getHeight()), skin));
         rowInput = new TextField("1", skin);
         rowInput.setTextFieldFilter(createInputFilter(1, gridSize.getHeight()));
         getContentTable().add(rowInput);
@@ -79,14 +79,18 @@ public class AddActorDialog extends Dialog {
         button(cancelButton, false);
     }
 
+    private String labelFormat(final String prefix, final int max) {
+        return prefix + " (1-" + max + "):";
+    }
+
     private TextFieldFilter createInputFilter(final int min, final int max) {
         return new TextFieldFilter() {
 
             @Override
             public boolean acceptChar(final TextField textField, final char c) {
                 return Character.isDigit(c)
-                        && Integer.parseInt(textField.getText() + c) >= min && Integer
-                        .parseInt(textField.getText() + c) <= max;
+                        && Integer.parseInt(textField.getText() + c) >= min
+                        && Integer.parseInt(textField.getText() + c) <= max;
             }
 
         };
@@ -100,9 +104,12 @@ public class AddActorDialog extends Dialog {
                     .parseInt(columnText);
             String rowText = rowInput.getText();
             int row = rowText.isEmpty() ? 1 : Integer.parseInt(rowText);
-            eventManager.fireViewEvent(this, Type.ADD_SET_ACTOR_ACTION, actor,
-                    new PositionedActor(new Point(column, row),
-                            (Actor)list.getSelected()));
+            eventManager.fireViewEvent(
+                    this,
+                    Type.ADD_SET_ACTOR_ACTION,
+                    actor,
+                    new PositionedActor(new Point(column, row), (Actor) list
+                            .getSelected()));
         }
         super.result(object);
     }

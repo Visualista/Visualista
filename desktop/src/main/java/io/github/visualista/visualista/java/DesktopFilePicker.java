@@ -31,9 +31,11 @@ public class DesktopFilePicker implements IFilePicker {
             chooser.showDialog(null, "Save");
         }
         while (!fileIsChoosen) {
+
             try {
                 Thread.sleep(SLEEP_TIME);
             } catch (InterruptedException e1) {
+                e1.printStackTrace();
             }
         }
         if (fileOpen) {

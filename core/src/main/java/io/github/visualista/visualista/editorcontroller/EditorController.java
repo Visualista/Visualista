@@ -28,6 +28,7 @@ import com.badlogic.gdx.Gdx;
  */
 public class EditorController implements ViewEventListener {
 
+    private static final String VISUALISTA_FILE_FORMAT = ".vis";
     private final VisualistaEditor visualista;
     private final IEditorView view;
 
@@ -135,8 +136,8 @@ public class EditorController implements ViewEventListener {
                 break;
             case FILE_SAVE:
                 File file = (File) event.getExtraData();
-                if (!file.getName().toLowerCase().endsWith(".vis")) {
-                    file = new File(file.getAbsoluteFile() + ".vis");
+                if (!file.getName().toLowerCase().endsWith(VISUALISTA_FILE_FORMAT)) {
+                    file = new File(file.getAbsoluteFile() + VISUALISTA_FILE_FORMAT);
                 }
                 visualista.saveNovel(file);
                 break;

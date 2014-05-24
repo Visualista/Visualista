@@ -51,8 +51,6 @@ class UpperBorder extends Border implements Updateable, TabListener {
 
     private HorizontalGroup tabUtilityButtons;
 
-    private Tab editingTab;
-
     private final Skin uiSkin;
 
     private IGetScene activeScene;
@@ -136,7 +134,6 @@ class UpperBorder extends Border implements Updateable, TabListener {
             if (activeScene == tabs.getValue(source)) {
                 source.makeNameEditable();
                 source.giveFocusFrom(getStage());
-                editingTab = source;
             } else {
                 eventManager.fireViewEvent(this, Type.SELECT_SCENE,
                         tabs.getValue(source));

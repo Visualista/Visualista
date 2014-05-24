@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class BorderActor extends Actor {
+    private Texture borderTexture;
+    private int lineSize = 3;
 
     public BorderActor(final Color borderColor) {
         borderTexture = createTexture(borderColor);
@@ -20,15 +22,11 @@ public class BorderActor extends Actor {
     }
 
     @Override
-    public void setColor(final float r, final float g, final float b, final float a) {
-        setColor(new Color(r,g,b,a));
+    public void setColor(final float r, final float g, final float b,
+            final float a) {
+        setColor(new Color(r, g, b, a));
         super.setColor(r, g, b, a);
     }
-
-    private Texture borderTexture;
-    private int lineSize = 3;
-
-
 
     @Override
     public void draw(final Batch batch, final float parentAlpha) {
@@ -44,13 +42,11 @@ public class BorderActor extends Actor {
             batch.draw(borderTexture, x, y + getLineSize(), getLineSize(),
                     height - getLineSize() * 2);
             batch.draw(borderTexture, x + width - getLineSize(), y
-                    + getLineSize(), getLineSize(), height - getLineSize()
-                    * 2);
+                    + getLineSize(), getLineSize(), height - getLineSize() * 2);
         } else {
             batch.draw(borderTexture, x, y, width, height);
         }
     }
-
 
     public int getLineSize() {
         return lineSize;

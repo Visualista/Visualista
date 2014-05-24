@@ -6,12 +6,10 @@ import java.util.Random;
 public class NovelFactory {
 
     private static final int MAX_RANDOM_NUMBER = 1000;
-    private final IdGenerator idGenerator;
     private final SceneFactory sceneFactory;
     private final Random random;
 
     public NovelFactory(final SceneFactory sceneFactory) {
-        idGenerator = new IdGenerator();
         this.sceneFactory = sceneFactory;
         random = new Random();
     }
