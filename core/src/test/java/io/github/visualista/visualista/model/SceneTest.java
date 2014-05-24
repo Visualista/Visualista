@@ -24,8 +24,9 @@ public class SceneTest {
     }
 
     @Test
-    public void test() {
+    public void testGetGrid() {
         assertNotNull(scene.getGrid());
+        assertNotNull(scene.getIGetGrid());
     }
 
     @Test
@@ -35,20 +36,31 @@ public class SceneTest {
     }
 
     @Test
+    public void testToString() {
+        scene.setName(testString);
+        assertThat(testString + " (" + scene.getGrid().getSize() + ")",
+                equalTo(scene.toString()));
+    }
+
+    @Test
     public void testSetAndGetStoryText() {
+        scene.setStoryText(null);
+        assertThat("",equalTo(scene.getStoryText()));
         scene.setStoryText(testString);
         assertThat(scene.getStoryText(), equalTo(testString));
     }
 
     @Test
-    public void testAddActorAndGetActorsInScene() {
+    public void testAddActorAndGetActorsInSceneAndRemoveActor() {
         Actor actor = new ActorFactory().createActor();
         scene.addActor(actor);
         assertThat(actor, equalTo(scene.getActorsInScene().get(0)));
+        scene.removeActor(actor);
+        assertThat(false, equalTo(scene.getActorsInScene().contains(actor)));
     }
 
     @Test
-    public void testSetAndGetImage(){
+    public void testSetAndGetImage() {
         scene.setImage(testImage);
         assertThat(testImage, equalTo(scene.getImage()));
     }

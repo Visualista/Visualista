@@ -25,6 +25,7 @@ public class Scene implements Nameable, IGetScene {
     public void setStoryText(String storyText) {
         if(storyText==null){
             storyText = "";
+            return;
         }
         this.storyText = storyText;
     }
