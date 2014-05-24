@@ -12,8 +12,9 @@ import javax.swing.filechooser.FileFilter;
 public class DesktopFilePicker implements IFilePicker {
     private static final int SLEEP_TIME = 10;
     private boolean fileIsChoosen = false;
-    private synchronized void showChooser(final FilePickerListener listener, final boolean fileOpen,
-            FileFilter fileFilter) {
+
+    private synchronized void showChooser(final FilePickerListener listener,
+            final boolean fileOpen, FileFilter fileFilter) {
         final JFileChooser chooser = new JFileChooser();
 
         chooser.addActionListener(new ActionListener() {
@@ -29,7 +30,7 @@ public class DesktopFilePicker implements IFilePicker {
         } else {
             chooser.showDialog(null, "Save");
         }
-        while(!fileIsChoosen){
+        while (!fileIsChoosen) {
             try {
                 Thread.sleep(SLEEP_TIME);
             } catch (InterruptedException e1) {

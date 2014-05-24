@@ -20,21 +20,23 @@ public class SetSceneTextDialog extends Dialog {
     private final ViewEventManager eventManager;
     private final IGetActor actor;
 
-    public SetSceneTextDialog(Skin skin, String windowStyleName, IGetActor actor, ViewEventManager eventManager) {
+    public SetSceneTextDialog(Skin skin, String windowStyleName,
+            IGetActor actor, ViewEventManager eventManager) {
         super(TITLE, skin, windowStyleName);
         this.actor = actor;
         this.eventManager = eventManager;
         init(skin);
     }
 
-    public SetSceneTextDialog(Skin skin, IGetActor actor, ViewEventManager eventManager) {
+    public SetSceneTextDialog(Skin skin, IGetActor actor,
+            ViewEventManager eventManager) {
         super(TITLE, skin);
         this.actor = actor;
         this.eventManager = eventManager;
         init(skin);
     }
 
-    private void init(Skin skin){
+    private void init(Skin skin) {
         instructions = new Label("Input New Scene String", skin);
         getContentTable().add(instructions).row();
 
@@ -50,11 +52,11 @@ public class SetSceneTextDialog extends Dialog {
 
     @Override
     protected void result(Object object) {
-        if((Boolean)object){
-            eventManager.fireViewEvent(this, Type.ADD_SET_SCENE_TEXT_ACTION, actor, textArea.getText());
+        if ((Boolean) object) {
+            eventManager.fireViewEvent(this, Type.ADD_SET_SCENE_TEXT_ACTION,
+                    actor, textArea.getText());
         }
         super.result(object);
     }
-
 
 }

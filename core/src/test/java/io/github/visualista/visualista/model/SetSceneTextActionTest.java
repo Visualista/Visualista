@@ -1,11 +1,10 @@
 package io.github.visualista.visualista.model;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
-
 
 public class SetSceneTextActionTest {
 
@@ -15,7 +14,7 @@ public class SetSceneTextActionTest {
     private String shortString;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         firstString = "something";
         secondString = "something else";
         shortString = "my";
@@ -23,20 +22,22 @@ public class SetSceneTextActionTest {
     }
 
     @Test
-    public void testSetAndGetSceneText(){
+    public void testSetAndGetSceneText() {
         action.setSceneText(secondString);
-        assertThat(secondString,equalTo(action.getSceneText()));
+        assertThat(secondString, equalTo(action.getSceneText()));
     }
 
     @Test
-    public void testToStringAndGetExplainatoryName(){
-        assertThat("Change Scene text to\"" + secondString.substring(0, 5) + "...\"", equalTo(action.toString()));
+    public void testToStringAndGetExplainatoryName() {
+        assertThat("Change Scene text to\"" + secondString.substring(0, 5)
+                + "...\"", equalTo(action.toString()));
         action.setSceneText(shortString);
-        assertThat("Change Scene text to \"" + shortString + "\"", equalTo(action.getExplainatoryName()));
+        assertThat("Change Scene text to \"" + shortString + "\"",
+                equalTo(action.getExplainatoryName()));
     }
 
     @Test
-    public void testGetActionData(){
-        assertThat(firstString,equalTo((String)action.getActionData()));
+    public void testGetActionData() {
+        assertThat(firstString, equalTo((String) action.getActionData()));
     }
 }

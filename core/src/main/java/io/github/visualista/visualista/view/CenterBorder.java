@@ -26,7 +26,7 @@ class CenterBorder extends Border implements Updateable {
      */
     private final EditorView centralBorder;
     private IGetActor selectedActor;
-    private java.util.List<Border> borders = new ArrayList<Border>();
+    private final java.util.List<Border> borders = new ArrayList<Border>();
     private Dimension gridDimensions;
     private Image sceneBackgroundImage;
     private static final int CENTER_BORDER_LINE_SIZE = 1;
@@ -73,10 +73,10 @@ class CenterBorder extends Border implements Updateable {
 
         centralBorder.centerVerticalGroupBorder = new Border();
         centralBorder.centerVerticalGroupBorder
-                .setActor(centralBorder.centerVerticalGroup);
+        .setActor(centralBorder.centerVerticalGroup);
         stack.add(centralBorder.centerVerticalGroupBorder);
 
-        this.setActor(stack);
+        setActor(stack);
     }
 
     private void fillGridFromScene(IGetScene scene) {
@@ -104,18 +104,18 @@ class CenterBorder extends Border implements Updateable {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         if (selectedActor != null) {
-                            if (CenterBorder.this.centralBorder.selectedTool == EditorTool.ARROW) {
+                            if (centralBorder.selectedTool == EditorTool.ARROW) {
 
-                                CenterBorder.this.centralBorder.eventManager
-                                        .fireViewEvent(imageForCurrentTile,
-                                                Type.TILE_SET_ACTOR,
-                                                tileAtCurrentPosition,
-                                                selectedActor);
+                                centralBorder.eventManager
+                                .fireViewEvent(imageForCurrentTile,
+                                        Type.TILE_SET_ACTOR,
+                                        tileAtCurrentPosition,
+                                        selectedActor);
 
-                            } else if (CenterBorder.this.centralBorder.selectedTool == EditorTool.CURSOR) {
-                                CenterBorder.this.centralBorder.eventManager
-                                        .fireViewEvent(this, Type.SELECT_TILE,
-                                                tileAtCurrentPosition);
+                            } else if (centralBorder.selectedTool == EditorTool.CURSOR) {
+                                centralBorder.eventManager
+                                .fireViewEvent(this, Type.SELECT_TILE,
+                                        tileAtCurrentPosition);
                             }
                         }
                         super.clicked(event, x, y);
@@ -173,11 +173,11 @@ class CenterBorder extends Border implements Updateable {
         setSize(CenterBorder.CENTER_BORDER_WIDTH_RATIO
                 * centralBorder.stage.getWidth(),
                 CenterBorder.CENTER_BORDER_HEIGHT_RATIO
-                        * centralBorder.stage.getHeight());
+                * centralBorder.stage.getHeight());
         setPosition(CenterBorder.CENTER_BORDER_X_DISPLACEMENT_RATIO
                 * centralBorder.stage.getWidth(),
                 CenterBorder.CENTER_BORDER_Y_DISPLACEMENT_RATIO
-                        * centralBorder.stage.getHeight());
+                * centralBorder.stage.getHeight());
         setLineSize(CenterBorder.CENTER_BORDER_LINE_SIZE);
         setColor(CenterBorder.CENTER_BORDER_COLOR);
         if (gridDimensions != null) {

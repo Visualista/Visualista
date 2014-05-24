@@ -24,10 +24,10 @@ public enum FileImporter {
             return null;
         }
 
-        FileHandle newPosition = Gdx.files.local(folderString()+fileName);
+        FileHandle newPosition = Gdx.files.local(folderString() + fileName);
         while (newPosition.exists()) {
-            newPosition = Gdx.files
-                    .local(folderString()+generateRandomFileName(fileExtension));
+            newPosition = Gdx.files.local(folderString()
+                    + generateRandomFileName(fileExtension));
         }
         Gdx.files.absolute(file.getAbsolutePath()).copyTo(newPosition);
         return newPosition;
@@ -35,7 +35,8 @@ public enum FileImporter {
 
     private static String generateRandomFileName(String fileExtension) {
         String timeStamp = generateTimeStamp();
-        return timeStamp + "_" + new Random().nextInt(999)+"."+fileExtension;
+        return timeStamp + "_" + new Random().nextInt(999) + "."
+        + fileExtension;
     }
 
     private static String generateTimeStamp() {
@@ -47,7 +48,7 @@ public enum FileImporter {
 
     }
 
-    private static String folderString(){
-        return "files"+File.separator;
+    private static String folderString() {
+        return "files" + File.separator;
     }
 }
