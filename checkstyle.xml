@@ -106,7 +106,6 @@
     <module name="ParameterNumber"/>
     <module name="OuterTypeNumber"/>
     <module name="MethodCount"/>
-    <module name="DesignForExtension"/>
     <module name="InnerTypeLast"/>
     <module name="HideUtilityClassConstructor"/>
     <module name="InterfaceIsType"/>
