@@ -1,12 +1,5 @@
 package io.github.visualista.visualista.io;
 
-import static org.junit.Assert.*;
-import io.github.visualista.visualista.model.Actor;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-
 import org.junit.Test;
 
 public class CollectionLoaderTest {
