@@ -42,13 +42,9 @@
     </module>
     <module name="IllegalInstantiation"/>
     <module name="InnerAssignment"/>
-    <module name="MagicNumber"/>
     <module name="MissingSwitchDefault"/>
-    <module name="RedundantThrows"/>
     <module name="SimplifyBooleanExpression"/>
-    <module name="SimplifyBooleanReturn"/>
     <module name="FinalClass"/>
-    <module name="InterfaceIsType"/>
     <module name="VisibilityModifier"/>
     <module name="RegexpSinglelineJava">
       <property name="format" value="\s+$"/>
@@ -90,7 +86,6 @@
       <property name="suppressLoadErrors" value="true"/>
     </module>
     <module name="ReturnCount"/>
-    <module name="SimplifyBooleanExpression"/>
     <module name="SimplifyBooleanReturn"/>
     <module name="StringLiteralEquality"/>
     <module name="SuperClone"/>
@@ -122,13 +117,11 @@
     <module name="OuterTypeNumber"/>
     <module name="MethodCount"/>
     <module name="DesignForExtension"/>
-    <module name="FinalClass"/>
     <module name="InnerTypeLast"/>
     <module name="HideUtilityClassConstructor"/>
     <module name="InterfaceIsType"/>
     <module name="MutableException"/>
     <module name="ThrowsCount"/>
-    <module name="VisibilityModifier"/>
     <module name="BooleanExpressionComplexity"/>
     <module name="ClassDataAbstractionCoupling"/>
     <module name="ClassFanOutComplexity"/>
@@ -138,7 +131,6 @@
     <module name="ArrayTypeStyle"/>
     <module name="DescendantToken"/>
     <module name="FinalParameters"/>
-    <module name="TodoComment"/>
     <module name="TrailingComment"/>
     <module name="UncommentedMain"/>
     <module name="Regexp"/>
@@ -146,7 +138,6 @@
   </module>
   <module name="NewlineAtEndOfFile"/>
   <module name="Translation"/>
-  <module name="FileLength"/>
   <module name="FileLength"/>
   <module name="StrictDuplicateCode"/>
 </module>
