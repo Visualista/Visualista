@@ -37,6 +37,6 @@ public class SetSceneTextActionTest {
 
     @Test
     public void testGetActionData(){
-        assertThat(shortString,equalTo((String)action.getActionData()));
+        assertThat(firstString,equalTo((String)action.getActionData()));
     }
 }
