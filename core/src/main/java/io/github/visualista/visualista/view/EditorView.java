@@ -260,8 +260,6 @@ public class EditorView implements ApplicationListener, IEditorView,
         if (distance >= 0) {
             return distance;
         }
-        {
-        }
         distance = actor1.getX() - actor2.getX() - actor2.getWidth();
         if (distance >= 0) {
             return distance;
