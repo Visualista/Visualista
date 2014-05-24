@@ -130,7 +130,6 @@
     <module name="Regexp"/>
     <module name="OuterTypeFilename"/>
   </module>
-  <module name="NewlineAtEndOfFile"/>
   <module name="Translation"/>
   <module name="FileLength"/>
   <module name="StrictDuplicateCode"/>
