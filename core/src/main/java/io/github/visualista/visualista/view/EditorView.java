@@ -107,7 +107,7 @@ FilePickerListener {
         stage.addActor(lowerBorder);
         centerBorder = new CenterBorder(this);
         stage.addActor(centerBorder);
-        upperBorder = new UpperBorder(this, stage);
+        upperBorder = new UpperBorder(uiSkin,eventManager);
         stage.addActor(upperBorder);
 
         focusableActors = new java.util.ArrayList<Actor>();
@@ -127,7 +127,7 @@ FilePickerListener {
 
         Gdx.input.setInputProcessor(stage);
         Gdx.graphics.setContinuousRendering(true);
-
+        resize((int)stage.getWidth(),(int)stage.getHeight());
         isReady = true;
         eventManager.fireViewEvent(this, Type.VIEW_READY);
     }
@@ -176,6 +176,7 @@ FilePickerListener {
         // configDimension.getHeight(), true);
         // stage.getCamera().translate(-stage.getGutterWidth(),
         // -stage.getGutterHeight(), 0);
+        upperBorder.resize();
 
     }
 
