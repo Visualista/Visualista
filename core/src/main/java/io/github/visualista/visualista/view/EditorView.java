@@ -20,7 +20,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -39,14 +38,10 @@ import io.github.visualista.visualista.editorcontroller.ViewEventManager;
 import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
 import io.github.visualista.visualista.model.IAction;
 import io.github.visualista.visualista.model.IGetActor;
-import io.github.visualista.visualista.model.IGetGrid;
 import io.github.visualista.visualista.model.IGetNovel;
 import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.model.IGetTile;
 import io.github.visualista.visualista.util.Dimension;
-import io.github.visualista.visualista.util.IMatrixGet;
-import io.github.visualista.visualista.util.Matrix;
-import io.github.visualista.visualista.util.Point;
 
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
@@ -82,14 +77,6 @@ public class EditorView implements ApplicationListener, IEditorView,
     private static final Color RIGHT_BORDER_COLOR = Color.BLACK;
     private static final int RIGHT_BORDER_LINE_SIZE = 1;
 
-    private static final float CENTER_BORDER_WIDTH_RATIO = 5f / 10;
-    private static final float CENTER_BORDER_HEIGHT_RATIO = 0.75f;
-    private static final float CENTER_BORDER_X_DISPLACEMENT_RATIO = 2.5f / 10;
-    private static final float CENTER_BORDER_Y_DISPLACEMENT_RATIO = 2f / 10;
-    private static final Color CENTER_BORDER_COLOR = Color.BLACK;
-    private static final int CENTER_BORDER_LINE_SIZE = 1;
-    // End static variables //
-
     Stage stage;
 
     Skin uiSkin;
@@ -105,7 +92,7 @@ public class EditorView implements ApplicationListener, IEditorView,
     private LowerBorder lowerBorder;
     private CenterBorder centerBorder;
     private VerticalGroup rightVerticalGroup;
-    private VerticalGroup centerVerticalGroup;
+    VerticalGroup centerVerticalGroup;
 
     final ViewEventManager eventManager = new ViewEventManager();
 
@@ -119,7 +106,7 @@ public class EditorView implements ApplicationListener, IEditorView,
 
     private TextArea sceneTextArea;
 
-    private Border centerVerticalGroupBorder;
+    Border centerVerticalGroupBorder;
 
     Tab editingTab;
 
@@ -154,7 +141,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         stage.addActor(rightBorder);
         lowerBorder = new LowerBorder(this, stage, eventManager);
         stage.addActor(lowerBorder);
-        centerBorder = new CenterBorder();
+        centerBorder = new CenterBorder(this);
         stage.addActor(centerBorder);
         upperBorder = new UpperBorder(this, stage);
         stage.addActor(upperBorder);
@@ -412,167 +399,6 @@ public class EditorView implements ApplicationListener, IEditorView,
     public void addNewActor(IGetActor actor) {
         leftBorder.addNewActor(actor);
         rightBorder.addNewActor(actor);
-    }
-
-    private class CenterBorder extends Border implements Updateable {
-        private IGetActor selectedActor;
-        private ArrayList<Border> borders = new ArrayList<Border>();
-        private Dimension gridDimensions;
-        private Image sceneBackgroundImage;
-
-        public CenterBorder() {
-            resizeCenterBorder();
-            createCenterEditorBorderContent();
-            resizeCenterBorder();
-        }
-
-        public void updateScene(IGetScene scene) {
-            fillGridFromScene(scene);
-            sceneBackgroundImage.setDrawable(ModelToGdxHelper
-                    .createDrawableFor(scene));
-        }
-
-        public void addNewScene(IGetScene newScene) {
-        }
-
-        public void chaneActiveScene(IGetScene scene) {
-            fillGridFromScene(scene);
-            sceneBackgroundImage.setDrawable(ModelToGdxHelper
-                    .createDrawableFor(scene));
-        }
-
-        public void selectActor(IGetActor actor) {
-            selectedActor = actor;
-
-        }
-
-        private void createCenterEditorBorderContent() {
-            centerVerticalGroup = new VerticalGroup();
-
-            sceneBackgroundImage = new Image();
-            Stack stack = new Stack();
-            stack.add(sceneBackgroundImage);
-
-            centerVerticalGroupBorder = new Border();
-            centerVerticalGroupBorder.setActor(centerVerticalGroup);
-            stack.add(centerVerticalGroupBorder);
-
-            this.setActor(stack);
-        }
-
-        private void fillGridFromScene(IGetScene scene) {
-            Matrix<Image> gridButtons = createImagesForGrid(scene);
-            centerVerticalGroup.clearChildren();
-            fillGrid(centerVerticalGroup, gridButtons);
-            resizeCenterBorder();
-        }
-
-        private Matrix<Image> createImagesForGrid(IGetScene scene) {
-            Matrix<Image> gridButtons = new Matrix<Image>(scene.getIGetGrid()
-                    .getSize());
-            IGetGrid grid = scene.getIGetGrid();
-            int gridWidth = grid.getSize().getWidth();
-            int gridHeight = grid.getSize().getHeight();
-
-            for (int y = 0; y < gridHeight; ++y) {
-                for (int x = 0; x < gridWidth; ++x) {
-                    final IGetTile tileAtCurrentPosition = grid
-                            .getAt(new Point(x, y));
-                    final Image imageForCurrentTile = ModelToGdxHelper
-                            .createImageFor(tileAtCurrentPosition);
-                    imageForCurrentTile.addCaptureListener(new ClickListener() {
-
-                        @Override
-                        public void clicked(InputEvent event, float x, float y) {
-                            if (selectedActor != null) {
-                                if (selectedTool == EditorTool.ARROW) {
-
-                                    eventManager.fireViewEvent(
-                                            imageForCurrentTile,
-                                            Type.TILE_SET_ACTOR,
-                                            tileAtCurrentPosition,
-                                            selectedActor);
-
-                                } else if (selectedTool == EditorTool.CURSOR) {
-                                    eventManager.fireViewEvent(this,
-                                            Type.SELECT_TILE,
-                                            tileAtCurrentPosition);
-                                }
-                            }
-                            super.clicked(event, x, y);
-                        }
-
-                    });
-                    gridButtons.setAt(new Point(x, y), imageForCurrentTile);
-                }
-            }
-            return gridButtons;
-        }
-
-        /*
-         * Old resizeCenterBorder private void resizeCenterBorder() {
-         * centerBorder.setSize( horizontalDistanceBetween(leftBorder,
-         * rightBorder), (upperBorder.getY() - lowerBorder.getY() - lowerBorder
-         * .getHeight())); centerBorder.setPosition(rightSideOf(leftBorder),
-         * lowerBorder.getY() + lowerBorder.getHeight());
-         * centerVerticalGroupBorder.setLineSize(0);
-         * centerVerticalGroupBorder.setSize(centerBorder.getWidth(),
-         * centerBorder.getHeight());
-         * 
-         * }
-         */
-
-        public final void fillGrid(VerticalGroup group, IMatrixGet<Image> data) {
-            float buttonLength = calculateBorderLength(group.getWidth(),
-                    group.getHeight(), data.getSize());
-            gridDimensions = data.getSize();
-
-            for (int i = 0; i < data.getSize().getHeight(); i++) {
-                HorizontalGroup row = new HorizontalGroup();
-                group.addActor(row);
-                for (int j = 0; j < data.getSize().getWidth(); j++) {
-                    Image button = data.getAt(new Point(i, j));
-                    Border border = new Border();
-                    border.setActor(button);
-                    border.setSize(buttonLength, buttonLength);
-                    border.setLineSize(1);
-                    borders.add(border);
-                    row.addActor(border);
-                }
-            }
-        }
-
-        private float calculateBorderLength(float width, float height,
-                Dimension size) {
-            float prefferedButtonHeight = height / size.getHeight();
-            float prefferedButtonWidth = width / size.getWidth();
-            float buttonLength = (float) Math.floor(Math.min(
-                    prefferedButtonWidth, prefferedButtonHeight));
-            return buttonLength;
-        }
-
-        private void resizeCenterBorder() {
-            setSize(CENTER_BORDER_WIDTH_RATIO * stage.getWidth(),
-                    CENTER_BORDER_HEIGHT_RATIO * stage.getHeight());
-            setPosition(CENTER_BORDER_X_DISPLACEMENT_RATIO * stage.getWidth(),
-                    CENTER_BORDER_Y_DISPLACEMENT_RATIO * stage.getHeight());
-            setLineSize(CENTER_BORDER_LINE_SIZE);
-            setColor(CENTER_BORDER_COLOR);
-            if (gridDimensions != null) {
-                float buttonLength = calculateBorderLength(getWidth(),
-                        getHeight(), gridDimensions);
-                for (Border border : borders) {
-                    border.setSize(buttonLength, buttonLength);
-                }
-            }
-        }
-
-        @Override
-        public void update() {
-            // TODO Auto-generated method stub
-
-        }
-
     }
 
     private class RightBorder extends Border implements Updateable {
