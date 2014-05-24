@@ -181,7 +181,6 @@ class RightBorder extends Border implements Updateable {
         });
 
         actionLabel = new Label("Actions", rightBorder.uiSkin);
-        actionLabel.setSize(50, 50);
         actionLabel.setColor(Color.BLACK);
         rightVerticalGroup.addActor(actionLabel);
 
