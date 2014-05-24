@@ -64,7 +64,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * View class for the Editor view, responsible for all the visual logic and
  * painting with help from libGdx.
  * 
- * @author Markus Bergland, Erik Risfeltd, Pierre Krafft
+ * @author Markus Bergland, Erik Risfelt, Pierre Krafft
  */
 
 public class EditorView implements ApplicationListener, IEditorView,
@@ -81,13 +81,6 @@ public class EditorView implements ApplicationListener, IEditorView,
     private static final float HIDDEN_SCENE_WIDTH_RATIO = 0.2f;
     private static final float HIDDEN_SCENE_X_DISPLACEMENT_RATIO = 0.7f;
     private static final float HIDDEN_SCENE_Y_DISPLACEMENT_RATIO = 0.7f;
-
-    private static final float LOWER_BORDER_HEIGHT_RATIO = 2f / 10;
-    private static final float LOWER_BORDER_WIDTH_RATIO = 5f / 10;
-    private static final float LOWER_BORDER_X_DISPLACEMENT_RATIO = 2.5f / 10;
-    private static final float LOWER_BORDER_Y_DISPLACEMENT_RATIO = 0;
-    private static final Color LOWER_BORDER_COLOR = Color.BLACK;
-    private static final int LOWER_BORDER_LINE_SIZE = 1;
 
     private static final float LEFT_BORDER_WIDTH_RATIO = 2.5f / 10;
     private static final float LEFT_BORDER_HEIGHT_RATIO = 1f;
@@ -111,9 +104,9 @@ public class EditorView implements ApplicationListener, IEditorView,
     private static final int CENTER_BORDER_LINE_SIZE = 1;
     // End static variables //
 
-    private Stage stage;
+    Stage stage;
 
-    private Skin uiSkin;
+    Skin uiSkin;
 
     private java.util.List<Actor> focusableActors;
 
@@ -128,7 +121,7 @@ public class EditorView implements ApplicationListener, IEditorView,
     private VerticalGroup rightVerticalGroup;
     private VerticalGroup centerVerticalGroup;
 
-    private final ViewEventManager eventManager = new ViewEventManager();
+    final ViewEventManager eventManager = new ViewEventManager();
 
     private Dimension configDimension;
 
@@ -136,7 +129,7 @@ public class EditorView implements ApplicationListener, IEditorView,
 
     private IFilePicker filePicker;
 
-    private IGetScene activeScene;
+    IGetScene activeScene;
 
     private TextArea sceneTextArea;
 
@@ -173,7 +166,7 @@ public class EditorView implements ApplicationListener, IEditorView,
         stage.addActor(leftBorder);
         rightBorder = new RightBorder();
         stage.addActor(rightBorder);
-        lowerBorder = new LowerBorder(stage, eventManager);
+        lowerBorder = new LowerBorder(this, stage, eventManager);
         stage.addActor(lowerBorder);
         centerBorder = new CenterBorder();
         stage.addActor(centerBorder);
@@ -433,60 +426,6 @@ public class EditorView implements ApplicationListener, IEditorView,
     public void addNewActor(IGetActor actor) {
         leftBorder.addNewActor(actor);
         rightBorder.addNewActor(actor);
-    }
-
-    private class LowerBorder extends Border implements Updateable {
-
-        private ViewEventManager eventManeger;
-        private TextArea textArea;
-
-        public LowerBorder(Stage stage, ViewEventManager eventManeger) {
-            resizeLowerBorder();
-            setActor(createLowerBorderContent());
-            resizeLowerBorder();
-            this.eventManeger = eventManeger;
-            stage.addActor(this);
-        }
-
-        public void changeActiveScene(IGetScene scene) {
-            textArea.setText(scene.getStoryText());
-        }
-
-        private void resizeLowerBorder() {
-            setSize(LOWER_BORDER_WIDTH_RATIO * stage.getWidth(),
-                    LOWER_BORDER_HEIGHT_RATIO * stage.getHeight());
-            setPosition(LOWER_BORDER_X_DISPLACEMENT_RATIO * stage.getWidth(),
-                    LOWER_BORDER_Y_DISPLACEMENT_RATIO * stage.getHeight());
-            setLineSize(LOWER_BORDER_LINE_SIZE);
-            setColor(LOWER_BORDER_COLOR);
-
-        }
-
-        private TextArea createLowerBorderContent() {
-            textArea = new TextArea("", uiSkin);
-
-            textArea.addCaptureListener(new FocusListener() {
-
-                @Override
-                public void keyboardFocusChanged(FocusEvent event, Actor actor,
-                        boolean focused) {
-                    if (!focused) {
-                        eventManager.fireViewEvent(this,
-                                Type.CHANGE_SCENE_TEXT, activeScene,
-                                textArea.getText());
-                    }
-                    super.keyboardFocusChanged(event, actor, focused);
-                }
-
-            });
-            return textArea;
-        }
-
-        @Override
-        public void update() {
-            // TODO Auto-generated method stub
-
-        }
     }
 
     private class UpperBorder extends Border implements Updateable, TabListener {
