@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class GridSizeDialog extends Dialog {
     
-    private final static String title = "Input Grid Size";
+    private static final String title = "Input Grid Size";
 
     public GridSizeDialog(Skin skin) {
         super(title, skin);

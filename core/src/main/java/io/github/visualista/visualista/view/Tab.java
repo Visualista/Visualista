@@ -26,7 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 public class Tab extends Stack {
     private static final float FONT_SCALE_RATIO = 1 / 30.0f;
     private static final float CLOSE_IMAGE_RATIO = 0.8f;
-    final static Drawable closeDrawable = new TextureRegionDrawable(
+    static final Drawable closeDrawable = new TextureRegionDrawable(
             new TextureRegion(new Texture(Gdx.files.internal("icons/tile.png"))));
     private final Label label;
     private final Image closeImage;

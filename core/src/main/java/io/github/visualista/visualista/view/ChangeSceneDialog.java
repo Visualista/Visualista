@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public class ChangeSceneDialog extends Dialog {
 
-    private final static String TITLE = "ChangeSceneAction";
+    private static final String TITLE = "ChangeSceneAction";
     private Label instructions;
     private TextButton okButton;
     private TextButton cancelButton;

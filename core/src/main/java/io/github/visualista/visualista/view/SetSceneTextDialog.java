@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public class SetSceneTextDialog extends Dialog {
     
-    private final static String TITLE = "SetSceneTextAction";
+    private static final String TITLE = "SetSceneTextAction";
     private Label instructions;
     private TextArea textArea;
     private TextButton okButton;

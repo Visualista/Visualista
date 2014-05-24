@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public class SelectActionTypeDialog extends Dialog {
 
-    private final static String TITLE = "Select action type";
+    private static final String TITLE = "Select action type";
     private Label instructions;
     private TextButton okButton;
     private TextButton cancelButton;

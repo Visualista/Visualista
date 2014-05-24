@@ -22,7 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldFilter;
 
 public class AddActorDialog extends Dialog {
 
-    private final static String TITLE = "AddActorAction";
+    private static final String TITLE = "AddActorAction";
     private Label instructions;
     private TextButton okButton;
     private TextButton cancelButton;
