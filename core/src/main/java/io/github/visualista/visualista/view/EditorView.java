@@ -1,5 +1,23 @@
 package io.github.visualista.visualista.view;
 
+import io.github.visualista.visualista.core.FilePickerListener;
+import io.github.visualista.visualista.core.IFilePicker;
+import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
+import io.github.visualista.visualista.editorcontroller.IEditorView;
+import io.github.visualista.visualista.editorcontroller.ViewEventListener;
+import io.github.visualista.visualista.editorcontroller.ViewEventManager;
+import io.github.visualista.visualista.model.IAction;
+import io.github.visualista.visualista.model.IGetActor;
+import io.github.visualista.visualista.model.IGetNovel;
+import io.github.visualista.visualista.model.IGetScene;
+import io.github.visualista.visualista.model.IGetTile;
+import io.github.visualista.visualista.util.Dimension;
+
+import java.io.File;
+import java.util.ArrayList;
+
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -11,28 +29,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
-
-import io.github.visualista.visualista.core.FilePickerListener;
-import io.github.visualista.visualista.core.IFilePicker;
-import io.github.visualista.visualista.editorcontroller.IEditorView;
-import io.github.visualista.visualista.editorcontroller.ViewEventListener;
-import io.github.visualista.visualista.editorcontroller.ViewEventManager;
-import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
-import io.github.visualista.visualista.model.IAction;
-import io.github.visualista.visualista.model.IGetActor;
-import io.github.visualista.visualista.model.IGetNovel;
-import io.github.visualista.visualista.model.IGetScene;
-import io.github.visualista.visualista.model.IGetTile;
-import io.github.visualista.visualista.util.Dimension;
-
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Set;
-
-import javax.swing.filechooser.FileNameExtensionFilter;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 
 /**
  * View class for the Editor view, responsible for all the visual logic and
@@ -42,7 +40,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 
 public class EditorView implements ApplicationListener, IEditorView,
-        FilePickerListener {
+FilePickerListener {
 
     private static final float HIDDEN_SCENE_WIDTH_RATIO = 0.2f;
     Stage stage;
@@ -64,7 +62,7 @@ public class EditorView implements ApplicationListener, IEditorView,
 
     final ViewEventManager eventManager = new ViewEventManager();
 
-    private Dimension configDimension;
+    private final Dimension configDimension;
 
     private boolean isReady;
 
@@ -87,7 +85,7 @@ public class EditorView implements ApplicationListener, IEditorView,
     protected boolean sceneTextAreaHasFocus;
 
     public EditorView(Dimension dimension, IFilePicker filePicker) {
-        this.configDimension = dimension;
+        configDimension = dimension;
 
         this.filePicker = filePicker;
         toolButtonBorders = new ArrayList<Border>();
@@ -149,7 +147,7 @@ public class EditorView implements ApplicationListener, IEditorView,
     Border surroundWithInvisibleBorder(Actor actor) {
         Border surroundingBorder = new Border();
         surroundingBorder.setLineSize(0);
-        surroundingBorder.setActor(actor);// TODO Auto-generated method stub
+        surroundingBorder.setActor(actor);
         return surroundingBorder;
     }
 
@@ -201,10 +199,12 @@ public class EditorView implements ApplicationListener, IEditorView,
     public void dispose() {
     }
 
+    @Override
     public void addViewEventListener(ViewEventListener eventListener) {
         eventManager.addEventListener(eventListener);
     }
 
+    @Override
     public void removeViewEventListener(ViewEventListener eventListener) {
         eventManager.removeEventListener(eventListener);
     }
