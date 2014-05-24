@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -35,8 +36,6 @@ class LeftBorder extends Border implements Updateable {
      * 
      */
     private final EditorView leftView;
-    private TextButton addActorButton;
-    private TextButton removeActorButton;
 
     private TextButton setSceneBackgroundButton;
 
@@ -74,9 +73,13 @@ class LeftBorder extends Border implements Updateable {
 
     private void resizeLeftBorder() {
         setSize(LeftBorder.LEFT_BORDER_WIDTH_RATIO * leftView.stage.getWidth(),
-                LeftBorder.LEFT_BORDER_HEIGHT_RATIO * leftView.stage.getHeight());
-        setPosition(LeftBorder.LEFT_BORDER_X_DISPLACEMENT_RATIO * leftView.stage.getWidth(),
-                LeftBorder.LEFT_BORDER_Y_DISPLACEMENT_RATIO * leftView.stage.getHeight());
+                LeftBorder.LEFT_BORDER_HEIGHT_RATIO
+                        * leftView.stage.getHeight());
+        setPosition(
+                LeftBorder.LEFT_BORDER_X_DISPLACEMENT_RATIO
+                        * leftView.stage.getWidth(),
+                LeftBorder.LEFT_BORDER_Y_DISPLACEMENT_RATIO
+                        * leftView.stage.getHeight());
         setLineSize(LeftBorder.LEFT_BORDER_LINE_SIZE);
         setColor(LeftBorder.LEFT_BORDER_COLOR);
     }
@@ -92,8 +95,8 @@ class LeftBorder extends Border implements Updateable {
             public void changed(ChangeEvent event, Actor actor) {
                 int index = list.getSelectedIndex();
                 if (index != -1) {
-                    LeftBorder.this.leftView.eventManager.fireViewEvent(this, Type.SELECT_ACTOR,
-                            list.getSelected());
+                    LeftBorder.this.leftView.eventManager.fireViewEvent(this,
+                            Type.SELECT_ACTOR, list.getSelected());
                 }
             }
         });
@@ -118,7 +121,8 @@ class LeftBorder extends Border implements Updateable {
 
     private void createScrollBorder(final ScrollPane scroll) {
         Border scrollBorder = new Border();
-        scrollBorder.setSize(actorList.getWidth(), getHeight() * SCROLL_BORDER_HEIGHT_RATIO);
+        scrollBorder.setSize(actorList.getWidth(), getHeight()
+                * SCROLL_BORDER_HEIGHT_RATIO);
         scrollBorder.setActor(scroll);
         leftVerticalGroup.addActor(scrollBorder);
     }
@@ -131,45 +135,52 @@ class LeftBorder extends Border implements Updateable {
         final ScrollPane scroll = new ScrollPane(actorList, leftView.uiSkin);
         scroll.setFadeScrollBars(false);
         createScrollBorder(scroll);
-        createAddActorButton();
-        createRemoveActorButton();
+        TextButton addActorButton = createAddActorButton();
+        TextButton removeActorButton = createRemoveActorButton();
 
         HorizontalGroup buttonContainer2 = new HorizontalGroup();
 
-        buttonContainer2.addActor(addActorButton);
+        LibGdxConvenience.addActorsTo(buttonContainer2, addActorButton,
+                removeActorButton);
 
         leftVerticalGroup.addActor(buttonContainer2);
 
         createSetSceneBackgroundButton();
     }
 
-    private void createRemoveActorButton() {
-        removeActorButton = new TextButton("Remove actor", leftView.uiSkin);
+    
+
+    private TextButton createRemoveActorButton() {
+        TextButton removeActorButton = new TextButton("Remove actor",
+                leftView.uiSkin);
         removeActorButton.setSize(150, 20);
 
         removeActorButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // TODO list linking
-                LeftBorder.this.leftView.eventManager.fireViewEvent(this, Type.REMOVE_ACTOR,
-                        LeftBorder.this.leftView.activeScene);
+                LeftBorder.this.leftView.eventManager
+                        .fireViewEvent(this, Type.REMOVE_ACTOR,
+                                LeftBorder.this.leftView.activeScene);
             }
         });
+        return removeActorButton;
     }
 
     // End create Editor //
 
-    private void createAddActorButton() {
-        addActorButton = new TextButton("Add actor", leftView.uiSkin);
+    private TextButton createAddActorButton() {
+        TextButton addActorButton = new TextButton("Add actor", leftView.uiSkin);
         addActorButton.setSize(150, 20);
 
         addActorButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                LeftBorder.this.leftView.eventManager.fireViewEvent(this, Type.NEW_ACTOR,
-                        LeftBorder.this.leftView.activeScene);
+                LeftBorder.this.leftView.eventManager.fireViewEvent(this,
+                        Type.NEW_ACTOR, LeftBorder.this.leftView.activeScene);
             }
         });
+        return addActorButton;
     }
 
     private Actor createButtonGroup1Buttons() {
@@ -222,11 +233,11 @@ class LeftBorder extends Border implements Updateable {
     }
 
     private Actor createCursorButton() {
-        final Drawable cursor = new TextureRegionDrawable(
-                new TextureRegion(new Texture(
-                        Gdx.files.internal("icons/cursor.png"))));
+        final Drawable cursor = new TextureRegionDrawable(new TextureRegion(
+                new Texture(Gdx.files.internal("icons/cursor.png"))));
         ImageButton cursorButton = new ImageButton(cursor);
-        final Border border = leftView.surroundWithInvisibleBorder(cursorButton);
+        final Border border = leftView
+                .surroundWithInvisibleBorder(cursorButton);
         border.setLineOutsideActor(true);
         cursorButton.addListener(new ClickListener() {
 
@@ -275,7 +286,8 @@ class LeftBorder extends Border implements Updateable {
     }
 
     private void createSetSceneBackgroundButton() {
-        setSceneBackgroundButton = new TextButton("Set background", leftView.uiSkin);
+        setSceneBackgroundButton = new TextButton("Set background",
+                leftView.uiSkin);
         leftVerticalGroup.addActor(setSceneBackgroundButton);
 
         setSceneBackgroundButton.addListener(new ClickListener() {
@@ -285,21 +297,25 @@ class LeftBorder extends Border implements Updateable {
                 // TODO selected scene and image
                 FileNameExtensionFilter filter = new FileNameExtensionFilter(
                         "Chose image", "png");
-                LeftBorder.this.leftView.filePicker.openFileDialog(new FilePickerListener() {
+                LeftBorder.this.leftView.filePicker.openFileDialog(
+                        new FilePickerListener() {
 
-                    @Override
-                    public void fileOpened(File selectedFile) {
-                        if (selectedFile != null) {
-                            LeftBorder.this.leftView.eventManager.fireViewEvent(this,
-                                    Type.CHANGE_SCENE_IMAGE, LeftBorder.this.leftView.activeScene,
-                                    selectedFile);
-                        }
-                    }
+                            @Override
+                            public void fileOpened(File selectedFile) {
+                                if (selectedFile != null) {
+                                    LeftBorder.this.leftView.eventManager
+                                            .fireViewEvent(
+                                                    this,
+                                                    Type.CHANGE_SCENE_IMAGE,
+                                                    LeftBorder.this.leftView.activeScene,
+                                                    selectedFile);
+                                }
+                            }
 
-                    @Override
-                    public void fileSaved(File selectedFile) {
-                    }
-                }, filter);
+                            @Override
+                            public void fileSaved(File selectedFile) {
+                            }
+                        }, filter);
 
                 super.clicked(event, x, y);
             }
