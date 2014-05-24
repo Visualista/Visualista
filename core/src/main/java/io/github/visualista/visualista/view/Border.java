@@ -35,8 +35,9 @@ public class Border extends Group {
     }
 
     public void setActor(Actor actor) {
-        if (actor == this)
+        if (actor == this) {
             throw new IllegalArgumentException("actor cannot be the Border.");
+        }
         super.removeActor(this.actor);
         this.actor = actor;
         if (actor != null) {
@@ -56,7 +57,7 @@ public class Border extends Group {
     @Override
     public void clearChildren() {
         setActor(null);
-        
+
     }
 
     @Override
@@ -150,8 +151,9 @@ public class Border extends Group {
     }
 
     public boolean removeActor(Actor actor) {
-        if (actor != this.actor)
+        if (actor != this.actor) {
             return false;
+        }
         setActor(null);
         return true;
     }

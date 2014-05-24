@@ -257,8 +257,9 @@ public class EditorView implements ApplicationListener, IEditorView,
             com.badlogic.gdx.scenes.scene2d.Actor actor1,
             com.badlogic.gdx.scenes.scene2d.Actor actor2) {
         float distance = actor2.getX() - actor1.getX() - actor1.getWidth();
-        if (distance >= 0)
+        if (distance >= 0) {
             return distance;
+        }
         {
         }
         distance = actor1.getX() - actor2.getX() - actor2.getWidth();

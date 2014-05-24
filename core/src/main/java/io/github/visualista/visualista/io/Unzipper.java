@@ -24,8 +24,9 @@ public enum Unzipper {
         } else if (outputFolder.isFile()) {
             throw new IllegalArgumentException("outputFolder can not be a file");
         } else {
-            for (File c : outputFolder.listFiles())
+            for (File c : outputFolder.listFiles()) {
                 delete(c);
+            }
         }
         ZipInputStream zipIn = new ZipInputStream(new FileInputStream(zipFile));
         extractFolder(outputFolder, zipIn, "");
@@ -63,10 +64,12 @@ public enum Unzipper {
 
     static void delete(File f) throws IOException {
         if (f.isDirectory()) {
-            for (File c : f.listFiles())
+            for (File c : f.listFiles()) {
                 delete(c);
+            }
         }
-        if (!f.delete())
+        if (!f.delete()) {
             throw new FileNotFoundException("Failed to delete file: " + f);
+        }
     }
 }
