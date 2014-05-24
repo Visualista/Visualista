@@ -21,19 +21,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 class CenterBorder extends Border implements Updateable {
-    private static final int CENTER_BORDER_LINE_SIZE = 1;
     private static final Color CENTER_BORDER_COLOR = Color.BLACK;
-    private static final float CENTER_BORDER_Y_DISPLACEMENT_RATIO = 0.2f;
-    private static final float CENTER_BORDER_X_DISPLACEMENT_RATIO = 0.25f;
     private static final float CENTER_BORDER_HEIGHT_RATIO = 0.75f;
+    private static final int CENTER_BORDER_LINE_SIZE = 1;
     private static final float CENTER_BORDER_WIDTH_RATIO = 0.5f;
-    private final EditorView editorView;
-    private IGetActor selectedActor;
+    private static final float CENTER_BORDER_X_DISPLACEMENT_RATIO = 0.25f;
+    private static final float CENTER_BORDER_Y_DISPLACEMENT_RATIO = 0.2f;
     private final java.util.List<Border> borders = new ArrayList<Border>();
+    private VerticalGroup centerVerticalGroup;
+    private Border centerVerticalGroupBorder;
+    private final EditorView editorView;
     private Dimension gridDimensions;
     private Image sceneBackgroundImage;
-    VerticalGroup centerVerticalGroup;
-    Border centerVerticalGroupBorder;
+    private IGetActor selectedActor;
 
 
     // End static variables //
@@ -44,24 +44,22 @@ class CenterBorder extends Border implements Updateable {
         resizeCenterBorder();
     }
 
-    public void updateScene(final IGetScene scene) {
-        fillGridFromScene(scene);
-        sceneBackgroundImage.setDrawable(ModelToGdxHelper
-                .createDrawableFor(scene));
+    public void addNewScene(final IGetScene newScene) {
     }
 
-    public void addNewScene(final IGetScene newScene) {
+    private float calculateBorderLength(final float width, final float height,
+            final Dimension size) {
+        float prefferedButtonHeight = height / size.getHeight();
+        float prefferedButtonWidth = width / size.getWidth();
+        float buttonLength = (float) Math.floor(Math.min(prefferedButtonWidth,
+                prefferedButtonHeight));
+        return buttonLength;
     }
 
     public void chaneActiveScene(final IGetScene scene) {
         fillGridFromScene(scene);
         sceneBackgroundImage.setDrawable(ModelToGdxHelper
                 .createDrawableFor(scene));
-    }
-
-    public void selectActor(final IGetActor actor) {
-        selectedActor = actor;
-
     }
 
     private void createCenterEditorBorderContent() {
@@ -77,13 +75,6 @@ class CenterBorder extends Border implements Updateable {
         stack.add(centerVerticalGroupBorder);
 
         setActor(stack);
-    }
-
-    private void fillGridFromScene(final IGetScene scene) {
-        Matrix<Image> gridButtons = createImagesForGrid(scene);
-        centerVerticalGroup.clearChildren();
-        fillGrid(centerVerticalGroup, gridButtons);
-        resizeCenterBorder();
     }
 
     private Matrix<Image> createImagesForGrid(final IGetScene scene) {
@@ -128,18 +119,6 @@ class CenterBorder extends Border implements Updateable {
         return gridButtons;
     }
 
-    /*
-     * Old resizeCenterBorder private void resizeCenterBorder() {
-     * centerBorder.setSize( horizontalDistanceBetween(leftBorder, rightBorder),
-     * (upperBorder.getY() - lowerBorder.getY() - lowerBorder .getHeight()));
-     * centerBorder.setPosition(rightSideOf(leftBorder), lowerBorder.getY() +
-     * lowerBorder.getHeight()); centerVerticalGroupBorder.setLineSize(0);
-     * centerVerticalGroupBorder.setSize(centerBorder.getWidth(),
-     * centerBorder.getHeight());
-     * 
-     * }
-     */
-
     public final void fillGrid(final VerticalGroup group, final IMatrixGet<Image> data) {
         float buttonLength = calculateBorderLength(group.getWidth(),
                 group.getHeight(), data.getSize());
@@ -160,14 +139,24 @@ class CenterBorder extends Border implements Updateable {
         }
     }
 
-    private float calculateBorderLength(final float width, final float height,
-            final Dimension size) {
-        float prefferedButtonHeight = height / size.getHeight();
-        float prefferedButtonWidth = width / size.getWidth();
-        float buttonLength = (float) Math.floor(Math.min(prefferedButtonWidth,
-                prefferedButtonHeight));
-        return buttonLength;
+    private void fillGridFromScene(final IGetScene scene) {
+        Matrix<Image> gridButtons = createImagesForGrid(scene);
+        centerVerticalGroup.clearChildren();
+        fillGrid(centerVerticalGroup, gridButtons);
+        resizeCenterBorder();
     }
+
+    /*
+     * Old resizeCenterBorder private void resizeCenterBorder() {
+     * centerBorder.setSize( horizontalDistanceBetween(leftBorder, rightBorder),
+     * (upperBorder.getY() - lowerBorder.getY() - lowerBorder .getHeight()));
+     * centerBorder.setPosition(rightSideOf(leftBorder), lowerBorder.getY() +
+     * lowerBorder.getHeight()); centerVerticalGroupBorder.setLineSize(0);
+     * centerVerticalGroupBorder.setSize(centerBorder.getWidth(),
+     * centerBorder.getHeight());
+     * 
+     * }
+     */
 
     private void resizeCenterBorder() {
         setSize(CenterBorder.CENTER_BORDER_WIDTH_RATIO
@@ -189,10 +178,21 @@ class CenterBorder extends Border implements Updateable {
         }
     }
 
+    public void selectActor(final IGetActor actor) {
+        selectedActor = actor;
+
+    }
+
     @Override
     public void update() {
         // TODO Auto-generated method stub
 
+    }
+
+    public void updateScene(final IGetScene scene) {
+        fillGridFromScene(scene);
+        sceneBackgroundImage.setDrawable(ModelToGdxHelper
+                .createDrawableFor(scene));
     }
 
 }
