@@ -64,7 +64,7 @@ public final class VisualistaEditor {
         try {
             saver.saveObjectToFile(
                     Gdx.files.local("files" + File.separator + "novel.xml")
-                            .file(), currentNovel);
+                    .file(), currentNovel);
             FolderZipper.zipFolder(Gdx.files.local("files" + File.separator)
                     .file(), file);
         } catch (final FileSaveException e) {
@@ -88,9 +88,10 @@ public final class VisualistaEditor {
         final FileLoader<Novel> fileLoader = new FileLoader<Novel>();
         try {
             setCurrentNovel(fileLoader.getObjectFromFile(Gdx.files.local(
-                    ("files" + File.separator + "novel.xml")).file()));
-        } catch (final FileNotFoundException e) { // TODO error message
-                                                  // e.printStackTrace();
+                    "files" + File.separator + "novel.xml").file()));
+        } catch (final FileNotFoundException e) {
+            // TODO error message
+            // e.printStackTrace();
         }
 
         return currentNovel;

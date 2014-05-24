@@ -3,7 +3,6 @@ package io.github.visualista.visualista.view;
 import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
 import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.util.BiDiMap;
-import io.github.visualista.visualista.view.TabListener.EventType;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -29,7 +28,7 @@ class UpperBorder extends Border implements Updateable, TabListener {
 
     private List<Tab> hiddenSceneList;
 
-    private BiDiMap<Tab, IGetScene> tabs;
+    private final BiDiMap<Tab, IGetScene> tabs;
 
     private HorizontalGroup sceneButtonGroup;
 
@@ -59,7 +58,7 @@ class UpperBorder extends Border implements Updateable, TabListener {
     public UpperBorder(EditorView editorView, Stage stage) {
         upperBorder = editorView;
         tabs = new BiDiMap<Tab, IGetScene>();
-        this.setActor(createUpperBorderContent());
+        setActor(createUpperBorderContent());
         resizeUpperBorder();
         stage.addActor(this);
     }
@@ -137,8 +136,9 @@ class UpperBorder extends Border implements Updateable, TabListener {
                         tabs.getValue(source));
             }
         } else if (type == EventType.NAME_CHANGE) {
-            upperBorder.eventManager.fireViewEvent(this, Type.CHANGE_SCENE_NAME,
-                    tabs.getValue(source), source.newName());
+            upperBorder.eventManager.fireViewEvent(this,
+                    Type.CHANGE_SCENE_NAME, tabs.getValue(source),
+                    source.newName());
         }
 
     }
@@ -159,9 +159,9 @@ class UpperBorder extends Border implements Updateable, TabListener {
         sceneButtonGroup.addActor(tabUtilityButtons);
 
         upperBorderContentWrapper.addActor(sceneButtonGroup);
-        sceneButtonGroup.setX(this.getLineSize()); // Makes sure the border
-                                                   // lines does not
-                                                   // collide!
+
+        // Makes sure the border lines does not collide!
+        sceneButtonGroup.setX(getLineSize());
 
         upperBorderContentWrapper.addActor(hiddenSceneDropDown);
         return upperBorderContentWrapper;
@@ -171,22 +171,20 @@ class UpperBorder extends Border implements Updateable, TabListener {
         TextButton newButton = new TextButton("+", upperBorder.uiSkin);
         newButton.addCaptureListener(new ClickListener() {
             @Override
-            public void clicked(final InputEvent event, final float x,
-                    float y) {
-                UpperBorder.this.upperBorder.eventManager.fireViewEvent(this, Type.NEW_SCENE);
+            public void clicked(final InputEvent event, final float x, float y) {
+                upperBorder.eventManager.fireViewEvent(this,
+                        Type.NEW_SCENE);
             }
         });
         return newButton;
     }
 
-    private TextButton createSceneOverflowButton(
-            final ScrollPane dropDownScenes) {
+    private TextButton createSceneOverflowButton(final ScrollPane dropDownScenes) {
         TextButton newButton = new TextButton(">", upperBorder.uiSkin);
         newButton.setVisible(false);
         newButton.addCaptureListener(new ClickListener() {
             @Override
-            public void clicked(final InputEvent event, final float x,
-                    float y) {
+            public void clicked(final InputEvent event, final float x, float y) {
                 dropDownScenes.setVisible(true);
             }
         });
@@ -205,18 +203,19 @@ class UpperBorder extends Border implements Updateable, TabListener {
     }
 
     private ScrollPane createHiddenSceneDropDown(List<Tab> hiddenScenes) {
-        ScrollPane newScrollPane = new ScrollPane(hiddenScenes, upperBorder.uiSkin);
+        ScrollPane newScrollPane = new ScrollPane(hiddenScenes,
+                upperBorder.uiSkin);
         newScrollPane = new ScrollPane(hiddenScenes, upperBorder.uiSkin);
         newScrollPane.setFadeScrollBars(false);
         newScrollPane.setWidth(100);// actionList.getWidth());
         newScrollPane.setPosition(upperBorder.stage.getWidth()
-                * UpperBorder.HIDDEN_SCENE_X_DISPLACEMENT_RATIO, upperBorder.stage.getHeight()
+                * UpperBorder.HIDDEN_SCENE_X_DISPLACEMENT_RATIO,
+                upperBorder.stage.getHeight()
                 * UpperBorder.HIDDEN_SCENE_Y_DISPLACEMENT_RATIO);
 
         newScrollPane.addCaptureListener(new ClickListener() {
             @Override
-            public void clicked(final InputEvent event, final float x,
-                    float y) {
+            public void clicked(final InputEvent event, final float x, float y) {
                 // Debug Code //
                 Gdx.app.log("Hidden Scenes Dropdown", "Clicked");
                 // End Debug //
@@ -227,8 +226,7 @@ class UpperBorder extends Border implements Updateable, TabListener {
     }
 
     private java.util.List<Tab> fixOverFlowingScenes(
-            HorizontalGroup sceneButtonGroup,
-            List<Tab> currentlyHiddenScenes) {
+            HorizontalGroup sceneButtonGroup, List<Tab> currentlyHiddenScenes) {
         java.util.List<Tab> newTablist = new ArrayList<Tab>();
         java.util.List<Tab> removedActors = new ArrayList<Tab>();
         for (Actor tab : currentlyHiddenScenes.getItems()) {
@@ -267,10 +265,14 @@ class UpperBorder extends Border implements Updateable, TabListener {
     }
 
     private void resizeUpperBorder() {
-        setSize(UpperBorder.UPPER_BORDER_WIDTH_RATIO * upperBorder.stage.getWidth(),
-                UpperBorder.UPPER_BORDER_HEIGHT_RATIO * upperBorder.stage.getHeight());
-        setPosition(UpperBorder.UPPER_BORDER_X_DISPLACEMENT_RATIO * upperBorder.stage.getWidth(),
-                UpperBorder.UPPER_BORDER_Y_DISPLACEMENT_RATIO * upperBorder.stage.getHeight());
+        setSize(UpperBorder.UPPER_BORDER_WIDTH_RATIO
+                * upperBorder.stage.getWidth(),
+                UpperBorder.UPPER_BORDER_HEIGHT_RATIO
+                * upperBorder.stage.getHeight());
+        setPosition(UpperBorder.UPPER_BORDER_X_DISPLACEMENT_RATIO
+                * upperBorder.stage.getWidth(),
+                UpperBorder.UPPER_BORDER_Y_DISPLACEMENT_RATIO
+                * upperBorder.stage.getHeight());
         setLineSize(UpperBorder.UPPER_BORDER_LINE_SIZE);
         setColor(UpperBorder.UPPER_BORDER_COLOR);
     }

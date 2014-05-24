@@ -1,13 +1,18 @@
 package io.github.visualista.visualista.view;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class BorderActor extends Actor {
+
+    public BorderActor(Color borderColor) {
+        borderTexture = createTexture(borderColor);
+    }
+
     @Override
     public void setColor(Color color) {
         borderTexture = createTexture(color);
@@ -23,9 +28,7 @@ public class BorderActor extends Actor {
     private Texture borderTexture;
     private int lineSize = 3;
 
-    public BorderActor(Color borderColor) {
-        borderTexture = createTexture(borderColor);
-    }
+
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
