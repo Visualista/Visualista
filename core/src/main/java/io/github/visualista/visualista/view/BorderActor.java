@@ -8,8 +8,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class BorderActor extends Actor {
+    private static final int DEFAULT_LINE_SIZE = 1;
     private Texture borderTexture;
-    private int lineSize = 3;
+    private int lineSize = DEFAULT_LINE_SIZE;
 
     public BorderActor(final Color borderColor) {
         borderTexture = createTexture(borderColor);

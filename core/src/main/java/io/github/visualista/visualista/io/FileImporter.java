@@ -9,6 +9,7 @@ import com.badlogic.gdx.files.FileHandle;
 
 public enum FileImporter {
     ;
+    private static final int MAX_RANDOM_INT = 1000;
     private static final String DATE_FORMAT = "yyyyMMdd_HHmmss-SSS";
 
     public static FileHandle importAndGetFile(final File file) {
@@ -36,7 +37,7 @@ public enum FileImporter {
 
     private static String generateRandomFileName(final String fileExtension) {
         String timeStamp = generateTimeStamp();
-        return timeStamp + "_" + new Random().nextInt(999) + "."
+        return timeStamp + "_" + new Random().nextInt(MAX_RANDOM_INT) + "."
         + fileExtension;
     }
 

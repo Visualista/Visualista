@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public class SetSceneTextDialog extends Dialog {
 
+    private static final int TEXT_AREA_HEIGHT = 250;
+    private static final int TEXT_AREA_WIDTH = 400;
     private static final String TITLE = "SetSceneTextAction";
     private Label instructions;
     private TextArea textArea;
@@ -41,7 +43,7 @@ public class SetSceneTextDialog extends Dialog {
         getContentTable().add(instructions).row();
 
         textArea = new TextArea("", skin);
-        getContentTable().add(textArea).width(400).height(250);
+        getContentTable().add(textArea).width(TEXT_AREA_WIDTH).height(TEXT_AREA_HEIGHT);
 
         okButton = new TextButton("OK", skin);
         button(okButton, true);

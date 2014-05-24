@@ -36,6 +36,7 @@ class RightBorder extends Border implements Updateable {
     private static final float RIGHT_BORDER_X_DISPLACEMENT_RATIO = 0.75f;
     private static final float RIGHT_BORDER_HEIGHT_RATIO = 1f;
     private static final float RIGHT_BORDER_WIDTH_RATIO = 0.25f;
+    private static final float ACTION_LIST_WIDTH_RATIO = 0.9f;
     private final EditorView rightBorder;
     private Image actorImage;
     private TextField actorField;
@@ -45,7 +46,7 @@ class RightBorder extends Border implements Updateable {
     private final java.util.List<IGetScene> sceneList = new ArrayList<IGetScene>();
     private java.util.List<IGetActor> actorsInScene;
     protected Dimension gridSize;
-
+    List<IAction> actionList;
 
     public RightBorder(final EditorView editorView) {
         rightBorder = editorView;
@@ -124,8 +125,8 @@ class RightBorder extends Border implements Updateable {
         actorField.addCaptureListener(new FocusListener() {
 
             @Override
-            public void keyboardFocusChanged(final FocusEvent event, final Actor actor,
-                    final boolean focused) {
+            public void keyboardFocusChanged(final FocusEvent event,
+                    final Actor actor, final boolean focused) {
                 if (!focused) {
                     rightBorder.eventManager.fireViewEvent(this,
                             Type.CHANGE_ACTOR_NAME, selectedActor,
@@ -146,7 +147,8 @@ class RightBorder extends Border implements Updateable {
         actorImage.addListener(new ClickListener() {
 
             @Override
-            public void clicked(final InputEvent event, final float x, final float y) {
+            public void clicked(final InputEvent event, final float x,
+                    final float y) {
                 // TODO selected scene and image
                 FileNameExtensionFilter filter = new FileNameExtensionFilter(
                         "Select image (*.png)", "png");
@@ -174,31 +176,29 @@ class RightBorder extends Border implements Updateable {
         rightBorder.actionLabel.setColor(Color.BLACK);
         rightBorder.rightVerticalGroup.addActor(rightBorder.actionLabel);
 
-        rightBorder.actionList = new List<IAction>(rightBorder.uiSkin);
+        actionList = new List<IAction>(rightBorder.uiSkin);
 
-        rightBorder.actionList.setWidth(getWidth() - getLineSize() * 4);
-        rightBorder.actionList.setColor(Color.BLACK);
+        actionList.setWidth(getWidth() * ACTION_LIST_WIDTH_RATIO);
+        actionList.setColor(Color.BLACK);
 
-        final ScrollPane scroll = new ScrollPane(rightBorder.actionList,
-                rightBorder.uiSkin);
+        final ScrollPane scroll = new ScrollPane(actionList, rightBorder.uiSkin);
         scroll.setFadeScrollBars(false);
         Border scrollBorder = new Border();
         scrollBorder.setLineOutsideActor(true);
         scrollBorder.setLineSize(1);
-        scrollBorder.setSize(rightBorder.actionList.getWidth(), getHeight()
+        scrollBorder.setSize(actionList.getWidth(), getHeight()
                 * SCROLL_BORDER_HEIGHT_RATIO);
         scrollBorder.setActor(scroll);
         rightBorder.rightVerticalGroup.addActor(scrollBorder);
 
         modifyButton = new TextButton("Modify", rightBorder.uiSkin);
-        modifyButton.setSize(150, 20);
 
         addActionButton = new TextButton("Add", rightBorder.uiSkin);
-        addActionButton.setSize(150, 20);
         addActionButton.addCaptureListener(new ClickListener() {
 
             @Override
-            public void clicked(final InputEvent event, final float x, final float y) {
+            public void clicked(final InputEvent event, final float x,
+                    final float y) {
                 Dialog[] dialogs = {
                         new ChangeSceneDialog(rightBorder.uiSkin,
                                 selectedActor, sceneList,
@@ -236,7 +236,7 @@ class RightBorder extends Border implements Updateable {
     public void updateActionList(final IGetActor updatedActor) {
         IAction[] updatedActionList = new IAction[updatedActor.getActions()
                                                   .size()];
-        rightBorder.actionList.setItems(updatedActor.getActions().toArray(
-                updatedActionList));
+        actionList.setItems(updatedActor.getActions()
+                .toArray(updatedActionList));
     }
 }

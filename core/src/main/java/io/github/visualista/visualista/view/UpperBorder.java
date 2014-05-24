@@ -254,7 +254,6 @@ class UpperBorder extends Border implements Updateable, TabListener {
 
     private List<Tab> createHiddenSceneList() {
         List<Tab> newList = new List<Tab>(uiSkin);
-        newList.setWidth(150);
         newList.setColor(Color.BLACK);
         return newList;
     }

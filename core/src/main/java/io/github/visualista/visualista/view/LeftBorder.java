@@ -36,6 +36,7 @@ class LeftBorder extends Border implements Updateable {
     static final float LEFT_BORDER_X_DISPLACEMENT_RATIO = 0;
     static final float LEFT_BORDER_HEIGHT_RATIO = 1f;
     static final float LEFT_BORDER_WIDTH_RATIO = 0.25f;
+    private static final float LIST_WIDTH_RATIO = 0.9f;
     private final EditorView leftView;
 
     private TextButton setSceneBackgroundButton;
@@ -83,7 +84,7 @@ class LeftBorder extends Border implements Updateable {
     private List<IGetActor> createActorList() {
         final List<IGetActor> list = new List<IGetActor>(leftView.uiSkin);
 
-        list.setWidth(getWidth() - getLineSize() * 4);
+        list.setWidth(getWidth() * LIST_WIDTH_RATIO);
         list.setColor(Color.BLACK);
         list.addListener(new ChangeListener() {
 
@@ -149,7 +150,6 @@ class LeftBorder extends Border implements Updateable {
     private TextButton createRemoveActorButton() {
         TextButton removeActorButton = new TextButton("Remove actor",
                 leftView.uiSkin);
-        removeActorButton.setSize(150, 20);
 
         removeActorButton.addListener(new ClickListener() {
             @Override
@@ -167,7 +167,6 @@ class LeftBorder extends Border implements Updateable {
 
     private TextButton createAddActorButton() {
         TextButton addActorButton = new TextButton("Add actor", leftView.uiSkin);
-        addActorButton.setSize(150, 20);
 
         addActorButton.addListener(new ClickListener() {
             @Override
