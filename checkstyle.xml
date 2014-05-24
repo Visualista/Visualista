@@ -19,9 +19,7 @@
     <module name="IllegalImport"/>
     <module name="RedundantImport"/>
     <module name="UnusedImports"/>
-    <module name="LineLength"/>
     <module name="MethodLength"/>
-    <module name="ParameterNumber"/>
     <module name="ModifierOrder"/>
     <module name="RedundantModifier"/>
     <module name="AvoidNestedBlocks"/>
@@ -105,8 +103,6 @@
     <module name="ExecutableStatementCount">
       <property name="tokens" value="INSTANCE_INIT,STATIC_INIT,METHOD_DEF,CTOR_DEF"/>
     </module>
-    <module name="LineLength"/>
-    <module name="MethodLength"/>
     <module name="ParameterNumber"/>
     <module name="OuterTypeNumber"/>
     <module name="MethodCount"/>
