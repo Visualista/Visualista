@@ -3,6 +3,8 @@ package io.github.visualista.visualista.core;
 import io.github.visualista.visualista.io.FileLoader;
 import io.github.visualista.visualista.io.FileSaveException;
 import io.github.visualista.visualista.io.FileSaver;
+import io.github.visualista.visualista.io.FolderZipper;
+import io.github.visualista.visualista.io.Unzipper;
 import io.github.visualista.visualista.model.Actor;
 import io.github.visualista.visualista.model.ActorFactory;
 import io.github.visualista.visualista.model.GridFactory;
@@ -17,9 +19,14 @@ import io.github.visualista.visualista.util.Point;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
-/** Data provider for the Editor Controller, and responsible for creating 
- * new Scenes and Actors.
+import com.badlogic.gdx.Gdx;
+
+/**
+ * Data provider for the Editor Controller, and responsible for creating new
+ * Scenes and Actors.
+ * 
  * @author Markus Bergland, Erik Risfeltd, Pierre Krafft
  */
 
@@ -55,21 +62,37 @@ public final class VisualistaEditor {
     public void saveNovel(final File file) {
         final FileSaver<Novel> saver = new FileSaver<Novel>();
         try {
-            saver.saveObjectToFile(file, currentNovel);
+            saver.saveObjectToFile(
+                    Gdx.files.local("files" + File.separator + "novel.xml")
+                            .file(), currentNovel);
+            FolderZipper.zipFolder(Gdx.files.local("files" + File.separator)
+                    .file(), file);
         } catch (final FileSaveException e) {
-            //TODO error message
+            // TODO error message
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
     public Novel openNovel(final File file) {
-        final FileLoader<Novel> fileLoader = new FileLoader<Novel>();
         try {
-            setCurrentNovel(fileLoader.getObjectFromFile(file));
-        } catch (final FileNotFoundException e) {
-            // TODO error message
+            Unzipper.unzip(file, Gdx.files.local("files" + File.separator)
+                    .file());
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
+        final FileLoader<Novel> fileLoader = new FileLoader<Novel>();
+        try {
+            setCurrentNovel(fileLoader.getObjectFromFile(Gdx.files.local(
+                    ("files" + File.separator + "novel.xml")).file()));
+        } catch (final FileNotFoundException e) { // TODO error message
+                                                  // e.printStackTrace();
+        }
+
         return currentNovel;
 
     }
@@ -81,14 +104,16 @@ public final class VisualistaEditor {
     }
 
     /**
-     * Adds a new scene to the counts of scenes, and selects 
-     * it if the parameter is true.
-     * @param setCurrent decides if the new scene is selected.
+     * Adds a new scene to the counts of scenes, and selects it if the parameter
+     * is true.
+     * 
+     * @param setCurrent
+     *            decides if the new scene is selected.
      */
     public Scene addNewScene(final boolean setCurrent) {
         final Scene newScene = sceneFactory.createScene();
         currentNovel.addScene(newScene);
-        if (setCurrent){
+        if (setCurrent) {
             currentNovel.setCurrentScene(newScene);
         }
         return newScene;
@@ -100,7 +125,7 @@ public final class VisualistaEditor {
         return actor;
     }
 
-    public void removeActor(final Actor selectedActor){
+    public void removeActor(final Actor selectedActor) {
         currentNovel.getCurrentScene().removeActor(selectedActor);
     }
 
@@ -129,7 +154,7 @@ public final class VisualistaEditor {
         return scene;
     }
 
-    public Scene changeSceneText( final Scene scene, final String string) {
+    public Scene changeSceneText(final Scene scene, final String string) {
         scene.setStoryText(string);
         return scene;
     }
@@ -139,7 +164,7 @@ public final class VisualistaEditor {
         return scene;
     }
 
-    public Actor getActorFromPosition(final Point position){
+    public Actor getActorFromPosition(final Point position) {
         return currentNovel.getCurrentScene().getGrid().getAt(position)
                 .getActor();
     }
