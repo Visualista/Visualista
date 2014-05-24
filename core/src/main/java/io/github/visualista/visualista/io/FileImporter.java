@@ -24,10 +24,10 @@ public enum FileImporter {
             return null;
         }
 
-        FileHandle newPosition = Gdx.files.local(fileName);
+        FileHandle newPosition = Gdx.files.local(folderString()+fileName);
         while (newPosition.exists()) {
             newPosition = Gdx.files
-                    .local(generateRandomFileName(fileExtension));
+                    .local(folderString()+generateRandomFileName(fileExtension));
         }
         Gdx.files.absolute(file.getAbsolutePath()).copyTo(newPosition);
         return newPosition;
@@ -45,5 +45,9 @@ public enum FileImporter {
                 DATE_FORMAT);
         return sdf.format(new Date());
 
+    }
+    
+    private static String folderString(){
+        return "files\\";
     }
 }
