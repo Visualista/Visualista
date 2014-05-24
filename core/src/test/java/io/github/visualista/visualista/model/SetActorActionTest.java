@@ -9,6 +9,12 @@ import org.junit.Test;
 
 public class SetActorActionTest {
 
+    private static final int POINT_3_Y = 4;
+    private static final int POINT_3_X = 3;
+    private static final int POINT_2_Y = 2;
+    private static final int POINT_2_X = 3;
+    private static final int POINT_1_Y = 3;
+    private static final int POINT_1_X = 2;
     private Point point;
     private SetActorAction setActorAction;
     private Actor actor;
@@ -16,14 +22,14 @@ public class SetActorActionTest {
     @Before
     public void setUp() {
 
-        point = new Point(2, 3);
+        point = new Point(POINT_1_X, POINT_1_Y);
         actor = new Actor();
         setActorAction = new SetActorAction(point, actor);
     }
 
     @Test
     public void testSetAndGetTagetTile() {
-        Point point2 = new Point(3, 2);
+        Point point2 = new Point(POINT_2_X, POINT_2_Y);
         setActorAction.setTargetTile(point2);
         assertThat(point2, equalTo(setActorAction.getTargetTile()));
     }
@@ -50,7 +56,7 @@ public class SetActorActionTest {
     
     @Test
     public void testGetWrappedDataAndGetActionData(){
-        PositionedActor positionedActor = new PositionedActor(new Point(3,4), actor);
+        PositionedActor positionedActor = new PositionedActor(new Point(POINT_3_X,POINT_3_Y), actor);
         SetActorAction setActorAction2 = new SetActorAction(positionedActor);
         assertThat(setActorAction2.getWrappedData(),equalTo(positionedActor));
         assertThat(positionedActor, equalTo((PositionedActor)(setActorAction2.getActionData())));
