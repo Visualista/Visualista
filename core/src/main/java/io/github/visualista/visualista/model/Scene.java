@@ -22,9 +22,9 @@ public class Scene implements Nameable, IGetScene {
         return storyText;
     }
 
-    public void setStoryText(String storyText) {
-        if(storyText==null){
-            storyText = "";
+    public void setStoryText(final String storyText) {
+        if (storyText == null) {
+            this.storyText = "";
             return;
         }
         this.storyText = storyText;
@@ -37,7 +37,6 @@ public class Scene implements Nameable, IGetScene {
     public void setName(String name) {
         this.name = name;
     }
-
 
     public Grid getGrid() {
         return grid;
@@ -57,15 +56,16 @@ public class Scene implements Nameable, IGetScene {
         return new ArrayList<IGetActor>(actorsInScene);
     }
 
-    public void removeActor(Actor actor){
+    public void removeActor(Actor actor) {
         actorsInScene.remove(actor);
     }
 
     public void setImage(Image image) {
         this.image = image;
     }
+
     @Override
-    public Image getImage (){
+    public Image getImage() {
         return image;
     }
 
@@ -73,6 +73,5 @@ public class Scene implements Nameable, IGetScene {
     public IGetGrid getIGetGrid() {
         return grid;
     }
-
 
 }
