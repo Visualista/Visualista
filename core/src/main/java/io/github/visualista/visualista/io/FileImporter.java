@@ -48,6 +48,6 @@ public enum FileImporter {
     }
     
     private static String folderString(){
-        return "files\\";
+        return "files"+File.separator;
     }
 }
