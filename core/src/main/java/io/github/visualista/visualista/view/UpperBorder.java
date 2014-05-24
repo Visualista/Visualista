@@ -35,6 +35,8 @@ class UpperBorder extends Border implements Updateable, TabListener {
 
     private HorizontalGroup tabUtilityButtons;
 
+    private Tab editingTab;
+
     // Declaring static variables //
     private static final float HIDDEN_SCENE_X_DISPLACEMENT_RATIO = 0.7f;
 
@@ -129,7 +131,7 @@ class UpperBorder extends Border implements Updateable, TabListener {
             if (upperBorder.activeScene == tabs.getValue(source)) {
                 source.makeNameEditable();
                 source.giveFocusFrom(upperBorder.stage);
-                upperBorder.editingTab = source;
+                editingTab = source;
             } else {
                 upperBorder.eventManager.fireViewEvent(this, Type.SELECT_SCENE,
                         tabs.getValue(source));
