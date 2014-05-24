@@ -21,45 +21,43 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 class CenterBorder extends Border implements Updateable {
-    /**
-     * 
-     */
-    private final EditorView centralBorder;
-    private IGetActor selectedActor;
-    private final java.util.List<Border> borders = new ArrayList<Border>();
-    private Dimension gridDimensions;
-    private Image sceneBackgroundImage;
     private static final int CENTER_BORDER_LINE_SIZE = 1;
     private static final Color CENTER_BORDER_COLOR = Color.BLACK;
     private static final float CENTER_BORDER_Y_DISPLACEMENT_RATIO = 0.2f;
     private static final float CENTER_BORDER_X_DISPLACEMENT_RATIO = 0.25f;
     private static final float CENTER_BORDER_HEIGHT_RATIO = 0.75f;
     private static final float CENTER_BORDER_WIDTH_RATIO = 0.5f;
+    private final EditorView centralBorder;
+    private IGetActor selectedActor;
+    private final java.util.List<Border> borders = new ArrayList<Border>();
+    private Dimension gridDimensions;
+    private Image sceneBackgroundImage;
+
 
     // End static variables //
-    public CenterBorder(EditorView editorView) {
+    public CenterBorder(final EditorView editorView) {
         centralBorder = editorView;
         resizeCenterBorder();
         createCenterEditorBorderContent();
         resizeCenterBorder();
     }
 
-    public void updateScene(IGetScene scene) {
+    public void updateScene(final IGetScene scene) {
         fillGridFromScene(scene);
         sceneBackgroundImage.setDrawable(ModelToGdxHelper
                 .createDrawableFor(scene));
     }
 
-    public void addNewScene(IGetScene newScene) {
+    public void addNewScene(final IGetScene newScene) {
     }
 
-    public void chaneActiveScene(IGetScene scene) {
+    public void chaneActiveScene(final IGetScene scene) {
         fillGridFromScene(scene);
         sceneBackgroundImage.setDrawable(ModelToGdxHelper
                 .createDrawableFor(scene));
     }
 
-    public void selectActor(IGetActor actor) {
+    public void selectActor(final IGetActor actor) {
         selectedActor = actor;
 
     }
@@ -79,14 +77,14 @@ class CenterBorder extends Border implements Updateable {
         setActor(stack);
     }
 
-    private void fillGridFromScene(IGetScene scene) {
+    private void fillGridFromScene(final IGetScene scene) {
         Matrix<Image> gridButtons = createImagesForGrid(scene);
         centralBorder.centerVerticalGroup.clearChildren();
         fillGrid(centralBorder.centerVerticalGroup, gridButtons);
         resizeCenterBorder();
     }
 
-    private Matrix<Image> createImagesForGrid(IGetScene scene) {
+    private Matrix<Image> createImagesForGrid(final IGetScene scene) {
         Matrix<Image> gridButtons = new Matrix<Image>(scene.getIGetGrid()
                 .getSize());
         IGetGrid grid = scene.getIGetGrid();
@@ -102,7 +100,7 @@ class CenterBorder extends Border implements Updateable {
                 imageForCurrentTile.addCaptureListener(new ClickListener() {
 
                     @Override
-                    public void clicked(InputEvent event, float x, float y) {
+                    public void clicked(final InputEvent event, final float x, final float y) {
                         if (selectedActor != null) {
                             if (centralBorder.selectedTool == EditorTool.ARROW) {
 
@@ -140,7 +138,7 @@ class CenterBorder extends Border implements Updateable {
      * }
      */
 
-    public final void fillGrid(VerticalGroup group, IMatrixGet<Image> data) {
+    public final void fillGrid(final VerticalGroup group, final IMatrixGet<Image> data) {
         float buttonLength = calculateBorderLength(group.getWidth(),
                 group.getHeight(), data.getSize());
         gridDimensions = data.getSize();
@@ -160,8 +158,8 @@ class CenterBorder extends Border implements Updateable {
         }
     }
 
-    private float calculateBorderLength(float width, float height,
-            Dimension size) {
+    private float calculateBorderLength(final float width, final float height,
+            final Dimension size) {
         float prefferedButtonHeight = height / size.getHeight();
         float prefferedButtonWidth = width / size.getWidth();
         float buttonLength = (float) Math.floor(Math.min(prefferedButtonWidth,

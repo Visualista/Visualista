@@ -1,7 +1,7 @@
 package io.github.visualista.visualista.view;
 
-import io.github.visualista.visualista.editorcontroller.ViewEventManager;
 import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
+import io.github.visualista.visualista.editorcontroller.ViewEventManager;
 import io.github.visualista.visualista.model.IGetScene;
 
 import com.badlogic.gdx.graphics.Color;
@@ -12,20 +12,18 @@ import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 
 class LowerBorder extends Border implements Updateable {
 
-    /**
-     * 
-     */
-    private final EditorView lowerBorder;
-    private ViewEventManager eventManeger;
-    private TextArea textArea;
     private static final int LOWER_BORDER_LINE_SIZE = 1;
     private static final Color LOWER_BORDER_COLOR = Color.BLACK;
     private static final float LOWER_BORDER_Y_DISPLACEMENT_RATIO = 0;
     private static final float LOWER_BORDER_X_DISPLACEMENT_RATIO = 0.25f;
     private static final float LOWER_BORDER_WIDTH_RATIO = 0.5f;
     private static final float LOWER_BORDER_HEIGHT_RATIO = 0.2f;
+    private final EditorView lowerBorder;
+    private final ViewEventManager eventManeger;
+    private TextArea textArea;
 
-    public LowerBorder(EditorView editorView, Stage stage, ViewEventManager eventManeger) {
+
+    public LowerBorder(final EditorView editorView, final Stage stage, final ViewEventManager eventManeger) {
         lowerBorder = editorView;
         resizeLowerBorder();
         setActor(createLowerBorderContent());
@@ -34,7 +32,7 @@ class LowerBorder extends Border implements Updateable {
         stage.addActor(this);
     }
 
-    public void changeActiveScene(IGetScene scene) {
+    public void changeActiveScene(final IGetScene scene) {
         textArea.setText(scene.getStoryText());
     }
 
@@ -54,11 +52,11 @@ class LowerBorder extends Border implements Updateable {
         textArea.addCaptureListener(new FocusListener() {
 
             @Override
-            public void keyboardFocusChanged(FocusEvent event, Actor actor,
-                    boolean focused) {
+            public void keyboardFocusChanged(final FocusEvent event, final Actor actor,
+                    final boolean focused) {
                 if (!focused) {
-                    LowerBorder.this.lowerBorder.eventManager.fireViewEvent(this,
-                            Type.CHANGE_SCENE_TEXT, LowerBorder.this.lowerBorder.activeScene,
+                    lowerBorder.eventManager.fireViewEvent(this,
+                            Type.CHANGE_SCENE_TEXT, lowerBorder.activeScene,
                             textArea.getText());
                 }
                 super.keyboardFocusChanged(event, actor, focused);

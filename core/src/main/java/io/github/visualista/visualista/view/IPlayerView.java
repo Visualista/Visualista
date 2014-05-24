@@ -4,11 +4,11 @@ import io.github.visualista.visualista.model.IGetScene;
 
 public interface IPlayerView {
 
-    public void updateScene(IGetScene sceneToDisplay);
+    void updateScene(IGetScene sceneToDisplay);
 
-    public boolean getIsReady();
+    boolean getIsReady();
 
-    public void setController(IGetPlayerController controller);
+    void setController(IGetPlayerController controller);
 
-    public void removeFileLoadListeners();
+    void removeFileLoadListeners();
 }

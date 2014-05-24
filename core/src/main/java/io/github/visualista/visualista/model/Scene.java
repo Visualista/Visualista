@@ -2,7 +2,8 @@ package io.github.visualista.visualista.model;
 
 import io.github.visualista.visualista.util.Nameable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Scene implements Nameable, IGetScene {
     private final Grid grid;
@@ -13,11 +14,12 @@ public class Scene implements Nameable, IGetScene {
 
     private Image image;
 
-    public Scene(Grid grid, List<Actor> actorsInScene) {
+    public Scene(final Grid grid, final List<Actor> actorsInScene) {
         this.grid = grid;
         this.actorsInScene = new ArrayList<Actor>(actorsInScene);
     }
 
+    @Override
     public String getStoryText() {
         return storyText;
     }
@@ -30,11 +32,13 @@ public class Scene implements Nameable, IGetScene {
         this.storyText = storyText;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    @Override
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -47,20 +51,21 @@ public class Scene implements Nameable, IGetScene {
         return name + " (" + grid.getSize() + ")";
     }
 
-    public void addActor(Actor actor) {
+    public void addActor(final Actor actor) {
         actorsInScene.add(actor);
 
     }
 
+    @Override
     public List<IGetActor> getActorsInScene() {
         return new ArrayList<IGetActor>(actorsInScene);
     }
 
-    public void removeActor(Actor actor) {
+    public void removeActor(final Actor actor) {
         actorsInScene.remove(actor);
     }
 
-    public void setImage(Image image) {
+    public void setImage(final Image image) {
         this.image = image;
     }
 

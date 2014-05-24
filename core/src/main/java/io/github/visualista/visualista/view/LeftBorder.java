@@ -30,29 +30,27 @@ import com.badlogic.gdx.utils.Array;
 class LeftBorder extends Border implements Updateable {
 
     private static final float SCROLL_BORDER_HEIGHT_RATIO = 0.7f;
-    /**
-     * 
-     */
-    private final EditorView leftView;
-
-    private TextButton setSceneBackgroundButton;
-
-    private VerticalGroup leftVerticalGroup;
-    private List<IGetActor> actorList;
     static final int LEFT_BORDER_LINE_SIZE = 1;
     static final Color LEFT_BORDER_COLOR = Color.BLACK;
     static final float LEFT_BORDER_Y_DISPLACEMENT_RATIO = 0;
     static final float LEFT_BORDER_X_DISPLACEMENT_RATIO = 0;
     static final float LEFT_BORDER_HEIGHT_RATIO = 1f;
     static final float LEFT_BORDER_WIDTH_RATIO = 0.25f;
+    private final EditorView leftView;
 
-    public LeftBorder(EditorView editorView) {
+    private TextButton setSceneBackgroundButton;
+
+    private VerticalGroup leftVerticalGroup;
+    private List<IGetActor> actorList;
+
+
+    public LeftBorder(final EditorView editorView) {
         leftView = editorView;
         resizeLeftBorder();
         createLeftBorderContent();
     }
 
-    public void changeActiveScene(IGetScene scene) {
+    public void changeActiveScene(final IGetScene scene) {
         IGetActor[] temp = new IGetActor[scene.getActorsInScene().size()];
         actorList.setItems(new Array<IGetActor>(scene.getActorsInScene()
                 .toArray(temp)));
@@ -62,7 +60,7 @@ class LeftBorder extends Border implements Updateable {
         }
     }
 
-    public void addNewActor(IGetActor updatedActor) {
+    public void addNewActor(final IGetActor updatedActor) {
         actorList.getItems().add(updatedActor);
         actorList.setSelectedIndex(leftView.leftBorder.actorList.getItems()
                 .indexOf(updatedActor, true));
@@ -90,7 +88,7 @@ class LeftBorder extends Border implements Updateable {
         list.addListener(new ChangeListener() {
 
             @Override
-            public void changed(ChangeEvent event, Actor actor) {
+            public void changed(final ChangeEvent event, final Actor actor) {
                 int index = list.getSelectedIndex();
                 if (index != -1) {
                     leftView.eventManager.fireViewEvent(this,
@@ -106,9 +104,9 @@ class LeftBorder extends Border implements Updateable {
         setActor(leftVerticalGroup);
     }
 
-    private Actor createButtonContainer1(Actor saveButtonBorder,
-            Actor openButtonBorder, Actor cursorButtonBorder,
-            Actor arrowButtonBorder) {
+    private Actor createButtonContainer1(final Actor saveButtonBorder,
+            final Actor openButtonBorder, final Actor cursorButtonBorder,
+            final Actor arrowButtonBorder) {
         HorizontalGroup buttonContainer1 = new HorizontalGroup();
         buttonContainer1.addActor(saveButtonBorder);
         buttonContainer1.addActor(openButtonBorder);
@@ -155,7 +153,7 @@ class LeftBorder extends Border implements Updateable {
 
         removeActorButton.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void clicked(final InputEvent event, final float x, final float y) {
                 // TODO list linking
                 leftView.eventManager
                 .fireViewEvent(this, Type.REMOVE_ACTOR,
@@ -173,7 +171,7 @@ class LeftBorder extends Border implements Updateable {
 
         addActorButton.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void clicked(final InputEvent event, final float x, final float y) {
                 leftView.eventManager.fireViewEvent(this,
                         Type.NEW_ACTOR, leftView.activeScene);
             }
@@ -192,9 +190,9 @@ class LeftBorder extends Border implements Updateable {
                 arrowButton);
     }
 
-    private void resizeButtonGroup1Buttons(Actor saveButtonBorder,
-            Actor openButtonBorder, Actor cursorButtonBorder,
-            Actor arrowButtonBorder) {
+    private void resizeButtonGroup1Buttons(final Actor saveButtonBorder,
+            final Actor openButtonBorder, final Actor cursorButtonBorder,
+            final Actor arrowButtonBorder) {
         openButtonBorder.setSize(50, 40);
         saveButtonBorder.setSize(50, 40);
         cursorButtonBorder.setSize(50, 40);
@@ -213,7 +211,7 @@ class LeftBorder extends Border implements Updateable {
         arrowButton.addListener(new ClickListener() {
 
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void clicked(final InputEvent event, final float x, final float y) {
                 leftView.selectedTool = EditorTool.ARROW;
                 hideButtonBorders();
                 border.setLineSize(1);
@@ -240,7 +238,7 @@ class LeftBorder extends Border implements Updateable {
         cursorButton.addListener(new ClickListener() {
 
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void clicked(final InputEvent event, final float x, final float y) {
                 leftView.selectedTool = EditorTool.CURSOR;
                 hideButtonBorders();
                 border.setLineSize(1);
@@ -258,7 +256,7 @@ class LeftBorder extends Border implements Updateable {
         saveButton.addListener(new ClickListener() {
 
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void clicked(final InputEvent event, final float x, final float y) {
                 leftView.saveNovel();
                 super.clicked(event, x, y);
             }
@@ -274,7 +272,7 @@ class LeftBorder extends Border implements Updateable {
         openButton.addListener(new ClickListener() {
 
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void clicked(final InputEvent event, final float x, final float y) {
                 leftView.openNovel();
                 super.clicked(event, x, y);
             }
@@ -291,7 +289,7 @@ class LeftBorder extends Border implements Updateable {
         setSceneBackgroundButton.addListener(new ClickListener() {
 
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void clicked(final InputEvent event, final float x, final float y) {
                 // TODO selected scene and image
                 FileNameExtensionFilter filter = new FileNameExtensionFilter(
                         "Chose image", "png");
@@ -299,7 +297,7 @@ class LeftBorder extends Border implements Updateable {
                         new FilePickerListener() {
 
                             @Override
-                            public void fileOpened(File selectedFile) {
+                            public void fileOpened(final File selectedFile) {
                                 if (selectedFile != null) {
                                     leftView.eventManager
                                     .fireViewEvent(
@@ -311,7 +309,7 @@ class LeftBorder extends Border implements Updateable {
                             }
 
                             @Override
-                            public void fileSaved(File selectedFile) {
+                            public void fileSaved(final File selectedFile) {
                             }
                         }, filter);
 

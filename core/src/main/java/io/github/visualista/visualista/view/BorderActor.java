@@ -9,18 +9,18 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class BorderActor extends Actor {
 
-    public BorderActor(Color borderColor) {
+    public BorderActor(final Color borderColor) {
         borderTexture = createTexture(borderColor);
     }
 
     @Override
-    public void setColor(Color color) {
+    public void setColor(final Color color) {
         borderTexture = createTexture(color);
         super.setColor(color);
     }
 
     @Override
-    public void setColor(float r, float g, float b, float a) {
+    public void setColor(final float r, final float g, final float b, final float a) {
         setColor(new Color(r,g,b,a));
         super.setColor(r, g, b, a);
     }
@@ -31,7 +31,7 @@ public class BorderActor extends Actor {
 
 
     @Override
-    public void draw(Batch batch, float parentAlpha) {
+    public void draw(final Batch batch, final float parentAlpha) {
         super.draw(batch, parentAlpha);
         float x = getX();
         float y = getY();
@@ -56,11 +56,11 @@ public class BorderActor extends Actor {
         return lineSize;
     }
 
-    public void setLineSize(int lineSize) {
+    public void setLineSize(final int lineSize) {
         this.lineSize = lineSize;
     }
 
-    private static Texture createTexture(Color color) {
+    private static Texture createTexture(final Color color) {
         Pixmap pixmap = new Pixmap(1, 1, Format.RGBA4444);
         pixmap.setColor(color);
         pixmap.fill();

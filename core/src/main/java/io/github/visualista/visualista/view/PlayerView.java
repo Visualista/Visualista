@@ -1,5 +1,15 @@
 package io.github.visualista.visualista.view;
 
+import io.github.visualista.visualista.model.IGetActor;
+import io.github.visualista.visualista.model.IGetScene;
+import io.github.visualista.visualista.util.Dimension;
+import io.github.visualista.visualista.util.IMatrixGet;
+import io.github.visualista.visualista.util.Matrix;
+import io.github.visualista.visualista.util.Point;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -18,16 +28,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-
-import io.github.visualista.visualista.model.IGetActor;
-import io.github.visualista.visualista.model.IGetScene;
-import io.github.visualista.visualista.util.Dimension;
-import io.github.visualista.visualista.util.IMatrixGet;
-import io.github.visualista.visualista.util.Matrix;
-import io.github.visualista.visualista.util.Point;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * View class for the Player view, responsible for all the visual logic and
@@ -96,7 +96,7 @@ public class PlayerView implements ApplicationListener, IPlayerView {
     private VerticalGroup rightVerticalGroup;
     private VerticalGroup centerVerticalGroup;
 
-    private Dimension configDimension;
+    private final Dimension configDimension;
 
     private Image sceneBackgroundImage;
 
@@ -107,8 +107,8 @@ public class PlayerView implements ApplicationListener, IPlayerView {
 
     private boolean isReady = false;
 
-    public PlayerView(Dimension dimension) {
-        this.configDimension = dimension;
+    public PlayerView(final Dimension dimension) {
+        configDimension = dimension;
     }
 
     @Override
@@ -166,13 +166,13 @@ public class PlayerView implements ApplicationListener, IPlayerView {
 
         centerBorder.addCaptureListener(new ClickListener() {
             @Override
-            public void clicked(final InputEvent event, final float x, float y) {
+            public void clicked(final InputEvent event, final float x, final float y) {
                 if (controller != null) {
                     controller.openNovelFile();
                 } else {
                     // Debug Code //
                     System.out
-                            .println("Error: No controller found in PlayerView");
+                    .println("Error: No controller found in PlayerView");
                     // End Debug //
                 }
             }
@@ -236,7 +236,7 @@ public class PlayerView implements ApplicationListener, IPlayerView {
     // End Create Player //
 
     // Logic Methods //
-    private void fillGridFromScene(IGetScene scene) {
+    private void fillGridFromScene(final IGetScene scene) {
         gridButtons = new Matrix<IGetActor>(scene.getIGetGrid().getSize());
 
         for (int i = 0; i < scene.getIGetGrid().getSize().getHeight(); ++i) {
@@ -249,7 +249,7 @@ public class PlayerView implements ApplicationListener, IPlayerView {
         fillGrid(centerVerticalGroup, gridButtons);
     }
 
-    public final void fillGrid(VerticalGroup group, IMatrixGet<IGetActor> data) {
+    public final void fillGrid(final VerticalGroup group, final IMatrixGet<IGetActor> data) {
         // Declare local variables //
         float prefferedButtonHeight = group.getHeight()
                 / data.getSize().getHeight();
@@ -284,13 +284,13 @@ public class PlayerView implements ApplicationListener, IPlayerView {
 
         tempBorder.addCaptureListener(new ClickListener() {
             @Override
-            public void clicked(final InputEvent event, final float x, float y) {
+            public void clicked(final InputEvent event, final float x, final float y) {
                 if (controller != null) {
                     controller.tileClicked(tileActor);
                 } else {
                     // Debug Code //
                     System.out
-                            .println("Error: No controller found in PlayerView");
+                    .println("Error: No controller found in PlayerView");
                     // End Debug //
                 }
             }
@@ -400,7 +400,7 @@ public class PlayerView implements ApplicationListener, IPlayerView {
 
     // Update Methods //
     @Override
-    public void updateScene(IGetScene sceneToDisplay) {
+    public void updateScene(final IGetScene sceneToDisplay) {
         // Declaring local variables //
         java.util.List<IGetActor> actorsInScene = new ArrayList<IGetActor>();
         actorsInScene.addAll(sceneToDisplay.getActorsInScene());
@@ -439,8 +439,8 @@ public class PlayerView implements ApplicationListener, IPlayerView {
         // End debugging code //
     }
 
-    private void updateTextInBorder(Border borderToUpdate, String storyText,
-            float fontScale) {
+    private void updateTextInBorder(final Border borderToUpdate, final String storyText,
+            final float fontScale) {
         borderToUpdate.clearChildren();
         Label label = new Label(storyText, baseSkin);
         label.setFontScale(fontScale);
@@ -457,10 +457,11 @@ public class PlayerView implements ApplicationListener, IPlayerView {
     }
 
     @Override
-    public void setController(IGetPlayerController controller) {
+    public void setController(final IGetPlayerController controller) {
         this.controller = controller;
     }
 
+    @Override
     public void removeFileLoadListeners() {
         Iterator<EventListener> it = centerBorder.getCaptureListeners()
                 .iterator();

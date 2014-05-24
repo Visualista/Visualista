@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 
 public enum LibGdxConvenience {
     ;
-    public static void addActorsTo(Group group, Actor... actors) {
+    public static void addActorsTo(final Group group, final Actor... actors) {
         for (Actor actor : actors) {
             group.addActor(actor);
         }

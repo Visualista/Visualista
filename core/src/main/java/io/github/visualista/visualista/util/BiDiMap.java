@@ -6,9 +6,9 @@ import java.util.Set;
 
 public class BiDiMap<K, V> {
 
-    private Map<K, V> keyToValue;
+    private final Map<K, V> keyToValue;
 
-    private Map<V, K> valueToKey;
+    private final Map<V, K> valueToKey;
 
     public BiDiMap() {
 
@@ -32,22 +32,22 @@ public class BiDiMap<K, V> {
 
     }
 
-    public V put(K key, V val) {
+    public V put(final K key, final V val) {
         valueToKey.put(val, key);
         return keyToValue.put(key, val);
 
     }
 
-    public V getValue(K key) {
+    public V getValue(final K key) {
         return keyToValue.get(key);
 
     }
 
-    public K getKey(V value) {
+    public K getKey(final V value) {
         return valueToKey.get(value);
     }
 
-    public V removeByKey(K key) {
+    public V removeByKey(final K key) {
         V value = keyToValue.get(key);
         if (value != null) {
             valueToKey.remove(value);
@@ -56,7 +56,7 @@ public class BiDiMap<K, V> {
         return value;
     }
 
-    public K removeByValue(V value) {
+    public K removeByValue(final V value) {
         K key = valueToKey.get(value);
         if (key != null) {
             keyToValue.remove(key);

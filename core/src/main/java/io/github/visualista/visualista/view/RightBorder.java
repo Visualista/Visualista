@@ -32,9 +32,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 class RightBorder extends Border implements Updateable {
     private static final float SCROLL_BORDER_HEIGHT_RATIO = 0.7f;
-    /**
-     * 
-     */
+    private static final int RIGHT_BORDER_LINE_SIZE = 1;
+    private static final Color RIGHT_BORDER_COLOR = Color.BLACK;
+    private static final float RIGHT_BORDER_Y_DISPLACEMENT_RATIO = 0;
+    private static final float RIGHT_BORDER_X_DISPLACEMENT_RATIO = 0.75f;
+    private static final float RIGHT_BORDER_HEIGHT_RATIO = 1f;
+    private static final float RIGHT_BORDER_WIDTH_RATIO = 0.25f;
     private final EditorView rightBorder;
     private Image actorImage;
     private TextField actorField;
@@ -44,14 +47,9 @@ class RightBorder extends Border implements Updateable {
     private final java.util.List<IGetScene> sceneList = new ArrayList<IGetScene>();
     private java.util.List<IGetActor> actorsInScene;
     protected Dimension gridSize;
-    private static final int RIGHT_BORDER_LINE_SIZE = 1;
-    private static final Color RIGHT_BORDER_COLOR = Color.BLACK;
-    private static final float RIGHT_BORDER_Y_DISPLACEMENT_RATIO = 0;
-    private static final float RIGHT_BORDER_X_DISPLACEMENT_RATIO = 0.75f;
-    private static final float RIGHT_BORDER_HEIGHT_RATIO = 1f;
-    private static final float RIGHT_BORDER_WIDTH_RATIO = 0.25f;
 
-    public RightBorder(EditorView editorView) {
+
+    public RightBorder(final EditorView editorView) {
         rightBorder = editorView;
         resizeRightBorder();
         createRightEditorBorderContent();
@@ -59,27 +57,27 @@ class RightBorder extends Border implements Updateable {
 
     }
 
-    public void addNewActor(IGetActor actor) {
+    public void addNewActor(final IGetActor actor) {
         actorsInScene.add(actor);
     }
 
-    public void updateScene(IGetScene scene) {
+    public void updateScene(final IGetScene scene) {
         actorsInScene = scene.getActorsInScene();
         gridSize = scene.getIGetGrid().getSize();
     }
 
-    public void changeActiveScene(IGetScene scene) {
+    public void changeActiveScene(final IGetScene scene) {
         rightBorder.rightVerticalGroup.setVisible(false);
         actorsInScene = scene.getActorsInScene();
         gridSize = scene.getIGetGrid().getSize();
     }
 
-    public void addNewScene(IGetScene newScene) {
+    public void addNewScene(final IGetScene newScene) {
         sceneList.add(newScene);
 
     }
 
-    public void updateActor(IGetActor updatedActor) {
+    public void updateActor(final IGetActor updatedActor) {
         if (updatedActor == selectedActor) {
             setActorImage(ModelToGdxHelper.createDrawableFor(updatedActor));
             updateActionList(updatedActor);
@@ -87,7 +85,7 @@ class RightBorder extends Border implements Updateable {
 
     }
 
-    public void selectActor(IGetActor actor) {
+    public void selectActor(final IGetActor actor) {
         selectedActor = actor;
         if (actor != null) {
             rightBorder.rightVerticalGroup.setVisible(true);
@@ -99,7 +97,7 @@ class RightBorder extends Border implements Updateable {
         }
     }
 
-    public void setActorImage(TextureRegionDrawable createDrawableFor) {
+    public void setActorImage(final TextureRegionDrawable createDrawableFor) {
         actorImage.setDrawable(createDrawableFor);
 
     }
@@ -128,11 +126,11 @@ class RightBorder extends Border implements Updateable {
         actorField.addCaptureListener(new FocusListener() {
 
             @Override
-            public void keyboardFocusChanged(FocusEvent event, Actor actor,
-                    boolean focused) {
+            public void keyboardFocusChanged(final FocusEvent event, final Actor actor,
+                    final boolean focused) {
                 if (!focused) {
-                    rightBorder.eventManager.fireViewEvent(
-                            this, Type.CHANGE_ACTOR_NAME, selectedActor,
+                    rightBorder.eventManager.fireViewEvent(this,
+                            Type.CHANGE_ACTOR_NAME, selectedActor,
                             actorField.getText());
                 }
                 super.keyboardFocusChanged(event, actor, focused);
@@ -150,25 +148,23 @@ class RightBorder extends Border implements Updateable {
         actorImage.addListener(new ClickListener() {
 
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void clicked(final InputEvent event, final float x, final float y) {
                 // TODO selected scene and image
                 FileNameExtensionFilter filter = new FileNameExtensionFilter(
                         "Select image (*.png)", "png");
-                rightBorder.filePicker.openFileDialog(
-                        new FilePickerListener() {
+                rightBorder.filePicker.openFileDialog(new FilePickerListener() {
 
-                            @Override
-                            public void fileOpened(File selectedFile) {
-                                rightBorder.eventManager
-                                .fireViewEvent(this,
-                                        Type.CHANGE_ACTOR_IMAGE,
-                                        selectedActor, selectedFile);
-                            }
+                    @Override
+                    public void fileOpened(final File selectedFile) {
+                        rightBorder.eventManager.fireViewEvent(this,
+                                Type.CHANGE_ACTOR_IMAGE, selectedActor,
+                                selectedFile);
+                    }
 
-                            @Override
-                            public void fileSaved(File selectedFile) {
-                            }
-                        }, filter);
+                    @Override
+                    public void fileSaved(final File selectedFile) {
+                    }
+                }, filter);
 
                 super.clicked(event, x, y);
             }
@@ -199,7 +195,7 @@ class RightBorder extends Border implements Updateable {
         rightBorder.actionList.addCaptureListener(new EventListener() {
 
             @Override
-            public boolean handle(Event event) {
+            public boolean handle(final Event event) {
                 if (event instanceof InputEvent) {
                 }
                 return false;
@@ -215,24 +211,20 @@ class RightBorder extends Border implements Updateable {
         addActionButton.addCaptureListener(new ClickListener() {
 
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void clicked(final InputEvent event, final float x, final float y) {
                 Dialog[] dialogs = {
-                        new ChangeSceneDialog(
-                                rightBorder.uiSkin,
+                        new ChangeSceneDialog(rightBorder.uiSkin,
                                 selectedActor, sceneList,
                                 rightBorder.eventManager),
-                                new SetSceneTextDialog(
-                                        rightBorder.uiSkin,
-                                        selectedActor,
-                                        rightBorder.eventManager),
-                                        new AddActorDialog(rightBorder.uiSkin,
-                                                selectedActor, actorsInScene, gridSize,
-                                                rightBorder.eventManager) };
+                                new SetSceneTextDialog(rightBorder.uiSkin,
+                                        selectedActor, rightBorder.eventManager),
+                                        new AddActorDialog(rightBorder.uiSkin, selectedActor,
+                                                actorsInScene, gridSize,
+                                                rightBorder.eventManager), };
                 String[] dialogTexts = { "Set scene action",
-                        "Set scene text action", "Set actor action" };
-                Dialog dialog = new SelectActionTypeDialog(
-                        rightBorder.uiSkin, selectedActor,
-                        dialogs, dialogTexts);
+                        "Set scene text action", "Set actor action", };
+                Dialog dialog = new SelectActionTypeDialog(rightBorder.uiSkin,
+                        selectedActor, dialogs, dialogTexts);
                 dialog.invalidateHierarchy();
                 dialog.invalidate();
                 dialog.layout();
@@ -254,7 +246,7 @@ class RightBorder extends Border implements Updateable {
 
     }
 
-    public void updateActionList(IGetActor updatedActor) {
+    public void updateActionList(final IGetActor updatedActor) {
         IAction[] updatedActionList = new IAction[updatedActor.getActions()
                                                   .size()];
         rightBorder.actionList.setItems(updatedActor.getActions().toArray(

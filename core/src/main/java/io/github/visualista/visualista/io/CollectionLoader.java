@@ -5,16 +5,16 @@ import io.github.visualista.visualista.util.Nameable;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.*;
+import java.util.Collection;
 
 import com.thoughtworks.xstream.XStream;
 
 public class CollectionLoader<E extends Nameable> {
-    private Collection<E> objects = new ArrayList<E>();
+    private final Collection<E> objects = new ArrayList<E>();
 
     private final ObjectFactory<E> objectFactory;
 
-    public CollectionLoader(XStream xstream, File folder) {
+    public CollectionLoader(final XStream xstream, final File folder) {
         objectFactory = new ObjectFactory<E>(xstream);
 
         if (!folder.exists()) {
@@ -27,7 +27,7 @@ public class CollectionLoader<E extends Nameable> {
 
     }
 
-    private void loadObjects(File folder) {
+    private void loadObjects(final File folder) {
 
         for (final File file : folder.listFiles()) {
             FileLoader<E> fileLoader = new FileLoader<E>(objectFactory);

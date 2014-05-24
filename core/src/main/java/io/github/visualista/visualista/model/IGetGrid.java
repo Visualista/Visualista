@@ -5,8 +5,8 @@ import io.github.visualista.visualista.util.Point;
 
 public interface IGetGrid {
 
-    public Dimension getSize();
+    Dimension getSize();
 
-    public IGetTile getAt(Point from);
+    IGetTile getAt(Point from);
 
 }

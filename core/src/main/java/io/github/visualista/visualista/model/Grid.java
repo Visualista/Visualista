@@ -10,12 +10,12 @@ public class Grid extends Matrix<Tile> implements IGetGrid {
         return "Grid [Size=" + getSize() + "]";
     }
 
-    public Grid(Dimension gridSize) {
+    public Grid(final Dimension gridSize) {
         super(gridSize);
         fillWith(new TileFactory());
     }
 
-    public Grid(int width, int height) {
+    public Grid(final int width, final int height) {
         this(new Dimension(width, height));
     }
 }

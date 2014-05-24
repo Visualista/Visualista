@@ -7,7 +7,7 @@ public class PositionedActor {
     private final Point position;
     private final Actor actor;
 
-    public PositionedActor(Point position, Actor actor){
+    public PositionedActor(final Point position, final Actor actor){
         this.actor = actor;
         this.position = position;
     }

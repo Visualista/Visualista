@@ -1,10 +1,6 @@
 package io.github.visualista.visualista.view;
 
-import io.github.visualista.visualista.editorcontroller.ViewEventManager;
-import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
 import io.github.visualista.visualista.model.IGetActor;
-
-import java.util.ArrayList;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -23,23 +19,23 @@ public class SelectActionTypeDialog extends Dialog {
     private final String[] names;
     private final Dialog[] dialogs;
 
-    public SelectActionTypeDialog(Skin skin, String windowStyleName,
-            Dialog[] dialogs, String[] names) {
+    public SelectActionTypeDialog(final Skin skin, final String windowStyleName,
+            final Dialog[] dialogs, final String[] names) {
         super(TITLE, skin, windowStyleName);
         this.names = names;
         this.dialogs = dialogs;
         init(skin);
     }
 
-    public SelectActionTypeDialog(Skin skin, IGetActor actor, Dialog[] dialogs,
-            String[] names) {
+    public SelectActionTypeDialog(final Skin skin, final IGetActor actor, final Dialog[] dialogs,
+            final String[] names) {
         super(TITLE, skin);
         this.names = names;
         this.dialogs = dialogs;
         init(skin);
     }
 
-    private void init(Skin skin) {
+    private void init(final Skin skin) {
         instructions = new Label("Select action type", skin);
         getContentTable().add(instructions).row();
         list = new List<String>(skin);
@@ -55,7 +51,7 @@ public class SelectActionTypeDialog extends Dialog {
     }
 
     @Override
-    protected void result(Object object) {
+    protected void result(final Object object) {
         if ((Boolean) object) {
             Dialog dialog = dialogs[list.getSelectedIndex()];
             dialog.invalidateHierarchy();

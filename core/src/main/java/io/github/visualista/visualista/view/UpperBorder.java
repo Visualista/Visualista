@@ -21,21 +21,6 @@ import com.badlogic.gdx.utils.SnapshotArray;
 
 class UpperBorder extends Border implements Updateable, TabListener {
 
-    /**
-     * 
-     */
-    private final EditorView upperBorder;
-
-    private List<Tab> hiddenSceneList;
-
-    private final BiDiMap<Tab, IGetScene> tabs;
-
-    private HorizontalGroup sceneButtonGroup;
-
-    private HorizontalGroup tabUtilityButtons;
-
-    private Tab editingTab;
-
     // Declaring static variables //
     private static final float HIDDEN_SCENE_X_DISPLACEMENT_RATIO = 0.7f;
 
@@ -55,7 +40,19 @@ class UpperBorder extends Border implements Updateable, TabListener {
 
     private static final float UPPER_BORDER_HEIGHT_RATIO = 0.05f;
 
-    public UpperBorder(EditorView editorView, Stage stage) {
+    private final EditorView upperBorder;
+
+    private List<Tab> hiddenSceneList;
+
+    private final BiDiMap<Tab, IGetScene> tabs;
+
+    private HorizontalGroup sceneButtonGroup;
+
+    private HorizontalGroup tabUtilityButtons;
+
+    private Tab editingTab;
+
+    public UpperBorder(final EditorView editorView, final Stage stage) {
         upperBorder = editorView;
         tabs = new BiDiMap<Tab, IGetScene>();
         setActor(createUpperBorderContent());
@@ -63,7 +60,7 @@ class UpperBorder extends Border implements Updateable, TabListener {
         stage.addActor(this);
     }
 
-    public void changeActiveScene(IGetScene scene) {
+    public void changeActiveScene(final IGetScene scene) {
         Tab tab = tabs.getKey(scene);
         bringTabToTabGroup(tab);
         for (Tab aTab : tabs.getAllKeys()) {
@@ -76,7 +73,7 @@ class UpperBorder extends Border implements Updateable, TabListener {
 
     }
 
-    private void bringTabToTabGroup(Tab tab) {
+    private void bringTabToTabGroup(final Tab tab) {
         int index = hiddenSceneList.getItems().indexOf(tab, true);
         if (index != -1) {
             hiddenSceneList.getItems().removeIndex(index);
@@ -85,7 +82,7 @@ class UpperBorder extends Border implements Updateable, TabListener {
 
     }
 
-    public void addNewScene(IGetScene scene) {
+    public void addNewScene(final IGetScene scene) {
         String name = getPaddedSceneName(scene);
         Tab tab = new Tab(name, upperBorder.uiSkin);
         tab.addTabListener(this);
@@ -95,13 +92,13 @@ class UpperBorder extends Border implements Updateable, TabListener {
 
     }
 
-    public void updateScene(IGetScene scene) {
+    public void updateScene(final IGetScene scene) {
 
         String name = getPaddedSceneName(scene);
         tabs.getKey(scene).setText(name);
     }
 
-    private String getPaddedSceneName(IGetScene scene) {
+    private String getPaddedSceneName(final IGetScene scene) {
         String name = scene.getName();
         if (name == null) {
             name = "";
@@ -124,8 +121,9 @@ class UpperBorder extends Border implements Updateable, TabListener {
     }
 
     @Override
-    public void tabEvent(Tab source,
-            io.github.visualista.visualista.view.TabListener.EventType type) {
+    public void tabEvent(
+            final Tab source,
+            final io.github.visualista.visualista.view.TabListener.EventType type) {
         if (type == EventType.SELECT) {
             if (upperBorder.activeScene == tabs.getValue(source)) {
                 source.makeNameEditable();
@@ -171,9 +169,9 @@ class UpperBorder extends Border implements Updateable, TabListener {
         TextButton newButton = new TextButton("+", upperBorder.uiSkin);
         newButton.addCaptureListener(new ClickListener() {
             @Override
-            public void clicked(final InputEvent event, final float x, float y) {
-                upperBorder.eventManager.fireViewEvent(this,
-                        Type.NEW_SCENE);
+            public void clicked(final InputEvent event, final float x,
+                    final float y) {
+                upperBorder.eventManager.fireViewEvent(this, Type.NEW_SCENE);
             }
         });
         return newButton;
@@ -184,7 +182,8 @@ class UpperBorder extends Border implements Updateable, TabListener {
         newButton.setVisible(false);
         newButton.addCaptureListener(new ClickListener() {
             @Override
-            public void clicked(final InputEvent event, final float x, float y) {
+            public void clicked(final InputEvent event, final float x,
+                    final float y) {
                 dropDownScenes.setVisible(true);
             }
         });
@@ -202,7 +201,7 @@ class UpperBorder extends Border implements Updateable, TabListener {
 
     }
 
-    private ScrollPane createHiddenSceneDropDown(List<Tab> hiddenScenes) {
+    private ScrollPane createHiddenSceneDropDown(final List<Tab> hiddenScenes) {
         ScrollPane newScrollPane = new ScrollPane(hiddenScenes,
                 upperBorder.uiSkin);
         newScrollPane = new ScrollPane(hiddenScenes, upperBorder.uiSkin);
@@ -215,7 +214,8 @@ class UpperBorder extends Border implements Updateable, TabListener {
 
         newScrollPane.addCaptureListener(new ClickListener() {
             @Override
-            public void clicked(final InputEvent event, final float x, float y) {
+            public void clicked(final InputEvent event, final float x,
+                    final float y) {
                 // Debug Code //
                 Gdx.app.log("Hidden Scenes Dropdown", "Clicked");
                 // End Debug //
@@ -226,7 +226,7 @@ class UpperBorder extends Border implements Updateable, TabListener {
     }
 
     private java.util.List<Tab> fixOverFlowingScenes(
-            HorizontalGroup sceneButtonGroup, List<Tab> currentlyHiddenScenes) {
+            final List<Tab> currentlyHiddenScenes) {
         java.util.List<Tab> newTablist = new ArrayList<Tab>();
         java.util.List<Tab> removedActors = new ArrayList<Tab>();
         for (Actor tab : currentlyHiddenScenes.getItems()) {

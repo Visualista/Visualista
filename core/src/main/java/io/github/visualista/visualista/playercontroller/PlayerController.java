@@ -30,7 +30,7 @@ public class PlayerController implements IGetPlayerController{
     private Scene currentSceneToChange;
 
     public PlayerController(final VisualistaPlayer visualista,
-            final IPlayerView view, IFilePicker filePicker) {
+            final IPlayerView view, final IFilePicker filePicker) {
         this.visualista = visualista;
         this.view = view;
         this.filePicker = filePicker;
@@ -60,13 +60,13 @@ public class PlayerController implements IGetPlayerController{
         filePicker.openFileDialog(new FilePickerListener() {
 
             @Override
-            public void fileOpened(File selectedFile) {
+            public void fileOpened(final File selectedFile) {
                 visualista.openNovel(selectedFile);
                 updateView();
             }
 
             @Override
-            public void fileSaved(File selectedFile) {
+            public void fileSaved(final File selectedFile) {
                 // Unreachable as it is
             }
         }, filter);
@@ -74,7 +74,7 @@ public class PlayerController implements IGetPlayerController{
     }
 
     @Override
-    public void tileClicked(IGetActor actor) {
+    public void tileClicked(final IGetActor actor) {
         currentSceneToChange = visualista.getCurrentNovel().getCurrentScene();
         boolean needUpdate = false;
         List<IAction> actorActions = actor.getActions();
@@ -91,7 +91,7 @@ public class PlayerController implements IGetPlayerController{
 
     }
 
-    private boolean changeData(Object dataToModify){
+    private boolean changeData(final Object dataToModify){
         Gdx.app.log("Wat", "Calling Action");
         if (dataToModify instanceof String){
             return changeText((String) dataToModify);
@@ -104,19 +104,19 @@ public class PlayerController implements IGetPlayerController{
         }
     }
 
-    private boolean changeScene(Scene newScene){
+    private boolean changeScene(final Scene newScene){
         Gdx.app.log("Change Scene", newScene.toString());
         visualista.getCurrentNovel().setCurrentScene(newScene);
         return view.getIsReady();
     }
 
-    private boolean changeText(String newText){
+    private boolean changeText(final String newText){
         Gdx.app.log("Change Text", "In " + currentSceneToChange.toString());
         currentSceneToChange.setStoryText(newText);
         return view.getIsReady();
     }
 
-    private boolean changeActor(PositionedActor newActor){
+    private boolean changeActor(final PositionedActor newActor){
         currentSceneToChange.getGrid().getAt(
                 newActor.getPosition()).setActor(newActor.getActor());
         return view.getIsReady();

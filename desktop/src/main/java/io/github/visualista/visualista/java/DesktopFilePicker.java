@@ -14,12 +14,12 @@ public class DesktopFilePicker implements IFilePicker {
     private boolean fileIsChoosen = false;
 
     private synchronized void showChooser(final FilePickerListener listener,
-            final boolean fileOpen, FileFilter fileFilter) {
+            final boolean fileOpen, final FileFilter fileFilter) {
         final JFileChooser chooser = new JFileChooser();
 
         chooser.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 fileIsChoosen = true;
             }
         });
@@ -44,15 +44,15 @@ public class DesktopFilePicker implements IFilePicker {
     }
 
     @Override
-    public void openFileDialog(FilePickerListener listener,
-            FileFilter fileFilter) {
+    public void openFileDialog(final FilePickerListener listener,
+            final FileFilter fileFilter) {
         showChooser(listener, true, fileFilter);
 
     }
 
     @Override
-    public void saveFileDialog(FilePickerListener listener,
-            FileFilter fileFilter) {
+    public void saveFileDialog(final FilePickerListener listener,
+            final FileFilter fileFilter) {
         showChooser(listener, false, fileFilter);
 
     }

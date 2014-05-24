@@ -1,11 +1,5 @@
 package io.github.visualista.visualista.java;
 
-import java.util.Scanner;
-
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.badlogic.gdx.utils.GdxNativesLoader;
-
 import io.github.visualista.visualista.core.VisualistaEditor;
 import io.github.visualista.visualista.core.VisualistaPlayer;
 import io.github.visualista.visualista.editorcontroller.EditorController;
@@ -13,6 +7,12 @@ import io.github.visualista.visualista.playercontroller.PlayerController;
 import io.github.visualista.visualista.util.Dimension;
 import io.github.visualista.visualista.view.EditorView;
 import io.github.visualista.visualista.view.PlayerView;
+
+import java.util.Scanner;
+
+import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.utils.GdxNativesLoader;
 
 public class VisualistaDesktop {
     private static final int APPLICATION_HEIGHT = 700;
@@ -22,7 +22,7 @@ public class VisualistaDesktop {
         GdxNativesLoader.load();
     }
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.width = APPLICATION_WIDTH;
         config.height = APPLICATION_HEIGHT;
@@ -42,6 +42,6 @@ public class VisualistaDesktop {
             new EditorController(model, view);
             new LwjglApplication(view, config);
         }
-
+        scanner.close();
     }
 }

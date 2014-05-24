@@ -7,12 +7,12 @@ public class ObjectFactory<E> {
 
     private final XStream xstream;
 
-    public ObjectFactory(XStream xstream) {
+    public ObjectFactory(final XStream xstream) {
         this.xstream = xstream;
     }
 
     @SuppressWarnings("unchecked")
-    public E createObject(String readXML) {
+    public E createObject(final String readXML) {
         return (E) xstream.fromXML(readXML);
     };
 }

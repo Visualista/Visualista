@@ -1,16 +1,13 @@
 package io.github.visualista.visualista.view;
 
-import io.github.visualista.visualista.editorcontroller.ViewEventManager;
 import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
+import io.github.visualista.visualista.editorcontroller.ViewEventManager;
 import io.github.visualista.visualista.model.Actor;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.PositionedActor;
 import io.github.visualista.visualista.util.Dimension;
 import io.github.visualista.visualista.util.Point;
 
-import java.util.ArrayList;
-
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
@@ -26,17 +23,17 @@ public class AddActorDialog extends Dialog {
     private Label instructions;
     private TextButton okButton;
     private TextButton cancelButton;
-    private ViewEventManager eventManager;
+    private final ViewEventManager eventManager;
     private List<IGetActor> list;
-    private java.util.List<IGetActor> actorList;
-    private IGetActor actor;
+    private final java.util.List<IGetActor> actorList;
+    private final IGetActor actor;
     private TextField columnInput;
     private TextField rowInput;
-    private Dimension gridSize;
+    private final Dimension gridSize;
 
-    public AddActorDialog(Skin skin, String windowStyleName, IGetActor actor,
-            java.util.List<IGetActor> actorList, Dimension gridSize,
-            ViewEventManager eventManager) {
+    public AddActorDialog(final Skin skin, final String windowStyleName, final IGetActor actor,
+            final java.util.List<IGetActor> actorList, final Dimension gridSize,
+            final ViewEventManager eventManager) {
         super(TITLE, skin, windowStyleName);
         this.actor = actor;
         this.actorList = actorList;
@@ -45,9 +42,9 @@ public class AddActorDialog extends Dialog {
         init(skin);
     }
 
-    public AddActorDialog(Skin skin, IGetActor actor,
-            java.util.List<IGetActor> actorList, Dimension gridSize,
-            ViewEventManager eventManager) {
+    public AddActorDialog(final Skin skin, final IGetActor actor,
+            final java.util.List<IGetActor> actorList, final Dimension gridSize,
+            final ViewEventManager eventManager) {
         super(TITLE, skin);
         this.actor = actor;
         this.actorList = actorList;
@@ -56,7 +53,7 @@ public class AddActorDialog extends Dialog {
         init(skin);
     }
 
-    private void init(Skin skin) {
+    private void init(final Skin skin) {
         instructions = new Label("Select an Actor and where to place it", skin);
         getContentTable().add(instructions).row();
         IGetActor[] actorListArray = new IGetActor[actorList.size()];
@@ -68,7 +65,7 @@ public class AddActorDialog extends Dialog {
                 new Label("Column (1-" + gridSize.getWidth() + "):", skin));
         columnInput = new TextField("1", skin);
         columnInput
-                .setTextFieldFilter(createInputFilter(1, gridSize.getWidth()));
+        .setTextFieldFilter(createInputFilter(1, gridSize.getWidth()));
         getContentTable().add(columnInput).row();
         getContentTable().add(
                 new Label("Row (1-" + gridSize.getHeight() + "):", skin));
@@ -86,17 +83,17 @@ public class AddActorDialog extends Dialog {
         return new TextFieldFilter() {
 
             @Override
-            public boolean acceptChar(TextField textField, char c) {
-                return (Character.isDigit(c)
-                        && Integer.parseInt((textField.getText() + c)) >= min && Integer
-                        .parseInt((textField.getText() + c)) <= max);
+            public boolean acceptChar(final TextField textField, final char c) {
+                return Character.isDigit(c)
+                        && Integer.parseInt(textField.getText() + c) >= min && Integer
+                        .parseInt(textField.getText() + c) <= max;
             }
 
         };
     }
 
     @Override
-    protected void result(Object object) {
+    protected void result(final Object object) {
         if ((Boolean) object) {
             String columnText = columnInput.getText();
             int column = columnText.isEmpty() ? 1 : Integer

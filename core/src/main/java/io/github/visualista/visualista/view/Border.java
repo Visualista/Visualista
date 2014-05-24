@@ -8,14 +8,14 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 public class Border extends Group {
 
     private Actor containedActor;
-    private BorderActor borderActor;
+    private final BorderActor borderActor;
     private boolean lineOutsideActor;
 
     public Border() {
         this(Color.BLACK);
     }
 
-    public Border(Color borderColor) {
+    public Border(final Color borderColor) {
         borderActor = new BorderActor(borderColor);
         super.addActor(borderActor);
         setTouchable(Touchable.childrenOnly);
@@ -23,31 +23,31 @@ public class Border extends Group {
     }
 
     @Override
-    public void setColor(Color color) {
+    public void setColor(final Color color) {
         borderActor.setColor(color);
         super.setColor(color);
     }
 
     @Override
-    public void setColor(float r, float g, float b, float a) {
+    public void setColor(final float r, final float g, final float b, final float a) {
         borderActor.setColor(r, g, b, a);
         super.setColor(r, g, b, a);
     }
 
-    public void setActor(Actor actor) {
+    public void setActor(final Actor actor) {
         if (actor == this) {
             throw new IllegalArgumentException("actor cannot be the Border.");
         }
-        super.removeActor(this.containedActor);
-        this.containedActor = actor;
+        super.removeActor(containedActor);
+        containedActor = actor;
         if (actor != null) {
             if (lineOutsideActor) {
                 actor.setBounds(borderActor.getLineSize(),
-                        borderActor.getLineSize(), this.getWidth()
-                                - borderActor.getLineSize() * 2,
-                        this.getHeight() - borderActor.getLineSize() * 2);
+                        borderActor.getLineSize(), getWidth()
+                        - borderActor.getLineSize() * 2,
+                        getHeight() - borderActor.getLineSize() * 2);
             } else {
-                actor.setBounds(0, 0, this.getWidth(), this.getHeight());
+                actor.setBounds(0, 0, getWidth(), getHeight());
             }
             super.addActorBefore(borderActor, actor);
         }
@@ -61,7 +61,7 @@ public class Border extends Group {
     }
 
     @Override
-    public void setWidth(float width) {
+    public void setWidth(final float width) {
         if (containedActor != null) {
             if (lineOutsideActor) {
                 containedActor.setWidth(width - borderActor.getLineSize() * 2);
@@ -74,7 +74,7 @@ public class Border extends Group {
     }
 
     @Override
-    public void setHeight(float height) {
+    public void setHeight(final float height) {
         if (containedActor != null) {
             if (lineOutsideActor) {
                 containedActor.setHeight(height - borderActor.getLineSize() * 2);
@@ -87,7 +87,7 @@ public class Border extends Group {
     }
 
     @Override
-    public void setSize(float width, float height) {
+    public void setSize(final float width, final float height) {
         if (containedActor != null) {
             if (lineOutsideActor) {
                 containedActor.setSize(width - borderActor.getLineSize() * 2, height
@@ -101,7 +101,7 @@ public class Border extends Group {
     }
 
     @Override
-    public void setBounds(float x, float y, float width, float height) {
+    public void setBounds(final float x, final float y, final float width, final float height) {
         if (containedActor != null) {
             if (lineOutsideActor) {
                 containedActor.setSize(width - borderActor.getLineSize() * 2, height
@@ -124,7 +124,7 @@ public class Border extends Group {
      */
     @Deprecated
     @Override
-    public void addActor(Actor actor) {
+    public void addActor(final Actor actor) {
         throw new UnsupportedOperationException("Use Border#setActor.");
     }
 
@@ -134,7 +134,7 @@ public class Border extends Group {
      */
     @Deprecated
     @Override
-    public void addActorAt(int index, Actor actor) {
+    public void addActorAt(final int index, final Actor actor) {
         throw new UnsupportedOperationException("Use Border#setActor.");
     }
 
@@ -144,7 +144,7 @@ public class Border extends Group {
      */
     @Deprecated
     @Override
-    public void addActorBefore(Actor actorBefore, Actor actor) {
+    public void addActorBefore(final Actor actorBefore, final Actor actor) {
         throw new UnsupportedOperationException("Use Border#setActor.");
     }
 
@@ -154,13 +154,13 @@ public class Border extends Group {
      */
     @Deprecated
     @Override
-    public void addActorAfter(Actor actorAfter, Actor actor) {
+    public void addActorAfter(final Actor actorAfter, final Actor actor) {
         throw new UnsupportedOperationException("Use Border#setActor.");
     }
 
     @Override
-    public boolean removeActor(Actor actor) {
-        if (actor != this.containedActor) {
+    public boolean removeActor(final Actor actor) {
+        if (actor != containedActor) {
             return false;
         }
         setActor(null);
@@ -171,15 +171,15 @@ public class Border extends Group {
         return borderActor.getLineSize();
     }
 
-    public void setLineSize(int lineSize) {
+    public void setLineSize(final int lineSize) {
         borderActor.setLineSize(lineSize);
         if (containedActor != null) {
             containedActor.setSize(getWidth() - lineSize, getHeight() - lineSize);
         }
     }
 
-    public void setLineOutsideActor(boolean lineShouldBeOutsideActor) {
-        this.lineOutsideActor = lineShouldBeOutsideActor;
+    public void setLineOutsideActor(final boolean lineShouldBeOutsideActor) {
+        lineOutsideActor = lineShouldBeOutsideActor;
         if (containedActor != null) {
             if (lineShouldBeOutsideActor) {
                 containedActor.setSize(getWidth() - borderActor.getLineSize(),

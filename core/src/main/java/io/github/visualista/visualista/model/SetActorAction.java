@@ -8,12 +8,12 @@ public class SetActorAction implements IAction {
     private Actor replacementActor;
     private PositionedActor wrappedData;
 
-    public SetActorAction(Point targetTile, Actor replacementActor) {
+    public SetActorAction(final Point targetTile, final Actor replacementActor) {
         this.targetTile = targetTile;
         this.replacementActor = replacementActor;
     }
 
-    public SetActorAction(PositionedActor positionedActor){
+    public SetActorAction(final PositionedActor positionedActor){
         targetTile = positionedActor.getPosition();
         replacementActor = positionedActor.getActor();
     }
@@ -26,11 +26,11 @@ public class SetActorAction implements IAction {
         return replacementActor;
     }
 
-    public void setTargetTile(Point targetTile) {
+    public void setTargetTile(final Point targetTile) {
         this.targetTile = targetTile;
     }
 
-    public void setReplacementActor(Actor replacementActor) {
+    public void setReplacementActor(final Actor replacementActor) {
         this.replacementActor = replacementActor;
     }
 

@@ -4,7 +4,7 @@ public class SetSceneAction implements IAction {
 
     private Scene targetScene;
 
-    public SetSceneAction(Scene targetScene) {
+    public SetSceneAction(final Scene targetScene) {
         this.targetScene = targetScene;
     }
 
@@ -12,7 +12,7 @@ public class SetSceneAction implements IAction {
         return targetScene;
     }
 
-    public void setTargetScene(Scene targetScene) {
+    public void setTargetScene(final Scene targetScene) {
         this.targetScene = targetScene;
     }
 
@@ -20,12 +20,13 @@ public class SetSceneAction implements IAction {
         return "Switch to the " + targetScene.getName() + " Scene";
     }
 
+    @Override
     public String toString(){
         return getExplainatoryName();
     }
     @Override
     public Object getActionData() {
-       return targetScene;
+        return targetScene;
 
     }
 

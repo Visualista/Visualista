@@ -35,7 +35,7 @@ public class Tab extends Stack {
     java.util.List<TabListener> tabListeners = new ArrayList<TabListener>();
     private final TextField labelTextField;
 
-    public Tab(String name, Skin uiSkin) {
+    public Tab(final String name, final Skin uiSkin) {
         label = new Label(name, uiSkin);
         closeImage = new Image(closeDrawable);
         closeImageBorder = new Border();
@@ -46,7 +46,7 @@ public class Tab extends Stack {
         closeImageBorder.setActor(closeImage);
         closeImage.addCaptureListener(new ClickListener() {
             @Override
-            public void clicked(final InputEvent event, final float x, float y) {
+            public void clicked(final InputEvent event, final float x, final float y) {
                 for (TabListener listener : tabListeners) {
                     listener.tabEvent(Tab.this, EventType.CLOSE);
                 }
@@ -57,8 +57,8 @@ public class Tab extends Stack {
         labelTextField.addCaptureListener(new FocusListener(){
 
             @Override
-            public void keyboardFocusChanged(FocusEvent event, Actor actor,
-                    boolean focused) {
+            public void keyboardFocusChanged(final FocusEvent event, final Actor actor,
+                    final boolean focused) {
                 if(!focused){
                     stopEditing();
                 }
@@ -80,7 +80,7 @@ public class Tab extends Stack {
         add(hGroup);
         ClickListener selectListener = new ClickListener() {
             @Override
-            public void clicked(final InputEvent event, final float x, float y) {
+            public void clicked(final InputEvent event, final float x, final float y) {
                 for (TabListener listener : tabListeners) {
                     listener.tabEvent(Tab.this, EventType.SELECT);
                 }
@@ -101,7 +101,7 @@ public class Tab extends Stack {
     }
 
     @Override
-    public void setHeight(float height) {
+    public void setHeight(final float height) {
         if (label != null && closeImageBorder != null) {
             label.setFontScale(height * FONT_SCALE_RATIO);
 
@@ -115,7 +115,7 @@ public class Tab extends Stack {
         return label.getText();
     }
 
-    public void addTabListener(TabListener listener) {
+    public void addTabListener(final TabListener listener) {
         tabListeners.add(listener);
     }
 
@@ -126,7 +126,7 @@ public class Tab extends Stack {
         hGroup.removeActor(label);
     }
 
-    public void useSelectStyle(boolean isTabSelected){
+    public void useSelectStyle(final boolean isTabSelected){
         if(isTabSelected){
             background.setColor(Color.LIGHT_GRAY);
         }else{
@@ -162,12 +162,12 @@ public class Tab extends Stack {
 
     }
 
-    public void setText(String text){
+    public void setText(final String text){
         label.setText(text);
         labelTextField.setText(text);
     }
 
-    public void giveFocusFrom(Stage stage) {
+    public void giveFocusFrom(final Stage stage) {
         stage.setKeyboardFocus(labelTextField);
     }
 }

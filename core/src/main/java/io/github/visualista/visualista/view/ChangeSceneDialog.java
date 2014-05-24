@@ -1,11 +1,11 @@
 package io.github.visualista.visualista.view;
 
-import java.util.ArrayList;
-
-import io.github.visualista.visualista.editorcontroller.ViewEventManager;
 import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
+import io.github.visualista.visualista.editorcontroller.ViewEventManager;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetScene;
+
+import java.util.ArrayList;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -20,14 +20,14 @@ public class ChangeSceneDialog extends Dialog {
     private Label instructions;
     private TextButton okButton;
     private TextButton cancelButton;
-    private ViewEventManager eventManager;
+    private final ViewEventManager eventManager;
     private List<IGetScene> list;
-    private java.util.List<IGetScene> sceneList;
-    private IGetActor actor;
+    private final java.util.List<IGetScene> sceneList;
+    private final IGetActor actor;
 
-    public ChangeSceneDialog(Skin skin, String windowStyleName,
-            IGetActor actor, ArrayList<IGetScene> sceneList,
-            ViewEventManager eventManager) {
+    public ChangeSceneDialog(final Skin skin, final String windowStyleName,
+            final IGetActor actor, final ArrayList<IGetScene> sceneList,
+            final ViewEventManager eventManager) {
         super(TITLE, skin, windowStyleName);
         this.actor = actor;
         this.sceneList = sceneList;
@@ -35,8 +35,8 @@ public class ChangeSceneDialog extends Dialog {
         init(skin);
     }
 
-    public ChangeSceneDialog(Skin skin, IGetActor actor,
-            java.util.List<IGetScene> sceneList, ViewEventManager eventManager) {
+    public ChangeSceneDialog(final Skin skin, final IGetActor actor,
+            final java.util.List<IGetScene> sceneList, final ViewEventManager eventManager) {
         super(TITLE, skin);
         this.actor = actor;
         this.sceneList = sceneList;
@@ -44,7 +44,7 @@ public class ChangeSceneDialog extends Dialog {
         init(skin);
     }
 
-    private void init(Skin skin) {
+    private void init(final Skin skin) {
         instructions = new Label("Select the next scene", skin);
         getContentTable().add(instructions).row();
 
@@ -62,7 +62,7 @@ public class ChangeSceneDialog extends Dialog {
     }
 
     @Override
-    protected void result(Object object) {
+    protected void result(final Object object) {
         if ((Boolean) object) {
             eventManager.fireViewEvent(this, Type.ADD_SET_SCENE_ACTION, actor,
                     list.getSelected());

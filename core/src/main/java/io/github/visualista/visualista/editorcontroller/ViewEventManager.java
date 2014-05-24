@@ -23,18 +23,18 @@ public class ViewEventManager {
         eventListeners.remove(eventListener);
     }
 
-    public final synchronized void fireViewEvent(Object source, Type type) {
+    public final synchronized void fireViewEvent(final Object source, final Type type) {
         fireViewEvent(source, type, null);
     }
 
-    public final synchronized void fireViewEvent(Object source, Type type,
-            Object targetObject) {
+    public final synchronized void fireViewEvent(final Object source, final Type type,
+            final Object targetObject) {
         fireViewEvent(source, type, targetObject, null);
 
     }
 
-    public final synchronized void fireViewEvent(Object source, Type type,
-            Object targetObject, Object newDataObject) {
+    public final synchronized void fireViewEvent(final Object source, final Type type,
+            final Object targetObject, final Object newDataObject) {
         final EditorViewEvent event = new EditorViewEvent(source, type,
                 targetObject,newDataObject);
         final Iterator<ViewEventListener> eventIterator = eventListeners

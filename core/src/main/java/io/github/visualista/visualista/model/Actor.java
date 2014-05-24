@@ -18,10 +18,12 @@ public class Actor implements Nameable, IGetActor{
         image = new Image(null);
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(final String name) {
         if (name == null) {
             this.name = "";
@@ -31,23 +33,25 @@ public class Actor implements Nameable, IGetActor{
         }
     }
 
+    @Override
     public List<IAction> getActions() {
         return actions;
     }
 
-    public void addAction(IAction action) {
+    public void addAction(final IAction action) {
         actions.add(action);
     }
 
-    public void removeAction(IAction action) {
+    public void removeAction(final IAction action) {
         actions.remove(action);
     }
 
+    @Override
     public Image getImage() {
         return image;
     }
 
-    public void setImage(Image image) {
+    public void setImage(final Image image) {
         this.image = image;
     }
 

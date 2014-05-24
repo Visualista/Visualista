@@ -7,17 +7,17 @@ public class GridSizeDialog extends Dialog {
 
     private static final String title = "Input Grid Size";
 
-    public GridSizeDialog(Skin skin) {
+    public GridSizeDialog(final Skin skin) {
         super(title, skin);
         // TODO Auto-generated constructor stub
     }
 
-    public GridSizeDialog(Skin skin, String windowStyleName) {
+    public GridSizeDialog(final Skin skin, final String windowStyleName) {
         super(title, skin, windowStyleName);
         // TODO Auto-generated constructor stub
     }
 
-    public GridSizeDialog(WindowStyle windowStyle) {
+    public GridSizeDialog(final WindowStyle windowStyle) {
         super(title, windowStyle);
         // TODO Auto-generated constructor stub
     }

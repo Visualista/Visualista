@@ -3,9 +3,9 @@ package io.github.visualista.visualista.model;
 import java.util.ArrayList;
 
 public class SceneFactory {
-    private GridFactory gridFactory;
+    private final GridFactory gridFactory;
 
-    public SceneFactory(GridFactory gridFactory) {
+    public SceneFactory(final GridFactory gridFactory) {
         this.gridFactory = gridFactory;
     }
 

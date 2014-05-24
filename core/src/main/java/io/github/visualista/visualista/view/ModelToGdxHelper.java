@@ -1,17 +1,11 @@
 package io.github.visualista.visualista.view;
 
-import java.io.File;
-
-import io.github.visualista.visualista.model.Actor;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.model.IGetTile;
-import io.github.visualista.visualista.model.Tile;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -19,34 +13,34 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 public enum ModelToGdxHelper {
     ;
 
-    public static Image createImageFor(IGetTile tile) {
+    public static Image createImageFor(final IGetTile tile) {
 
         return new Image(createDrawableFor(tile));
     }
 
-    public static Image createImageFor(IGetActor actor) {
+    public static Image createImageFor(final IGetActor actor) {
         return new Image(createDrawableFor(actor));
     }
 
-    public static Image createImageFor(IGetScene scene) {
+    public static Image createImageFor(final IGetScene scene) {
         return new Image(createDrawableFor(scene));
     }
 
-    public static TextureRegionDrawable createDrawableFor(IGetScene scene) {
+    public static TextureRegionDrawable createDrawableFor(final IGetScene scene) {
         if (scene == null) {
             return null;
         }
         return createDrawableFor(scene.getImage());
     }
 
-    public static TextureRegionDrawable createDrawableFor(IGetTile tile) {
+    public static TextureRegionDrawable createDrawableFor(final IGetTile tile) {
         if (tile == null) {
             return null;
         }
         return createDrawableFor(tile.getActor());
     }
 
-    public static TextureRegionDrawable createDrawableFor(IGetActor actor) {
+    public static TextureRegionDrawable createDrawableFor(final IGetActor actor) {
         if (actor == null) {
             return null;
         }
@@ -54,14 +48,14 @@ public enum ModelToGdxHelper {
     }
 
     public static TextureRegionDrawable createDrawableFor(
-            io.github.visualista.visualista.model.Image image) {
+            final io.github.visualista.visualista.model.Image image) {
         if (image == null) {
             return null;
         }
         return createDrawableFor(image.getFileHandle());
     }
 
-    public static TextureRegionDrawable createDrawableFor(FileHandle fileHandle) {
+    public static TextureRegionDrawable createDrawableFor(final FileHandle fileHandle) {
         if (fileHandle == null) {
             return null;
         }

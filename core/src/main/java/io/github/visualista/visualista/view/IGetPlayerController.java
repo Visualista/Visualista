@@ -4,9 +4,9 @@ import io.github.visualista.visualista.model.IGetActor;
 
 public interface IGetPlayerController {
 
-    public void addDataToView();
+    void addDataToView();
 
-    public void tileClicked(IGetActor actor);
+    void tileClicked(IGetActor actor);
 
-    public void openNovelFile();
+    void openNovelFile();
 }

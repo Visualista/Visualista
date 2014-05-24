@@ -4,10 +4,10 @@ import java.util.List;
 
 public interface IGetActor {
 
-    public String getName();
+    String getName();
 
-    public List<IAction> getActions();
+    List<IAction> getActions();
 
-    public Image getImage();
+    Image getImage();
 
 }

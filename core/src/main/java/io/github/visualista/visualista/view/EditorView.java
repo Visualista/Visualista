@@ -84,7 +84,7 @@ FilePickerListener {
 
     protected boolean sceneTextAreaHasFocus;
 
-    public EditorView(Dimension dimension, IFilePicker filePicker) {
+    public EditorView(final Dimension dimension, final IFilePicker filePicker) {
         configDimension = dimension;
 
         this.filePicker = filePicker;
@@ -114,8 +114,8 @@ FilePickerListener {
         stage.addListener(new InputListener() {
 
             @Override
-            public boolean touchDown(InputEvent event, float x, float y,
-                    int pointer, int button) {
+            public boolean touchDown(final InputEvent event, final float x, final float y,
+                    final int pointer, final int button) {
                 EditorView.this.objectHit(stage.hit(x, y, true));
                 return false;
             }
@@ -134,17 +134,17 @@ FilePickerListener {
 
     // Create Editor //
 
-    private void objectHit(Actor hitObject) {
+    private void objectHit(final Actor hitObject) {
         stage.setKeyboardFocus(hitObject);
         stage.setScrollFocus(hitObject);
         // TODO hide objects that want that
     }
 
-    private void addFocusableActorField(Actor actorField) {
+    private void addFocusableActorField(final Actor actorField) {
         focusableActors.add(actorField);
     }
 
-    Border surroundWithInvisibleBorder(Actor actor) {
+    Border surroundWithInvisibleBorder(final Actor actor) {
         Border surroundingBorder = new Border();
         surroundingBorder.setLineSize(0);
         surroundingBorder.setActor(actor);
@@ -166,7 +166,7 @@ FilePickerListener {
         return isReady;
     }
 
-    private float rightSideOf(com.badlogic.gdx.scenes.scene2d.Actor actor) {
+    private float rightSideOf(final com.badlogic.gdx.scenes.scene2d.Actor actor) {
         return actor.getX() + actor.getWidth();
     }
 
@@ -200,17 +200,17 @@ FilePickerListener {
     }
 
     @Override
-    public void addViewEventListener(ViewEventListener eventListener) {
+    public void addViewEventListener(final ViewEventListener eventListener) {
         eventManager.addEventListener(eventListener);
     }
 
     @Override
-    public void removeViewEventListener(ViewEventListener eventListener) {
+    public void removeViewEventListener(final ViewEventListener eventListener) {
         eventManager.removeEventListener(eventListener);
     }
 
     @Override
-    public void addScene(IGetScene newScene) {
+    public void addScene(final IGetScene newScene) {
         upperBorder.addNewScene(newScene);
         rightBorder.addNewScene(newScene);
         centerBorder.addNewScene(newScene);
@@ -218,7 +218,7 @@ FilePickerListener {
     }
 
     @Override
-    public void updateScene(IGetScene scene) {
+    public void updateScene(final IGetScene scene) {
         upperBorder.updateScene(scene);
         centerBorder.updateScene(scene);
         rightBorder.updateScene(scene);
@@ -254,8 +254,8 @@ FilePickerListener {
     }
 
     private static float horizontalDistanceBetween(
-            com.badlogic.gdx.scenes.scene2d.Actor actor1,
-            com.badlogic.gdx.scenes.scene2d.Actor actor2) {
+            final com.badlogic.gdx.scenes.scene2d.Actor actor1,
+            final com.badlogic.gdx.scenes.scene2d.Actor actor2) {
         float distance = actor2.getX() - actor1.getX() - actor1.getWidth();
         if (distance >= 0) {
             return distance;
@@ -269,13 +269,13 @@ FilePickerListener {
     }
 
     @Override
-    public void removeScene(IGetScene scene) {
+    public void removeScene(final IGetScene scene) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void changeActiveScene(IGetScene scene) {
+    public void changeActiveScene(final IGetScene scene) {
         /*
          * updateScene(scene); String name = scene.getName(); if (name == null)
          * { name = ""; } while (name.length() < 5) { name += " "; } Tab tab =
@@ -305,18 +305,18 @@ FilePickerListener {
     }
 
     @Override
-    public void changeActiveNovel(IGetNovel updatedNovel) {
+    public void changeActiveNovel(final IGetNovel updatedNovel) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void fileOpened(File selectedFile) {
+    public void fileOpened(final File selectedFile) {
         eventManager.fireViewEvent(this, Type.FILE_OPEN, null, selectedFile);
     }
 
     @Override
-    public void fileSaved(File selectedFile) {
+    public void fileSaved(final File selectedFile) {
         eventManager.fireViewEvent(this, Type.FILE_SAVE, null, selectedFile);
 
     }
@@ -343,31 +343,31 @@ FilePickerListener {
     }
 
     @Override
-    public void selectActor(IGetActor actor) {
+    public void selectActor(final IGetActor actor) {
         rightBorder.selectActor(actor);
         centerBorder.selectActor(actor);
     }
 
     @Override
-    public void updateActor(IGetActor updatedActor) {
+    public void updateActor(final IGetActor updatedActor) {
         rightBorder.updateActor(updatedActor);
     }
 
     @Override
-    public void updateTile(Object updatedObject, IGetTile updatedTile) {
+    public void updateTile(final Object updatedObject, final IGetTile updatedTile) {
         ((Image) updatedObject).setDrawable(ModelToGdxHelper
                 .createDrawableFor(updatedTile));
 
     }
 
     @Override
-    public void addNewActor(IGetActor actor) {
+    public void addNewActor(final IGetActor actor) {
         leftBorder.addNewActor(actor);
         rightBorder.addNewActor(actor);
     }
 
     @Override
-    public void updateActionList(IGetActor updatedActor) {
+    public void updateActionList(final IGetActor updatedActor) {
         rightBorder.updateActionList(updatedActor);
 
     }

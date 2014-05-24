@@ -10,7 +10,7 @@ import com.badlogic.gdx.files.FileHandle;
 public enum FileImporter {
     ;
 
-    public static FileHandle importAndGetFile(File file) {
+    public static FileHandle importAndGetFile(final File file) {
         if (file == null || file.isDirectory()) {
             return null;
         }
@@ -33,7 +33,7 @@ public enum FileImporter {
         return newPosition;
     }
 
-    private static String generateRandomFileName(String fileExtension) {
+    private static String generateRandomFileName(final String fileExtension) {
         String timeStamp = generateTimeStamp();
         return timeStamp + "_" + new Random().nextInt(999) + "."
         + fileExtension;

@@ -1,8 +1,9 @@
 package io.github.visualista.visualista.model;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-import io.github.visualista.visualista.model.Actor;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 import io.github.visualista.visualista.util.Dimension;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class NovelTest {
 
     @Test
     public void testSceneById() {
-        Scene secondScene = new Scene(new Grid(new Dimension(GRID_WIDTH,
+        secondScene = new Scene(new Grid(new Dimension(GRID_WIDTH,
                 GRID_HEIGHT)), new ArrayList<Actor>());
         novel.addScene(secondScene);
         assertEquals(firstScene, novel.getScenes().get(0));

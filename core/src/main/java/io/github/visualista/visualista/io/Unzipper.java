@@ -14,7 +14,7 @@ public enum Unzipper {
 
     private static final int BUFFER_SIZE = 1024;
 
-    public static void unzip(File zipFile, File outputFolder)
+    public static void unzip(final File zipFile, final File outputFolder)
             throws IOException {
         if (!outputFolder.exists()) {
             if (!outputFolder.mkdir()) {
@@ -33,8 +33,8 @@ public enum Unzipper {
         zipIn.close();
     }
 
-    private static void extractFolder(File outputFolder, ZipInputStream zipIn,
-            String folderPath) throws IOException {
+    private static void extractFolder(final File outputFolder, final ZipInputStream zipIn,
+            final String folderPath) throws IOException {
         ZipEntry entry = zipIn.getNextEntry();
         while (entry != null) {
             File filePath = new File(outputFolder + File.separator
@@ -50,7 +50,7 @@ public enum Unzipper {
         }
     }
 
-    private static void extractFile(ZipInputStream zipIn, File filePath)
+    private static void extractFile(final ZipInputStream zipIn, final File filePath)
             throws IOException {
         BufferedOutputStream bos = new BufferedOutputStream(
                 new FileOutputStream(filePath));
@@ -62,7 +62,7 @@ public enum Unzipper {
         bos.close();
     }
 
-    static void delete(File f) throws IOException {
+    static void delete(final File f) throws IOException {
         if (f.isDirectory()) {
             for (File c : f.listFiles()) {
                 delete(c);

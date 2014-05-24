@@ -4,7 +4,7 @@ public class Dimension {
     private final int width;
     private final int height;
 
-    public Dimension(int width, int height) {
+    public Dimension(final int width, final int height) {
         this.width = width;
         this.height = height;
     }
@@ -32,7 +32,7 @@ public class Dimension {
     }
 
     @Override
-    public final boolean equals(Object obj) {
+    public final boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

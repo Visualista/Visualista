@@ -1,18 +1,19 @@
 package io.github.visualista.visualista.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class NovelFactory {
 
     private static final int MAX_RANDOM_NUMBER = 1000;
-    private IdGenerator idGenerator;
-    private SceneFactory sceneFactory;
-    private Random random;
+    private final IdGenerator idGenerator;
+    private final SceneFactory sceneFactory;
+    private final Random random;
 
-    public NovelFactory(SceneFactory sceneFactory) {
-        this.idGenerator = new IdGenerator();
+    public NovelFactory(final SceneFactory sceneFactory) {
+        idGenerator = new IdGenerator();
         this.sceneFactory = sceneFactory;
-        this.random = new Random();
+        random = new Random();
     }
 
     public Novel createNovel() {

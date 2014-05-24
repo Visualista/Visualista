@@ -4,12 +4,12 @@ public class SetSceneTextAction implements IAction {
 
     private String sceneText;
 
-    public SetSceneTextAction(String sceneText) {
+    public SetSceneTextAction(final String sceneText) {
         super();
         this.sceneText = sceneText;
     }
 
-    public void setSceneText(String sceneText) {
+    public void setSceneText(final String sceneText) {
         this.sceneText = sceneText;
     }
 
@@ -24,6 +24,7 @@ public class SetSceneTextAction implements IAction {
         return "Change Scene text to \"" + sceneText + "\"";
     }
 
+    @Override
     public String toString(){
         return getExplainatoryName();
     }

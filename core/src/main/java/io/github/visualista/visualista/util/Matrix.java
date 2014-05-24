@@ -6,7 +6,7 @@ public class Matrix<E> implements IMatrixSet<E> {
     private final Row<E>[] matrix;
 
     @SuppressWarnings("unchecked")
-    public Matrix(Dimension size) {
+    public Matrix(final Dimension size) {
         if (size.getHeight() < 1) {
             throw new IllegalArgumentException(
                     "Matrix height <1 is not allowed. Sent in was: "
@@ -17,7 +17,7 @@ public class Matrix<E> implements IMatrixSet<E> {
                     "Matrix width <1 is not allowed. Sent in was: "
                             + size.getWidth());
         }
-        matrix = (Row<E>[]) new Row[size.getHeight()];
+        matrix = new Row[size.getHeight()];
         for (int i = 0; i < matrix.length; ++i) {
             matrix[i] = new Row<E>(size.getWidth());
         }
@@ -29,7 +29,7 @@ public class Matrix<E> implements IMatrixSet<E> {
     }
 
     @Override
-    public void fillWith(IObjectCreator<E> creator) {
+    public void fillWith(final IObjectCreator<E> creator) {
         for (int i = 0; i < matrix.length; ++i) {
             for (int j = 0; j < matrix[i].getLength(); ++j) {
                 matrix[i].setAt(j, creator.createObject());
@@ -39,12 +39,12 @@ public class Matrix<E> implements IMatrixSet<E> {
     }
 
     @Override
-    public E getAt(Point from) {
+    public E getAt(final Point from) {
         return matrix[from.getY()].getAt(from.getX());
     }
 
     @Override
-    public void setAt(Point where, E object) {
+    public void setAt(final Point where, final E object) {
         matrix[where.getY()].setAt(where.getX(), object);
     }
 
@@ -57,7 +57,7 @@ public class Matrix<E> implements IMatrixSet<E> {
     }
 
     @Override
-    public final boolean equals(Object obj) {
+    public final boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

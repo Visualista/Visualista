@@ -25,7 +25,7 @@ public enum FolderZipper {
     }
 
     static void addFileOrFolderToZip(final File dirObj,
-            final ZipOutputStream out, String folderPath) throws IOException {
+            final ZipOutputStream out, final String folderPath) throws IOException {
         File[] files = dirObj.listFiles();
         byte[] tmpBuf = new byte[BUFFER_SIZE];
 
