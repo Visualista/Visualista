@@ -1,6 +1,7 @@
 package io.github.visualista.visualista.view;
 
 import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
+import io.github.visualista.visualista.editorcontroller.ViewEventManager;
 import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.util.BiDiMap;
 
@@ -11,10 +12,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.SnapshotArray;
@@ -25,6 +26,8 @@ class UpperBorder extends Border implements Updateable, TabListener {
     private static final float HIDDEN_SCENE_X_DISPLACEMENT_RATIO = 0.7f;
 
     private static final float HIDDEN_SCENE_Y_DISPLACEMENT_RATIO = 0.7f;
+
+    private static final float HIDDEN_SCENE_WIDTH_RATIO = 0.3f;
 
     private static final float HIDDEN_SCENE_HEIGHT_RATIO = 0.2f;
 
@@ -40,8 +43,6 @@ class UpperBorder extends Border implements Updateable, TabListener {
 
     private static final float UPPER_BORDER_HEIGHT_RATIO = 0.05f;
 
-    private final EditorView upperBorder;
-
     private List<Tab> hiddenSceneList;
 
     private final BiDiMap<Tab, IGetScene> tabs;
@@ -52,12 +53,19 @@ class UpperBorder extends Border implements Updateable, TabListener {
 
     private Tab editingTab;
 
-    public UpperBorder(final EditorView editorView, final Stage stage) {
-        upperBorder = editorView;
+    private final Skin uiSkin;
+
+    private IGetScene activeScene;
+
+    private final ViewEventManager eventManager;
+
+    private ScrollPane newScrollPane;
+
+    public UpperBorder(final Skin skin, final ViewEventManager eventManager) {
+        uiSkin = skin;
         tabs = new BiDiMap<Tab, IGetScene>();
         setActor(createUpperBorderContent());
-        resizeUpperBorder();
-        stage.addActor(this);
+        this.eventManager = eventManager;
     }
 
     public void changeActiveScene(final IGetScene scene) {
@@ -84,9 +92,9 @@ class UpperBorder extends Border implements Updateable, TabListener {
 
     public void addNewScene(final IGetScene scene) {
         String name = getPaddedSceneName(scene);
-        Tab tab = new Tab(name, upperBorder.uiSkin);
+        Tab tab = new Tab(name, uiSkin);
         tab.addTabListener(this);
-        tab.setHeight(upperBorder.upperBorder.getHeight());
+        tab.setHeight(getHeight());
         sceneButtonGroup.addActorBefore(tabUtilityButtons, tab);
         tabs.put(tab, scene);
 
@@ -125,18 +133,17 @@ class UpperBorder extends Border implements Updateable, TabListener {
             final Tab source,
             final io.github.visualista.visualista.view.TabListener.EventType type) {
         if (type == EventType.SELECT) {
-            if (upperBorder.activeScene == tabs.getValue(source)) {
+            if (activeScene == tabs.getValue(source)) {
                 source.makeNameEditable();
-                source.giveFocusFrom(upperBorder.stage);
+                source.giveFocusFrom(getStage());
                 editingTab = source;
             } else {
-                upperBorder.eventManager.fireViewEvent(this, Type.SELECT_SCENE,
+                eventManager.fireViewEvent(this, Type.SELECT_SCENE,
                         tabs.getValue(source));
             }
         } else if (type == EventType.NAME_CHANGE) {
-            upperBorder.eventManager.fireViewEvent(this,
-                    Type.CHANGE_SCENE_NAME, tabs.getValue(source),
-                    source.newName());
+            eventManager.fireViewEvent(this, Type.CHANGE_SCENE_NAME,
+                    tabs.getValue(source), source.newName());
         }
 
     }
@@ -158,27 +165,24 @@ class UpperBorder extends Border implements Updateable, TabListener {
 
         upperBorderContentWrapper.addActor(sceneButtonGroup);
 
-        // Makes sure the border lines does not collide!
-        sceneButtonGroup.setX(getLineSize());
-
         upperBorderContentWrapper.addActor(hiddenSceneDropDown);
         return upperBorderContentWrapper;
     }
 
     private TextButton createNewSceneButton() {
-        TextButton newButton = new TextButton("+", upperBorder.uiSkin);
+        TextButton newButton = new TextButton("+", uiSkin);
         newButton.addCaptureListener(new ClickListener() {
             @Override
             public void clicked(final InputEvent event, final float x,
                     final float y) {
-                upperBorder.eventManager.fireViewEvent(this, Type.NEW_SCENE);
+                eventManager.fireViewEvent(this, Type.NEW_SCENE);
             }
         });
         return newButton;
     }
 
     private TextButton createSceneOverflowButton(final ScrollPane dropDownScenes) {
-        TextButton newButton = new TextButton(">", upperBorder.uiSkin);
+        TextButton newButton = new TextButton(">", uiSkin);
         newButton.setVisible(false);
         newButton.addCaptureListener(new ClickListener() {
             @Override
@@ -202,15 +206,9 @@ class UpperBorder extends Border implements Updateable, TabListener {
     }
 
     private ScrollPane createHiddenSceneDropDown(final List<Tab> hiddenScenes) {
-        ScrollPane newScrollPane = new ScrollPane(hiddenScenes,
-                upperBorder.uiSkin);
-        newScrollPane = new ScrollPane(hiddenScenes, upperBorder.uiSkin);
+        newScrollPane = new ScrollPane(hiddenScenes, uiSkin);
+        newScrollPane = new ScrollPane(hiddenScenes, uiSkin);
         newScrollPane.setFadeScrollBars(false);
-        newScrollPane.setWidth(100);// actionList.getWidth());
-        newScrollPane.setPosition(upperBorder.stage.getWidth()
-                * UpperBorder.HIDDEN_SCENE_X_DISPLACEMENT_RATIO,
-                upperBorder.stage.getHeight()
-                * UpperBorder.HIDDEN_SCENE_Y_DISPLACEMENT_RATIO);
 
         newScrollPane.addCaptureListener(new ClickListener() {
             @Override
@@ -258,23 +256,34 @@ class UpperBorder extends Border implements Updateable, TabListener {
     }
 
     private List<Tab> createHiddenSceneList() {
-        List<Tab> newList = new List<Tab>(upperBorder.uiSkin);
+        List<Tab> newList = new List<Tab>(uiSkin);
         newList.setWidth(150);
         newList.setColor(Color.BLACK);
         return newList;
     }
 
-    private void resizeUpperBorder() {
-        setSize(UpperBorder.UPPER_BORDER_WIDTH_RATIO
-                * upperBorder.stage.getWidth(),
-                UpperBorder.UPPER_BORDER_HEIGHT_RATIO
-                * upperBorder.stage.getHeight());
-        setPosition(UpperBorder.UPPER_BORDER_X_DISPLACEMENT_RATIO
-                * upperBorder.stage.getWidth(),
-                UpperBorder.UPPER_BORDER_Y_DISPLACEMENT_RATIO
-                * upperBorder.stage.getHeight());
-        setLineSize(UpperBorder.UPPER_BORDER_LINE_SIZE);
-        setColor(UpperBorder.UPPER_BORDER_COLOR);
+    public void resize() {
+        if (getStage() != null) {
+            setSize(UpperBorder.UPPER_BORDER_WIDTH_RATIO
+                    * getStage().getWidth(),
+                    UpperBorder.UPPER_BORDER_HEIGHT_RATIO
+                    * getStage().getHeight());
+            setPosition(UpperBorder.UPPER_BORDER_X_DISPLACEMENT_RATIO
+                    * getStage().getWidth(),
+                    UpperBorder.UPPER_BORDER_Y_DISPLACEMENT_RATIO
+                    * getStage().getHeight());
+            setLineSize(UpperBorder.UPPER_BORDER_LINE_SIZE);
+            setColor(UpperBorder.UPPER_BORDER_COLOR);
+            // Makes sure the border lines does not collide!
+            sceneButtonGroup.setX(getLineSize());
+            newScrollPane.setSize(getStage().getWidth()
+                    * HIDDEN_SCENE_WIDTH_RATIO, getStage().getHeight()
+                    * HIDDEN_SCENE_HEIGHT_RATIO);
+            newScrollPane.setPosition(getStage().getWidth()
+                    * UpperBorder.HIDDEN_SCENE_X_DISPLACEMENT_RATIO, getStage()
+                    .getHeight()
+                    * UpperBorder.HIDDEN_SCENE_Y_DISPLACEMENT_RATIO);
+        }
     }
 
     @Override
