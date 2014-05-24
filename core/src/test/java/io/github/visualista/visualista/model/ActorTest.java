@@ -1,5 +1,6 @@
 package io.github.visualista.visualista.model;
 
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
@@ -38,11 +39,14 @@ public class ActorTest {
     }
 
     @Test
-    public void testGetAndSetName() {
+    public void testGetAndSetNameAndToString() {
         Actor actor = new Actor();
         String testString = "Something, something, dark side";
+        actor.setName(null);
+        assertThat("",equalTo(actor.getName()));
         actor.setName(testString);
         assertEquals(testString, actor.getName());
+        assertEquals(testString, actor.toString());
     }
 
 }

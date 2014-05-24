@@ -12,7 +12,7 @@ public class Actor implements Nameable, IGetActor{
     private Image image;
     private final List<IAction> actions;
     private String name = "";
-    
+
     public Actor() {
         actions = new ArrayList<IAction>();
         image = new Image(null);
@@ -25,6 +25,7 @@ public class Actor implements Nameable, IGetActor{
     public void setName(final String name) {
         if (name == null) {
             this.name = "";
+            return;
         } else {
             this.name = name;
         }
