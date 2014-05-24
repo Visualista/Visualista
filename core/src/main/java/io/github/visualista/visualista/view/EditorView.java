@@ -80,7 +80,7 @@ public class EditorView implements ApplicationListener, IEditorView,
 
     protected EditorTool selectedTool;
 
-    final ArrayList<Border> toolButtonBorders;
+    final java.util.List<Border> toolButtonBorders;
 
     LeftBorder leftBorder;
 

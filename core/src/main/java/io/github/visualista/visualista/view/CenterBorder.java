@@ -26,7 +26,7 @@ class CenterBorder extends Border implements Updateable {
      */
     private final EditorView centralBorder;
     private IGetActor selectedActor;
-    private ArrayList<Border> borders = new ArrayList<Border>();
+    private java.util.List<Border> borders = new ArrayList<Border>();
     private Dimension gridDimensions;
     private Image sceneBackgroundImage;
     private static final int CENTER_BORDER_LINE_SIZE = 1;

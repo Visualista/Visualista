@@ -226,11 +226,11 @@ class UpperBorder extends Border implements Updateable, TabListener {
         return newScrollPane;
     }
 
-    private ArrayList<Tab> fixOverFlowingScenes(
+    private java.util.List<Tab> fixOverFlowingScenes(
             HorizontalGroup sceneButtonGroup,
             List<Tab> currentlyHiddenScenes) {
-        ArrayList<Tab> newTablist = new ArrayList<Tab>();
-        ArrayList<Tab> removedActors = new ArrayList<Tab>();
+        java.util.List<Tab> newTablist = new ArrayList<Tab>();
+        java.util.List<Tab> removedActors = new ArrayList<Tab>();
         for (Actor tab : currentlyHiddenScenes.getItems()) {
             sceneButtonGroup.addActor(tab);
         }

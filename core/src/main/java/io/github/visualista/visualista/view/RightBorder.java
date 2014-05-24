@@ -42,7 +42,7 @@ class RightBorder extends Border implements Updateable {
     private TextButton modifyButton;
     private TextButton addActionButton;
     private IGetActor selectedActor;
-    private ArrayList<IGetScene> sceneList = new ArrayList<IGetScene>();
+    private java.util.List<IGetScene> sceneList = new ArrayList<IGetScene>();
     private java.util.List<IGetActor> actorsInScene;
     protected Dimension gridSize;
     private static final int RIGHT_BORDER_LINE_SIZE = 1;

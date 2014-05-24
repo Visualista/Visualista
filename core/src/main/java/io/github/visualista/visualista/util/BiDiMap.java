@@ -1,13 +1,14 @@
 package io.github.visualista.visualista.util;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class BiDiMap<K, V> {
 
-    private HashMap<K, V> keyToValue;
+    private Map<K, V> keyToValue;
 
-    private HashMap<V, K> valueToKey;
+    private Map<V, K> valueToKey;
 
     public BiDiMap() {
 

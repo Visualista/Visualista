@@ -22,7 +22,7 @@ public class ChangeSceneDialog extends Dialog {
     private TextButton cancelButton;
     private ViewEventManager eventManager;
     private List<IGetScene> list;
-    private ArrayList<IGetScene> sceneList;
+    private java.util.List<IGetScene> sceneList;
     private IGetActor actor;
 
     public ChangeSceneDialog(Skin skin, String windowStyleName,
@@ -36,7 +36,7 @@ public class ChangeSceneDialog extends Dialog {
     }
 
     public ChangeSceneDialog(Skin skin, IGetActor actor,
-            ArrayList<IGetScene> sceneList, ViewEventManager eventManager) {
+            java.util.List<IGetScene> sceneList, ViewEventManager eventManager) {
         super(TITLE, skin);
         this.actor = actor;
         this.sceneList = sceneList;

@@ -402,7 +402,7 @@ public class PlayerView implements ApplicationListener, IPlayerView {
     @Override
     public void updateScene(IGetScene sceneToDisplay) {
         // Declaring local variables //
-        ArrayList<IGetActor> actorsInScene = new ArrayList<IGetActor>();
+        java.util.List<IGetActor> actorsInScene = new ArrayList<IGetActor>();
         actorsInScene.addAll(sceneToDisplay.getActorsInScene());
         String storyText = sceneToDisplay.getStoryText();
         String titleText = sceneToDisplay.getName();
