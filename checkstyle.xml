@@ -15,7 +15,10 @@
     <module name="LocalVariableName"/>
     <module name="MethodName"/>
     <module name="StaticVariableName"/>
-    <module name="AvoidStarImport"/>
+    <module name="AvoidStarImport">
+      <property name="excludes" value="org.junit.Assert.*,org.hamcrest.CoreMatchers.*"/>
+      <property name="allowStaticMemberImports" value="true"/>
+    </module>
     <module name="IllegalImport"/>
     <module name="RedundantImport"/>
     <module name="UnusedImports"/>
@@ -97,7 +100,9 @@
     <module name="ParameterName"/>
     <module name="StaticVariableName"/>
     <module name="TypeName"/>
-    <module name="AvoidStaticImport"/>
+    <module name="AvoidStaticImport">
+      <property name="excludes" value="org.junit.Assert.*,org.hamcrest.CoreMatchers.*"/>
+    </module>
     <module name="ImportOrder"/>
     <module name="AnonInnerLength"/>
     <module name="ExecutableStatementCount">
