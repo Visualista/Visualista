@@ -31,10 +31,10 @@ class CenterBorder extends Border implements Updateable {
     private Image sceneBackgroundImage;
     private static final int CENTER_BORDER_LINE_SIZE = 1;
     private static final Color CENTER_BORDER_COLOR = Color.BLACK;
-    private static final float CENTER_BORDER_Y_DISPLACEMENT_RATIO = 2f / 10;
-    private static final float CENTER_BORDER_X_DISPLACEMENT_RATIO = 2.5f / 10;
+    private static final float CENTER_BORDER_Y_DISPLACEMENT_RATIO = 0.2f;
+    private static final float CENTER_BORDER_X_DISPLACEMENT_RATIO = 0.25f;
     private static final float CENTER_BORDER_HEIGHT_RATIO = 0.75f;
-    private static final float CENTER_BORDER_WIDTH_RATIO = 5f / 10;
+    private static final float CENTER_BORDER_WIDTH_RATIO = 0.5f;
 
     // End static variables //
     public CenterBorder(EditorView editorView) {

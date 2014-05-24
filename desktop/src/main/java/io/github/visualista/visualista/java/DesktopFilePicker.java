@@ -15,6 +15,7 @@ import io.github.visualista.visualista.core.IFilePicker;
 import io.github.visualista.visualista.core.FilePickerListener;
 
 public class DesktopFilePicker implements IFilePicker {
+    private static final int SLEEP_TIME = 10;
     private boolean fileIsChoosen = false;
     private synchronized void showChooser(final FilePickerListener listener, final boolean fileOpen,
             FileFilter fileFilter) {
@@ -34,7 +35,7 @@ public class DesktopFilePicker implements IFilePicker {
         }
         while(!fileIsChoosen){
             try {
-                Thread.sleep(10);
+                Thread.sleep(SLEEP_TIME);
             } catch (InterruptedException e1) {
             }
         }

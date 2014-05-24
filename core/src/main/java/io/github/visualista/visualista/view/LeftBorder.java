@@ -30,6 +30,7 @@ import com.badlogic.gdx.utils.Array;
 
 class LeftBorder extends Border implements Updateable {
 
+    private static final float SCROLL_BORDER_HEIGHT_RATIO = 0.7f;
     /**
      * 
      */
@@ -46,7 +47,7 @@ class LeftBorder extends Border implements Updateable {
     static final float LEFT_BORDER_Y_DISPLACEMENT_RATIO = 0;
     static final float LEFT_BORDER_X_DISPLACEMENT_RATIO = 0;
     static final float LEFT_BORDER_HEIGHT_RATIO = 1f;
-    static final float LEFT_BORDER_WIDTH_RATIO = 2.5f / 10;
+    static final float LEFT_BORDER_WIDTH_RATIO = 0.25f;
 
     public LeftBorder(EditorView editorView) {
         leftView = editorView;
@@ -117,7 +118,7 @@ class LeftBorder extends Border implements Updateable {
 
     private void createScrollBorder(final ScrollPane scroll) {
         Border scrollBorder = new Border();
-        scrollBorder.setSize(actorList.getWidth(), getHeight() * 0.7f);
+        scrollBorder.setSize(actorList.getWidth(), getHeight() * SCROLL_BORDER_HEIGHT_RATIO);
         scrollBorder.setActor(scroll);
         leftVerticalGroup.addActor(scrollBorder);
     }

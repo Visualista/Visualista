@@ -42,30 +42,30 @@ public class PlayerView implements ApplicationListener, IPlayerView {
     private static final float TITLE_FONT_SCALE = 2.0f;
     private static final float STORY_FONT_SCALE = 1.0f;
 
-    private static final float UPPER_BORDER_HEIGHT_RATIO = 1.5f / 10;
-    private static final float UPPER_BORDER_WIDTH_RATIO = 2f / 10;
-    private static final float UPPER_BORDER_X_DISPLACEMENT_RATIO = 4f / 10;
-    private static final float UPPER_BORDER_Y_DISPLACEMENT_RATIO = 8.5f / 10;
+    private static final float UPPER_BORDER_HEIGHT_RATIO = 0.15f;
+    private static final float UPPER_BORDER_WIDTH_RATIO = 0.2f;
+    private static final float UPPER_BORDER_X_DISPLACEMENT_RATIO = 0.4f;
+    private static final float UPPER_BORDER_Y_DISPLACEMENT_RATIO = 0.85f;
 
-    private static final float LOWER_BORDER_HEIGHT_RATIO = 2f / 10;
-    private static final float LOWER_BORDER_WIDTH_RATIO = 5f / 10;
-    private static final float LOWER_BORDER_X_DISPLACEMENT_RATIO = 2.5f / 10;
+    private static final float LOWER_BORDER_HEIGHT_RATIO = 0.2f;
+    private static final float LOWER_BORDER_WIDTH_RATIO = 0.5f;
+    private static final float LOWER_BORDER_X_DISPLACEMENT_RATIO = 0.25f;
     private static final float LOWER_BORDER_Y_DISPLACEMENT_RATIO = 0;
 
-    private static final float LEFT_BORDER_WIDTH_RATIO = 1.5f / 10;
+    private static final float LEFT_BORDER_WIDTH_RATIO = 0.15f;
     private static final float LEFT_BORDER_HEIGHT_RATIO = 1f;
     private static final float LEFT_BORDER_X_DISPLACEMENT_RATIO = 0;
     private static final float LEFT_BORDER_Y_DISPLACEMENT_RATIO = 0;
 
-    private static final float RIGHT_BORDER_WIDTH_RATIO = 1.5f / 10;
+    private static final float RIGHT_BORDER_WIDTH_RATIO = 0.15f;
     private static final float RIGHT_BORDER_HEIGHT_RATIO = 1f;
-    private static final float RIGHT_BORDER_X_DISPLACEMENT_RATIO = 7.5f / 10;
+    private static final float RIGHT_BORDER_X_DISPLACEMENT_RATIO = 0.75f;
     private static final float RIGHT_BORDER_Y_DISPLACEMENT_RATIO = 0;
 
-    private static final float CENTER_BORDER_WIDTH_RATIO = 5f / 10;
-    private static final float CENTER_BORDER_HEIGHT_RATIO = 6.5f / 10;
-    private static final float CENTER_BORDER_X_DISPLACEMENT_RATIO = 2.5f / 10;
-    private static final float CENTER_BORDER_Y_DISPLACEMENT_RATIO = 2f / 10;
+    private static final float CENTER_BORDER_WIDTH_RATIO = 0.5f;
+    private static final float CENTER_BORDER_HEIGHT_RATIO = 0.65f;
+    private static final float CENTER_BORDER_X_DISPLACEMENT_RATIO = 0.25f;
+    private static final float CENTER_BORDER_Y_DISPLACEMENT_RATIO = 0.2f;
 
     private static final Color RIGHT_BORDER_COLOR = Color.BLACK;
     private static final Color LEFT_BORDER_COLOR = Color.BLACK;

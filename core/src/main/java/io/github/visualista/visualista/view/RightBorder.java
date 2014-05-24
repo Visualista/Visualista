@@ -32,6 +32,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.FocusListener.FocusEvent;
 
 class RightBorder extends Border implements Updateable {
+    private static final float SCROLL_BORDER_HEIGHT_RATIO = 0.7f;
     /**
      * 
      */
@@ -47,9 +48,9 @@ class RightBorder extends Border implements Updateable {
     private static final int RIGHT_BORDER_LINE_SIZE = 1;
     private static final Color RIGHT_BORDER_COLOR = Color.BLACK;
     private static final float RIGHT_BORDER_Y_DISPLACEMENT_RATIO = 0;
-    private static final float RIGHT_BORDER_X_DISPLACEMENT_RATIO = 7.5f / 10;
+    private static final float RIGHT_BORDER_X_DISPLACEMENT_RATIO = 0.75f;
     private static final float RIGHT_BORDER_HEIGHT_RATIO = 1f;
-    private static final float RIGHT_BORDER_WIDTH_RATIO = 2.5f / 10;
+    private static final float RIGHT_BORDER_WIDTH_RATIO = 0.25f;
 
     public RightBorder(EditorView editorView) {
         rightBorder = editorView;
@@ -184,7 +185,7 @@ class RightBorder extends Border implements Updateable {
         Border scrollBorder = new Border();
         scrollBorder.setLineOutsideActor(true);
         scrollBorder.setLineSize(1);
-        scrollBorder.setSize(rightBorder.actionList.getWidth(), getHeight() * 0.7f);
+        scrollBorder.setSize(rightBorder.actionList.getWidth(), getHeight() * SCROLL_BORDER_HEIGHT_RATIO);
         scrollBorder.setActor(scroll);
         rightBorder.rightVerticalGroup.addActor(scrollBorder);
 

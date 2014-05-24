@@ -4,6 +4,7 @@ import java.util.*;
 
 public class NovelFactory {
 
+    private static final int MAX_RANDOM_NUMBER = 1000;
     private IdGenerator idGenerator;
     private SceneFactory sceneFactory;
     private Random random;
@@ -18,7 +19,7 @@ public class NovelFactory {
         Scene scene = sceneFactory.createScene();
         Novel novel = new Novel(new ArrayList<Scene>());
         novel.addScene(scene);
-        novel.setName(""+random.nextInt(1000));
+        novel.setName(""+random.nextInt(MAX_RANDOM_NUMBER));
         return novel;
     }
 }

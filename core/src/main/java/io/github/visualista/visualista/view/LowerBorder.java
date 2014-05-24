@@ -21,9 +21,9 @@ class LowerBorder extends Border implements Updateable {
     private static final int LOWER_BORDER_LINE_SIZE = 1;
     private static final Color LOWER_BORDER_COLOR = Color.BLACK;
     private static final float LOWER_BORDER_Y_DISPLACEMENT_RATIO = 0;
-    private static final float LOWER_BORDER_X_DISPLACEMENT_RATIO = 2.5f / 10;
-    private static final float LOWER_BORDER_WIDTH_RATIO = 5f / 10;
-    private static final float LOWER_BORDER_HEIGHT_RATIO = 2f / 10;
+    private static final float LOWER_BORDER_X_DISPLACEMENT_RATIO = 0.25f;
+    private static final float LOWER_BORDER_WIDTH_RATIO = 0.5f;
+    private static final float LOWER_BORDER_HEIGHT_RATIO = 0.2f;
 
     public LowerBorder(EditorView editorView, Stage stage, ViewEventManager eventManeger) {
         lowerBorder = editorView;
