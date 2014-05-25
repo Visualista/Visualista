@@ -14,9 +14,9 @@ import org.junit.Test;
 public class NovelTest {
     private static final int GRID_HEIGHT = 3;
     private static final int GRID_WIDTH = 4;
-    Novel novel;
-    Scene firstScene;
-    Scene secondScene;
+    private Scene firstScene;
+    private Novel novel;
+    private Scene secondScene;
 
     @Before
     public void setUp() throws Exception {
@@ -34,8 +34,10 @@ public class NovelTest {
     }
 
     @Test
-    public void testSceneCount() {
-        assertEquals(novel.getSceneCount(), 1);
+    public void testGetAndSetName() {
+        String testString = "Something, something, evil";
+        novel.setName(testString);
+        assertEquals(testString, novel.getName());
     }
 
     @Test
@@ -49,10 +51,8 @@ public class NovelTest {
     }
 
     @Test
-    public void testGetAndSetName() {
-        String testString = "Something, something, evil";
-        novel.setName(testString);
-        assertEquals(testString, novel.getName());
+    public void testSceneCount() {
+        assertEquals(novel.getSceneCount(), 1);
     }
 
     @Test
