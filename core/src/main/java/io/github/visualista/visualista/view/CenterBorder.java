@@ -1,6 +1,7 @@
 package io.github.visualista.visualista.view;
 
 import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
+import io.github.visualista.visualista.editorcontroller.ViewEventManager;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetGrid;
 import io.github.visualista.visualista.model.IGetScene;
@@ -31,14 +32,16 @@ class CenterBorder extends Border implements Updateable {
     private VerticalGroup centerVerticalGroup;
     private Border centerVerticalGroupBorder;
     private final EditorView editorView;
+    private final ViewEventManager eventManager;
     private Dimension gridDimensions;
     private Image sceneBackgroundImage;
     private IGetActor selectedActor;
 
 
     // End static variables //
-    public CenterBorder(final EditorView editorView) {
+    public CenterBorder(final EditorView editorView, final ViewEventManager eventManager) {
         this.editorView = editorView;
+        this.eventManager = eventManager;
         resizeCenterBorder();
         createCenterEditorBorderContent();
         resizeCenterBorder();
@@ -97,14 +100,14 @@ class CenterBorder extends Border implements Updateable {
                         if (selectedActor != null) {
                             if (editorView.selectedTool == EditorTool.ARROW) {
 
-                                editorView.eventManager
+                                eventManager
                                 .fireViewEvent(imageForCurrentTile,
                                         Type.TILE_SET_ACTOR,
                                         tileAtCurrentPosition,
                                         selectedActor);
 
                             } else if (editorView.selectedTool == EditorTool.CURSOR) {
-                                editorView.eventManager
+                                eventManager
                                 .fireViewEvent(this, Type.SELECT_TILE,
                                         tileAtCurrentPosition);
                             }

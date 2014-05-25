@@ -1,7 +1,9 @@
 package io.github.visualista.visualista.view;
 
 import io.github.visualista.visualista.core.FilePickerListener;
+import io.github.visualista.visualista.core.IFilePicker;
 import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
+import io.github.visualista.visualista.editorcontroller.ViewEventManager;
 import io.github.visualista.visualista.model.IAction;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetScene;
@@ -29,30 +31,34 @@ import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 class RightBorder extends Border implements Updateable {
-    private static final float SCROLL_BORDER_HEIGHT_RATIO = 0.7f;
-    private static final int RIGHT_BORDER_LINE_SIZE = 1;
-    private static final Color RIGHT_BORDER_COLOR = Color.BLACK;
-    private static final float RIGHT_BORDER_Y_DISPLACEMENT_RATIO = 0;
-    private static final float RIGHT_BORDER_X_DISPLACEMENT_RATIO = 0.75f;
-    private static final float RIGHT_BORDER_HEIGHT_RATIO = 1f;
-    private static final float RIGHT_BORDER_WIDTH_RATIO = 0.25f;
     private static final float ACTION_LIST_WIDTH_RATIO = 0.9f;
     private static final float ACTOR_IMAGE_SIZE_RATIO = 0.1f;
-    private final EditorView rightBorder;
-    private Image actorImage;
-    private TextField actorField;
-    private TextButton modifyButton;
-    private TextButton addActionButton;
-    private IGetActor selectedActor;
-    private final java.util.List<IGetScene> sceneList = new ArrayList<IGetScene>();
-    private java.util.List<IGetActor> actorsInScene;
-    protected Dimension gridSize;
-    private List<IAction> actionList;
+    private static final Color RIGHT_BORDER_COLOR = Color.BLACK;
+    private static final float RIGHT_BORDER_HEIGHT_RATIO = 1f;
+    private static final int RIGHT_BORDER_LINE_SIZE = 1;
+    private static final float RIGHT_BORDER_WIDTH_RATIO = 0.25f;
+    private static final float RIGHT_BORDER_X_DISPLACEMENT_RATIO = 0.75f;
+    private static final float RIGHT_BORDER_Y_DISPLACEMENT_RATIO = 0;
+    private static final float SCROLL_BORDER_HEIGHT_RATIO = 0.7f;
     private Label actionLabel;
-    private VerticalGroup rightVerticalGroup;
+    private List<IAction> actionList;
+    private TextField actorField;
+    private Image actorImage;
     private Border actorImageBorder;
+    private java.util.List<IGetActor> actorsInScene;
+    private TextButton addActionButton;
+    private final ViewEventManager eventManager;
+    private final IFilePicker filePicker;
+    protected Dimension gridSize;
+    private TextButton modifyButton;
+    private final EditorView rightBorder;
+    private VerticalGroup rightVerticalGroup;
+    private final java.util.List<IGetScene> sceneList = new ArrayList<IGetScene>();
+    private IGetActor selectedActor;
 
-    public RightBorder(final EditorView editorView) {
+    public RightBorder(final EditorView editorView, final ViewEventManager eventManager, final IFilePicker filePicker) {
+        this.eventManager = eventManager;
+        this.filePicker = filePicker;
         rightBorder = editorView;
         resize();
         createRightEditorBorderContent();
@@ -64,63 +70,15 @@ class RightBorder extends Border implements Updateable {
         actorsInScene.add(actor);
     }
 
-    public void updateScene(final IGetScene scene) {
-        actorsInScene = scene.getActorsInScene();
-        gridSize = scene.getIGetGrid().getSize();
+    public void addNewScene(final IGetScene newScene) {
+        sceneList.add(newScene);
+
     }
 
     public void changeActiveScene(final IGetScene scene) {
         rightVerticalGroup.setVisible(false);
         actorsInScene = scene.getActorsInScene();
         gridSize = scene.getIGetGrid().getSize();
-    }
-
-    public void addNewScene(final IGetScene newScene) {
-        sceneList.add(newScene);
-
-    }
-
-    public void updateActor(final IGetActor updatedActor) {
-        if (updatedActor == selectedActor) {
-            setActorImage(ModelToGdxHelper.createDrawableFor(updatedActor));
-            updateActionList(updatedActor);
-        }
-
-    }
-
-    public void selectActor(final IGetActor actor) {
-        selectedActor = actor;
-        if (actor != null) {
-            rightVerticalGroup.setVisible(true);
-            actorField.setText(actor.getName());
-            setActorImage(ModelToGdxHelper.createDrawableFor(actor));
-            updateActionList(actor);
-        } else {
-            rightVerticalGroup.setVisible(false);
-        }
-    }
-
-    public void setActorImage(final TextureRegionDrawable createDrawableFor) {
-        actorImage.setDrawable(createDrawableFor);
-
-    }
-
-    public void resize() {
-        setSize(RightBorder.RIGHT_BORDER_WIDTH_RATIO
-                * rightBorder.stage.getWidth(),
-                RightBorder.RIGHT_BORDER_HEIGHT_RATIO
-                * rightBorder.stage.getHeight());
-        setPosition(RightBorder.RIGHT_BORDER_X_DISPLACEMENT_RATIO
-                * rightBorder.stage.getWidth(),
-                RightBorder.RIGHT_BORDER_Y_DISPLACEMENT_RATIO
-                * rightBorder.stage.getHeight());
-        setLineSize(RightBorder.RIGHT_BORDER_LINE_SIZE);
-        setColor(RightBorder.RIGHT_BORDER_COLOR);
-        if (actorImageBorder != null) {
-            actorImageBorder.setSize(rightBorder.stage.getWidth()
-                    * ACTOR_IMAGE_SIZE_RATIO, rightBorder.stage.getWidth()
-                    * ACTOR_IMAGE_SIZE_RATIO);
-        }
     }
 
     private void createRightEditorBorderContent() {
@@ -137,7 +95,7 @@ class RightBorder extends Border implements Updateable {
             public void keyboardFocusChanged(final FocusEvent event,
                     final Actor actor, final boolean focused) {
                 if (!focused) {
-                    rightBorder.eventManager.fireViewEvent(this,
+                    eventManager.fireViewEvent(this,
                             Type.CHANGE_ACTOR_NAME, selectedActor,
                             actorField.getText());
                 }
@@ -161,11 +119,11 @@ class RightBorder extends Border implements Updateable {
                 // TODO selected scene and image
                 FileNameExtensionFilter filter = new FileNameExtensionFilter(
                         "Select image (*.png)", "png");
-                rightBorder.filePicker.openFileDialog(new FilePickerListener() {
+                filePicker.openFileDialog(new FilePickerListener() {
 
                     @Override
                     public void fileOpened(final File selectedFile) {
-                        rightBorder.eventManager.fireViewEvent(this,
+                        eventManager.fireViewEvent(this,
                                 Type.CHANGE_ACTOR_IMAGE, selectedActor,
                                 selectedFile);
                     }
@@ -210,12 +168,12 @@ class RightBorder extends Border implements Updateable {
                 Dialog[] dialogs = {
                         new ChangeSceneDialog(rightBorder.uiSkin,
                                 selectedActor, sceneList,
-                                rightBorder.eventManager),
+                                eventManager),
                                 new SetSceneTextDialog(rightBorder.uiSkin,
-                                        selectedActor, rightBorder.eventManager),
+                                        selectedActor, eventManager),
                                         new AddActorDialog(rightBorder.uiSkin, selectedActor,
                                                 actorsInScene, gridSize,
-                                                rightBorder.eventManager), };
+                                                eventManager), };
                 String[] dialogTexts = { "Set scene action",
                         "Set scene text action", "Set actor action", };
                 Dialog dialog = new SelectActionTypeDialog(rightBorder.uiSkin,
@@ -235,6 +193,41 @@ class RightBorder extends Border implements Updateable {
         rightVerticalGroup.addActor(buttonContainer);
     }
 
+    public void resize() {
+        setSize(RightBorder.RIGHT_BORDER_WIDTH_RATIO
+                * rightBorder.stage.getWidth(),
+                RightBorder.RIGHT_BORDER_HEIGHT_RATIO
+                * rightBorder.stage.getHeight());
+        setPosition(RightBorder.RIGHT_BORDER_X_DISPLACEMENT_RATIO
+                * rightBorder.stage.getWidth(),
+                RightBorder.RIGHT_BORDER_Y_DISPLACEMENT_RATIO
+                * rightBorder.stage.getHeight());
+        setLineSize(RightBorder.RIGHT_BORDER_LINE_SIZE);
+        setColor(RightBorder.RIGHT_BORDER_COLOR);
+        if (actorImageBorder != null) {
+            actorImageBorder.setSize(rightBorder.stage.getWidth()
+                    * ACTOR_IMAGE_SIZE_RATIO, rightBorder.stage.getWidth()
+                    * ACTOR_IMAGE_SIZE_RATIO);
+        }
+    }
+
+    public void selectActor(final IGetActor actor) {
+        selectedActor = actor;
+        if (actor != null) {
+            rightVerticalGroup.setVisible(true);
+            actorField.setText(actor.getName());
+            setActorImage(ModelToGdxHelper.createDrawableFor(actor));
+            updateActionList(actor);
+        } else {
+            rightVerticalGroup.setVisible(false);
+        }
+    }
+
+    public void setActorImage(final TextureRegionDrawable createDrawableFor) {
+        actorImage.setDrawable(createDrawableFor);
+
+    }
+
     @Override
     public void update() {
         // TODO Auto-generated method stub
@@ -246,5 +239,18 @@ class RightBorder extends Border implements Updateable {
                                                   .size()];
         actionList.setItems(updatedActor.getActions()
                 .toArray(updatedActionList));
+    }
+
+    public void updateActor(final IGetActor updatedActor) {
+        if (updatedActor == selectedActor) {
+            setActorImage(ModelToGdxHelper.createDrawableFor(updatedActor));
+            updateActionList(updatedActor);
+        }
+
+    }
+
+    public void updateScene(final IGetScene scene) {
+        actorsInScene = scene.getActorsInScene();
+        gridSize = scene.getIGetGrid().getSize();
     }
 }

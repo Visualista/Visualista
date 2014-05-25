@@ -1,7 +1,9 @@
 package io.github.visualista.visualista.view;
 
 import io.github.visualista.visualista.core.FilePickerListener;
+import io.github.visualista.visualista.core.IFilePicker;
 import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
+import io.github.visualista.visualista.editorcontroller.ViewEventManager;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetScene;
 
@@ -43,13 +45,17 @@ class LeftBorder extends Border implements Updateable {
 
     private List<IGetActor> actorList;
 
+    private final ViewEventManager eventManager;
+    private final IFilePicker filePicker;
+
     private VerticalGroup leftVerticalGroup;
     private final EditorView leftView;
-
     private TextButton setSceneBackgroundButton;
 
 
-    public LeftBorder(final EditorView editorView) {
+    public LeftBorder(final EditorView editorView, final ViewEventManager eventManager, final IFilePicker filePicker) {
+        this.eventManager = eventManager;
+        this.filePicker = filePicker;
         leftView = editorView;
         resizeLeftBorder();
         createLeftBorderContent();
@@ -68,7 +74,7 @@ class LeftBorder extends Border implements Updateable {
         actorList.setItems(new Array<IGetActor>(scene.getActorsInScene()
                 .toArray(temp)));
         if (actorList.getSelected() != null) {
-            leftView.eventManager.fireViewEvent(this, Type.SELECT_ACTOR,
+            eventManager.fireViewEvent(this, Type.SELECT_ACTOR,
                     actorList.getSelected());
         }
     }
@@ -84,7 +90,7 @@ class LeftBorder extends Border implements Updateable {
             public void changed(final ChangeEvent event, final Actor actor) {
                 int index = list.getSelectedIndex();
                 if (index != -1) {
-                    leftView.eventManager.fireViewEvent(this,
+                    eventManager.fireViewEvent(this,
                             Type.SELECT_ACTOR, list.getSelected());
                 }
             }
@@ -98,7 +104,7 @@ class LeftBorder extends Border implements Updateable {
         addActorButton.addListener(new ClickListener() {
             @Override
             public void clicked(final InputEvent event, final float x, final float y) {
-                leftView.eventManager.fireViewEvent(this,
+                eventManager.fireViewEvent(this,
                         Type.NEW_ACTOR, activeScene);
             }
         });
@@ -225,7 +231,7 @@ class LeftBorder extends Border implements Updateable {
             @Override
             public void clicked(final InputEvent event, final float x, final float y) {
                 // TODO list linking
-                leftView.eventManager
+                eventManager
                 .fireViewEvent(this, Type.REMOVE_ACTOR,
                         activeScene);
             }
@@ -269,13 +275,13 @@ class LeftBorder extends Border implements Updateable {
                 // TODO selected scene and image
                 FileNameExtensionFilter filter = new FileNameExtensionFilter(
                         "Chose image", "png");
-                leftView.filePicker.openFileDialog(
+                filePicker.openFileDialog(
                         new FilePickerListener() {
 
                             @Override
                             public void fileOpened(final File selectedFile) {
                                 if (selectedFile != null) {
-                                    leftView.eventManager
+                                    eventManager
                                     .fireViewEvent(
                                             this,
                                             Type.CHANGE_SCENE_IMAGE,

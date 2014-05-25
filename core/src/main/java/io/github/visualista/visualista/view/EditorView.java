@@ -45,8 +45,8 @@ FilePickerListener {
 
     private final Dimension configDimension;
 
-    final ViewEventManager eventManager = new ViewEventManager();
-    IFilePicker filePicker;
+    private final ViewEventManager eventManager = new ViewEventManager();
+    private final IFilePicker filePicker;
     private java.util.List<Actor> focusableActors;
     private boolean isReady;
 
@@ -164,13 +164,13 @@ FilePickerListener {
 
         stage.clear();
         uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
-        leftBorder = new LeftBorder(this);
+        leftBorder = new LeftBorder(this,eventManager,filePicker);
         stage.addActor(leftBorder);
-        rightBorder = new RightBorder(this);
+        rightBorder = new RightBorder(this,eventManager,filePicker);
         stage.addActor(rightBorder);
         lowerBorder = new LowerBorder(this, stage, eventManager);
         stage.addActor(lowerBorder);
-        centerBorder = new CenterBorder(this);
+        centerBorder = new CenterBorder(this,eventManager);
         stage.addActor(centerBorder);
         upperBorder = new UpperBorder(uiSkin, eventManager);
         stage.addActor(upperBorder);

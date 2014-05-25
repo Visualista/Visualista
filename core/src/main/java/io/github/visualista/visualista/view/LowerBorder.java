@@ -19,18 +19,18 @@ class LowerBorder extends Border implements Updateable {
     private static final float LOWER_BORDER_X_DISPLACEMENT_RATIO = 0.25f;
     private static final float LOWER_BORDER_Y_DISPLACEMENT_RATIO = 0;
     private IGetScene activeScene;
-    private final ViewEventManager eventManeger;
+    private final ViewEventManager eventManager;
     private final EditorView lowerBorder;
 
     private TextArea textArea;
 
 
-    public LowerBorder(final EditorView editorView, final Stage stage, final ViewEventManager eventManeger) {
+    public LowerBorder(final EditorView editorView, final Stage stage, final ViewEventManager eventManager) {
         lowerBorder = editorView;
         resizeLowerBorder();
         setActor(createLowerBorderContent());
         resizeLowerBorder();
-        this.eventManeger = eventManeger;
+        this.eventManager = eventManager;
         stage.addActor(this);
     }
 
@@ -48,7 +48,7 @@ class LowerBorder extends Border implements Updateable {
             public void keyboardFocusChanged(final FocusEvent event, final Actor actor,
                     final boolean focused) {
                 if (!focused) {
-                    lowerBorder.eventManager.fireViewEvent(this,
+                    eventManager.fireViewEvent(this,
                             Type.CHANGE_SCENE_TEXT, activeScene,
                             textArea.getText());
                 }
