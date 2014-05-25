@@ -14,7 +14,6 @@ import io.github.visualista.visualista.model.SetActorAction;
 import io.github.visualista.visualista.model.SetSceneAction;
 import io.github.visualista.visualista.model.SetSceneTextAction;
 import io.github.visualista.visualista.model.Tile;
-import io.github.visualista.visualista.view.EditorTool;
 
 import java.io.File;
 

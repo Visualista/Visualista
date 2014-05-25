@@ -1,6 +1,7 @@
 package io.github.visualista.visualista.view;
 
 import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
+import io.github.visualista.visualista.editorcontroller.EditorTool;
 import io.github.visualista.visualista.editorcontroller.ViewEventManager;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetGrid;

@@ -4,7 +4,6 @@ import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetNovel;
 import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.model.IGetTile;
-import io.github.visualista.visualista.view.EditorTool;
 
 /** Interface responsible of communicating relevant methods to the EditorController.
  * 

@@ -2,6 +2,7 @@ package io.github.visualista.visualista.view;
 
 import io.github.visualista.visualista.core.IFilePicker;
 import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
+import io.github.visualista.visualista.editorcontroller.EditorTool;
 import io.github.visualista.visualista.editorcontroller.IEditorView;
 import io.github.visualista.visualista.editorcontroller.ViewEventListener;
 import io.github.visualista.visualista.editorcontroller.ViewEventManager;
