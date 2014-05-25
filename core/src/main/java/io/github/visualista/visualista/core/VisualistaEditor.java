@@ -33,6 +33,7 @@ import com.badlogic.gdx.files.FileHandle;
 
 public final class VisualistaEditor {
 
+    private static final String FILE_FOLDER_PATH = "files" + File.separator;
     private final ActorFactory actorFactory;
     private Novel currentNovel;
     private final GridFactory gridFactory;
@@ -116,7 +117,7 @@ public final class VisualistaEditor {
 
     public Novel openNovel(final File file) {
         try {
-            Unzipper.unzip(file, Gdx.files.local("files" + File.separator)
+            Unzipper.unzip(file, fileFolderHandle()
                     .file());
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -137,7 +138,7 @@ public final class VisualistaEditor {
 
     private FileHandle getNovelFileHandle() {
         return Gdx.files.local(
-                "files" + File.separator + "novel.xml");
+                FILE_FOLDER_PATH + "novel.xml");
     }
 
     public void removeActor(final Actor selectedActor) {
@@ -155,7 +156,7 @@ public final class VisualistaEditor {
             saver.saveObjectToFile(
                     getNovelFileHandle()
                     .file(), currentNovel);
-            FolderZipper.zipFolder(Gdx.files.local("files" + File.separator)
+            FolderZipper.zipFolder(fileFolderHandle()
                     .file(), file);
         } catch (final FileSaveException e) {
             // TODO error message
@@ -164,6 +165,10 @@ public final class VisualistaEditor {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+    private FileHandle fileFolderHandle() {
+        return Gdx.files.local(FILE_FOLDER_PATH);
     }
 
     public void setCurrentNovel(final Novel currentNovel) {
