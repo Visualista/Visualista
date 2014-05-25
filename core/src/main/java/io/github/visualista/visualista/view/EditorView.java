@@ -13,7 +13,6 @@ import io.github.visualista.visualista.model.IGetTile;
 import io.github.visualista.visualista.util.Dimension;
 
 import java.io.File;
-import java.util.ArrayList;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -61,7 +60,7 @@ FilePickerListener {
 
     Stage stage;
 
-    final java.util.List<Border> toolButtonBorders;
+
 
     Skin uiSkin;
 
@@ -71,7 +70,6 @@ FilePickerListener {
         configDimension = dimension;
 
         this.filePicker = filePicker;
-        toolButtonBorders = new ArrayList<Border>();
     }
 
     private void addFocusableActorField(final Actor actorField) {

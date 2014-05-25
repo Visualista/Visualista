@@ -8,6 +8,7 @@ import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetScene;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -42,18 +43,20 @@ class LeftBorder extends Border implements Updateable {
     private static final float LIST_WIDTH_RATIO = 0.9f;
     private static final float SCROLL_BORDER_HEIGHT_RATIO = 0.7f;
     protected IGetScene activeScene;
-
     private List<IGetActor> actorList;
 
     private final ViewEventManager eventManager;
-    private final IFilePicker filePicker;
 
+    private final IFilePicker filePicker;
     private VerticalGroup leftVerticalGroup;
+
     private final EditorView leftView;
     private TextButton setSceneBackgroundButton;
+    private final java.util.List<Border> toolButtonBorders;
 
 
     public LeftBorder(final EditorView editorView, final ViewEventManager eventManager, final IFilePicker filePicker) {
+        toolButtonBorders = new ArrayList<Border>();
         this.eventManager = eventManager;
         this.filePicker = filePicker;
         leftView = editorView;
@@ -130,7 +133,7 @@ class LeftBorder extends Border implements Updateable {
             }
 
         });
-        leftView.toolButtonBorders.add(border);
+        toolButtonBorders.add(border);
         return border;
     }
 
@@ -174,7 +177,7 @@ class LeftBorder extends Border implements Updateable {
             }
 
         });
-        leftView.toolButtonBorders.add(border);
+        toolButtonBorders.add(border);
         return border;
     }
 
@@ -303,7 +306,7 @@ class LeftBorder extends Border implements Updateable {
     }
 
     protected void hideButtonBorders() {
-        for (Border border : leftView.toolButtonBorders) {
+        for (Border border : toolButtonBorders) {
             border.setLineSize(0);
         }
     }
