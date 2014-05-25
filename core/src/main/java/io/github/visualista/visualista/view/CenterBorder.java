@@ -32,7 +32,6 @@ class CenterBorder extends Border implements Updateable {
     private final java.util.List<Border> borders = new ArrayList<Border>();
     private VerticalGroup centerVerticalGroup;
     private Border centerVerticalGroupBorder;
-    private final EditorView editorView;
     private final ViewEventManager eventManager;
     private Dimension gridDimensions;
     private Image sceneBackgroundImage;
@@ -40,9 +39,7 @@ class CenterBorder extends Border implements Updateable {
     private EditorTool selectedTool = EditorTool.ARROW;
 
     // End static variables //
-    public CenterBorder(final EditorView editorView,
-            final ViewEventManager eventManager) {
-        this.editorView = editorView;
+    public CenterBorder(final ViewEventManager eventManager) {
         this.eventManager = eventManager;
         createCenterEditorBorderContent();
     }

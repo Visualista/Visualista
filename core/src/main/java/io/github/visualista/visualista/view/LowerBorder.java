@@ -21,14 +21,12 @@ class LowerBorder extends Border implements Updateable {
     private static final float LOWER_BORDER_Y_DISPLACEMENT_RATIO = 0;
     private IGetScene activeScene;
     private final ViewEventManager eventManager;
-    private final EditorView lowerBorder;
 
     private TextArea textArea;
     private final Skin uiSkin;
 
-    public LowerBorder(final EditorView editorView, final Stage stage,
+    public LowerBorder( final Stage stage,
             final ViewEventManager eventManager, final Skin uiSkin) {
-        lowerBorder = editorView;
         this.uiSkin = uiSkin;
         resizeLowerBorder();
         setActor(createLowerBorderContent());

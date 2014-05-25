@@ -52,20 +52,18 @@ class RightBorder extends Border implements Updateable {
     private final IFilePicker filePicker;
     private Dimension gridSize;
     private TextButton modifyButton;
-    private final EditorView rightBorder;
     private VerticalGroup rightVerticalGroup;
     private final java.util.List<IGetScene> sceneList = new ArrayList<IGetScene>();
     private IGetActor selectedActor;
     private final Skin uiSkin;
     private Border scrollBorder;
 
-    public RightBorder(final EditorView editorView,
+    public RightBorder(
             final ViewEventManager eventManager, final IFilePicker filePicker,
             final Skin uiSkin) {
         this.eventManager = eventManager;
         this.filePicker = filePicker;
         this.uiSkin = uiSkin;
-        rightBorder = editorView;
         resize();
         createRightEditorBorderContent();
         resize();

@@ -158,11 +158,11 @@ public class EditorView implements ApplicationListener, IEditorView {
         uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
         leftBorder = new LeftBorder(uiSkin,eventManager,filePicker,stage);
         stage.addActor(leftBorder);
-        rightBorder = new RightBorder(this,eventManager,filePicker,uiSkin);
+        rightBorder = new RightBorder(eventManager,filePicker,uiSkin);
         stage.addActor(rightBorder);
-        lowerBorder = new LowerBorder(this, stage, eventManager,uiSkin);
+        lowerBorder = new LowerBorder(stage, eventManager,uiSkin);
         stage.addActor(lowerBorder);
-        centerBorder = new CenterBorder(this,eventManager);
+        centerBorder = new CenterBorder(eventManager);
         stage.addActor(centerBorder);
         upperBorder = new UpperBorder(uiSkin, eventManager);
         stage.addActor(upperBorder);
