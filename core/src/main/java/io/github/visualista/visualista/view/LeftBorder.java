@@ -2,8 +2,8 @@ package io.github.visualista.visualista.view;
 
 import io.github.visualista.visualista.core.FilePickerListener;
 import io.github.visualista.visualista.core.IFilePicker;
-import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
 import io.github.visualista.visualista.editorcontroller.EditorTool;
+import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
 import io.github.visualista.visualista.editorcontroller.ViewEventManager;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetScene;
@@ -46,7 +46,7 @@ class LeftBorder extends Border implements Updateable {
     private static final float SCROLL_BORDER_HEIGHT_RATIO = 0.7f;
     private static final String VISUALISTA_FILE_DESCRIPTION = "Visualista Novel";
     private static final String VISUALISTA_FILE_FORMAT_WITHOUT_DOT = "vis";
-    protected IGetScene activeScene;
+    private IGetScene activeScene;
     private List<IGetActor> actorList;
 
     private final ViewEventManager eventManager;

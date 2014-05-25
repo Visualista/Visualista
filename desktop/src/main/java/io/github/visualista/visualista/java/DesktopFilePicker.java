@@ -11,7 +11,7 @@ import javax.swing.filechooser.FileFilter;
 
 public class DesktopFilePicker implements IFilePicker {
     private static final int SLEEP_TIME = 10;
-    private boolean fileIsChoosen = false;
+    private boolean fileIsChoosen;
 
     private synchronized void showChooser(final FilePickerListener listener,
             final boolean fileOpen, final FileFilter fileFilter) {

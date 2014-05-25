@@ -50,7 +50,7 @@ class RightBorder extends Border implements Updateable {
     private TextButton addActionButton;
     private final ViewEventManager eventManager;
     private final IFilePicker filePicker;
-    protected Dimension gridSize;
+    private Dimension gridSize;
     private TextButton modifyButton;
     private final EditorView rightBorder;
     private VerticalGroup rightVerticalGroup;

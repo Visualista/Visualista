@@ -39,6 +39,7 @@ public class PlayerView implements ApplicationListener, IPlayerView {
 
     // Defining static objects and variables //
 
+    private static final String NO_CONTROLLER_FOUND_IN_PLAYER_VIEW_ERROR = "Error: No controller found in PlayerView";
     private static final String PLACEHOLDER_STRING = "<<Test>>";
     private static final float TITLE_FONT_SCALE = 2.0f;
     private static final float STORY_FONT_SCALE = 1.0f;
@@ -101,9 +102,6 @@ public class PlayerView implements ApplicationListener, IPlayerView {
     private Image sceneBackgroundImage;
 
     private Border centerVerticalGroupBorder;
-    protected IGetActor selectedActor;
-
-    protected boolean actorFieldHasFocus;
 
     private boolean isReady;
 
@@ -169,7 +167,7 @@ public class PlayerView implements ApplicationListener, IPlayerView {
                 } else {
                     // Debug Code //
                     System.out
-                    .println("Error: No controller found in PlayerView");
+                    .println(NO_CONTROLLER_FOUND_IN_PLAYER_VIEW_ERROR);
                     // End Debug //
                 }
             }
@@ -287,7 +285,7 @@ public class PlayerView implements ApplicationListener, IPlayerView {
                 } else {
                     // Debug Code //
                     System.out
-                    .println("Error: No controller found in PlayerView");
+                    .println(NO_CONTROLLER_FOUND_IN_PLAYER_VIEW_ERROR);
                     // End Debug //
                 }
             }

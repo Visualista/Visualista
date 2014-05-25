@@ -33,7 +33,7 @@ public class Tab extends Stack {
     private final Border closeImageBorder;
     private final HorizontalGroup hGroup;
     private final Rectangle background;
-    java.util.List<TabListener> tabListeners = new ArrayList<TabListener>();
+    private final java.util.List<TabListener> tabListeners = new ArrayList<TabListener>();
     private final TextField labelTextField;
 
     public Tab(final String name, final Skin uiSkin) {

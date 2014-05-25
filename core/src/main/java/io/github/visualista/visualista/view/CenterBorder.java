@@ -1,7 +1,7 @@
 package io.github.visualista.visualista.view;
 
-import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
 import io.github.visualista.visualista.editorcontroller.EditorTool;
+import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
 import io.github.visualista.visualista.editorcontroller.ViewEventManager;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetGrid;
@@ -39,9 +39,9 @@ class CenterBorder extends Border implements Updateable {
     private IGetActor selectedActor;
     private EditorTool selectedTool;
 
-
     // End static variables //
-    public CenterBorder(final EditorView editorView, final ViewEventManager eventManager) {
+    public CenterBorder(final EditorView editorView,
+            final ViewEventManager eventManager) {
         this.editorView = editorView;
         this.eventManager = eventManager;
         resizeCenterBorder();
@@ -75,8 +75,7 @@ class CenterBorder extends Border implements Updateable {
         stack.add(sceneBackgroundImage);
 
         centerVerticalGroupBorder = new Border();
-        centerVerticalGroupBorder
-        .setActor(centerVerticalGroup);
+        centerVerticalGroupBorder.setActor(centerVerticalGroup);
         stack.add(centerVerticalGroupBorder);
 
         setActor(stack);
@@ -95,36 +94,17 @@ class CenterBorder extends Border implements Updateable {
                         y));
                 final Image imageForCurrentTile = ModelToGdxHelper
                         .createImageFor(tileAtCurrentPosition);
-                imageForCurrentTile.addCaptureListener(new ClickListener() {
-
-                    @Override
-                    public void clicked(final InputEvent event, final float x, final float y) {
-                        if (selectedActor != null) {
-                            if (selectedTool == EditorTool.ARROW) {
-
-                                eventManager
-                                .fireViewEvent(imageForCurrentTile,
-                                        Type.TILE_SET_ACTOR,
-                                        tileAtCurrentPosition,
-                                        selectedActor);
-
-                            } else if (selectedTool == EditorTool.CURSOR) {
-                                eventManager
-                                .fireViewEvent(this, Type.SELECT_TILE,
-                                        tileAtCurrentPosition);
-                            }
-                        }
-                        super.clicked(event, x, y);
-                    }
-
-                });
+                imageForCurrentTile
+                .addCaptureListener(new EditorTileClickListener(
+                        tileAtCurrentPosition, imageForCurrentTile));
                 gridButtons.setAt(new Point(x, y), imageForCurrentTile);
             }
         }
         return gridButtons;
     }
 
-    public final void fillGrid(final VerticalGroup group, final IMatrixGet<Image> data) {
+    public final void fillGrid(final VerticalGroup group,
+            final IMatrixGet<Image> data) {
         float buttonLength = calculateBorderLength(group.getWidth(),
                 group.getHeight(), data.getSize());
         gridDimensions = data.getSize();
@@ -205,4 +185,30 @@ class CenterBorder extends Border implements Updateable {
                 .createDrawableFor(scene));
     }
 
+    class EditorTileClickListener extends ClickListener {
+
+        private final Image image;
+        private final IGetTile tile;
+
+        public EditorTileClickListener(final IGetTile tile, final Image image) {
+            this.image = image;
+            this.tile = tile;
+        }
+
+        @Override
+        public void clicked(final InputEvent event, final float x, final float y) {
+            if (selectedActor != null) {
+                if (selectedTool == EditorTool.ARROW) {
+
+                    eventManager.fireViewEvent(image, Type.TILE_SET_ACTOR,
+                            tile, selectedActor);
+
+                } else if (selectedTool == EditorTool.CURSOR) {
+                    eventManager.fireViewEvent(this, Type.SELECT_TILE, tile);
+                }
+            }
+            super.clicked(event, x, y);
+        }
+
+    }
 }
