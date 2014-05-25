@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 
 
@@ -151,9 +152,7 @@ public class EditorView implements ApplicationListener, IEditorView {
 
     @Override
     public final void create() {
-        stage = new Stage();
-        stage.getViewport().setWorldHeight(configDimension.getHeight());
-        stage.getViewport().setWorldWidth(configDimension.getWidth());
+        stage = new Stage(new FitViewport(configDimension.getWidth(),configDimension.getHeight()));
 
         stage.clear();
         uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
@@ -216,10 +215,7 @@ public class EditorView implements ApplicationListener, IEditorView {
 
     @Override
     public void resize(final int width, final int height) {
-        // stage.setViewport(configDimension.getWidth(),
-        // configDimension.getHeight(), true);
-        // stage.getCamera().translate(-stage.getGutterWidth(),
-        // -stage.getGutterHeight(), 0);
+        stage.getViewport().update(width,height);
         upperBorder.resize();
         rightBorder.resize();
         leftBorder.resize();
