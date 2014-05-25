@@ -1,17 +1,33 @@
 package io.github.visualista.visualista.model;
 
 import io.github.visualista.visualista.util.Nameable;
+import io.github.visualista.visualista.util.Point;
 
 import java.util.List;
 
 public class Novel implements Nameable, IGetNovel {
-    List<Scene> scenes;
-    private String name;
     private Scene currentScene;
+    private String name;
+    List<Scene> scenes;
 
     public Novel(final List<Scene> scenes) {
         setName("NewNovel");
         this.scenes = scenes;
+    }
+
+    public void addScene(final Scene scene) {
+        scenes.add(scene);
+
+    }
+
+    public Actor getActorAt(final Point position) {
+        return currentScene.getGrid().getAt(position)
+                .getActor();
+    }
+
+    @Override
+    public Scene getCurrentScene() {
+        return currentScene;
     }
 
     @Override
@@ -20,18 +36,8 @@ public class Novel implements Nameable, IGetNovel {
     }
 
     @Override
-    public void setName(final String name) {
-        this.name = name;
-    }
-
-    @Override
     public int getSceneCount() {
         return scenes.size();
-    }
-
-    public void addScene(final Scene scene) {
-        scenes.add(scene);
-
     }
 
     @Override
@@ -44,8 +50,8 @@ public class Novel implements Nameable, IGetNovel {
     }
 
     @Override
-    public Scene getCurrentScene() {
-        return currentScene;
+    public void setName(final String name) {
+        this.name = name;
     }
 
 }

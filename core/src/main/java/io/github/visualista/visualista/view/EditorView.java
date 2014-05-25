@@ -58,8 +58,6 @@ FilePickerListener {
 
     private RightBorder rightBorder;
 
-    protected boolean sceneTextAreaHasFocus;
-
     protected EditorTool selectedTool;
 
     Stage stage;

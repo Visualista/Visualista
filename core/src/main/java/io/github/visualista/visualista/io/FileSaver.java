@@ -2,6 +2,8 @@ package io.github.visualista.visualista.io;
 
 import com.thoughtworks.xstream.XStream;
 
+import io.github.visualista.visualista.io.xstream.XStreamManager;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

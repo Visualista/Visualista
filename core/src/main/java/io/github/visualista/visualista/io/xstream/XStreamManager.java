@@ -1,4 +1,4 @@
-package io.github.visualista.visualista.io;
+package io.github.visualista.visualista.io.xstream;
 
 import io.github.visualista.visualista.model.Actor;
 import io.github.visualista.visualista.model.IAction;

@@ -24,10 +24,10 @@ import com.badlogic.gdx.Gdx;
  */
 public class PlayerController implements IGetPlayerController{
 
-    private final VisualistaPlayer visualista;
-    private final IPlayerView view;
-    private final IFilePicker filePicker;
     private Scene currentSceneToChange;
+    private final IFilePicker filePicker;
+    private final IPlayerView view;
+    private final VisualistaPlayer visualista;
 
     public PlayerController(final VisualistaPlayer visualista,
             final IPlayerView view, final IFilePicker filePicker) {
@@ -37,20 +37,42 @@ public class PlayerController implements IGetPlayerController{
         view.setController(this);
     }
 
-    public void updateView() {
-        if (visualista.getCurrentNovel() != null){
-            view.updateScene(visualista.getCurrentNovel().getCurrentScene());
-            view.removeFileLoadListeners();
-        }
-
-    }
-
     @Override
     public void addDataToView() {
         if (view.getIsReady()){
             view.updateScene(visualista.getCurrentNovel().getCurrentScene());
         }
 
+    }
+
+    private boolean changeActor(final PositionedActor newActor){
+        currentSceneToChange.getTileAt(
+                newActor.getPosition()).setActor(newActor.getActor());
+        return view.getIsReady();
+    }
+
+    private boolean changeData(final Object dataToModify){
+        if (dataToModify instanceof String){
+            return changeText((String) dataToModify);
+        } else if (dataToModify instanceof Scene){
+            return changeScene((Scene) dataToModify);
+        } else if (dataToModify instanceof PositionedActor){
+            return changeActor((PositionedActor) dataToModify);
+        } else {
+            return false;
+        }
+    }
+
+    private boolean changeScene(final Scene newScene){
+        Gdx.app.log("Change Scene", newScene.toString());
+        visualista.getCurrentNovel().setCurrentScene(newScene);
+        return view.getIsReady();
+    }
+
+    private boolean changeText(final String newText){
+        Gdx.app.log("Change Text", "In " + currentSceneToChange.toString());
+        currentSceneToChange.setStoryText(newText);
+        return view.getIsReady();
     }
 
     @Override
@@ -91,33 +113,11 @@ public class PlayerController implements IGetPlayerController{
 
     }
 
-    private boolean changeData(final Object dataToModify){
-        if (dataToModify instanceof String){
-            return changeText((String) dataToModify);
-        } else if (dataToModify instanceof Scene){
-            return changeScene((Scene) dataToModify);
-        } else if (dataToModify instanceof PositionedActor){
-            return changeActor((PositionedActor) dataToModify);
-        } else {
-            return false;
+    public void updateView() {
+        if (visualista.getCurrentNovel() != null){
+            view.updateScene(visualista.getCurrentNovel().getCurrentScene());
+            view.removeFileLoadListeners();
         }
-    }
 
-    private boolean changeScene(final Scene newScene){
-        Gdx.app.log("Change Scene", newScene.toString());
-        visualista.getCurrentNovel().setCurrentScene(newScene);
-        return view.getIsReady();
-    }
-
-    private boolean changeText(final String newText){
-        Gdx.app.log("Change Text", "In " + currentSceneToChange.toString());
-        currentSceneToChange.setStoryText(newText);
-        return view.getIsReady();
-    }
-
-    private boolean changeActor(final PositionedActor newActor){
-        currentSceneToChange.getGrid().getAt(
-                newActor.getPosition()).setActor(newActor.getActor());
-        return view.getIsReady();
     }
 }

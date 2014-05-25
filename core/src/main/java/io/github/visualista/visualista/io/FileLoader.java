@@ -1,5 +1,7 @@
 package io.github.visualista.visualista.io;
 
+import io.github.visualista.visualista.io.xstream.XStreamManager;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
