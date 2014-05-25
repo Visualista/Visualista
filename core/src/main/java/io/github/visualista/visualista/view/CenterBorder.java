@@ -36,7 +36,7 @@ class CenterBorder extends Border implements Updateable {
     private Dimension gridDimensions;
     private Image sceneBackgroundImage;
     private IGetActor selectedActor;
-    protected EditorTool selectedTool;
+    private EditorTool selectedTool;
 
 
     // End static variables //
