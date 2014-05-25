@@ -26,8 +26,8 @@ class LowerBorder extends Border implements Updateable {
     private TextArea textArea;
     private final Skin uiSkin;
 
-
-    public LowerBorder(final EditorView editorView, final Stage stage, final ViewEventManager eventManager, final Skin uiSkin) {
+    public LowerBorder(final EditorView editorView, final Stage stage,
+            final ViewEventManager eventManager, final Skin uiSkin) {
         lowerBorder = editorView;
         this.uiSkin = uiSkin;
         resizeLowerBorder();
@@ -43,17 +43,18 @@ class LowerBorder extends Border implements Updateable {
     }
 
     private TextArea createLowerBorderContent() {
+        setLineSize(LowerBorder.LOWER_BORDER_LINE_SIZE);
+        setColor(LowerBorder.LOWER_BORDER_COLOR);
         textArea = new TextArea("", uiSkin);
 
         textArea.addCaptureListener(new FocusListener() {
 
             @Override
-            public void keyboardFocusChanged(final FocusEvent event, final Actor actor,
-                    final boolean focused) {
+            public void keyboardFocusChanged(final FocusEvent event,
+                    final Actor actor, final boolean focused) {
                 if (!focused) {
-                    eventManager.fireViewEvent(this,
-                            Type.CHANGE_SCENE_TEXT, activeScene,
-                            textArea.getText());
+                    eventManager.fireViewEvent(this, Type.CHANGE_SCENE_TEXT,
+                            activeScene, textArea.getText());
                 }
                 super.keyboardFocusChanged(event, actor, focused);
             }
@@ -63,12 +64,6 @@ class LowerBorder extends Border implements Updateable {
     }
 
     private void resizeLowerBorder() {
-        setSize(LowerBorder.LOWER_BORDER_WIDTH_RATIO * lowerBorder.stage.getWidth(),
-                LowerBorder.LOWER_BORDER_HEIGHT_RATIO * lowerBorder.stage.getHeight());
-        setPosition(LowerBorder.LOWER_BORDER_X_DISPLACEMENT_RATIO * lowerBorder.stage.getWidth(),
-                LowerBorder.LOWER_BORDER_Y_DISPLACEMENT_RATIO * lowerBorder.stage.getHeight());
-        setLineSize(LowerBorder.LOWER_BORDER_LINE_SIZE);
-        setColor(LowerBorder.LOWER_BORDER_COLOR);
 
     }
 
@@ -76,5 +71,18 @@ class LowerBorder extends Border implements Updateable {
     public void update() {
         // TODO Auto-generated method stub
 
+    }
+
+    public void resize() {
+        if (getStage() != null) {
+            setSize(LowerBorder.LOWER_BORDER_WIDTH_RATIO
+                    * getStage().getWidth(),
+                    LowerBorder.LOWER_BORDER_HEIGHT_RATIO
+                    * getStage().getHeight());
+            setPosition(LowerBorder.LOWER_BORDER_X_DISPLACEMENT_RATIO
+                    * getStage().getWidth(),
+                    LowerBorder.LOWER_BORDER_Y_DISPLACEMENT_RATIO
+                    * getStage().getHeight());
+        }
     }
 }

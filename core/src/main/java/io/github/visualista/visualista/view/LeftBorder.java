@@ -66,7 +66,7 @@ class LeftBorder extends Border implements Updateable {
         this.filePicker = filePicker;
         this.uiSkin = uiSkin;
         this.stage = stage;
-        resizeLeftBorder();
+        resize();
         createLeftBorderContent();
     }
 
@@ -129,8 +129,6 @@ class LeftBorder extends Border implements Updateable {
                 .surroundWithInvisibleBorder(arrowButton);
         border.setLineOutsideActor(true);
         border.setLineSize(1);
-        eventManager.fireViewEvent(this, Type.SELECT_EDITOR_TOOl, null,
-                EditorTool.ARROW);
         arrowButton.addListener(new ClickListener() {
 
             @Override
@@ -350,16 +348,6 @@ class LeftBorder extends Border implements Updateable {
                 BUTTON_DIMENSION);
     }
 
-    private void resizeLeftBorder() {
-        setSize(LeftBorder.LEFT_BORDER_WIDTH_RATIO * stage.getWidth(),
-                LeftBorder.LEFT_BORDER_HEIGHT_RATIO * stage.getHeight());
-        setPosition(
-                LeftBorder.LEFT_BORDER_X_DISPLACEMENT_RATIO * stage.getWidth(),
-                LeftBorder.LEFT_BORDER_Y_DISPLACEMENT_RATIO * stage.getHeight());
-        setLineSize(LeftBorder.LEFT_BORDER_LINE_SIZE);
-        setColor(LeftBorder.LEFT_BORDER_COLOR);
-    }
-
     protected void saveNovel() {
         filePicker.saveFileDialog(new FilePickerListener(){
             @Override
@@ -382,6 +370,17 @@ class LeftBorder extends Border implements Updateable {
     @Override
     public void update() {
         // TODO Auto-generated method stub
+
+    }
+
+    public void resize() {
+        setSize(LeftBorder.LEFT_BORDER_WIDTH_RATIO * stage.getWidth(),
+                LeftBorder.LEFT_BORDER_HEIGHT_RATIO * stage.getHeight());
+        setPosition(
+                LeftBorder.LEFT_BORDER_X_DISPLACEMENT_RATIO * stage.getWidth(),
+                LeftBorder.LEFT_BORDER_Y_DISPLACEMENT_RATIO * stage.getHeight());
+        setLineSize(LeftBorder.LEFT_BORDER_LINE_SIZE);
+        setColor(LeftBorder.LEFT_BORDER_COLOR);
 
     }
 

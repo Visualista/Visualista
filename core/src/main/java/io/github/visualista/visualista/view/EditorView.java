@@ -1,8 +1,8 @@
 package io.github.visualista.visualista.view;
 
 import io.github.visualista.visualista.core.IFilePicker;
-import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
 import io.github.visualista.visualista.editorcontroller.EditorTool;
+import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
 import io.github.visualista.visualista.editorcontroller.IEditorView;
 import io.github.visualista.visualista.editorcontroller.ViewEventListener;
 import io.github.visualista.visualista.editorcontroller.ViewEventManager;
@@ -56,7 +56,7 @@ public class EditorView implements ApplicationListener, IEditorView {
 
     private RightBorder rightBorder;
 
-    Stage stage;
+    private Stage stage;
 
     private Skin uiSkin;
 
@@ -247,6 +247,9 @@ public class EditorView implements ApplicationListener, IEditorView {
         // -stage.getGutterHeight(), 0);
         upperBorder.resize();
         rightBorder.resize();
+        leftBorder.resize();
+        centerBorder.resize();
+        lowerBorder.resize();
 
     }
 

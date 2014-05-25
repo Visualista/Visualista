@@ -37,16 +37,14 @@ class CenterBorder extends Border implements Updateable {
     private Dimension gridDimensions;
     private Image sceneBackgroundImage;
     private IGetActor selectedActor;
-    private EditorTool selectedTool;
+    private EditorTool selectedTool = EditorTool.ARROW;
 
     // End static variables //
     public CenterBorder(final EditorView editorView,
             final ViewEventManager eventManager) {
         this.editorView = editorView;
         this.eventManager = eventManager;
-        resizeCenterBorder();
         createCenterEditorBorderContent();
-        resizeCenterBorder();
     }
 
     public void addNewScene(final IGetScene newScene) {
@@ -128,7 +126,7 @@ class CenterBorder extends Border implements Updateable {
         Matrix<Image> gridButtons = createImagesForGrid(scene);
         centerVerticalGroup.clearChildren();
         fillGrid(centerVerticalGroup, gridButtons);
-        resizeCenterBorder();
+        resize();
     }
 
     /*
@@ -142,26 +140,6 @@ class CenterBorder extends Border implements Updateable {
      * 
      * }
      */
-
-    private void resizeCenterBorder() {
-        setSize(CenterBorder.CENTER_BORDER_WIDTH_RATIO
-                * editorView.stage.getWidth(),
-                CenterBorder.CENTER_BORDER_HEIGHT_RATIO
-                * editorView.stage.getHeight());
-        setPosition(CenterBorder.CENTER_BORDER_X_DISPLACEMENT_RATIO
-                * editorView.stage.getWidth(),
-                CenterBorder.CENTER_BORDER_Y_DISPLACEMENT_RATIO
-                * editorView.stage.getHeight());
-        setLineSize(CenterBorder.CENTER_BORDER_LINE_SIZE);
-        setColor(CenterBorder.CENTER_BORDER_COLOR);
-        if (gridDimensions != null) {
-            float buttonLength = calculateBorderLength(getWidth(), getHeight(),
-                    gridDimensions);
-            for (Border border : borders) {
-                border.setSize(buttonLength, buttonLength);
-            }
-        }
-    }
 
     public void selectActor(final IGetActor actor) {
         selectedActor = actor;
@@ -210,5 +188,27 @@ class CenterBorder extends Border implements Updateable {
             super.clicked(event, x, y);
         }
 
+    }
+
+    public void resize() {
+        if (getStage() != null) {
+            setSize(CenterBorder.CENTER_BORDER_WIDTH_RATIO
+                    * getStage().getWidth(),
+                    CenterBorder.CENTER_BORDER_HEIGHT_RATIO
+                    * getStage().getHeight());
+            setPosition(CenterBorder.CENTER_BORDER_X_DISPLACEMENT_RATIO
+                    * getStage().getWidth(),
+                    CenterBorder.CENTER_BORDER_Y_DISPLACEMENT_RATIO
+                    * getStage().getHeight());
+            setLineSize(CenterBorder.CENTER_BORDER_LINE_SIZE);
+            setColor(CenterBorder.CENTER_BORDER_COLOR);
+            if (gridDimensions != null) {
+                float buttonLength = calculateBorderLength(getWidth(),
+                        getHeight(), gridDimensions);
+                for (Border border : borders) {
+                    border.setSize(buttonLength, buttonLength);
+                }
+            }
+        }
     }
 }

@@ -57,8 +57,11 @@ class RightBorder extends Border implements Updateable {
     private final java.util.List<IGetScene> sceneList = new ArrayList<IGetScene>();
     private IGetActor selectedActor;
     private final Skin uiSkin;
+    private Border scrollBorder;
 
-    public RightBorder(final EditorView editorView, final ViewEventManager eventManager, final IFilePicker filePicker, final Skin uiSkin) {
+    public RightBorder(final EditorView editorView,
+            final ViewEventManager eventManager, final IFilePicker filePicker,
+            final Skin uiSkin) {
         this.eventManager = eventManager;
         this.filePicker = filePicker;
         this.uiSkin = uiSkin;
@@ -98,9 +101,8 @@ class RightBorder extends Border implements Updateable {
             public void keyboardFocusChanged(final FocusEvent event,
                     final Actor actor, final boolean focused) {
                 if (!focused) {
-                    eventManager.fireViewEvent(this,
-                            Type.CHANGE_ACTOR_NAME, selectedActor,
-                            actorField.getText());
+                    eventManager.fireViewEvent(this, Type.CHANGE_ACTOR_NAME,
+                            selectedActor, actorField.getText());
                 }
                 super.keyboardFocusChanged(event, actor, focused);
             }
@@ -147,16 +149,15 @@ class RightBorder extends Border implements Updateable {
 
         actionList = new List<IAction>(uiSkin);
 
-        actionList.setWidth(getWidth() * ACTION_LIST_WIDTH_RATIO);
+
         actionList.setColor(Color.BLACK);
 
         final ScrollPane scroll = new ScrollPane(actionList, uiSkin);
         scroll.setFadeScrollBars(false);
-        Border scrollBorder = new Border();
+        scrollBorder = new Border();
         scrollBorder.setLineOutsideActor(true);
         scrollBorder.setLineSize(1);
-        scrollBorder.setSize(actionList.getWidth(), getHeight()
-                * SCROLL_BORDER_HEIGHT_RATIO);
+
         scrollBorder.setActor(scroll);
         rightVerticalGroup.addActor(scrollBorder);
 
@@ -169,14 +170,12 @@ class RightBorder extends Border implements Updateable {
             public void clicked(final InputEvent event, final float x,
                     final float y) {
                 Dialog[] dialogs = {
-                        new ChangeSceneDialog(uiSkin,
-                                selectedActor, sceneList,
+                        new ChangeSceneDialog(uiSkin, selectedActor, sceneList,
                                 eventManager),
-                                new SetSceneTextDialog(uiSkin,
-                                        selectedActor, eventManager),
+                                new SetSceneTextDialog(uiSkin, selectedActor,
+                                        eventManager),
                                         new AddActorDialog(uiSkin, selectedActor,
-                                                actorsInScene, gridSize,
-                                                eventManager), };
+                                                actorsInScene, gridSize, eventManager), };
                 String[] dialogTexts = { "Set scene action",
                         "Set scene text action", "Set actor action", };
                 Dialog dialog = new SelectActionTypeDialog(uiSkin,
@@ -184,7 +183,7 @@ class RightBorder extends Border implements Updateable {
                 dialog.invalidateHierarchy();
                 dialog.invalidate();
                 dialog.layout();
-                dialog.show(rightBorder.stage);
+                dialog.show(RightBorder.this.getStage());
                 super.clicked(event, x, y);
             }
 
@@ -197,20 +196,25 @@ class RightBorder extends Border implements Updateable {
     }
 
     public void resize() {
-        setSize(RightBorder.RIGHT_BORDER_WIDTH_RATIO
-                * rightBorder.stage.getWidth(),
-                RightBorder.RIGHT_BORDER_HEIGHT_RATIO
-                * rightBorder.stage.getHeight());
-        setPosition(RightBorder.RIGHT_BORDER_X_DISPLACEMENT_RATIO
-                * rightBorder.stage.getWidth(),
-                RightBorder.RIGHT_BORDER_Y_DISPLACEMENT_RATIO
-                * rightBorder.stage.getHeight());
-        setLineSize(RightBorder.RIGHT_BORDER_LINE_SIZE);
-        setColor(RightBorder.RIGHT_BORDER_COLOR);
-        if (actorImageBorder != null) {
-            actorImageBorder.setSize(rightBorder.stage.getWidth()
-                    * ACTOR_IMAGE_SIZE_RATIO, rightBorder.stage.getWidth()
-                    * ACTOR_IMAGE_SIZE_RATIO);
+        if (getStage() != null) {
+            setSize(RightBorder.RIGHT_BORDER_WIDTH_RATIO
+                    * getStage().getWidth(),
+                    RightBorder.RIGHT_BORDER_HEIGHT_RATIO
+                    * getStage().getHeight());
+            setPosition(RightBorder.RIGHT_BORDER_X_DISPLACEMENT_RATIO
+                    * getStage().getWidth(),
+                    RightBorder.RIGHT_BORDER_Y_DISPLACEMENT_RATIO
+                    * getStage().getHeight());
+            setLineSize(RightBorder.RIGHT_BORDER_LINE_SIZE);
+            setColor(RightBorder.RIGHT_BORDER_COLOR);
+            actionList.setWidth(getWidth() * ACTION_LIST_WIDTH_RATIO);
+            scrollBorder.setSize(actionList.getWidth(), getHeight()
+                    * SCROLL_BORDER_HEIGHT_RATIO);
+            if (actorImageBorder != null) {
+                actorImageBorder.setSize(getStage().getWidth()
+                        * ACTOR_IMAGE_SIZE_RATIO, getStage().getWidth()
+                        * ACTOR_IMAGE_SIZE_RATIO);
+            }
         }
     }
 
