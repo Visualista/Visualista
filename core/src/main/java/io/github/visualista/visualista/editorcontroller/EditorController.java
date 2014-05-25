@@ -19,6 +19,8 @@ import java.io.File;
 
 import com.badlogic.gdx.Gdx;
 
+
+
 /**
  * Controller responsible for handling events from the Editor view. Also sends
  * data from the model to the view.
@@ -29,8 +31,8 @@ import com.badlogic.gdx.Gdx;
 public class EditorController implements ViewEventListener {
 
     private static final String VISUALISTA_FILE_FORMAT = ".vis";
-    private final VisualistaEditor visualista;
     private final IEditorView view;
+    private final VisualistaEditor visualista;
 
     public EditorController(final VisualistaEditor visualista,
             final IEditorView view) {
@@ -40,6 +42,10 @@ public class EditorController implements ViewEventListener {
 
         fillViewFromModel();
 
+    }
+
+    private void addEventHandlersToView() {
+        view.addViewEventListener(this);
     }
 
     private void fillViewFromModel() {
@@ -52,10 +58,6 @@ public class EditorController implements ViewEventListener {
                     .get(0));
         }
 
-    }
-
-    private void addEventHandlersToView() {
-        view.addViewEventListener(this);
     }
 
     @Override

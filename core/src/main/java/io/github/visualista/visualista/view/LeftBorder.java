@@ -63,7 +63,7 @@ class LeftBorder extends Border implements Updateable {
 
     public void addNewActor(final IGetActor updatedActor) {
         actorList.getItems().add(updatedActor);
-        actorList.setSelectedIndex(leftView.leftBorder.actorList.getItems()
+        actorList.setSelectedIndex(actorList.getItems()
                 .indexOf(updatedActor, true));
 
     }

@@ -27,6 +27,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
+
+
 /**
  * View class for the Editor view, responsible for all the visual logic and
  * painting with help from libGdx.
@@ -50,7 +52,7 @@ FilePickerListener {
     private java.util.List<Actor> focusableActors;
     private boolean isReady;
 
-    LeftBorder leftBorder;
+    private LeftBorder leftBorder;
 
     private LowerBorder lowerBorder;
 

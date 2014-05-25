@@ -9,8 +9,25 @@ import com.badlogic.gdx.files.FileHandle;
 
 public enum FileImporter {
     ;
-    private static final int MAX_RANDOM_INT = 1000;
     private static final String DATE_FORMAT = "yyyyMMdd_HHmmss-SSS";
+    private static final int MAX_RANDOM_INT = 1000;
+
+    private static String folderString() {
+        return "files" + File.separator;
+    }
+
+    private static String generateRandomFileName(final String fileExtension) {
+        String timeStamp = generateTimeStamp();
+        return timeStamp + "_" + new Random().nextInt(MAX_RANDOM_INT) + "."
+        + fileExtension;
+    }
+
+    private static String generateTimeStamp() {
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(
+                DATE_FORMAT);
+        return sdf.format(new Date());
+
+    }
 
     public static FileHandle importAndGetFile(final File file) {
         if (file != null && !file.isDirectory()) {
@@ -33,22 +50,5 @@ public enum FileImporter {
             }
         }
         return null;
-    }
-
-    private static String generateRandomFileName(final String fileExtension) {
-        String timeStamp = generateTimeStamp();
-        return timeStamp + "_" + new Random().nextInt(MAX_RANDOM_INT) + "."
-        + fileExtension;
-    }
-
-    private static String generateTimeStamp() {
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(
-                DATE_FORMAT);
-        return sdf.format(new Date());
-
-    }
-
-    private static String folderString() {
-        return "files" + File.separator;
     }
 }
