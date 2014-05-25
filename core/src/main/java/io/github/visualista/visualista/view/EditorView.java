@@ -257,12 +257,6 @@ public class EditorView implements ApplicationListener, IEditorView {
     public void resume() {
     }
 
-    private float rightSideOf(final com.badlogic.gdx.scenes.scene2d.Actor actor) {
-        return actor.getX() + actor.getWidth();
-    }
-
-
-
     @Override
     public void selectActor(final IGetActor actor) {
         rightBorder.selectActor(actor);
