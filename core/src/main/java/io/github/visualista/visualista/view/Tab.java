@@ -144,12 +144,6 @@ public class Tab extends Stack {
         return labelTextField.getText().toString();
     }
 
-    public TextField getTextField() {
-        // TODO: Remove this method. It should not be used except now when it is
-        // temporary needed
-        return labelTextField;
-    }
-
     public void stopEditing() {
         if(nameWasChanged()){
             for(TabListener listener : tabListeners){
