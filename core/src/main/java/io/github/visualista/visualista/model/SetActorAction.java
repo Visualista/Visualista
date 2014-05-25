@@ -6,7 +6,7 @@ public class SetActorAction implements IAction {
 
     private Point targetTile;
     private Actor replacementActor;
-    private PositionedActor wrappedData;
+    private final PositionedActor wrappedData;
 
     public SetActorAction(final Point targetTile, final Actor replacementActor) {
         this.targetTile = targetTile;
@@ -40,10 +40,6 @@ public class SetActorAction implements IAction {
                 + targetTile.getX() + "," + targetTile.getY();
     }
 
-    public String getExplainatoryName() {
-        return "SetTile(" + replacementActor.toString() + " | "
-                + targetTile.getX() + "," + targetTile.getY() + ")";
-    }
 
     public PositionedActor getWrappedData() {
         return wrappedData;

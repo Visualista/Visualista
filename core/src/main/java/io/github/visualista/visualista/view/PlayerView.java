@@ -105,7 +105,7 @@ public class PlayerView implements ApplicationListener, IPlayerView {
 
     protected boolean actorFieldHasFocus;
 
-    private boolean isReady = false;
+    private boolean isReady;
 
     public PlayerView(final Dimension dimension) {
         configDimension = dimension;

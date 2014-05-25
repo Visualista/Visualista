@@ -57,11 +57,10 @@ public class MatrixTest {
     @Test
     public void testFillWith() {
         matrix.fillWith(new IObjectCreator<Integer>() {
-            Random rng = new Random();
 
             @Override
             public Integer createObject() {
-                return new Integer(rng.nextInt());
+                return new Integer(rand.nextInt());
             }
         });
         for (int i = 0; i < matrix.getSize().getWidth(); ++i) {

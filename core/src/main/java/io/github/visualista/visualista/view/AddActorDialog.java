@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldFilter;
 
 public class AddActorDialog extends Dialog {
 
+    private static final String TEXT_INPUT_DEFAULT_VALUE = "1";
     private static final String TITLE = "AddActorAction";
     private Label instructions;
     private TextButton okButton;
@@ -63,13 +64,13 @@ public class AddActorDialog extends Dialog {
         getContentTable().add(scroll).row();
         getContentTable().add(
                 new Label(labelFormat("Column", gridSize.getWidth()), skin));
-        columnInput = new TextField("1", skin);
+        columnInput = new TextField(TEXT_INPUT_DEFAULT_VALUE, skin);
         columnInput
         .setTextFieldFilter(createInputFilter(1, gridSize.getWidth()));
         getContentTable().add(columnInput).row();
         getContentTable().add(
                 new Label(labelFormat("Row", gridSize.getHeight()), skin));
-        rowInput = new TextField("1", skin);
+        rowInput = new TextField(TEXT_INPUT_DEFAULT_VALUE, skin);
         rowInput.setTextFieldFilter(createInputFilter(1, gridSize.getHeight()));
         getContentTable().add(rowInput);
         okButton = new TextButton("OK", skin);

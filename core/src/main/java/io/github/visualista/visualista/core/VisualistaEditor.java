@@ -22,6 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 
 /**
  * Data provider for the Editor Controller, and responsible for creating new
@@ -124,8 +125,7 @@ public final class VisualistaEditor {
 
         final FileLoader<Novel> fileLoader = new FileLoader<Novel>();
         try {
-            setCurrentNovel(fileLoader.getObjectFromFile(Gdx.files.local(
-                    "files" + File.separator + "novel.xml").file()));
+            setCurrentNovel(fileLoader.getObjectFromFile(getNovelFileHandle().file()));
         } catch (final FileNotFoundException e) {
             // TODO error message
             e.printStackTrace();
@@ -133,6 +133,11 @@ public final class VisualistaEditor {
 
         return currentNovel;
 
+    }
+
+    private FileHandle getNovelFileHandle() {
+        return Gdx.files.local(
+                "files" + File.separator + "novel.xml");
     }
 
     public void removeActor(final Actor selectedActor) {
@@ -148,7 +153,7 @@ public final class VisualistaEditor {
         final FileSaver<Novel> saver = new FileSaver<Novel>();
         try {
             saver.saveObjectToFile(
-                    Gdx.files.local("files" + File.separator + "novel.xml")
+                    getNovelFileHandle()
                     .file(), currentNovel);
             FolderZipper.zipFolder(Gdx.files.local("files" + File.separator)
                     .file(), file);

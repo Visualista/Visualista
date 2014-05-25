@@ -8,7 +8,7 @@ import java.util.List;
 public class Novel implements Nameable, IGetNovel {
     private Scene currentScene;
     private String name;
-    List<Scene> scenes;
+    private final List<Scene> scenes;
 
     public Novel(final List<Scene> scenes) {
         setName("NewNovel");

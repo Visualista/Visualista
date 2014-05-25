@@ -35,12 +35,12 @@ import com.badlogic.gdx.utils.Array;
 class LeftBorder extends Border implements Updateable {
     private static final int BUTTON_DIMENSION = 40;
     private static final int BUTTON_EXTRA_WIDTH = 10;
-    static final Color LEFT_BORDER_COLOR = Color.BLACK;
-    static final float LEFT_BORDER_HEIGHT_RATIO = 1f;
-    static final int LEFT_BORDER_LINE_SIZE = 1;
-    static final float LEFT_BORDER_WIDTH_RATIO = 0.25f;
-    static final float LEFT_BORDER_X_DISPLACEMENT_RATIO = 0;
-    static final float LEFT_BORDER_Y_DISPLACEMENT_RATIO = 0;
+    private static final Color LEFT_BORDER_COLOR = Color.BLACK;
+    private static final float LEFT_BORDER_HEIGHT_RATIO = 1f;
+    private static final int LEFT_BORDER_LINE_SIZE = 1;
+    private static final float LEFT_BORDER_WIDTH_RATIO = 0.25f;
+    private static final float LEFT_BORDER_X_DISPLACEMENT_RATIO = 0;
+    private static final float LEFT_BORDER_Y_DISPLACEMENT_RATIO = 0;
     private static final float LIST_WIDTH_RATIO = 0.9f;
     private static final float SCROLL_BORDER_HEIGHT_RATIO = 0.7f;
     private static final String VISUALISTA_FILE_DESCRIPTION = "Visualista Novel";

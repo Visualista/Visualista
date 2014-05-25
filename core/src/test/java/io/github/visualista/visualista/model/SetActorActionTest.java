@@ -1,7 +1,7 @@
 package io.github.visualista.visualista.model;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
 import io.github.visualista.visualista.util.Point;
 
 import org.junit.Before;
@@ -48,13 +48,6 @@ public class SetActorActionTest {
     }
 
     @Test
-    public void testGetExplainatoryName() {
-        assertThat("SetTile(" + actor.toString() + " | " + point.getX() + ","
-                + point.getY() + ")",
-                equalTo(setActorAction.getExplainatoryName()));
-    }
-
-    @Test
     public void testGetWrappedData() {
         PositionedActor positionedActor = new PositionedActor(new Point(
                 POINT_3_X, POINT_3_Y), actor);
@@ -68,11 +61,11 @@ public class SetActorActionTest {
     @Test
     public void testGetActionData() {
         assertThat(
-                ((PositionedActor) (setActorAction.getActionData()))
-                        .getPosition(),
+                ((PositionedActor) setActorAction.getActionData())
+                .getPosition(),
                 equalTo(point));
         assertThat(
-                ((PositionedActor) (setActorAction.getActionData())).getActor(),
+                ((PositionedActor) setActorAction.getActionData()).getActor(),
                 equalTo(actor));
     }
 }

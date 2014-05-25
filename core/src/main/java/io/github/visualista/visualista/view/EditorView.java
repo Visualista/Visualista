@@ -32,8 +32,34 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class EditorView implements ApplicationListener, IEditorView {
 
-    private static final float HIDDEN_SCENE_WIDTH_RATIO = 0.2f;
 
+
+
+
+
+    private CenterBorder centerBorder;
+    private final Dimension configDimension;
+    private final ViewEventManager eventManager = new ViewEventManager();
+    private final IFilePicker filePicker;
+
+    private java.util.List<Actor> focusableActors;
+
+    private boolean isReady;
+
+    private LeftBorder leftBorder;
+
+
+    private LowerBorder lowerBorder;
+
+
+
+    private RightBorder rightBorder;
+
+    Stage stage;
+
+    private Skin uiSkin;
+
+    private UpperBorder upperBorder;
 
     public static Border surroundWithInvisibleBorder(final Actor actor) {
         Border surroundingBorder = new Border();
@@ -41,30 +67,6 @@ public class EditorView implements ApplicationListener, IEditorView {
         surroundingBorder.setActor(actor);
         return surroundingBorder;
     }
-
-    private CenterBorder centerBorder;
-
-    private final Dimension configDimension;
-    private final ViewEventManager eventManager = new ViewEventManager();
-    private final IFilePicker filePicker;
-    private java.util.List<Actor> focusableActors;
-
-    private boolean isReady;
-
-    private LeftBorder leftBorder;
-
-    private LowerBorder lowerBorder;
-
-
-    private RightBorder rightBorder;
-
-
-
-    Stage stage;
-
-    private Skin uiSkin;
-
-    private UpperBorder upperBorder;
 
     public EditorView(final Dimension dimension, final IFilePicker filePicker) {
         configDimension = dimension;
