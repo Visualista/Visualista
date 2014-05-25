@@ -21,9 +21,10 @@ public class SetSceneAction implements IAction {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return getExplainatoryName();
     }
+
     @Override
     public Object getActionData() {
         return targetScene;
