@@ -1,6 +1,5 @@
 package io.github.visualista.visualista.view;
 
-import io.github.visualista.visualista.core.FilePickerListener;
 import io.github.visualista.visualista.core.IFilePicker;
 import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
 import io.github.visualista.visualista.editorcontroller.IEditorView;
@@ -11,10 +10,6 @@ import io.github.visualista.visualista.model.IGetNovel;
 import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.model.IGetTile;
 import io.github.visualista.visualista.util.Dimension;
-
-import java.io.File;
-
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -35,34 +30,39 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
  * @author Markus Bergland, Erik Risfelt, Pierre Krafft
  */
 
-public class EditorView implements ApplicationListener, IEditorView,
-FilePickerListener {
+public class EditorView implements ApplicationListener, IEditorView {
 
     private static final float HIDDEN_SCENE_WIDTH_RATIO = 0.2f;
-    private static final String VISUALISTA_FILE_DESCRIPTION = "Visualista Novel";
-    private static final String VISUALISTA_FILE_FORMAT_WITHOUT_DOT = "vis";
+
+
+    public static Border surroundWithInvisibleBorder(final Actor actor) {
+        Border surroundingBorder = new Border();
+        surroundingBorder.setLineSize(0);
+        surroundingBorder.setActor(actor);
+        return surroundingBorder;
+    }
 
     private CenterBorder centerBorder;
 
     private final Dimension configDimension;
-
     private final ViewEventManager eventManager = new ViewEventManager();
     private final IFilePicker filePicker;
     private java.util.List<Actor> focusableActors;
+
     private boolean isReady;
 
     private LeftBorder leftBorder;
 
     private LowerBorder lowerBorder;
 
+
     private RightBorder rightBorder;
+
 
 
     Stage stage;
 
-
-
-    Skin uiSkin;
+    private Skin uiSkin;
 
     private UpperBorder upperBorder;
 
@@ -72,11 +72,11 @@ FilePickerListener {
         this.filePicker = filePicker;
     }
 
+    // Create Editor //
+
     private void addFocusableActorField(final Actor actorField) {
         focusableActors.add(actorField);
     }
-
-    // Create Editor //
 
     @Override
     public void addNewActor(final IGetActor actor) {
@@ -161,11 +161,11 @@ FilePickerListener {
 
         stage.clear();
         uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
-        leftBorder = new LeftBorder(this,eventManager,filePicker);
+        leftBorder = new LeftBorder(uiSkin,eventManager,filePicker,stage);
         stage.addActor(leftBorder);
-        rightBorder = new RightBorder(this,eventManager,filePicker);
+        rightBorder = new RightBorder(this,eventManager,filePicker,uiSkin);
         stage.addActor(rightBorder);
-        lowerBorder = new LowerBorder(this, stage, eventManager);
+        lowerBorder = new LowerBorder(this, stage, eventManager,uiSkin);
         stage.addActor(lowerBorder);
         centerBorder = new CenterBorder(this,eventManager);
         stage.addActor(centerBorder);
@@ -198,16 +198,7 @@ FilePickerListener {
     public void dispose() {
     }
 
-    @Override
-    public void fileOpened(final File selectedFile) {
-        eventManager.fireViewEvent(this, Type.FILE_OPEN, null, selectedFile);
-    }
 
-    @Override
-    public void fileSaved(final File selectedFile) {
-        eventManager.fireViewEvent(this, Type.FILE_SAVE, null, selectedFile);
-
-    }
 
     @Override
     public boolean getIsReady() {
@@ -220,11 +211,7 @@ FilePickerListener {
         // TODO hide objects that want that
     }
 
-    protected void openNovel() {
-        filePicker.openFileDialog(EditorView.this,
-                new FileNameExtensionFilter(VISUALISTA_FILE_DESCRIPTION,
-                        VISUALISTA_FILE_FORMAT_WITHOUT_DOT));
-    }
+
 
     @Override
     public void pause() {
@@ -268,11 +255,7 @@ FilePickerListener {
         return actor.getX() + actor.getWidth();
     }
 
-    protected void saveNovel() {
-        filePicker.saveFileDialog(this,
-                new FileNameExtensionFilter(VISUALISTA_FILE_DESCRIPTION,
-                        VISUALISTA_FILE_FORMAT_WITHOUT_DOT));
-    }
+
 
     @Override
     public void selectActor(final IGetActor actor) {
@@ -284,13 +267,6 @@ FilePickerListener {
     public void selectEditorTool(final EditorTool tool) {
         centerBorder.selectEditorTool(tool);
 
-    }
-
-    Border surroundWithInvisibleBorder(final Actor actor) {
-        Border surroundingBorder = new Border();
-        surroundingBorder.setLineSize(0);
-        surroundingBorder.setActor(actor);
-        return surroundingBorder;
     }
 
     @Override

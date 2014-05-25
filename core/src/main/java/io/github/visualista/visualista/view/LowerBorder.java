@@ -7,6 +7,7 @@ import io.github.visualista.visualista.model.IGetScene;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 
@@ -23,10 +24,12 @@ class LowerBorder extends Border implements Updateable {
     private final EditorView lowerBorder;
 
     private TextArea textArea;
+    private final Skin uiSkin;
 
 
-    public LowerBorder(final EditorView editorView, final Stage stage, final ViewEventManager eventManager) {
+    public LowerBorder(final EditorView editorView, final Stage stage, final ViewEventManager eventManager, final Skin uiSkin) {
         lowerBorder = editorView;
+        this.uiSkin = uiSkin;
         resizeLowerBorder();
         setActor(createLowerBorderContent());
         resizeLowerBorder();
@@ -40,7 +43,7 @@ class LowerBorder extends Border implements Updateable {
     }
 
     private TextArea createLowerBorderContent() {
-        textArea = new TextArea("", lowerBorder.uiSkin);
+        textArea = new TextArea("", uiSkin);
 
         textArea.addCaptureListener(new FocusListener() {
 

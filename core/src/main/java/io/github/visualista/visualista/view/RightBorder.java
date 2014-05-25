@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
@@ -55,10 +56,12 @@ class RightBorder extends Border implements Updateable {
     private VerticalGroup rightVerticalGroup;
     private final java.util.List<IGetScene> sceneList = new ArrayList<IGetScene>();
     private IGetActor selectedActor;
+    private final Skin uiSkin;
 
-    public RightBorder(final EditorView editorView, final ViewEventManager eventManager, final IFilePicker filePicker) {
+    public RightBorder(final EditorView editorView, final ViewEventManager eventManager, final IFilePicker filePicker, final Skin uiSkin) {
         this.eventManager = eventManager;
         this.filePicker = filePicker;
+        this.uiSkin = uiSkin;
         rightBorder = editorView;
         resize();
         createRightEditorBorderContent();
@@ -85,7 +88,7 @@ class RightBorder extends Border implements Updateable {
         rightVerticalGroup = new VerticalGroup();
         setActor(rightVerticalGroup);
 
-        actorField = new TextField("", rightBorder.uiSkin);
+        actorField = new TextField("", uiSkin);
         rightVerticalGroup.addActor(actorField);
         rightVerticalGroup.setVisible(false);
 
@@ -138,16 +141,16 @@ class RightBorder extends Border implements Updateable {
 
         });
 
-        actionLabel = new Label("Actions", rightBorder.uiSkin);
+        actionLabel = new Label("Actions", uiSkin);
         actionLabel.setColor(Color.BLACK);
         rightVerticalGroup.addActor(actionLabel);
 
-        actionList = new List<IAction>(rightBorder.uiSkin);
+        actionList = new List<IAction>(uiSkin);
 
         actionList.setWidth(getWidth() * ACTION_LIST_WIDTH_RATIO);
         actionList.setColor(Color.BLACK);
 
-        final ScrollPane scroll = new ScrollPane(actionList, rightBorder.uiSkin);
+        final ScrollPane scroll = new ScrollPane(actionList, uiSkin);
         scroll.setFadeScrollBars(false);
         Border scrollBorder = new Border();
         scrollBorder.setLineOutsideActor(true);
@@ -157,26 +160,26 @@ class RightBorder extends Border implements Updateable {
         scrollBorder.setActor(scroll);
         rightVerticalGroup.addActor(scrollBorder);
 
-        modifyButton = new TextButton("Modify", rightBorder.uiSkin);
+        modifyButton = new TextButton("Modify", uiSkin);
 
-        addActionButton = new TextButton("Add", rightBorder.uiSkin);
+        addActionButton = new TextButton("Add", uiSkin);
         addActionButton.addCaptureListener(new ClickListener() {
 
             @Override
             public void clicked(final InputEvent event, final float x,
                     final float y) {
                 Dialog[] dialogs = {
-                        new ChangeSceneDialog(rightBorder.uiSkin,
+                        new ChangeSceneDialog(uiSkin,
                                 selectedActor, sceneList,
                                 eventManager),
-                                new SetSceneTextDialog(rightBorder.uiSkin,
+                                new SetSceneTextDialog(uiSkin,
                                         selectedActor, eventManager),
-                                        new AddActorDialog(rightBorder.uiSkin, selectedActor,
+                                        new AddActorDialog(uiSkin, selectedActor,
                                                 actorsInScene, gridSize,
                                                 eventManager), };
                 String[] dialogTexts = { "Set scene action",
                         "Set scene text action", "Set actor action", };
-                Dialog dialog = new SelectActionTypeDialog(rightBorder.uiSkin,
+                Dialog dialog = new SelectActionTypeDialog(uiSkin,
                         selectedActor, dialogs, dialogTexts);
                 dialog.invalidateHierarchy();
                 dialog.invalidate();
