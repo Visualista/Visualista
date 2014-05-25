@@ -114,32 +114,7 @@ class RightBorder extends Border implements Updateable {
         actorImageBorder.setActor(actorImage);
         rightVerticalGroup.addActor(actorImageBorder);
 
-        actorImage.addListener(new ClickListener() {
-
-            @Override
-            public void clicked(final InputEvent event, final float x,
-                    final float y) {
-                // TODO selected scene and image
-                FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                        "Select image (*.png)", "png");
-                filePicker.openFileDialog(new FilePickerListener() {
-
-                    @Override
-                    public void fileOpened(final File selectedFile) {
-                        eventManager.fireViewEvent(this,
-                                Type.CHANGE_ACTOR_IMAGE, selectedActor,
-                                selectedFile);
-                    }
-
-                    @Override
-                    public void fileSaved(final File selectedFile) {
-                    }
-                }, filter);
-
-                super.clicked(event, x, y);
-            }
-
-        });
+        actorImage.addListener(new ActorImageClickListener());
 
         actionLabel = new Label("Actions", uiSkin);
         actionLabel.setColor(Color.BLACK);
@@ -162,30 +137,7 @@ class RightBorder extends Border implements Updateable {
         modifyButton = new TextButton("Modify", uiSkin);
 
         addActionButton = new TextButton("Add", uiSkin);
-        addActionButton.addCaptureListener(new ClickListener() {
-
-            @Override
-            public void clicked(final InputEvent event, final float x,
-                    final float y) {
-                Dialog[] dialogs = {
-                        new ChangeSceneDialog(uiSkin, selectedActor, sceneList,
-                                eventManager),
-                                new SetSceneTextDialog(uiSkin, selectedActor,
-                                        eventManager),
-                                        new AddActorDialog(uiSkin, selectedActor,
-                                                actorsInScene, gridSize, eventManager), };
-                String[] dialogTexts = { "Set scene action",
-                        "Set scene text action", "Set actor action", };
-                Dialog dialog = new SelectActionTypeDialog(uiSkin,
-                        selectedActor, dialogs, dialogTexts);
-                dialog.invalidateHierarchy();
-                dialog.invalidate();
-                dialog.layout();
-                dialog.show(RightBorder.this.getStage());
-                super.clicked(event, x, y);
-            }
-
-        });
+        addActionButton.addCaptureListener(new AddActionClickListener());
         HorizontalGroup buttonContainer = new HorizontalGroup();
         buttonContainer.addActor(modifyButton);
         buttonContainer.addActor(addActionButton);
@@ -257,5 +209,59 @@ class RightBorder extends Border implements Updateable {
     public void updateScene(final IGetScene scene) {
         actorsInScene = scene.getActorsInScene();
         gridSize = scene.getIGetGrid().getSize();
+    }
+
+    class ActorImageClickListener extends ClickListener {
+        @Override
+        public void clicked(final InputEvent event, final float x,
+                final float y) {
+            // TODO selected scene and image
+            FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                    "Select image (*.png)", "png");
+            filePicker.openFileDialog(new FilePickerListener() {
+
+                @Override
+                public void fileOpened(final File selectedFile) {
+                    eventManager.fireViewEvent(this,
+                            Type.CHANGE_ACTOR_IMAGE, selectedActor,
+                            selectedFile);
+                }
+
+                @Override
+                public void fileSaved(final File selectedFile) {
+                }
+            }, filter);
+
+            super.clicked(event, x, y);
+        }
+
+
+    }
+
+    class AddActionClickListener extends ClickListener{
+
+
+        @Override
+        public void clicked(final InputEvent event, final float x,
+                final float y) {
+            Dialog[] dialogs = {
+                    new ChangeSceneDialog(uiSkin, selectedActor, sceneList,
+                            eventManager),
+                            new SetSceneTextDialog(uiSkin, selectedActor,
+                                    eventManager),
+                                    new AddActorDialog(uiSkin, selectedActor,
+                                            actorsInScene, gridSize, eventManager), };
+            String[] dialogTexts = { "Set scene action",
+                    "Set scene text action", "Set actor action", };
+            Dialog dialog = new SelectActionTypeDialog(uiSkin,
+                    selectedActor, dialogs, dialogTexts);
+            dialog.invalidateHierarchy();
+            dialog.invalidate();
+            dialog.layout();
+            dialog.show(getStage());
+            super.clicked(event, x, y);
+        }
+
+
     }
 }

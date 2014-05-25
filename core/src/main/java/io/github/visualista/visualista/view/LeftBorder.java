@@ -280,34 +280,7 @@ class LeftBorder extends Border implements Updateable {
         setSceneBackgroundButton = new TextButton("Set background", uiSkin);
         leftVerticalGroup.addActor(setSceneBackgroundButton);
 
-        setSceneBackgroundButton.addListener(new ClickListener() {
-
-            @Override
-            public void clicked(final InputEvent event, final float x,
-                    final float y) {
-                // TODO selected scene and image
-                FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                        "Chose image", "png");
-                filePicker.openFileDialog(new FilePickerListener() {
-
-                    @Override
-                    public void fileOpened(final File selectedFile) {
-                        if (selectedFile != null) {
-                            eventManager.fireViewEvent(this,
-                                    Type.CHANGE_SCENE_IMAGE, activeScene,
-                                    selectedFile);
-                        }
-                    }
-
-                    @Override
-                    public void fileSaved(final File selectedFile) {
-                    }
-                }, filter);
-
-                super.clicked(event, x, y);
-            }
-
-        });
+        setSceneBackgroundButton.addListener(new SetSceneBackgroundClickListener());
     }
 
     protected void hideButtonBorders() {
@@ -382,6 +355,37 @@ class LeftBorder extends Border implements Updateable {
         setLineSize(LeftBorder.LEFT_BORDER_LINE_SIZE);
         setColor(LeftBorder.LEFT_BORDER_COLOR);
 
+    }
+
+    class SetSceneBackgroundClickListener extends ClickListener{
+
+
+        @Override
+        public void clicked(final InputEvent event, final float x,
+                final float y) {
+            // TODO selected scene and image
+            FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                    "Chose image", "png");
+            filePicker.openFileDialog(new FilePickerListener() {
+
+                @Override
+                public void fileOpened(final File selectedFile) {
+                    if (selectedFile != null) {
+                        eventManager.fireViewEvent(this,
+                                Type.CHANGE_SCENE_IMAGE, activeScene,
+                                selectedFile);
+                    }
+                }
+
+                @Override
+                public void fileSaved(final File selectedFile) {
+                }
+            }, filter);
+
+            super.clicked(event, x, y);
+
+
+        }
     }
 
 }

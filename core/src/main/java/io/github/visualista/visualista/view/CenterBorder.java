@@ -160,6 +160,28 @@ class CenterBorder extends Border implements Updateable {
                 .createDrawableFor(scene));
     }
 
+    public void resize() {
+        if (getStage() != null) {
+            setSize(CenterBorder.CENTER_BORDER_WIDTH_RATIO
+                    * getStage().getWidth(),
+                    CenterBorder.CENTER_BORDER_HEIGHT_RATIO
+                    * getStage().getHeight());
+            setPosition(CenterBorder.CENTER_BORDER_X_DISPLACEMENT_RATIO
+                    * getStage().getWidth(),
+                    CenterBorder.CENTER_BORDER_Y_DISPLACEMENT_RATIO
+                    * getStage().getHeight());
+            setLineSize(CenterBorder.CENTER_BORDER_LINE_SIZE);
+            setColor(CenterBorder.CENTER_BORDER_COLOR);
+            if (gridDimensions != null) {
+                float buttonLength = calculateBorderLength(getWidth(),
+                        getHeight(), gridDimensions);
+                for (Border border : borders) {
+                    border.setSize(buttonLength, buttonLength);
+                }
+            }
+        }
+    }
+
     class EditorTileClickListener extends ClickListener {
 
         private final Image image;
@@ -187,25 +209,4 @@ class CenterBorder extends Border implements Updateable {
 
     }
 
-    public void resize() {
-        if (getStage() != null) {
-            setSize(CenterBorder.CENTER_BORDER_WIDTH_RATIO
-                    * getStage().getWidth(),
-                    CenterBorder.CENTER_BORDER_HEIGHT_RATIO
-                    * getStage().getHeight());
-            setPosition(CenterBorder.CENTER_BORDER_X_DISPLACEMENT_RATIO
-                    * getStage().getWidth(),
-                    CenterBorder.CENTER_BORDER_Y_DISPLACEMENT_RATIO
-                    * getStage().getHeight());
-            setLineSize(CenterBorder.CENTER_BORDER_LINE_SIZE);
-            setColor(CenterBorder.CENTER_BORDER_COLOR);
-            if (gridDimensions != null) {
-                float buttonLength = calculateBorderLength(getWidth(),
-                        getHeight(), gridDimensions);
-                for (Border border : borders) {
-                    border.setSize(buttonLength, buttonLength);
-                }
-            }
-        }
-    }
 }
