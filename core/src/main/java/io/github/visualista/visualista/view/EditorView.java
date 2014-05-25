@@ -158,7 +158,7 @@ public class EditorView implements ApplicationListener, IEditorView {
         Gdx.graphics.setContinuousRendering(true);
         resize((int) stage.getWidth(), (int) stage.getHeight());
         isReady = true;
-        eventManager.VIEW_READY();
+        eventManager.viewIsReady();
     }
 
     @Override

@@ -63,7 +63,7 @@ public class ChangeSceneDialog extends Dialog {
     @Override
     protected void result(final Object object) {
         if ((Boolean) object) {
-            eventManager.ADD_SET_SCENE_ACTION( actor,
+            eventManager.addSetSceneAction( actor,
                     list.getSelected());
         }
         super.result(object);

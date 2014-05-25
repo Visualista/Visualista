@@ -82,7 +82,7 @@ class LeftBorder extends Border implements Updateable {
         actorList.setItems(new Array<IGetActor>(scene.getActorsInScene()
                 .toArray(temp)));
         if (actorList.getSelected() != null) {
-            eventManager.SELECT_ACTOR(
+            eventManager.selectActor(
                     actorList.getSelected());
         }
     }
@@ -98,7 +98,7 @@ class LeftBorder extends Border implements Updateable {
             public void changed(final ChangeEvent event, final Actor actor) {
                 int index = list.getSelectedIndex();
                 if (index != -1) {
-                    eventManager.SELECT_ACTOR(
+                    eventManager.selectActor(
                             list.getSelected());
                 }
             }
@@ -113,7 +113,7 @@ class LeftBorder extends Border implements Updateable {
             @Override
             public void clicked(final InputEvent event, final float x,
                     final float y) {
-                eventManager.NEW_ACTOR(activeScene);
+                eventManager.newActor(activeScene);
             }
         });
         return addActorButton;
@@ -133,7 +133,7 @@ class LeftBorder extends Border implements Updateable {
             @Override
             public void clicked(final InputEvent event, final float x,
                     final float y) {
-                eventManager.SELECT_EDITOR_TOOl(
+                eventManager.selectEditorTool(
                         EditorTool.ARROW);
                 hideButtonBorders();
                 border.setLineSize(1);
@@ -179,7 +179,7 @@ class LeftBorder extends Border implements Updateable {
             public void clicked(final InputEvent event, final float x,
                     final float y) {
 
-                eventManager.SELECT_EDITOR_TOOl(
+                eventManager.selectEditorTool(
                         EditorTool.CURSOR);
                 hideButtonBorders();
                 border.setLineSize(1);
@@ -243,7 +243,7 @@ class LeftBorder extends Border implements Updateable {
             public void clicked(final InputEvent event, final float x,
                     final float y) {
                 // TODO list linking
-                eventManager.REMOVE_ACTOR( activeScene);
+                eventManager.removeActor( activeScene);
             }
         });
         return removeActorButton;
@@ -291,7 +291,7 @@ class LeftBorder extends Border implements Updateable {
         filePicker.openFileDialog(new FilePickerListener() {
             @Override
             public void fileOpened(final File selectedFile) {
-                eventManager.FILE_OPEN(
+                eventManager.fileOpen(
                         selectedFile);
             }
 
@@ -329,7 +329,7 @@ class LeftBorder extends Border implements Updateable {
 
             @Override
             public void fileSaved(final File selectedFile) {
-                eventManager.FILE_SAVE(
+                eventManager.fileSave(
                         selectedFile);
 
             }
@@ -369,7 +369,7 @@ class LeftBorder extends Border implements Updateable {
                 @Override
                 public void fileOpened(final File selectedFile) {
                     if (selectedFile != null) {
-                        eventManager.CHANGE_SCENE_IMAGE( activeScene,
+                        eventManager.changeSceneImage( activeScene,
                                 selectedFile);
                     }
                 }

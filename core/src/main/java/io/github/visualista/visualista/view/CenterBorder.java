@@ -196,11 +196,11 @@ class CenterBorder extends Border implements Updateable {
             if (selectedActor != null) {
                 if (selectedTool == EditorTool.ARROW) {
 
-                    eventManager.TILE_SET_ACTOR(
+                    eventManager.tileSetActor(
                             image, tile, selectedActor);
 
                 } else if (selectedTool == EditorTool.CURSOR) {
-                    eventManager.SELECT_TILE( tile);
+                    eventManager.selectTile( tile);
                 }
             }
             super.clicked(event, x, y);

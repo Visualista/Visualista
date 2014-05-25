@@ -98,7 +98,7 @@ class RightBorder extends Border implements Updateable {
             public void keyboardFocusChanged(final FocusEvent event,
                     final Actor actor, final boolean focused) {
                 if (!focused) {
-                    eventManager.CHANGE_ACTOR_NAME(
+                    eventManager.changeActorName(
                             selectedActor, actorField.getText());
                 }
                 super.keyboardFocusChanged(event, actor, focused);
@@ -221,7 +221,7 @@ class RightBorder extends Border implements Updateable {
 
                 @Override
                 public void fileOpened(final File selectedFile) {
-                    eventManager.CHANGE_ACTOR_IMAGE( selectedActor,
+                    eventManager.changeActorImage( selectedActor,
                             selectedFile);
                 }
 

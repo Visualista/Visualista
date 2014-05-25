@@ -57,7 +57,7 @@ public class EditorController implements ViewEventListener {
     }
 
     @Override
-    public void ADD_SET_ACTOR_ACTION(final IGetActor actor,
+    public void addSetActorAction(final IGetActor actor,
             final PositionedActor positionedActor) {
         actor.getActions().add(new SetActorAction(positionedActor));
         view.updateActionList(actor);
@@ -65,13 +65,13 @@ public class EditorController implements ViewEventListener {
     }
 
     @Override
-    public void SELECT_TILE(final IGetTile tile) {
+    public void selectTile(final IGetTile tile) {
         view.selectActor(tile.getActor());
 
     }
 
     @Override
-    public void ADD_SET_SCENE_ACTION(final IGetActor actor,
+    public void addSetSceneAction(final IGetActor actor,
             final IGetScene selected) {
         actor.getActions().add(new SetSceneAction((Scene) selected));
         view.updateActionList(actor);
@@ -79,38 +79,38 @@ public class EditorController implements ViewEventListener {
     }
 
     @Override
-    public void SELECT_ACTOR(final IGetActor selected) {
+    public void selectActor(final IGetActor selected) {
         view.selectActor(selected);
 
     }
 
     @Override
-    public void NEW_ACTOR(final IGetScene activeScene) {
+    public void newActor(final IGetScene activeScene) {
         IGetActor updatedActor = visualista.addNewActor((Scene) activeScene);
         view.addNewActor(updatedActor);
 
     }
 
     @Override
-    public void SELECT_EDITOR_TOOl(final EditorTool arrow) {
+    public void selectEditorTool(final EditorTool arrow) {
         view.selectEditorTool(arrow);
 
     }
 
     @Override
-    public void REMOVE_ACTOR(final IGetScene activeScene) {
+    public void removeActor(final IGetScene activeScene) {
         // visualista.removeActor((Actor) event.getTargetObject());
         // TODO FIX!
     }
 
     @Override
-    public void FILE_OPEN(final File selectedFile) {
+    public void fileOpen(final File selectedFile) {
         Novel updatedNovel = visualista.openNovel(selectedFile);
         fillViewFromModel();
     }
 
     @Override
-    public void FILE_SAVE(final File file) {
+    public void fileSave(final File file) {
         File fileToSave = file;
         if (!file.getName().toLowerCase().endsWith(VISUALISTA_FILE_FORMAT)) {
             fileToSave = new File(file.getAbsoluteFile()
@@ -121,7 +121,7 @@ public class EditorController implements ViewEventListener {
     }
 
     @Override
-    public void CHANGE_SCENE_IMAGE(final IGetScene activeScene,
+    public void changeSceneImage(final IGetScene activeScene,
             final File selectedFile) {
         IGetScene updatedScene = visualista.changeSceneImage(
                 (Scene) activeScene,
@@ -131,7 +131,7 @@ public class EditorController implements ViewEventListener {
     }
 
     @Override
-    public void CHANGE_SCENE_TEXT(final IGetScene activeScene, final String text) {
+    public void changeSceneText(final IGetScene activeScene, final String text) {
         IGetScene updatedScene = visualista.changeSceneText(
                 (Scene) activeScene, text);
         view.updateScene(updatedScene);
@@ -139,7 +139,7 @@ public class EditorController implements ViewEventListener {
     }
 
     @Override
-    public void CHANGE_ACTOR_NAME(final IGetActor selectedActor,
+    public void changeActorName(final IGetActor selectedActor,
             final String text) {
         Actor updatedActor = visualista.changeActorName((Actor) selectedActor,
                 text);
@@ -147,7 +147,7 @@ public class EditorController implements ViewEventListener {
     }
 
     @Override
-    public void ADD_SET_SCENE_TEXT_ACTION(final IGetActor actor,
+    public void addSetSceneTextAction(final IGetActor actor,
             final String text) {
         actor.getActions().add(new SetSceneTextAction(text));
         view.updateActionList(actor);
@@ -155,13 +155,13 @@ public class EditorController implements ViewEventListener {
     }
 
     @Override
-    public void SELECT_SCENE(final IGetScene scene) {
+    public void selectScene(final IGetScene scene) {
         view.changeActiveScene(scene);
 
     }
 
     @Override
-    public void CHANGE_SCENE_NAME(final IGetScene scene, final String newName) {
+    public void changeSceneName(final IGetScene scene, final String newName) {
         IGetScene updatedScene = visualista.changeSceneName((Scene) scene,
                 newName);
         view.updateScene(updatedScene);
@@ -170,20 +170,20 @@ public class EditorController implements ViewEventListener {
     }
 
     @Override
-    public void VIEW_READY() {
+    public void viewIsReady() {
         fillViewFromModel();
 
     }
 
     @Override
-    public void NEW_SCENE() {
+    public void newScene() {
         IGetScene newScene = visualista.addNewScene(true);
         view.addScene(newScene);
 
     }
 
     @Override
-    public void CHANGE_ACTOR_IMAGE(final IGetActor selectedActor,
+    public void changeActorImage(final IGetActor selectedActor,
             final File selectedFile) {
         IGetActor updatedActor = visualista.changeActorImage(
                 (Actor) selectedActor,
@@ -193,7 +193,7 @@ public class EditorController implements ViewEventListener {
     }
 
     @Override
-    public void TILE_SET_ACTOR(final com.badlogic.gdx.scenes.scene2d.ui.Image image,
+    public void tileSetActor(final com.badlogic.gdx.scenes.scene2d.ui.Image image,
             final IGetTile tile, final IGetActor selectedActor) {
         ((Tile) tile).setActor((Actor) selectedActor);
         view.updateTile(image, tile);

@@ -50,7 +50,7 @@ class LowerBorder extends Border implements Updateable {
             public void keyboardFocusChanged(final FocusEvent event,
                     final Actor actor, final boolean focused) {
                 if (!focused) {
-                    eventManager.CHANGE_SCENE_TEXT(activeScene,
+                    eventManager.changeSceneText(activeScene,
                             textArea.getText());
                 }
                 super.keyboardFocusChanged(event, actor, focused);

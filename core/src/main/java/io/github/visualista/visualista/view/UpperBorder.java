@@ -136,11 +136,11 @@ class UpperBorder extends Border implements Updateable, TabListener {
                 source.makeNameEditable();
                 source.giveFocusFrom(getStage());
             } else {
-                eventManager.SELECT_SCENE(
+                eventManager.selectScene(
                         tabs.getValue(source));
             }
         } else if (type == EventType.NAME_CHANGE) {
-            eventManager.CHANGE_SCENE_NAME(
+            eventManager.changeSceneName(
                     tabs.getValue(source), source.newName());
         }
 
@@ -173,7 +173,7 @@ class UpperBorder extends Border implements Updateable, TabListener {
             @Override
             public void clicked(final InputEvent event, final float x,
                     final float y) {
-                eventManager.NEW_SCENE();
+                eventManager.newScene();
             }
         });
         return newButton;

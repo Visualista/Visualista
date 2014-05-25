@@ -54,7 +54,7 @@ public class SetSceneTextDialog extends Dialog {
     @Override
     protected void result(final Object object) {
         if ((Boolean) object) {
-            eventManager.ADD_SET_SCENE_TEXT_ACTION(
+            eventManager.addSetSceneTextAction(
                     actor, textArea.getText());
         }
         super.result(object);

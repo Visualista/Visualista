@@ -104,7 +104,7 @@ public class AddActorDialog extends Dialog {
             int column = getIntFrom(columnText, DEFAULT_INPUT_INT);
             String rowText = rowInput.getText();
             int row = getIntFrom(rowText, DEFAULT_INPUT_INT);
-            eventManager.ADD_SET_ACTOR_ACTION(actor, new PositionedActor(
+            eventManager.addSetActorAction(actor, new PositionedActor(
                     new Point(column, row), (Actor) list.getSelected()));
         }
         super.result(object);
