@@ -16,8 +16,6 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -42,8 +40,6 @@ public class EditorView implements ApplicationListener, IEditorView {
     private final Dimension configDimension;
     private final ViewEventManager eventManager = new ViewEventManager();
     private final IFilePicker filePicker;
-
-    private java.util.List<Actor> focusableActors;
 
     private boolean isReady;
 
@@ -77,9 +73,6 @@ public class EditorView implements ApplicationListener, IEditorView {
 
     // Create Editor //
 
-    private void addFocusableActorField(final Actor actorField) {
-        focusableActors.add(actorField);
-    }
 
     @Override
     public void addNewActor(final IGetActor actor) {
@@ -174,18 +167,6 @@ public class EditorView implements ApplicationListener, IEditorView {
         stage.addActor(centerBorder);
         upperBorder = new UpperBorder(uiSkin, eventManager);
         stage.addActor(upperBorder);
-
-        focusableActors = new java.util.ArrayList<Actor>();
-        stage.addListener(new InputListener() {
-
-            @Override
-            public boolean touchDown(final InputEvent event, final float x,
-                    final float y, final int pointer, final int button) {
-                EditorView.this.objectHit(stage.hit(x, y, true));
-                return false;
-            }
-
-        });
 
         // Use if you need to zoom out a bit
         // ((OrthographicCamera) stage.getCamera()).zoom = 2;
