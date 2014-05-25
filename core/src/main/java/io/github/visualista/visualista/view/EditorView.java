@@ -189,12 +189,6 @@ public class EditorView implements ApplicationListener, IEditorView {
         return isReady;
     }
 
-    private void objectHit(final Actor hitObject) {
-        stage.setKeyboardFocus(hitObject);
-        stage.setScrollFocus(hitObject);
-        // TODO hide objects that want that
-    }
-
 
 
     @Override
