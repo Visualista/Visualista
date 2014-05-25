@@ -14,7 +14,8 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
-public class VisualistaDesktop {
+public enum VisualistaDesktop {
+    ;
     private static final int APPLICATION_HEIGHT = 700;
     private static final int APPLICATION_WIDTH = 1200;
 
