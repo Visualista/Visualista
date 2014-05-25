@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 public class Border extends Group {
 
+    private static final String DEPRECATED_METHOD_WARNING_USE_SET_ACTOR = "Use Border#setActor.";
     private Actor containedActor;
     private final BorderActor borderActor;
     private boolean lineOutsideActor;
@@ -125,7 +126,7 @@ public class Border extends Group {
     @Deprecated
     @Override
     public void addActor(final Actor actor) {
-        throw new UnsupportedOperationException("Use Border#setActor.");
+        throw new UnsupportedOperationException(DEPRECATED_METHOD_WARNING_USE_SET_ACTOR);
     }
 
     /**
@@ -135,7 +136,7 @@ public class Border extends Group {
     @Deprecated
     @Override
     public void addActorAt(final int index, final Actor actor) {
-        throw new UnsupportedOperationException("Use Border#setActor.");
+        throw new UnsupportedOperationException(DEPRECATED_METHOD_WARNING_USE_SET_ACTOR);
     }
 
     /**
@@ -145,7 +146,7 @@ public class Border extends Group {
     @Deprecated
     @Override
     public void addActorBefore(final Actor actorBefore, final Actor actor) {
-        throw new UnsupportedOperationException("Use Border#setActor.");
+        throw new UnsupportedOperationException(DEPRECATED_METHOD_WARNING_USE_SET_ACTOR);
     }
 
     /**
@@ -155,7 +156,7 @@ public class Border extends Group {
     @Deprecated
     @Override
     public void addActorAfter(final Actor actorAfter, final Actor actor) {
-        throw new UnsupportedOperationException("Use Border#setActor.");
+        throw new UnsupportedOperationException(DEPRECATED_METHOD_WARNING_USE_SET_ACTOR);
     }
 
     @Override

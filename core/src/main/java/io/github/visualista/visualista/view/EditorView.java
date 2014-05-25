@@ -15,7 +15,6 @@ import io.github.visualista.visualista.util.Dimension;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -59,12 +58,7 @@ public class EditorView implements ApplicationListener, IEditorView {
 
     private UpperBorder upperBorder;
 
-    public static Border surroundWithInvisibleBorder(final Actor actor) {
-        Border surroundingBorder = new Border();
-        surroundingBorder.setLineSize(0);
-        surroundingBorder.setActor(actor);
-        return surroundingBorder;
-    }
+
 
     public EditorView(final Dimension dimension, final IFilePicker filePicker) {
         configDimension = dimension;

@@ -10,4 +10,11 @@ public enum LibGdxConvenience {
             group.addActor(actor);
         }
     }
+
+    public static Border surroundWithInvisibleBorder(final Actor actor) {
+        Border surroundingBorder = new Border();
+        surroundingBorder.setLineSize(0);
+        surroundingBorder.setActor(actor);
+        return surroundingBorder;
+    }
 }

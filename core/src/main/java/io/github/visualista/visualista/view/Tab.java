@@ -26,7 +26,7 @@ public class Tab extends Stack {
     private static final int PADDING_SIZE = 5;
     private static final float FONT_SCALE_RATIO = 0.033f;
     private static final float CLOSE_IMAGE_RATIO = 0.8f;
-    private static final Drawable closeDrawable = new TextureRegionDrawable(
+    private static final Drawable CLOSE_DRAWABLE = new TextureRegionDrawable(
             new TextureRegion(new Texture(Gdx.files.internal("icons/tile.png"))));
     private final Label label;
     private final Image closeImage;
@@ -38,7 +38,7 @@ public class Tab extends Stack {
 
     public Tab(final String name, final Skin uiSkin) {
         label = new Label(name, uiSkin);
-        closeImage = new Image(closeDrawable);
+        closeImage = new Image(CLOSE_DRAWABLE);
         closeImageBorder = new Border();
         hGroup = new HorizontalGroup();
         background = new Rectangle(Color.GRAY);

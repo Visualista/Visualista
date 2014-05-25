@@ -36,7 +36,7 @@ public class SelectActionTypeDialog extends Dialog {
     }
 
     private void init(final Skin skin) {
-        instructions = new Label("Select action type", skin);
+        instructions = new Label(TITLE, skin);
         getContentTable().add(instructions).row();
         list = new List<String>(skin);
         list.setItems(names);

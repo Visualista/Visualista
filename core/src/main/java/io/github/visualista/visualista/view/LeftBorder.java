@@ -125,7 +125,7 @@ class LeftBorder extends Border implements Updateable {
                 new Texture(Gdx.files.internal("icons/arrow.png"))));
 
         ImageButton arrowButton = new ImageButton(arrow);
-        final Border border = EditorView
+        final Border border = LibGdxConvenience
                 .surroundWithInvisibleBorder(arrowButton);
         border.setLineOutsideActor(true);
         border.setLineSize(1);
@@ -171,7 +171,7 @@ class LeftBorder extends Border implements Updateable {
         final Drawable cursor = new TextureRegionDrawable(new TextureRegion(
                 new Texture(Gdx.files.internal("icons/cursor.png"))));
         ImageButton cursorButton = new ImageButton(cursor);
-        final Border border = EditorView
+        final Border border = LibGdxConvenience
                 .surroundWithInvisibleBorder(cursorButton);
         border.setLineOutsideActor(true);
         cursorButton.addListener(new ClickListener() {
@@ -233,7 +233,7 @@ class LeftBorder extends Border implements Updateable {
             }
 
         });
-        return EditorView.surroundWithInvisibleBorder(openButton);
+        return LibGdxConvenience.surroundWithInvisibleBorder(openButton);
     }
 
     private TextButton createRemoveActorButton() {
@@ -265,7 +265,7 @@ class LeftBorder extends Border implements Updateable {
             }
 
         });
-        return EditorView.surroundWithInvisibleBorder(saveButton);
+        return LibGdxConvenience.surroundWithInvisibleBorder(saveButton);
     }
 
     private void createScrollBorder(final ScrollPane scroll) {

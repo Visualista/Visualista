@@ -259,7 +259,7 @@ public class PlayerView implements ApplicationListener, IPlayerView {
             group.addActor(row);
             for (int j = 0; j < data.getSize().getWidth(); ++j) {
                 row.addActor(createSingleTile(data.getAt(new Point(i, j)),
-                        prefferedButtonHeight, prefferedButtonWidth));
+                        buttonSide, buttonSide));
             }
         }
     }
