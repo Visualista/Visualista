@@ -102,9 +102,9 @@ public class AddActorDialog extends Dialog {
     protected void result(final Object object) {
         if ((Boolean) object) {
             String columnText = columnInput.getText();
-            int column = getIntFrom(columnText,DEFAULT_INPUT_INT);
+            int column = getIntFrom(columnText, DEFAULT_INPUT_INT);
             String rowText = rowInput.getText();
-            int row = getIntFrom(rowText,DEFAULT_INPUT_INT);
+            int row = getIntFrom(rowText, DEFAULT_INPUT_INT);
             eventManager.fireViewEvent(
                     this,
                     Type.ADD_SET_ACTOR_ACTION,
@@ -116,8 +116,12 @@ public class AddActorDialog extends Dialog {
     }
 
     private int getIntFrom(final String columnText, final int defaultNumber) {
-        return columnText.isEmpty() ? defaultNumber : Integer
-                .parseInt(columnText);
+        if (columnText.isEmpty()) {
+            return 1;
+        } else {
+            return Integer.parseInt(columnText);
+        }
+
     }
 
 }
