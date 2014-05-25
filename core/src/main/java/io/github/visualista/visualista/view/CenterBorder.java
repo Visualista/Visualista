@@ -36,6 +36,7 @@ class CenterBorder extends Border implements Updateable {
     private Dimension gridDimensions;
     private Image sceneBackgroundImage;
     private IGetActor selectedActor;
+    protected EditorTool selectedTool;
 
 
     // End static variables //
@@ -98,7 +99,7 @@ class CenterBorder extends Border implements Updateable {
                     @Override
                     public void clicked(final InputEvent event, final float x, final float y) {
                         if (selectedActor != null) {
-                            if (editorView.selectedTool == EditorTool.ARROW) {
+                            if (selectedTool == EditorTool.ARROW) {
 
                                 eventManager
                                 .fireViewEvent(imageForCurrentTile,
@@ -106,7 +107,7 @@ class CenterBorder extends Border implements Updateable {
                                         tileAtCurrentPosition,
                                         selectedActor);
 
-                            } else if (editorView.selectedTool == EditorTool.CURSOR) {
+                            } else if (selectedTool == EditorTool.CURSOR) {
                                 eventManager
                                 .fireViewEvent(this, Type.SELECT_TILE,
                                         tileAtCurrentPosition);
@@ -183,6 +184,11 @@ class CenterBorder extends Border implements Updateable {
 
     public void selectActor(final IGetActor actor) {
         selectedActor = actor;
+
+    }
+
+    public void selectEditorTool(final EditorTool tool) {
+        selectedTool = tool;
 
     }
 

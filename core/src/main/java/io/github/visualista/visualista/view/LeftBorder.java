@@ -119,12 +119,12 @@ class LeftBorder extends Border implements Updateable {
         final Border border = leftView.surroundWithInvisibleBorder(arrowButton);
         border.setLineOutsideActor(true);
         border.setLineSize(1);
-        leftView.selectedTool = EditorTool.ARROW;
+        eventManager.fireViewEvent(this, Type.SELECT_EDITOR_TOOl, null, EditorTool.ARROW);
         arrowButton.addListener(new ClickListener() {
 
             @Override
             public void clicked(final InputEvent event, final float x, final float y) {
-                leftView.selectedTool = EditorTool.ARROW;
+                eventManager.fireViewEvent(this, Type.SELECT_EDITOR_TOOl, null, EditorTool.ARROW);
                 hideButtonBorders();
                 border.setLineSize(1);
             }
@@ -167,7 +167,8 @@ class LeftBorder extends Border implements Updateable {
 
             @Override
             public void clicked(final InputEvent event, final float x, final float y) {
-                leftView.selectedTool = EditorTool.CURSOR;
+
+                eventManager.fireViewEvent(this, Type.SELECT_EDITOR_TOOl, null, EditorTool.CURSOR);
                 hideButtonBorders();
                 border.setLineSize(1);
             }

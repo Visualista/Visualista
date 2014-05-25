@@ -14,6 +14,7 @@ import io.github.visualista.visualista.model.SetActorAction;
 import io.github.visualista.visualista.model.SetSceneAction;
 import io.github.visualista.visualista.model.SetSceneTextAction;
 import io.github.visualista.visualista.model.Tile;
+import io.github.visualista.visualista.view.EditorTool;
 
 import java.io.File;
 
@@ -183,6 +184,9 @@ public class EditorController implements ViewEventListener {
                         new SetActorAction((PositionedActor) event
                                 .getExtraData()));
                 view.updateActionList(updatedActor);
+                break;
+            case SELECT_EDITOR_TOOl:
+                view.selectEditorTool((EditorTool)event.getExtraData());
                 break;
             default:
                 break;

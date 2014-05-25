@@ -58,7 +58,6 @@ FilePickerListener {
 
     private RightBorder rightBorder;
 
-    protected EditorTool selectedTool;
 
     Stage stage;
 
@@ -281,6 +280,12 @@ FilePickerListener {
     public void selectActor(final IGetActor actor) {
         rightBorder.selectActor(actor);
         centerBorder.selectActor(actor);
+    }
+
+    @Override
+    public void selectEditorTool(final EditorTool tool) {
+        centerBorder.selectEditorTool(tool);
+
     }
 
     Border surroundWithInvisibleBorder(final Actor actor) {

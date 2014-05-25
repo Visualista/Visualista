@@ -4,6 +4,7 @@ import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetNovel;
 import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.model.IGetTile;
+import io.github.visualista.visualista.view.EditorTool;
 
 /** Interface responsible of communicating relevant methods to the EditorController.
  * 
@@ -11,31 +12,33 @@ import io.github.visualista.visualista.model.IGetTile;
  */
 
 public interface IEditorView {
-    void addScene(IGetScene newScene);
+    void addNewActor(IGetActor updatedActor);
 
-    void removeViewEventListener(ViewEventListener eventListener);
+    void addScene(IGetScene newScene);
 
     void addViewEventListener(ViewEventListener eventListener);
 
-    void updateScene(IGetScene currentScene);
-
-    void removeScene(IGetScene scene);
+    void changeActiveNovel(IGetNovel updatedNovel);
 
     void changeActiveScene(IGetScene scene);
 
-    void changeActiveNovel(IGetNovel updatedNovel);
+    void clearModel();
 
     boolean getIsReady();
 
-    void clearModel();
+    void removeScene(IGetScene scene);
+
+    void removeViewEventListener(ViewEventListener eventListener);
 
     void selectActor(IGetActor targetObject);
 
-    void updateActor(IGetActor updatedActor);
-
-    void updateTile(Object updatedObject, IGetTile updatedTile);
-
-    void addNewActor(IGetActor updatedActor);
+    void selectEditorTool(EditorTool tool);
 
     void updateActionList(IGetActor updatedActor);
+
+    void updateActor(IGetActor updatedActor);
+
+    void updateScene(IGetScene currentScene);
+
+    void updateTile(Object updatedObject, IGetTile updatedTile);
 }

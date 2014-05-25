@@ -9,21 +9,30 @@ import java.util.EventObject;
  */
 
 public class EditorViewEvent extends EventObject {
-    private static final long serialVersionUID = -8033356189055577154L;
-
     public enum Type {
-        NEW_SCENE, NEW_ACTOR, REMOVE_ACTOR, CHANGE_ACTOR_NAME,
-        CHANGE_SCENE_NAME, CHANGE_ACTOR_IMAGE, CHANGE_SCENE_IMAGE,
-        CHANGE_SCENE_TEXT, REMOVE_SCENE, CHANGE_ACTIVE_SCENE,
-        NEW_NOVEL, VIEW_READY, FILE_OPEN, FILE_SAVE, CHANGE_NOVEL_NAME,
-        CLICK_TILE,SELECT_SCENE, SELECT_ACTOR, TILE_SET_ACTOR,
-        SELECT_TILE, ADD_SET_SCENE_TEXT_ACTION, ADD_SET_SCENE_ACTION,
-        ADD_SET_ACTOR_ACTION
+        ADD_SET_ACTOR_ACTION, ADD_SET_SCENE_ACTION, ADD_SET_SCENE_TEXT_ACTION, CHANGE_ACTIVE_SCENE,
+        CHANGE_ACTOR_IMAGE, CHANGE_ACTOR_NAME, CHANGE_NOVEL_NAME,
+        CHANGE_SCENE_IMAGE, CHANGE_SCENE_NAME, CHANGE_SCENE_TEXT,
+        CLICK_TILE, FILE_OPEN, FILE_SAVE, NEW_ACTOR, NEW_NOVEL,
+        NEW_SCENE,REMOVE_ACTOR, REMOVE_SCENE, SELECT_ACTOR,
+        SELECT_EDITOR_TOOl, SELECT_SCENE, SELECT_TILE,
+        TILE_SET_ACTOR, VIEW_READY
     }
 
+    private static final long serialVersionUID = -8033356189055577154L;
+
     private final Type eventType;
-    private final Object targetObject;
     private final Object extraData;
+    private final Object targetObject;
+
+    public EditorViewEvent(final Object source, final Type eventType) {
+        this(source, eventType, null);
+    }
+
+    public EditorViewEvent(final Object source, final Type eventType,
+            final Object targetObject) {
+        this(source, eventType, targetObject, null);
+    }
 
     public EditorViewEvent(final Object source, final Type eventType,
             final Object targetObject, final Object extraData) {
@@ -33,24 +42,15 @@ public class EditorViewEvent extends EventObject {
         this.extraData = extraData;
     }
 
-    public EditorViewEvent(final Object source, final Type eventType,
-            final Object targetObject) {
-        this(source, eventType, targetObject, null);
-    }
-
-    public EditorViewEvent(final Object source, final Type eventType) {
-        this(source, eventType, null);
-    }
-
     public final Type getEventType() {
         return eventType;
     }
 
-    public final Object getTargetObject() {
-        return targetObject;
-    }
-
     public final Object getExtraData() {
         return extraData;
+    }
+
+    public final Object getTargetObject() {
+        return targetObject;
     }
 }
