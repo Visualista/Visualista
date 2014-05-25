@@ -53,12 +53,26 @@ public class SetActorActionTest {
                 + point.getY() + ")",
                 equalTo(setActorAction.getExplainatoryName()));
     }
-    
+
     @Test
-    public void testGetWrappedDataAndGetActionData(){
-        PositionedActor positionedActor = new PositionedActor(new Point(POINT_3_X,POINT_3_Y), actor);
+    public void testGetWrappedData() {
+        PositionedActor positionedActor = new PositionedActor(new Point(
+                POINT_3_X, POINT_3_Y), actor);
         SetActorAction setActorAction2 = new SetActorAction(positionedActor);
-        assertThat(setActorAction2.getWrappedData(),equalTo(positionedActor));
-        assertThat(positionedActor, equalTo((PositionedActor)(setActorAction2.getActionData())));
+        assertThat(setActorAction2.getWrappedData().getPosition(),
+                equalTo(positionedActor.getPosition()));
+        assertThat(setActorAction2.getWrappedData().getActor(),
+                equalTo(positionedActor.getActor()));
+    }
+
+    @Test
+    public void testGetActionData() {
+        assertThat(
+                ((PositionedActor) (setActorAction.getActionData()))
+                        .getPosition(),
+                equalTo(point));
+        assertThat(
+                ((PositionedActor) (setActorAction.getActionData())).getActor(),
+                equalTo(actor));
     }
 }
