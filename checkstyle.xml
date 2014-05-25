@@ -103,7 +103,6 @@
     <module name="AvoidStaticImport">
       <property name="excludes" value="org.junit.Assert.*,org.hamcrest.CoreMatchers.*"/>
     </module>
-    <module name="ImportOrder"/>
     <module name="AnonInnerLength"/>
     <module name="ExecutableStatementCount">
       <property name="tokens" value="INSTANCE_INIT,STATIC_INIT,METHOD_DEF,CTOR_DEF"/>
