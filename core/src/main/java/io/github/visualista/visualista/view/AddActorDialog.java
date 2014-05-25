@@ -1,7 +1,6 @@
 package io.github.visualista.visualista.view;
 
-import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
-import io.github.visualista.visualista.editorcontroller.ViewEventManager;
+import io.github.visualista.visualista.editorcontroller.ViewEventListener;
 import io.github.visualista.visualista.model.Actor;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.PositionedActor;
@@ -25,7 +24,7 @@ public class AddActorDialog extends Dialog {
     private Label instructions;
     private TextButton okButton;
     private TextButton cancelButton;
-    private final ViewEventManager eventManager;
+    private final ViewEventListener eventManager;
     private List<IGetActor> list;
     private final java.util.List<IGetActor> actorList;
     private final IGetActor actor;
@@ -35,7 +34,7 @@ public class AddActorDialog extends Dialog {
 
     public AddActorDialog(final Skin skin, final String windowStyleName,
             final IGetActor actor, final java.util.List<IGetActor> actorList,
-            final Dimension gridSize, final ViewEventManager eventManager) {
+            final Dimension gridSize, final ViewEventListener eventManager) {
         super(TITLE, skin, windowStyleName);
         this.actor = actor;
         this.actorList = actorList;
@@ -46,7 +45,7 @@ public class AddActorDialog extends Dialog {
 
     public AddActorDialog(final Skin skin, final IGetActor actor,
             final java.util.List<IGetActor> actorList,
-            final Dimension gridSize, final ViewEventManager eventManager) {
+            final Dimension gridSize, final ViewEventListener eventManager) {
         super(TITLE, skin);
         this.actor = actor;
         this.actorList = actorList;
@@ -105,12 +104,8 @@ public class AddActorDialog extends Dialog {
             int column = getIntFrom(columnText, DEFAULT_INPUT_INT);
             String rowText = rowInput.getText();
             int row = getIntFrom(rowText, DEFAULT_INPUT_INT);
-            eventManager.fireViewEvent(
-                    this,
-                    Type.ADD_SET_ACTOR_ACTION,
-                    actor,
-                    new PositionedActor(new Point(column, row), (Actor) list
-                            .getSelected()));
+            eventManager.ADD_SET_ACTOR_ACTION(actor, new PositionedActor(
+                    new Point(column, row), (Actor) list.getSelected()));
         }
         super.result(object);
     }

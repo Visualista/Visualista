@@ -1,7 +1,6 @@
 package io.github.visualista.visualista.view;
 
-import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
-import io.github.visualista.visualista.editorcontroller.ViewEventManager;
+import io.github.visualista.visualista.editorcontroller.ViewEventListener;
 import io.github.visualista.visualista.model.IGetActor;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
@@ -19,11 +18,11 @@ public class SetSceneTextDialog extends Dialog {
     private TextArea textArea;
     private TextButton okButton;
     private TextButton cancelButton;
-    private final ViewEventManager eventManager;
+    private final ViewEventListener eventManager;
     private final IGetActor actor;
 
     public SetSceneTextDialog(final Skin skin, final String windowStyleName,
-            final IGetActor actor, final ViewEventManager eventManager) {
+            final IGetActor actor, final ViewEventListener eventManager) {
         super(TITLE, skin, windowStyleName);
         this.actor = actor;
         this.eventManager = eventManager;
@@ -31,7 +30,7 @@ public class SetSceneTextDialog extends Dialog {
     }
 
     public SetSceneTextDialog(final Skin skin, final IGetActor actor,
-            final ViewEventManager eventManager) {
+            final ViewEventListener eventManager) {
         super(TITLE, skin);
         this.actor = actor;
         this.eventManager = eventManager;
@@ -55,7 +54,7 @@ public class SetSceneTextDialog extends Dialog {
     @Override
     protected void result(final Object object) {
         if ((Boolean) object) {
-            eventManager.fireViewEvent(this, Type.ADD_SET_SCENE_TEXT_ACTION,
+            eventManager.ADD_SET_SCENE_TEXT_ACTION(
                     actor, textArea.getText());
         }
         super.result(object);

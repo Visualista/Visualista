@@ -1,7 +1,6 @@
 package io.github.visualista.visualista.view;
 
-import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
-import io.github.visualista.visualista.editorcontroller.ViewEventManager;
+import io.github.visualista.visualista.editorcontroller.ViewEventListener;
 import io.github.visualista.visualista.model.IGetScene;
 
 import com.badlogic.gdx.graphics.Color;
@@ -20,13 +19,13 @@ class LowerBorder extends Border implements Updateable {
     private static final float LOWER_BORDER_X_DISPLACEMENT_RATIO = 0.25f;
     private static final float LOWER_BORDER_Y_DISPLACEMENT_RATIO = 0;
     private IGetScene activeScene;
-    private final ViewEventManager eventManager;
+    private final ViewEventListener eventManager;
 
     private TextArea textArea;
     private final Skin uiSkin;
 
-    public LowerBorder( final Stage stage,
-            final ViewEventManager eventManager, final Skin uiSkin) {
+    public LowerBorder(final Stage stage, final ViewEventListener eventManager,
+            final Skin uiSkin) {
         this.uiSkin = uiSkin;
         resizeLowerBorder();
         setActor(createLowerBorderContent());
@@ -51,8 +50,8 @@ class LowerBorder extends Border implements Updateable {
             public void keyboardFocusChanged(final FocusEvent event,
                     final Actor actor, final boolean focused) {
                 if (!focused) {
-                    eventManager.fireViewEvent(this, Type.CHANGE_SCENE_TEXT,
-                            activeScene, textArea.getText());
+                    eventManager.CHANGE_SCENE_TEXT(activeScene,
+                            textArea.getText());
                 }
                 super.keyboardFocusChanged(event, actor, focused);
             }

@@ -1,11 +1,11 @@
 package io.github.visualista.visualista.html;
 
+import io.github.visualista.visualista.util.Dimension;
+import io.github.visualista.visualista.view.EditorView;
+
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-
-import io.github.visualista.visualista.util.Dimension;
-import io.github.visualista.visualista.view.EditorView;
 
 public class VisualistaHtml extends GwtApplication {
     private static final int APPLICATION_HEIGHT = 320;

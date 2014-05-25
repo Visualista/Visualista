@@ -4,8 +4,8 @@ import io.github.visualista.visualista.core.VisualistaEditor;
 import io.github.visualista.visualista.io.FileImporter;
 import io.github.visualista.visualista.model.Actor;
 import io.github.visualista.visualista.model.IGetActor;
-import io.github.visualista.visualista.model.IGetNovel;
 import io.github.visualista.visualista.model.IGetScene;
+import io.github.visualista.visualista.model.IGetTile;
 import io.github.visualista.visualista.model.Image;
 import io.github.visualista.visualista.model.Novel;
 import io.github.visualista.visualista.model.PositionedActor;
@@ -16,10 +16,6 @@ import io.github.visualista.visualista.model.SetSceneTextAction;
 import io.github.visualista.visualista.model.Tile;
 
 import java.io.File;
-
-import com.badlogic.gdx.Gdx;
-
-
 
 /**
  * Controller responsible for handling events from the Editor view. Also sends
@@ -45,7 +41,7 @@ public class EditorController implements ViewEventListener {
     }
 
     private void addEventHandlersToView() {
-        view.addViewEventListener(this);
+        view.setEventListener(this);
     }
 
     private void fillViewFromModel() {
@@ -61,136 +57,147 @@ public class EditorController implements ViewEventListener {
     }
 
     @Override
-    public final void handleViewEvent(final EditorViewEvent event) {
-        IGetActor updatedActor;
-        IGetScene updatedScene;
-        IGetNovel updatedNovel;
-        switch (event.getEventType()) {
-            case NEW_SCENE:
-                IGetScene newScene = visualista.addNewScene(true);
-                view.addScene(newScene);
-                break;
-            case NEW_ACTOR:
-                updatedActor = visualista.addNewActor((Scene) event
-                        .getTargetObject());
-                view.addNewActor(updatedActor);
-                break;
-            case REMOVE_ACTOR:
-                visualista.removeActor((Actor) event.getTargetObject());
-                // TODO view needs to do something to update actor list
-                break;
-            case CHANGE_ACTOR_NAME:
-                updatedActor = visualista.changeActorName(
-                        (Actor) event.getTargetObject(),
-                        (String) event.getExtraData());
-                view.updateActor(updatedActor);
-                break;
-            case CHANGE_SCENE_NAME:
-                updatedScene = visualista.changeSceneName(
-                        (Scene) event.getTargetObject(),
-                        (String) event.getExtraData());
-                Gdx.app.log("CHANGE_SCENE_NAME", "");
-                view.updateScene(updatedScene);
-                view.changeActiveScene(updatedScene);
-                break;
-            case CHANGE_ACTOR_IMAGE:
-                updatedActor = visualista.changeActorImage(
-                        (Actor) event.getTargetObject(),
-                        new Image(FileImporter.importAndGetFile((File) event
-                                .getExtraData())));
-                view.updateActor(updatedActor);
-                break;
-            case CHANGE_SCENE_IMAGE:
-                updatedScene = visualista.changeSceneImage(
-                        (Scene) event.getTargetObject(),
-                        new Image(FileImporter.importAndGetFile((File) event
-                                .getExtraData())));
-                view.updateScene(updatedScene);
-                break;
-            case CHANGE_SCENE_TEXT:
-                updatedScene = visualista.changeSceneText(
-                        (Scene) event.getTargetObject(),
-                        (String) event.getExtraData());
-                view.updateScene(updatedScene);
-                break;
-            case REMOVE_SCENE:
-                updatedScene = visualista.removeScene((Scene) event
-                        .getTargetObject());
-                view.removeScene(updatedScene);
-                break;
-            case CHANGE_ACTIVE_SCENE:
-                view.changeActiveScene((Scene) event.getTargetObject());
-                break;
-            case NEW_NOVEL:
-                updatedNovel = visualista.createNewNovel();
-                // TODO require any parameters?
-                view.changeActiveNovel(updatedNovel);
-                break;
-            case VIEW_READY:
-                fillViewFromModel();
-                break;
-            case FILE_OPEN:
-                if (event.getExtraData() instanceof File) {
-                    updatedNovel = visualista.openNovel((File) event
-                            .getExtraData());
-                    fillViewFromModel();
-                }
-                break;
-            case FILE_SAVE:
-                File file = (File) event.getExtraData();
-                if (!file.getName().toLowerCase().endsWith(VISUALISTA_FILE_FORMAT)) {
-                    file = new File(file.getAbsoluteFile() + VISUALISTA_FILE_FORMAT);
-                }
-                visualista.saveNovel(file);
-                break;
-            case CHANGE_NOVEL_NAME:
-                ((Novel) event.getSource()).setName((String) event
-                        .getExtraData());
-                // TODO update view?
-                break;
-            case CLICK_TILE:
-                break;
-            case SELECT_SCENE:
-                view.changeActiveScene((IGetScene) event.getTargetObject());
-                break;
-            case SELECT_ACTOR:
-                view.selectActor((IGetActor) event.getTargetObject());
-                break;
-            case TILE_SET_ACTOR:
-                Tile updatedTile = (Tile) event.getTargetObject();
-                updatedTile.setActor((Actor) event.getExtraData());
-                view.updateTile(event.getSource(), updatedTile);
-                break;
-            case SELECT_TILE:
-                view.selectActor(((Tile) event.getTargetObject()).getActor());
-                break;
-            case ADD_SET_SCENE_TEXT_ACTION:
-                updatedActor = (Actor) event.getTargetObject();
-                updatedActor.getActions().add(
-                        new SetSceneTextAction(
-                                (String) event.getExtraData()));
-                view.updateActionList(updatedActor);
-                break;
-            case ADD_SET_SCENE_ACTION:
-                updatedActor = (Actor) event.getTargetObject();
-                Scene targetScene = (Scene) event.getExtraData();
-                updatedActor.getActions().add(new SetSceneAction(targetScene));
-                view.updateActionList(updatedActor);
-                break;
-            case ADD_SET_ACTOR_ACTION:
-                updatedActor = (Actor) event.getTargetObject();
-                updatedActor.getActions().add(
-                        new SetActorAction((PositionedActor) event
-                                .getExtraData()));
-                view.updateActionList(updatedActor);
-                break;
-            case SELECT_EDITOR_TOOl:
-                view.selectEditorTool((EditorTool)event.getExtraData());
-                break;
-            default:
-                break;
+    public void ADD_SET_ACTOR_ACTION(final IGetActor actor,
+            final PositionedActor positionedActor) {
+        actor.getActions().add(new SetActorAction(positionedActor));
+        view.updateActionList(actor);
 
+    }
+
+    @Override
+    public void SELECT_TILE(final IGetTile tile) {
+        view.selectActor(tile.getActor());
+
+    }
+
+    @Override
+    public void ADD_SET_SCENE_ACTION(final IGetActor actor,
+            final IGetScene selected) {
+        actor.getActions().add(new SetSceneAction((Scene) selected));
+        view.updateActionList(actor);
+
+    }
+
+    @Override
+    public void SELECT_ACTOR(final IGetActor selected) {
+        view.selectActor(selected);
+
+    }
+
+    @Override
+    public void NEW_ACTOR(final IGetScene activeScene) {
+        IGetActor updatedActor = visualista.addNewActor((Scene) activeScene);
+        view.addNewActor(updatedActor);
+
+    }
+
+    @Override
+    public void SELECT_EDITOR_TOOl(final EditorTool arrow) {
+        view.selectEditorTool(arrow);
+
+    }
+
+    @Override
+    public void REMOVE_ACTOR(final IGetScene activeScene) {
+        // visualista.removeActor((Actor) event.getTargetObject());
+        // TODO FIX!
+    }
+
+    @Override
+    public void FILE_OPEN(final File selectedFile) {
+        Novel updatedNovel = visualista.openNovel(selectedFile);
+        fillViewFromModel();
+    }
+
+    @Override
+    public void FILE_SAVE(final File file) {
+        File fileToSave = file;
+        if (!file.getName().toLowerCase().endsWith(VISUALISTA_FILE_FORMAT)) {
+            fileToSave = new File(file.getAbsoluteFile()
+                    + VISUALISTA_FILE_FORMAT);
         }
+        visualista.saveNovel(fileToSave);
+
+    }
+
+    @Override
+    public void CHANGE_SCENE_IMAGE(final IGetScene activeScene,
+            final File selectedFile) {
+        IGetScene updatedScene = visualista.changeSceneImage(
+                (Scene) activeScene,
+                new Image(FileImporter.importAndGetFile(selectedFile)));
+        view.updateScene(updatedScene);
+
+    }
+
+    @Override
+    public void CHANGE_SCENE_TEXT(final IGetScene activeScene, final String text) {
+        IGetScene updatedScene = visualista.changeSceneText(
+                (Scene) activeScene, text);
+        view.updateScene(updatedScene);
+
+    }
+
+    @Override
+    public void CHANGE_ACTOR_NAME(final IGetActor selectedActor,
+            final String text) {
+        Actor updatedActor = visualista.changeActorName((Actor) selectedActor,
+                text);
+        view.updateActor(updatedActor);
+    }
+
+    @Override
+    public void ADD_SET_SCENE_TEXT_ACTION(final IGetActor actor,
+            final String text) {
+        actor.getActions().add(new SetSceneTextAction(text));
+        view.updateActionList(actor);
+
+    }
+
+    @Override
+    public void SELECT_SCENE(final IGetScene scene) {
+        view.changeActiveScene(scene);
+
+    }
+
+    @Override
+    public void CHANGE_SCENE_NAME(final IGetScene scene, final String newName) {
+        IGetScene updatedScene = visualista.changeSceneName((Scene) scene,
+                newName);
+        view.updateScene(updatedScene);
+        view.changeActiveScene(updatedScene);
+
+    }
+
+    @Override
+    public void VIEW_READY() {
+        fillViewFromModel();
+
+    }
+
+    @Override
+    public void NEW_SCENE() {
+        IGetScene newScene = visualista.addNewScene(true);
+        view.addScene(newScene);
+
+    }
+
+    @Override
+    public void CHANGE_ACTOR_IMAGE(final IGetActor selectedActor,
+            final File selectedFile) {
+        IGetActor updatedActor = visualista.changeActorImage(
+                (Actor) selectedActor,
+                new Image(FileImporter.importAndGetFile(selectedFile)));
+        view.updateActor(updatedActor);
+
+    }
+
+    @Override
+    public void TILE_SET_ACTOR(final com.badlogic.gdx.scenes.scene2d.ui.Image image,
+            final IGetTile tile, final IGetActor selectedActor) {
+        ((Tile) tile).setActor((Actor) selectedActor);
+        view.updateTile(image, tile);
+
     }
 
 }

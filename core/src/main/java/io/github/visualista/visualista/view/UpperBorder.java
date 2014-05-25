@@ -1,7 +1,6 @@
 package io.github.visualista.visualista.view;
 
-import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
-import io.github.visualista.visualista.editorcontroller.ViewEventManager;
+import io.github.visualista.visualista.editorcontroller.ViewEventListener;
 import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.util.BiDiMap;
 
@@ -57,11 +56,11 @@ class UpperBorder extends Border implements Updateable, TabListener {
 
     private IGetScene activeScene;
 
-    private final ViewEventManager eventManager;
+    private final ViewEventListener eventManager;
 
     private ScrollPane newScrollPane;
 
-    public UpperBorder(final Skin skin, final ViewEventManager eventManager) {
+    public UpperBorder(final Skin skin, final ViewEventListener eventManager) {
         uiSkin = skin;
         tabs = new BiDiMap<Tab, IGetScene>();
         setActor(createUpperBorderContent());
@@ -137,11 +136,11 @@ class UpperBorder extends Border implements Updateable, TabListener {
                 source.makeNameEditable();
                 source.giveFocusFrom(getStage());
             } else {
-                eventManager.fireViewEvent(this, Type.SELECT_SCENE,
+                eventManager.SELECT_SCENE(
                         tabs.getValue(source));
             }
         } else if (type == EventType.NAME_CHANGE) {
-            eventManager.fireViewEvent(this, Type.CHANGE_SCENE_NAME,
+            eventManager.CHANGE_SCENE_NAME(
                     tabs.getValue(source), source.newName());
         }
 
@@ -174,7 +173,7 @@ class UpperBorder extends Border implements Updateable, TabListener {
             @Override
             public void clicked(final InputEvent event, final float x,
                     final float y) {
-                eventManager.fireViewEvent(this, Type.NEW_SCENE);
+                eventManager.NEW_SCENE();
             }
         });
         return newButton;

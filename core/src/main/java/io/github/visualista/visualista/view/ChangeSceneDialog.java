@@ -1,7 +1,6 @@
 package io.github.visualista.visualista.view;
 
-import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
-import io.github.visualista.visualista.editorcontroller.ViewEventManager;
+import io.github.visualista.visualista.editorcontroller.ViewEventListener;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetScene;
 
@@ -20,14 +19,14 @@ public class ChangeSceneDialog extends Dialog {
     private Label instructions;
     private TextButton okButton;
     private TextButton cancelButton;
-    private final ViewEventManager eventManager;
+    private final ViewEventListener eventManager;
     private List<IGetScene> list;
     private final java.util.List<IGetScene> sceneList;
     private final IGetActor actor;
 
     public ChangeSceneDialog(final Skin skin, final String windowStyleName,
             final IGetActor actor, final ArrayList<IGetScene> sceneList,
-            final ViewEventManager eventManager) {
+            final ViewEventListener eventManager) {
         super(TITLE, skin, windowStyleName);
         this.actor = actor;
         this.sceneList = sceneList;
@@ -36,7 +35,7 @@ public class ChangeSceneDialog extends Dialog {
     }
 
     public ChangeSceneDialog(final Skin skin, final IGetActor actor,
-            final java.util.List<IGetScene> sceneList, final ViewEventManager eventManager) {
+            final java.util.List<IGetScene> sceneList, final ViewEventListener eventManager) {
         super(TITLE, skin);
         this.actor = actor;
         this.sceneList = sceneList;
@@ -64,7 +63,7 @@ public class ChangeSceneDialog extends Dialog {
     @Override
     protected void result(final Object object) {
         if ((Boolean) object) {
-            eventManager.fireViewEvent(this, Type.ADD_SET_SCENE_ACTION, actor,
+            eventManager.ADD_SET_SCENE_ACTION( actor,
                     list.getSelected());
         }
         super.result(object);

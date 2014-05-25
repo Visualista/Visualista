@@ -2,8 +2,7 @@ package io.github.visualista.visualista.view;
 
 import io.github.visualista.visualista.core.FilePickerListener;
 import io.github.visualista.visualista.core.IFilePicker;
-import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
-import io.github.visualista.visualista.editorcontroller.ViewEventManager;
+import io.github.visualista.visualista.editorcontroller.ViewEventListener;
 import io.github.visualista.visualista.model.IAction;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetScene;
@@ -48,7 +47,7 @@ class RightBorder extends Border implements Updateable {
     private Border actorImageBorder;
     private java.util.List<IGetActor> actorsInScene;
     private TextButton addActionButton;
-    private final ViewEventManager eventManager;
+    private final ViewEventListener eventManager;
     private final IFilePicker filePicker;
     private Dimension gridSize;
     private TextButton modifyButton;
@@ -59,7 +58,7 @@ class RightBorder extends Border implements Updateable {
     private Border scrollBorder;
 
     public RightBorder(
-            final ViewEventManager eventManager, final IFilePicker filePicker,
+            final ViewEventListener eventManager, final IFilePicker filePicker,
             final Skin uiSkin) {
         this.eventManager = eventManager;
         this.filePicker = filePicker;
@@ -99,7 +98,7 @@ class RightBorder extends Border implements Updateable {
             public void keyboardFocusChanged(final FocusEvent event,
                     final Actor actor, final boolean focused) {
                 if (!focused) {
-                    eventManager.fireViewEvent(this, Type.CHANGE_ACTOR_NAME,
+                    eventManager.CHANGE_ACTOR_NAME(
                             selectedActor, actorField.getText());
                 }
                 super.keyboardFocusChanged(event, actor, focused);
@@ -222,8 +221,7 @@ class RightBorder extends Border implements Updateable {
 
                 @Override
                 public void fileOpened(final File selectedFile) {
-                    eventManager.fireViewEvent(this,
-                            Type.CHANGE_ACTOR_IMAGE, selectedActor,
+                    eventManager.CHANGE_ACTOR_IMAGE( selectedActor,
                             selectedFile);
                 }
 

@@ -2,10 +2,8 @@ package io.github.visualista.visualista.view;
 
 import io.github.visualista.visualista.core.IFilePicker;
 import io.github.visualista.visualista.editorcontroller.EditorTool;
-import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
 import io.github.visualista.visualista.editorcontroller.IEditorView;
 import io.github.visualista.visualista.editorcontroller.ViewEventListener;
-import io.github.visualista.visualista.editorcontroller.ViewEventManager;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetNovel;
 import io.github.visualista.visualista.model.IGetScene;
@@ -30,16 +28,12 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
  */
 
 public class EditorView implements ApplicationListener, IEditorView {
-
-
-
-
-
-
     private CenterBorder centerBorder;
     private final Dimension configDimension;
-    private final ViewEventManager eventManager = new ViewEventManager();
+    private ViewEventListener eventManager;
     private final IFilePicker filePicker;
+
+
 
     private boolean isReady;
 
@@ -47,9 +41,6 @@ public class EditorView implements ApplicationListener, IEditorView {
 
 
     private LowerBorder lowerBorder;
-
-
-
     private RightBorder rightBorder;
 
     private Stage stage;
@@ -62,12 +53,15 @@ public class EditorView implements ApplicationListener, IEditorView {
 
     public EditorView(final Dimension dimension, final IFilePicker filePicker) {
         configDimension = dimension;
-
         this.filePicker = filePicker;
     }
 
     // Create Editor //
 
+    @Override
+    public void setEventListener(final ViewEventListener eventManager) {
+        this.eventManager = eventManager;
+    }
 
     @Override
     public void addNewActor(final IGetActor actor) {
@@ -83,10 +77,6 @@ public class EditorView implements ApplicationListener, IEditorView {
 
     }
 
-    @Override
-    public void addViewEventListener(final ViewEventListener eventListener) {
-        eventManager.addEventListener(eventListener);
-    }
 
     @Override
     public void changeActiveNovel(final IGetNovel updatedNovel) {
@@ -168,7 +158,7 @@ public class EditorView implements ApplicationListener, IEditorView {
         Gdx.graphics.setContinuousRendering(true);
         resize((int) stage.getWidth(), (int) stage.getHeight());
         isReady = true;
-        eventManager.fireViewEvent(this, Type.VIEW_READY);
+        eventManager.VIEW_READY();
     }
 
     @Override
@@ -192,11 +182,6 @@ public class EditorView implements ApplicationListener, IEditorView {
     public void removeScene(final IGetScene scene) {
         // TODO Auto-generated method stub
 
-    }
-
-    @Override
-    public void removeViewEventListener(final ViewEventListener eventListener) {
-        eventManager.removeEventListener(eventListener);
     }
 
     @Override
@@ -282,9 +267,9 @@ public class EditorView implements ApplicationListener, IEditorView {
     }
 
     @Override
-    public void updateTile(final Object updatedObject,
+    public void updateTile(final Image updatedObject,
             final IGetTile updatedTile) {
-        ((Image) updatedObject).setDrawable(ModelToGdxHelper
+        updatedObject.setDrawable(ModelToGdxHelper
                 .createDrawableFor(updatedTile));
 
     }

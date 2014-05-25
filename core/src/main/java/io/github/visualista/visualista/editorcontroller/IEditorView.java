@@ -5,6 +5,8 @@ import io.github.visualista.visualista.model.IGetNovel;
 import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.model.IGetTile;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+
 /** Interface responsible of communicating relevant methods to the EditorController.
  * 
  * @author Markus Bergland, Erik Risfeltd, Pierre Krafft
@@ -15,7 +17,6 @@ public interface IEditorView {
 
     void addScene(IGetScene newScene);
 
-    void addViewEventListener(ViewEventListener eventListener);
 
     void changeActiveNovel(IGetNovel updatedNovel);
 
@@ -26,9 +27,6 @@ public interface IEditorView {
     boolean getIsReady();
 
     void removeScene(IGetScene scene);
-
-    void removeViewEventListener(ViewEventListener eventListener);
-
     void selectActor(IGetActor targetObject);
 
     void selectEditorTool(EditorTool tool);
@@ -39,5 +37,7 @@ public interface IEditorView {
 
     void updateScene(IGetScene currentScene);
 
-    void updateTile(Object updatedObject, IGetTile updatedTile);
+    void updateTile(Image updatedObject, IGetTile updatedTile);
+
+    void setEventListener(ViewEventListener eventManager);
 }

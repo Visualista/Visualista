@@ -1,8 +1,7 @@
 package io.github.visualista.visualista.view;
 
 import io.github.visualista.visualista.editorcontroller.EditorTool;
-import io.github.visualista.visualista.editorcontroller.EditorViewEvent.Type;
-import io.github.visualista.visualista.editorcontroller.ViewEventManager;
+import io.github.visualista.visualista.editorcontroller.ViewEventListener;
 import io.github.visualista.visualista.model.IGetActor;
 import io.github.visualista.visualista.model.IGetGrid;
 import io.github.visualista.visualista.model.IGetScene;
@@ -32,14 +31,14 @@ class CenterBorder extends Border implements Updateable {
     private final java.util.List<Border> borders = new ArrayList<Border>();
     private VerticalGroup centerVerticalGroup;
     private Border centerVerticalGroupBorder;
-    private final ViewEventManager eventManager;
+    private final ViewEventListener eventManager;
     private Dimension gridDimensions;
     private Image sceneBackgroundImage;
     private IGetActor selectedActor;
     private EditorTool selectedTool = EditorTool.ARROW;
 
     // End static variables //
-    public CenterBorder(final ViewEventManager eventManager) {
+    public CenterBorder(final ViewEventListener eventManager) {
         this.eventManager = eventManager;
         createCenterEditorBorderContent();
     }
@@ -197,11 +196,11 @@ class CenterBorder extends Border implements Updateable {
             if (selectedActor != null) {
                 if (selectedTool == EditorTool.ARROW) {
 
-                    eventManager.fireViewEvent(image, Type.TILE_SET_ACTOR,
-                            tile, selectedActor);
+                    eventManager.TILE_SET_ACTOR(
+                            image, tile, selectedActor);
 
                 } else if (selectedTool == EditorTool.CURSOR) {
-                    eventManager.fireViewEvent(this, Type.SELECT_TILE, tile);
+                    eventManager.SELECT_TILE( tile);
                 }
             }
             super.clicked(event, x, y);
