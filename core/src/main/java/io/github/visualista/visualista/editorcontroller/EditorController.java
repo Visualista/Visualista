@@ -36,7 +36,7 @@ public class EditorController implements ViewEventListener {
         this.view = view;
         addEventHandlersToView();
 
-        fillViewFromModel();
+        fillViewFromModel(visualista.getCurrentNovel());
 
     }
 
@@ -44,13 +44,13 @@ public class EditorController implements ViewEventListener {
         view.setEventListener(this);
     }
 
-    private void fillViewFromModel() {
+    private void fillViewFromModel(final Novel model) {
         if (view.getIsReady()) {
             view.clearModel();
-            for (Scene scene : visualista.getCurrentNovel().getScenes()) {
+            for (Scene scene : model.getScenes()) {
                 view.addScene(scene);
             }
-            view.changeActiveScene(visualista.getCurrentNovel().getScenes()
+            view.changeActiveScene(model.getScenes()
                     .get(0));
         }
 
@@ -106,7 +106,7 @@ public class EditorController implements ViewEventListener {
     @Override
     public void fileOpen(final File selectedFile) {
         Novel updatedNovel = visualista.openNovel(selectedFile);
-        fillViewFromModel();
+        fillViewFromModel(updatedNovel);
     }
 
     @Override
@@ -171,7 +171,7 @@ public class EditorController implements ViewEventListener {
 
     @Override
     public void viewIsReady() {
-        fillViewFromModel();
+        fillViewFromModel(visualista.getCurrentNovel());
 
     }
 
