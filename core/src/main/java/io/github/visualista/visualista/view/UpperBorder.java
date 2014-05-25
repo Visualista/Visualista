@@ -4,9 +4,6 @@ import io.github.visualista.visualista.editorcontroller.ViewEventListener;
 import io.github.visualista.visualista.model.IGetScene;
 import io.github.visualista.visualista.util.BiDiMap;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -96,7 +93,6 @@ class UpperBorder extends Border implements Updateable, TabListener {
         tab.setHeight(getHeight());
         sceneButtonGroup.addActorBefore(tabUtilityButtons, tab);
         tabs.put(tab, scene);
-
     }
 
     public void updateScene(final IGetScene scene) {
@@ -136,12 +132,11 @@ class UpperBorder extends Border implements Updateable, TabListener {
                 source.makeNameEditable();
                 source.giveFocusFrom(getStage());
             } else {
-                eventManager.selectScene(
-                        tabs.getValue(source));
+                eventManager.selectScene(tabs.getValue(source));
             }
         } else if (type == EventType.NAME_CHANGE) {
-            eventManager.changeSceneName(
-                    tabs.getValue(source), source.newName());
+            eventManager.changeSceneName(tabs.getValue(source),
+                    source.newName());
         }
 
     }
@@ -221,36 +216,39 @@ class UpperBorder extends Border implements Updateable, TabListener {
         return newScrollPane;
     }
 
-    private java.util.List<Tab> fixOverFlowingScenes(
-            final List<Tab> currentlyHiddenScenes) {
-        java.util.List<Tab> newTablist = new ArrayList<Tab>();
-        java.util.List<Tab> removedActors = new ArrayList<Tab>();
-        for (Actor tab : currentlyHiddenScenes.getItems()) {
+    private void fixOverFlowingScenes() {
+        throw new UnsupportedOperationException("Not implemented yet");
+        //addHiddenScenesToTabs();
+        //removeOverflowingTabs();
+    }
+
+    private void removeOverflowingTabs() {
+        int currentWidthOfTabs = calculateTotalTabWidth();
+        SnapshotArray<Actor> children = sceneButtonGroup.getChildren();
+        while (currentWidthOfTabs > getWidth()
+                && children.size > 1 && getWidth() > 0) {
+            Actor tabToRemove = children.get(0);
+            if (tabToRemove instanceof Tab) {
+                currentWidthOfTabs-=tabToRemove.getWidth();
+                sceneButtonGroup.removeActor(tabToRemove);
+                hiddenSceneList.getItems().add((Tab) tabToRemove);
+            }
+        }
+
+    }
+
+    private int calculateTotalTabWidth() {
+        int totalWidth = 0;
+        for (Actor actor : sceneButtonGroup.getChildren()) {
+            totalWidth += actor.getWidth();
+        }
+        return totalWidth;
+    }
+
+    private void addHiddenScenesToTabs() {
+        for (Tab tab : hiddenSceneList.getItems()) {
             sceneButtonGroup.addActor(tab);
         }
-        SnapshotArray<Actor> children = sceneButtonGroup.getChildren();
-        if (children.size <= 0) {
-            return newTablist;
-        }
-
-        float currentWidthOfTabs = 0;
-        Tab tabToRemove = (Tab) children.get(children.size - 1);
-
-        Iterator<Actor> it = children.iterator();
-        while (it.hasNext()) {
-            currentWidthOfTabs += it.next().getWidth();
-        }
-
-        while (currentWidthOfTabs > sceneButtonGroup.getWidth()
-                && children.size > 1) {
-            sceneButtonGroup.removeActor(tabToRemove);
-            removedActors.add(tabToRemove);
-            tabToRemove = (Tab) children.get(children.size - 1);
-        }
-        currentlyHiddenScenes.setItems((Tab[]) removedActors.toArray());
-
-        return newTablist;
-
     }
 
     private List<Tab> createHiddenSceneList() {
