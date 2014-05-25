@@ -30,37 +30,29 @@ import com.badlogic.gdx.utils.Array;
 class LeftBorder extends Border implements Updateable {
 
     private static final int BUTTON_DIMENSION = 40;
-    private static final float SCROLL_BORDER_HEIGHT_RATIO = 0.7f;
-    static final int LEFT_BORDER_LINE_SIZE = 1;
-    static final Color LEFT_BORDER_COLOR = Color.BLACK;
-    static final float LEFT_BORDER_Y_DISPLACEMENT_RATIO = 0;
-    static final float LEFT_BORDER_X_DISPLACEMENT_RATIO = 0;
-    static final float LEFT_BORDER_HEIGHT_RATIO = 1f;
-    static final float LEFT_BORDER_WIDTH_RATIO = 0.25f;
-    private static final float LIST_WIDTH_RATIO = 0.9f;
     private static final int BUTTON_EXTRA_WIDTH = 10;
+    static final Color LEFT_BORDER_COLOR = Color.BLACK;
+    static final float LEFT_BORDER_HEIGHT_RATIO = 1f;
+    static final int LEFT_BORDER_LINE_SIZE = 1;
+    static final float LEFT_BORDER_WIDTH_RATIO = 0.25f;
+    static final float LEFT_BORDER_X_DISPLACEMENT_RATIO = 0;
+    static final float LEFT_BORDER_Y_DISPLACEMENT_RATIO = 0;
+    private static final float LIST_WIDTH_RATIO = 0.9f;
+    private static final float SCROLL_BORDER_HEIGHT_RATIO = 0.7f;
+    protected IGetScene activeScene;
+
+    private List<IGetActor> actorList;
+
+    private VerticalGroup leftVerticalGroup;
     private final EditorView leftView;
 
     private TextButton setSceneBackgroundButton;
-
-    private VerticalGroup leftVerticalGroup;
-    private List<IGetActor> actorList;
 
 
     public LeftBorder(final EditorView editorView) {
         leftView = editorView;
         resizeLeftBorder();
         createLeftBorderContent();
-    }
-
-    public void changeActiveScene(final IGetScene scene) {
-        IGetActor[] temp = new IGetActor[scene.getActorsInScene().size()];
-        actorList.setItems(new Array<IGetActor>(scene.getActorsInScene()
-                .toArray(temp)));
-        if (actorList.getSelected() != null) {
-            leftView.eventManager.fireViewEvent(this, Type.SELECT_ACTOR,
-                    actorList.getSelected());
-        }
     }
 
     public void addNewActor(final IGetActor updatedActor) {
@@ -70,17 +62,15 @@ class LeftBorder extends Border implements Updateable {
 
     }
 
-    private void resizeLeftBorder() {
-        setSize(LeftBorder.LEFT_BORDER_WIDTH_RATIO * leftView.stage.getWidth(),
-                LeftBorder.LEFT_BORDER_HEIGHT_RATIO
-                * leftView.stage.getHeight());
-        setPosition(
-                LeftBorder.LEFT_BORDER_X_DISPLACEMENT_RATIO
-                * leftView.stage.getWidth(),
-                LeftBorder.LEFT_BORDER_Y_DISPLACEMENT_RATIO
-                * leftView.stage.getHeight());
-        setLineSize(LeftBorder.LEFT_BORDER_LINE_SIZE);
-        setColor(LeftBorder.LEFT_BORDER_COLOR);
+    public void changeActiveScene(final IGetScene scene) {
+        activeScene = scene;
+        IGetActor[] temp = new IGetActor[scene.getActorsInScene().size()];
+        actorList.setItems(new Array<IGetActor>(scene.getActorsInScene()
+                .toArray(temp)));
+        if (actorList.getSelected() != null) {
+            leftView.eventManager.fireViewEvent(this, Type.SELECT_ACTOR,
+                    actorList.getSelected());
+        }
     }
 
     private List<IGetActor> createActorList() {
@@ -102,71 +92,6 @@ class LeftBorder extends Border implements Updateable {
         return list;
     }
 
-    private void createLeftVerticalGroup() {
-        leftVerticalGroup = new VerticalGroup();
-        setActor(leftVerticalGroup);
-    }
-
-    private Actor createButtonContainer1(final Actor saveButtonBorder,
-            final Actor openButtonBorder, final Actor cursorButtonBorder,
-            final Actor arrowButtonBorder) {
-        HorizontalGroup buttonContainer1 = new HorizontalGroup();
-        buttonContainer1.addActor(saveButtonBorder);
-        buttonContainer1.addActor(openButtonBorder);
-        buttonContainer1.addActor(cursorButtonBorder);
-        buttonContainer1.addActor(arrowButtonBorder);
-        return buttonContainer1;
-    }
-
-    private void createScrollBorder(final ScrollPane scroll) {
-        Border scrollBorder = new Border();
-        scrollBorder.setSize(actorList.getWidth(), getHeight()
-                * SCROLL_BORDER_HEIGHT_RATIO);
-        scrollBorder.setActor(scroll);
-        leftVerticalGroup.addActor(scrollBorder);
-    }
-
-    private void createLeftBorderContent() {
-        createLeftVerticalGroup();
-        Actor buttonGroup1 = createButtonGroup1Buttons();
-        leftVerticalGroup.addActor(buttonGroup1);
-        actorList = createActorList();
-        final ScrollPane scroll = new ScrollPane(actorList, leftView.uiSkin);
-        scroll.setFadeScrollBars(false);
-        createScrollBorder(scroll);
-        TextButton addActorButton = createAddActorButton();
-        TextButton removeActorButton = createRemoveActorButton();
-
-        HorizontalGroup buttonContainer2 = new HorizontalGroup();
-
-        LibGdxConvenience.addActorsTo(buttonContainer2, addActorButton,
-                removeActorButton);
-
-        leftVerticalGroup.addActor(buttonContainer2);
-
-        createSetSceneBackgroundButton();
-    }
-
-
-
-    private TextButton createRemoveActorButton() {
-        TextButton removeActorButton = new TextButton("Remove actor",
-                leftView.uiSkin);
-
-        removeActorButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(final InputEvent event, final float x, final float y) {
-                // TODO list linking
-                leftView.eventManager
-                .fireViewEvent(this, Type.REMOVE_ACTOR,
-                        leftView.activeScene);
-            }
-        });
-        return removeActorButton;
-    }
-
-    // End create Editor //
-
     private TextButton createAddActorButton() {
         TextButton addActorButton = new TextButton("Add actor", leftView.uiSkin);
 
@@ -174,30 +99,10 @@ class LeftBorder extends Border implements Updateable {
             @Override
             public void clicked(final InputEvent event, final float x, final float y) {
                 leftView.eventManager.fireViewEvent(this,
-                        Type.NEW_ACTOR, leftView.activeScene);
+                        Type.NEW_ACTOR, activeScene);
             }
         });
         return addActorButton;
-    }
-
-    private Actor createButtonGroup1Buttons() {
-        Actor openButton = createOpenButton();
-        Actor saveButton = createSaveButton();
-        Actor cursorButton = createCursorButton();
-        Actor arrowButton = createArrowButton();
-        resizeButtonGroup1Buttons(openButton, saveButton, cursorButton,
-                arrowButton);
-        return createButtonContainer1(openButton, saveButton, cursorButton,
-                arrowButton);
-    }
-
-    private void resizeButtonGroup1Buttons(final Actor saveButtonBorder,
-            final Actor openButtonBorder, final Actor cursorButtonBorder,
-            final Actor arrowButtonBorder) {
-        openButtonBorder.setSize(BUTTON_DIMENSION+BUTTON_EXTRA_WIDTH, BUTTON_DIMENSION);
-        saveButtonBorder.setSize(BUTTON_DIMENSION+BUTTON_EXTRA_WIDTH, BUTTON_DIMENSION);
-        cursorButtonBorder.setSize(BUTTON_DIMENSION+BUTTON_EXTRA_WIDTH, BUTTON_DIMENSION);
-        arrowButtonBorder.setSize(BUTTON_DIMENSION+BUTTON_EXTRA_WIDTH, BUTTON_DIMENSION);
     }
 
     private Actor createArrowButton() {
@@ -223,10 +128,26 @@ class LeftBorder extends Border implements Updateable {
         return border;
     }
 
-    protected void hideButtonBorders() {
-        for (Border border : leftView.toolButtonBorders) {
-            border.setLineSize(0);
-        }
+    private Actor createButtonContainer1(final Actor saveButtonBorder,
+            final Actor openButtonBorder, final Actor cursorButtonBorder,
+            final Actor arrowButtonBorder) {
+        HorizontalGroup buttonContainer1 = new HorizontalGroup();
+        buttonContainer1.addActor(saveButtonBorder);
+        buttonContainer1.addActor(openButtonBorder);
+        buttonContainer1.addActor(cursorButtonBorder);
+        buttonContainer1.addActor(arrowButtonBorder);
+        return buttonContainer1;
+    }
+
+    private Actor createButtonGroup1Buttons() {
+        Actor openButton = createOpenButton();
+        Actor saveButton = createSaveButton();
+        Actor cursorButton = createCursorButton();
+        Actor arrowButton = createArrowButton();
+        resizeButtonGroup1Buttons(openButton, saveButton, cursorButton,
+                arrowButton);
+        return createButtonContainer1(openButton, saveButton, cursorButton,
+                arrowButton);
     }
 
     private Actor createCursorButton() {
@@ -250,20 +171,34 @@ class LeftBorder extends Border implements Updateable {
         return border;
     }
 
-    private Actor createSaveButton() {
-        final Drawable save = new TextureRegionDrawable(new TextureRegion(
-                new Texture(Gdx.files.internal("icons/save.png"))));
-        ImageButton saveButton = new ImageButton(save);
-        saveButton.addListener(new ClickListener() {
 
-            @Override
-            public void clicked(final InputEvent event, final float x, final float y) {
-                leftView.saveNovel();
-                super.clicked(event, x, y);
-            }
 
-        });
-        return leftView.surroundWithInvisibleBorder(saveButton);
+    private void createLeftBorderContent() {
+        createLeftVerticalGroup();
+        Actor buttonGroup1 = createButtonGroup1Buttons();
+        leftVerticalGroup.addActor(buttonGroup1);
+        actorList = createActorList();
+        final ScrollPane scroll = new ScrollPane(actorList, leftView.uiSkin);
+        scroll.setFadeScrollBars(false);
+        createScrollBorder(scroll);
+        TextButton addActorButton = createAddActorButton();
+        TextButton removeActorButton = createRemoveActorButton();
+
+        HorizontalGroup buttonContainer2 = new HorizontalGroup();
+
+        LibGdxConvenience.addActorsTo(buttonContainer2, addActorButton,
+                removeActorButton);
+
+        leftVerticalGroup.addActor(buttonContainer2);
+
+        createSetSceneBackgroundButton();
+    }
+
+    // End create Editor //
+
+    private void createLeftVerticalGroup() {
+        leftVerticalGroup = new VerticalGroup();
+        setActor(leftVerticalGroup);
     }
 
     private Actor createOpenButton() {
@@ -280,6 +215,46 @@ class LeftBorder extends Border implements Updateable {
 
         });
         return leftView.surroundWithInvisibleBorder(openButton);
+    }
+
+    private TextButton createRemoveActorButton() {
+        TextButton removeActorButton = new TextButton("Remove actor",
+                leftView.uiSkin);
+
+        removeActorButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(final InputEvent event, final float x, final float y) {
+                // TODO list linking
+                leftView.eventManager
+                .fireViewEvent(this, Type.REMOVE_ACTOR,
+                        activeScene);
+            }
+        });
+        return removeActorButton;
+    }
+
+    private Actor createSaveButton() {
+        final Drawable save = new TextureRegionDrawable(new TextureRegion(
+                new Texture(Gdx.files.internal("icons/save.png"))));
+        ImageButton saveButton = new ImageButton(save);
+        saveButton.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(final InputEvent event, final float x, final float y) {
+                leftView.saveNovel();
+                super.clicked(event, x, y);
+            }
+
+        });
+        return leftView.surroundWithInvisibleBorder(saveButton);
+    }
+
+    private void createScrollBorder(final ScrollPane scroll) {
+        Border scrollBorder = new Border();
+        scrollBorder.setSize(actorList.getWidth(), getHeight()
+                * SCROLL_BORDER_HEIGHT_RATIO);
+        scrollBorder.setActor(scroll);
+        leftVerticalGroup.addActor(scrollBorder);
     }
 
     private void createSetSceneBackgroundButton() {
@@ -304,7 +279,7 @@ class LeftBorder extends Border implements Updateable {
                                     .fireViewEvent(
                                             this,
                                             Type.CHANGE_SCENE_IMAGE,
-                                            leftView.activeScene,
+                                            activeScene,
                                             selectedFile);
                                 }
                             }
@@ -318,6 +293,34 @@ class LeftBorder extends Border implements Updateable {
             }
 
         });
+    }
+
+    protected void hideButtonBorders() {
+        for (Border border : leftView.toolButtonBorders) {
+            border.setLineSize(0);
+        }
+    }
+
+    private void resizeButtonGroup1Buttons(final Actor saveButtonBorder,
+            final Actor openButtonBorder, final Actor cursorButtonBorder,
+            final Actor arrowButtonBorder) {
+        openButtonBorder.setSize(BUTTON_DIMENSION+BUTTON_EXTRA_WIDTH, BUTTON_DIMENSION);
+        saveButtonBorder.setSize(BUTTON_DIMENSION+BUTTON_EXTRA_WIDTH, BUTTON_DIMENSION);
+        cursorButtonBorder.setSize(BUTTON_DIMENSION+BUTTON_EXTRA_WIDTH, BUTTON_DIMENSION);
+        arrowButtonBorder.setSize(BUTTON_DIMENSION+BUTTON_EXTRA_WIDTH, BUTTON_DIMENSION);
+    }
+
+    private void resizeLeftBorder() {
+        setSize(LeftBorder.LEFT_BORDER_WIDTH_RATIO * leftView.stage.getWidth(),
+                LeftBorder.LEFT_BORDER_HEIGHT_RATIO
+                * leftView.stage.getHeight());
+        setPosition(
+                LeftBorder.LEFT_BORDER_X_DISPLACEMENT_RATIO
+                * leftView.stage.getWidth(),
+                LeftBorder.LEFT_BORDER_Y_DISPLACEMENT_RATIO
+                * leftView.stage.getHeight());
+        setLineSize(LeftBorder.LEFT_BORDER_LINE_SIZE);
+        setColor(LeftBorder.LEFT_BORDER_COLOR);
     }
 
     @Override

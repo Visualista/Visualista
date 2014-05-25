@@ -40,7 +40,6 @@ FilePickerListener {
     private static final float HIDDEN_SCENE_WIDTH_RATIO = 0.2f;
     private static final String VISUALISTA_FILE_DESCRIPTION = "Visualista Novel";
     private static final String VISUALISTA_FILE_FORMAT_WITHOUT_DOT = "vis";
-    IGetScene activeScene;
 
     private CenterBorder centerBorder;
 
@@ -133,7 +132,6 @@ FilePickerListener {
         rightBorder.changeActiveScene(scene);
         leftBorder.changeActiveScene(scene);
         lowerBorder.changeActiveScene(scene);
-        activeScene = scene;
 
     }
 
