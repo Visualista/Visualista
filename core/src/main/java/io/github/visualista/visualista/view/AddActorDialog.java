@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldFilter;
 
 public class AddActorDialog extends Dialog {
 
+    private static final int DEFAULT_INPUT_INT = 1;
     private static final String TEXT_INPUT_DEFAULT_VALUE = "1";
     private static final String TITLE = "AddActorAction";
     private Label instructions;
@@ -101,10 +102,9 @@ public class AddActorDialog extends Dialog {
     protected void result(final Object object) {
         if ((Boolean) object) {
             String columnText = columnInput.getText();
-            int column = columnText.isEmpty() ? 1 : Integer
-                    .parseInt(columnText);
+            int column = getIntFrom(columnText,DEFAULT_INPUT_INT);
             String rowText = rowInput.getText();
-            int row = rowText.isEmpty() ? 1 : Integer.parseInt(rowText);
+            int row = getIntFrom(rowText,DEFAULT_INPUT_INT);
             eventManager.fireViewEvent(
                     this,
                     Type.ADD_SET_ACTOR_ACTION,
@@ -113,6 +113,11 @@ public class AddActorDialog extends Dialog {
                             .getSelected()));
         }
         super.result(object);
+    }
+
+    private int getIntFrom(final String columnText, final int defaultNumber) {
+        return columnText.isEmpty() ? defaultNumber : Integer
+                .parseInt(columnText);
     }
 
 }
