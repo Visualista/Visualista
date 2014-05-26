@@ -13,12 +13,13 @@ import io.github.visualista.visualista.util.Dimension;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-
-
 
 /**
  * View class for the Editor view, responsible for all the visual logic and
@@ -33,12 +34,9 @@ public class EditorView implements ApplicationListener, IEditorView {
     private ViewEventListener eventManager;
     private final IFilePicker filePicker;
 
-
-
     private boolean isReady;
 
     private LeftBorder leftBorder;
-
 
     private LowerBorder lowerBorder;
     private RightBorder rightBorder;
@@ -48,8 +46,6 @@ public class EditorView implements ApplicationListener, IEditorView {
     private Skin uiSkin;
 
     private UpperBorder upperBorder;
-
-
 
     public EditorView(final Dimension dimension, final IFilePicker filePicker) {
         configDimension = dimension;
@@ -76,7 +72,6 @@ public class EditorView implements ApplicationListener, IEditorView {
         centerBorder.addNewScene(newScene);
 
     }
-
 
     @Override
     public void changeActiveNovel(final IGetNovel updatedNovel) {
@@ -136,20 +131,36 @@ public class EditorView implements ApplicationListener, IEditorView {
 
     @Override
     public final void create() {
-        stage = new Stage(new FitViewport(configDimension.getWidth(),configDimension.getHeight()));
+        stage = new Stage(new FitViewport(configDimension.getWidth(),
+                configDimension.getHeight()));
 
         stage.clear();
         uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
-        leftBorder = new LeftBorder(uiSkin,eventManager,filePicker,stage);
+        leftBorder = new LeftBorder(uiSkin, eventManager, filePicker, stage);
         stage.addActor(leftBorder);
-        rightBorder = new RightBorder(eventManager,filePicker,uiSkin);
+        rightBorder = new RightBorder(eventManager, filePicker, uiSkin);
         stage.addActor(rightBorder);
-        lowerBorder = new LowerBorder(stage, eventManager,uiSkin);
+        lowerBorder = new LowerBorder(stage, eventManager, uiSkin);
         stage.addActor(lowerBorder);
         centerBorder = new CenterBorder(eventManager);
         stage.addActor(centerBorder);
         upperBorder = new UpperBorder(uiSkin, eventManager);
         stage.addActor(upperBorder);
+
+        stage.addListener(new InputListener() {
+
+            @Override
+            public boolean touchDown(final InputEvent event, final float x,
+
+            final float y, final int pointer, final int button) {
+
+                EditorView.this.objectHit(stage.hit(x, y, true));
+
+                return false;
+
+            }
+
+        });
 
         // Use if you need to zoom out a bit
         // ((OrthographicCamera) stage.getCamera()).zoom = 2;
@@ -161,18 +172,19 @@ public class EditorView implements ApplicationListener, IEditorView {
         eventManager.viewIsReady();
     }
 
+    protected void objectHit(Actor hit) {
+        stage.setKeyboardFocus(hit);
+        stage.setScrollFocus(hit);
+    }
+
     @Override
     public void dispose() {
     }
-
-
 
     @Override
     public boolean getIsReady() {
         return isReady;
     }
-
-
 
     @Override
     public void pause() {
@@ -194,7 +206,7 @@ public class EditorView implements ApplicationListener, IEditorView {
 
     @Override
     public void resize(final int width, final int height) {
-        stage.getViewport().update(width,height);
+        stage.getViewport().update(width, height);
         upperBorder.resize();
         rightBorder.resize();
         leftBorder.resize();
@@ -267,8 +279,7 @@ public class EditorView implements ApplicationListener, IEditorView {
     }
 
     @Override
-    public void updateTile(final Image updatedObject,
-            final IGetTile updatedTile) {
+    public void updateTile(final Image updatedObject, final IGetTile updatedTile) {
         updatedObject.setDrawable(ModelToGdxHelper
                 .createDrawableFor(updatedTile));
 

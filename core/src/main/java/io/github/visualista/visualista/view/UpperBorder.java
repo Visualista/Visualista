@@ -71,6 +71,7 @@ class UpperBorder extends Border implements Updateable, TabListener {
             aTab.useSelectStyle(false);
         }
         tab.useSelectStyle(true);
+        activeScene = scene;
         // tabs.put(tab, scene);
         // hideOverFlowingScenes();
         // fillGridFromScene(scene);
